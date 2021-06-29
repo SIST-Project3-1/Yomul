@@ -149,3 +149,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/java,eclipse,macos,windows
+sist-3/target/m2e-wtp/web-resources/META-INF/maven/com.myspring/spring1/pom.properties
