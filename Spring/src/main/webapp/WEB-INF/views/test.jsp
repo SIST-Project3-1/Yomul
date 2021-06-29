@@ -12,6 +12,7 @@
 	<%
 		//이것도 한글 주석입니다 ㅋ
 	out.print("한글 출력 되나요?");
+	out.print("spa gg ");
 	%>
 </body>
 </html>
