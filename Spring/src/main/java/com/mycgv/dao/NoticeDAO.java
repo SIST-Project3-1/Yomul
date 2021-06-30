@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.mycgv.vo.NoticeVO;
 import com.mycgv.vo.NoticeVO;
 
-public class NoticeDAO extends DBConn {
+public class NoticeDAO extends DBConn{
 
 	/* 전체 카운트 가져오기 */
 	// execTotalCount()

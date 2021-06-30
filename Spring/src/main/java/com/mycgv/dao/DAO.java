@@ -1,13 +1,8 @@
 package com.mycgv.dao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.sql.*;
 
-public class DBConn {
+abstract public class DAO {
 	String url;
 	String user = "scott";
 	String pass = "tiger";
@@ -16,7 +11,7 @@ public class DBConn {
 	ResultSet rs;
 
 	// Constructor
-	public DBConn() {
+	public DAO() {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
@@ -58,13 +53,5 @@ public class DBConn {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public ArrayList getlist(int start, int end) {
-		return new ArrayList();
-	}
-	
-	public int execTotalCount() {
-		return -1;
 	}
 }
