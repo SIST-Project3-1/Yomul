@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class DBConn {
 	// Field
-	String url = "jdbc:oracle:thin:@localhost:1521";
+	String url = "";
 	String user = "scott";
 	String pass = "tiger";
 	Connection conn;
@@ -22,7 +22,13 @@ public class DBConn {
 		try {
 			// 1단계 - 드라이버 로딩
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-
+			String osName = System.getProperty("os.name").toLowerCase();
+			if (osName.indexOf("win") >= 0) { // 윈도우
+				url = "jdbc:oracle:thin:@127.0.0.1:1521";
+			} else if (osName.indexOf("mac") >= 0) { // 맥북
+				url = "jdbc:oracle:thin:@localhost:1521/xe";
+			}
+			
 			// 2단계 - Connection 객체 생성
 			conn = DriverManager.getConnection(url, user, pass);
 		} catch (Exception e) {
