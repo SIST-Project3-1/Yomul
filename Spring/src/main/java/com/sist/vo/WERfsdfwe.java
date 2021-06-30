@@ -1,5 +1,5 @@
 package com.sist.vo;
 
-public interface VO {
+public class WERfsdfwe {
 
 }
