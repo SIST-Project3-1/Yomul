@@ -8,8 +8,6 @@
 </head>
 <body>
 	<%
-		DAO dao = new DAO() {
-	};
 	%>
 	ffototerr
 </body>
