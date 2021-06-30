@@ -5,11 +5,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class HomeController {
+public class CustomerCenterController {
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home() {
-		return "user/home/product_list";
+	@RequestMapping(value = "customer_center", method = RequestMethod.GET)
+	public String customerCenter() {
+		return "user/customer_center/faq/faq_list";
 	}
-
 }
