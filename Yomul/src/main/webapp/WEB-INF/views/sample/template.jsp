@@ -4,7 +4,7 @@
 <head>
 <meta charset="EUC-KR">
 <title>Insert title here</title>
-<jsp:include page="../import.jsp"></jsp:include>
+<jsp:include page="../head.jsp"></jsp:include>
 </head>
 <body>
 	<jsp:include page="../user/header.jsp"></jsp:include>
