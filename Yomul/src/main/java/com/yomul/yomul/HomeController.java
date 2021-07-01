@@ -7,8 +7,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 
+	@RequestMapping(value = "product_write", method = RequestMethod.GET)
+	public String product_write() {
+		return "user/home/product_write";
+	}
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home() {
+	public String pruduct_list() {
 		return "user/home/product_list";
 	}
 

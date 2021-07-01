@@ -3,30 +3,6 @@
 <html lang="ko">
 <head>
 <title>오늘 시작하는 인테리어, 오늘의집</title>
-<!-- phone 즐겨찾기 아이콘 설정 -->
-<link rel="alternate" href="android-app://net.bucketplace/http/ohou.se/deep" />
-<link rel="apple-touch-icon" sizes="57x57" href="/assets/bookmark_icon/favicon_57x57.png" />
-<link rel="apple-touch-icon" sizes="72x72" href="/assets/bookmark_icon/favicon_72x72.png" />
-<link rel="apple-touch-icon" sizes="114x114" href="/assets/bookmark_icon/favicon_114x114.png" />
-<link rel="apple-touch-icon" sizes="144x144" href="/assets/bookmark_icon/favicon_144x144.png" />
-<link rel="shortcut icon" href="/assets/bookmark_icon/favicon_144x144.png" />
-<link href="https://static.ohou.se/assets/favicon-186ac0d991a44c522f984d86e6a50d24c65b7b3a02a004ba7e13f5722aabd952.png" rel="shortcut icon" />
-
-<meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="sHKgWExAaiAvAd5e9sncH3DVwVS1Jt0wHw38+/CwkSYGNIGSnBoSCabu77BEX1F4QzcIzspz0srxKf4U9+UHuw==" />
-
-<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700&display=swap&subset=korean" rel="stylesheet">
-<link rel="stylesheet" media="screen" href="https://static.ohou.se/assets/v3/layout/application_react-790a108e6a9b26136290c8bea25696fec3e4701284512f9eed313b7dbb352615.css" />
-<link rel="stylesheet" media="screen" href="https://static.ohou.se/dist/css/17-308f2ccf.chunk.css" />
-<link rel="stylesheet" media="screen" href="https://static.ohou.se/dist/css/App-a3b0be05.chunk.css" />
-<link rel="stylesheet" media="screen" href="https://static.ohou.se/dist/css/templates-ContactUs-221a95cd.chunk.css" />
-
-<!--[if lte IE 9]>
-  <script>
-    alert("본 서비스는 Microsoft Explorer 11 이하는 지원하지 않습니다. 브라우저를 업그레이드하고 사용하시거나 앱을 다운받아 사용하실 수 있습니다. 확인을 누르면 앱 다운로드 링크로 연결됩니다.");
-    window.location.href = "https://play.google.com/store/apps/details?id=net.bucketplace&hl=kor";
-  </script>
-  <![endif]-->
 </head>
 <body>
 	<div data-react-class="App"
@@ -34,7 +10,6 @@
 		data-hydrate="t" class="page"
 	>
 		<div class="layout">
-			<jsp:include page="../../header.jsp" />
 			<div id="contact-us">
 				<div class="container--my-page">
 					<article id="customer-center" class="customer-center">
