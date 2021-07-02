@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <nav class="border-bottom navbar navbar-expand-lg bg-white navbar-light sticky-top">
-	<a class="navbar-brand" href="#"> 요물 </a>
+	<a class="navbar-brand" href="/yomul/"> 요물 </a>
 
 	<div class="collapse navbar-collapse" id="navbarText">
 		<ul class="navbar-nav">
-			<li class="nav-item"><a class="nav-link" href="#">홈</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">동네생활</a></li>
-			<li class="nav-item"><a class="nav-link" href="#">내 근처</a></li>
+			<li class="nav-item"><a class="nav-link" href="/yomul/product_list">홈</a></li>
+			<li class="nav-item"><a class="nav-link" href="/yomul/town_list">동네생활</a></li>
+			<li class="nav-item"><a class="nav-link" href="/yomul/near_home">내 근처</a></li>
 		</ul>
 	</div>
 
@@ -19,8 +19,8 @@
 	</form>
 
 	<ul class="navbar-nav">
-		<li class="nav-item"><a class="nav-link" href="login">로그인</a></li>
-		<li class="nav-item"><a class="nav-link" href="join">회원가입</a></li>
+		<li class="nav-item"><a class="nav-link" href="/yomul/login">로그인</a></li>
+		<li class="nav-item"><a class="nav-link" href="/yomul/join">회원가입</a></li>
 	</ul>
 	<div class="dropdown">
 		<button type="button" class="btn btn-yomul dropdown-toggle" data-toggle="dropdown">글쓰기</button>

@@ -12,8 +12,13 @@ public class HomeController {
 		return "user/home/product_write";
 	}
 
+	@RequestMapping(value = "/product_list", method = RequestMethod.GET)
+	public String product_list() {
+		return "user/home/product_list";
+	}
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String pruduct_list() {
+	public String index() {
 		return "user/home/product_list";
 	}
 
