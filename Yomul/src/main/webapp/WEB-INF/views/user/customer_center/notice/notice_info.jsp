@@ -37,10 +37,10 @@
 </style>
 <jsp:include page="../../../head.jsp"></jsp:include>
 </head>
-<body id="notice_info">
+<body>
 	<jsp:include page="../../header.jsp"></jsp:include>
 	
-	<div class="content">
+	<div id="notice_info" class="content">
 		<div class="notice_title">
 			<h4 class="font-weight-bold">제모옥~~~</h4>
 			<p class="font-weight-bold">2021.07.02</p>
