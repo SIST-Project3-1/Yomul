@@ -4,18 +4,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>로그인</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
-<body>
+<body style="height: 100vh;">
 	<!-- HEADER -->
 	<jsp:include page="../header.jsp"></jsp:include>
 
 	<!--  BODY  -->
-	<div id="login">
-
-		<div class="container col-md-6 mt-4 align-middle">
+	<div id="login" style="height: 75%; display: flex; align-items: center;">
+		<div class="container mt-4" style="width: 500px;">
+			<a class="text-center text-decoration-none text-dark" href="/yomul/">
+				<h1 class="mb-3">
+					<i class="bi bi-bank mr-2"></i>요물
+				</h1>
+			</a>
 			<form name="login_form">
 				<div class="form-group h-100 align-middle">
 					<input class="w-100 form-control rounded-0" style="border-radius: .25rem .25rem 0 0 !important;" type="email" id="email" placeholder="이메일">
