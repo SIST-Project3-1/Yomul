@@ -4,3 +4,16 @@
 	width: 30px;
 	height: 30px;
 }
+
+.bg-yomul {
+	background-color: rgb(255, 99, 95);
+}
+
+.text-yomul {
+	color: rgb(255, 99, 95);
+}
+
+.btn-yomul {
+	background-color: rgb(255, 99, 95);
+	color: white;
+}
