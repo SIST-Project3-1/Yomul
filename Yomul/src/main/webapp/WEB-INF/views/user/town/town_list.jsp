@@ -11,6 +11,9 @@
 	background-color: Gainsboro;
 }
 
+.user_town_list_head #btn-yomul{
+	background-color: rgb(255, 99, 95);
+}
 .user_town_list_head .head {
 	width: 80%;
 	height: 300px;
@@ -153,11 +156,12 @@
 <title>동네 생활</title>
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
-<body id="sample">
+<body>
 <jsp:include page="../header.jsp"></jsp:include>
 	<!-- //http://localhost:9090/yomul/town_list -->
 
 	<!-- user_town_list 검색창 부분 -->
+	<div  id="sample">
 	<div class="user_town_list_head">
 		<div class="head">
 			<div class="container">
@@ -281,13 +285,11 @@
 
 				<hr>
 				<div class="pagenation">1 2 3 4 5 6 7 8 9 10</div>
-
-
 			</div>
 		</div>
 
 	</div>
-
+</div>
 
 <jsp:include page="../footer.jsp"></jsp:include>
 </body>
