@@ -52,7 +52,7 @@
 	
 	#notice_list hr {
 		border-width: 1px 0 0 0;
-		border-color: gray;
+		border-color: lightgray;
 		margin: 25px 0;
 	}
 </style>
@@ -64,21 +64,21 @@
 		<h2>공지사항</h2>
 		<ul class="list">
 			<li>
-				<a class="notice_link" href="#">
+				<a class="notice_link" href="customer_notices/1">
 					<p class="notice_title">제목~~~~</p>
 					<p class="notice_date">2021.07.02</p>
 					<hr>
 				</a>
 			</li>
 			<li>
-				<a class="notice_link" href="#">
+				<a class="notice_link" href="customer_notices/1">
 					<p class="notice_title">제목~~~~</p>
 					<p class="notice_date">2021.07.02</p>
 					<hr>
 				</a>
 			</li>
 			<li>
-				<a class="notice_link" href="#">
+				<a class="notice_link" href="customer_notices/1">
 					<p class="notice_title">제목~~~~</p>
 					<p class="notice_date">2021.07.02</p>
 					<hr>
