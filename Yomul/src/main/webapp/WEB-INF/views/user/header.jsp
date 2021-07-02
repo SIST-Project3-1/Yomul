@@ -23,7 +23,7 @@
 		<li class="nav-item"><a class="nav-link" href="join">회원가입</a></li>
 	</ul>
 	<div class="dropdown">
-		<button type="button" class="btn bg-yomul text-light dropdown-toggle" data-toggle="dropdown">글쓰기</button>
+		<button type="button" class="btn btn-yomul dropdown-toggle" data-toggle="dropdown">글쓰기</button>
 		<div class="dropdown-menu">
 			<a class="dropdown-item" href="#">Link 1</a> <a class="dropdown-item" href="#">Link 2</a> <a class="dropdown-item" href="#">Link 3</a>
 		</div>

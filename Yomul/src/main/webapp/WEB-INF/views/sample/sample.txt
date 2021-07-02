@@ -5,10 +5,16 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<jsp:include page="../head.jsp"></jsp:include>
+<!-- HEAD -->
+<jsp:include page="../../head.jsp"></jsp:include>
 </head>
 <body id="sample">
-	<jsp:include page="../user/header.jsp"></jsp:include>
-	<jsp:include page="../user/footer.jsp"></jsp:include>
+	<!-- HEADER -->
+	<jsp:include page="../header.jsp"></jsp:include>
+	
+	<!--  BODY  -->
+	
+	<!-- FOOTER -->
+	<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

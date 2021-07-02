@@ -12,3 +12,8 @@
 .text-yomul {
 	color: rgb(255, 99, 95);
 }
+
+.btn-yomul {
+	background-color: rgb(255, 99, 95);
+	color: white;
+}
