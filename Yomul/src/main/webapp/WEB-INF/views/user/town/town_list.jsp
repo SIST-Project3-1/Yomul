@@ -44,10 +44,6 @@
 	box-shadow: none;
 }
 
-#btn {
-	background-color: tomato;
-}
-
 .user_town_list_head .text {
 	text-align: center;
 }
@@ -75,7 +71,7 @@
 }
 
 .dropbtn {
-	background-color: tomato;
+	background-color: rgb(255, 99, 95);
 	color: white;
 	padding: 6px;
 	font-size: 14px;
@@ -113,7 +109,7 @@
 }
 
 .dropdown:hover .dropbtn {
-	background-color: tomato;
+	background-color: rgb(255, 99, 95);
 }
 
 /*town_list 본 게시글*/
@@ -172,6 +168,7 @@ div.pagenation {
 <title>동네 생활</title>
 </head>
 <body>
+<jsp:include page="../header.jsp"></jsp:include>
 	<!-- //http://localhost:9090/yomul/town_list -->
 
 	<!-- user_town_list 검색창 부분 -->
@@ -190,21 +187,21 @@ div.pagenation {
 								<div class="col-auto">
 									<i class="fas fa-search h4 text-body"></i>
 								</div>
-								<!--end of col-->
+
 								<div class="col">
 									<input
 										class="form-control form-control-lg form-control-borderless"
 										type="search" placeholder="궁금한것을 찾아보세요">
 								</div>
-								<!--end of col-->
+
 								<div class="col-auto">
-									<button class="btn btn-lg btn-primary" type="submit" id="btn">검색</button>
+									<button class="btn btn-lg btn-primary" type="submit" id="btn-yomul">검색</button>
 								</div>
-								<!--end of col-->
+
 							</div>
 						</form>
 					</div>
-					<!--end of col-->
+
 				</div>
 			</div>
 			<br>
@@ -306,6 +303,6 @@ div.pagenation {
 	</div>
 
 
-
+<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>
