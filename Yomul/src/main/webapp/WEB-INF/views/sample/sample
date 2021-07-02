@@ -13,9 +13,9 @@
 	<jsp:include page="../header.jsp"></jsp:include>
 	
 	<!--  BODY  -->
-	<div id="sample">
+	<section id="sample">
 		전체 코드를 복사, 붙여넣기 한 다음 이 부분에 HTML 코드를 넣어주세요
-	</div>
+	</section>
 	
 	<!-- FOOTER -->
 	<jsp:include page="../footer.jsp"></jsp:include>
