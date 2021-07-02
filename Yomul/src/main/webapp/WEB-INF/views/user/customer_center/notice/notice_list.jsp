@@ -58,9 +58,10 @@
 </style>
 <jsp:include page="../../../head.jsp"></jsp:include>
 </head>
-<body id="notice_list">
+<body>
 	<jsp:include page="../../header.jsp"></jsp:include>
-	<div class="content">
+	
+	<div id="notice_list" class="content">
 		<h2>공지사항</h2>
 		<ul class="list">
 			<li>
@@ -86,6 +87,7 @@
 			</li>
 		</ul>
 	</div>
+	
 	<jsp:include page="../../footer.jsp"></jsp:include>
 </body>
 </html>
