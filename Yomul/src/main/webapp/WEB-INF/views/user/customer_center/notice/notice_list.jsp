@@ -18,12 +18,12 @@
 		text-align: center;
 		list-style-type: none;
 		padding: 0;
-		cursor: pointer;
 	}
 	
 	li {
 		padding: 0;
 		margin: 0;
+		cursor: pointer;
 	}
 	
 	li:hover {
@@ -56,8 +56,10 @@
 		margin: 25px 0;
 	}
 </style>
+<jsp:include page="../../../head.jsp"></jsp:include>
 </head>
 <body id="notice_list">
+	<jsp:include page="../../header.jsp"></jsp:include>
 	<div class="content">
 		<h2>공지사항</h2>
 		<ul class="list">
@@ -84,5 +86,6 @@
 			</li>
 		</ul>
 	</div>
+	<jsp:include page="../../footer.jsp"></jsp:include>
 </body>
 </html>

@@ -11,4 +11,9 @@ public class CustomerCenterController {
 	public String customerCenter() {
 		return "user/customer_center/faq/faq_list";
 	}
+	
+	@RequestMapping(value = "customer_notices", method = RequestMethod.GET)
+	public String noticeList() {
+		return "user/customer_center/notice/notice_list";
+	}
 }
