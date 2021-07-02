@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.big-checkbox {
+	width: 30px;
+	height: 30px;
+}
+
+.bg-yomul {
+	background-color: rgb(95, 0, 128);
+}
