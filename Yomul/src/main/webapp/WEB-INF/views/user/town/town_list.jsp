@@ -3,21 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<!--  부트스트랩 링크 -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-	crossorigin="anonymous">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-	crossorigin="anonymous"></script>
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-	integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
-	crossorigin="anonymous">
-
 
 <style>
 /* town_list head 부분 (검색) */
@@ -166,8 +151,9 @@
 
 <meta charset="UTF-8">
 <title>동네 생활</title>
+<jsp:include page="../../head.jsp"></jsp:include>
 </head>
-<body>
+<body id="sample">
 <jsp:include page="../header.jsp"></jsp:include>
 	<!-- //http://localhost:9090/yomul/town_list -->
 
