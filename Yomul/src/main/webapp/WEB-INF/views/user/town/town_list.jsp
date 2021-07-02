@@ -66,11 +66,11 @@
 	margin: auto;
 }
 
-.mt-200 {
+.user_town_list_body .mt-200 {
 	margin-top: 50px;
 }
 
-.dropbtn {
+.user_town_list_body .dropbtn {
 	background-color: rgb(255, 99, 95);
 	color: white;
 	padding: 6px;
@@ -79,12 +79,12 @@
 	border-radius: 3px
 }
 
-.dropdown {
+.user_town_list_body .dropdown {
 	position: relative;
 	display: inline-block
 }
 
-.dropdown-content {
+.user_town_list_body .dropdown-content {
 	display: none;
 	position: absolute;
 	background-color: white;
@@ -93,55 +93,55 @@
 	z-index: 1
 }
 
-.dropdown-content a {
+.user_town_list_body .dropdown-content a {
 	color: black;
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block
 }
 
-.dropdown-content a:hover {
+.user_town_list_body .dropdown-content a:hover {
 	background-color: #ddd
 }
 
-.dropdown:hover  .dropdown-content {
+.user_town_list_body .dropdown:hover  .dropdown-content {
 	display: block
 }
 
-.dropdown:hover .dropbtn {
+.user_town_list_body .dropdown:hover .dropbtn {
 	background-color: rgb(255, 99, 95);
 }
 
 /*town_list 본 게시글*/
-.post-list {
+.user_town_list_body .post-list {
 	position: relative;
 	padding: 5px 0;
 }
 
-.post-list .picture {
+.user_town_list_body .post-list .picture {
 	max-width: 400px;
 	overflow: hidden;
 	height: auto;
 	border-radius: 6px;
 }
 
-.post-list .label {
+.user_town_list_body .post-list .label {
 	font-weight: normal;
 }
 
-.post-list .picture {
+.user_town_list_body .post-list .picture {
 	max-width: 210px;
 }
 
-.post-list .picture img {
+.user_town_list_body .post-list .picture img {
 	width: 100%;
 }
 
-.post-list p {
+.user_town_list_body .post-list p {
 	float: left;
 }
 
-.post-list:after {
+.user_town_list_body .post-list:after {
 	height: 1px;
 	background: #EEEEEE;
 	width: 83.3333%;
@@ -152,11 +152,11 @@
 	position: absolute;
 }
 
-.post-list .town_info {
+.user_town_list_body .post-list .town_info {
 	margin-top: 70px;
 }
 
-div.pagenation {
+.user_town_list_body div.pagenation {
 	text-align: center;
 }
 </style>
