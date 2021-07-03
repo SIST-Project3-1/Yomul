@@ -9,16 +9,19 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class CustomerCenterController {
 
+	// 고객센터 메인 FAQ
 	@RequestMapping(value = "customer_center", method = RequestMethod.GET)
 	public String customerCenter() {
 		return "user/customer_center/faq/faq_list";
 	}
 	
+	// 공지사항 목록
 	@RequestMapping(value = "customer_notices", method = RequestMethod.GET)
 	public String noticeList() {
 		return "user/customer_center/notice/notice_list";
 	}
 	
+	// 공지사항 상세
 	@RequestMapping(value = "customer_notices/{no}", method = RequestMethod.GET)
 	public ModelAndView noticeList(@PathVariable("no") int no) {
 		ModelAndView mv = new ModelAndView();
@@ -26,5 +29,17 @@ public class CustomerCenterController {
 		mv.addObject("no", no);
 		
 		return mv;
+	}
+	
+	// 문의하기
+	@RequestMapping(value = "qna_write", method = RequestMethod.GET)
+	public String qnaWrite() {
+		return "user/customer_center/qna/qna_write";
+	}
+	
+	// 문의 목록
+	@RequestMapping(value = "qna_list", method = RequestMethod.GET)
+	public String qnaList() {
+		return "user/customer_center/qna/qna_list";
 	}
 }

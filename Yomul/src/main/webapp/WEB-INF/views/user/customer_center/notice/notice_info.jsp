@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항 상세</title>
 <style>
 	#notice_info .content {
 		width: 750px;
@@ -40,7 +40,7 @@
 <body>
 	<jsp:include page="../../header.jsp"></jsp:include>
 	
-	<div id="notice_info" class="content">
+	<section id="notice_info" class="content">
 		<div class="notice_title">
 			<h4 class="font-weight-bold">제모옥~~~</h4>
 			<p class="font-weight-bold">2021.07.02</p>
@@ -57,7 +57,7 @@
 		<div class="text-center">
 			<button class="btn btn-yomul btn_back font-weight-bold">목록으로 돌아가기</button>
 		</div>
-	</div>
+	</section>
 	
 	<jsp:include page="../../footer.jsp"></jsp:include>
 </body>

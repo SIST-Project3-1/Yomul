@@ -4,15 +4,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항 목록</title>
 <style>
-	#notice_list h2 {
-		margin: 50px 0;
-	}
-
-	#notice_list .content {
+	#notice_list {
 		width: 750px;
 		margin: 0 auto;
+	}
+	
+	#notice_list h2 {
+		margin: 50px 0;
 	}
 	
 	#notice_list .list {
@@ -61,7 +61,7 @@
 <body>
 	<jsp:include page="../../header.jsp"></jsp:include>
 	
-	<div id="notice_list" class="content">
+	<section id="notice_list">
 		<h2>공지사항</h2>
 		<ul class="list">
 			<li>
@@ -86,7 +86,7 @@
 				</a>
 			</li>
 		</ul>
-	</div>
+	</section>
 	
 	<jsp:include page="../../footer.jsp"></jsp:include>
 </body>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>고객센터 FAQ</title>
 <!-- HEAD -->
 <jsp:include page="../../../head.jsp"></jsp:include>
 <style>
