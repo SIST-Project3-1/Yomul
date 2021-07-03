@@ -15,4 +15,8 @@ public class TownController {
 	public String town_write() {
 		return "user/town/town_write";
 	}
+	@RequestMapping(value = "town_update", method = RequestMethod.GET)
+	public String town_update() {
+		return "user/town/town_update";
+	}
 }

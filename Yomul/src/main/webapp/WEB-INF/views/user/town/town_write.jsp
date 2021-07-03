@@ -38,11 +38,11 @@ div.user_town_write .body textarea {
 div.user_town_write .head .input-file-button {
 	padding: 10px 30px;
 	margin-top: 5px;
-	margin-left: 750px; background-color : rgb( 255, 99, 95);
+	margin-left: 750px;
 	border-radius: 20px;
 	color: white;
 	cursor: pointer;
-	background-color: rgb(255, 99, 95);
+	 background-color : rgb( 255, 99, 95);
 }
 
 div.user_town_write .footer .tag {
@@ -67,7 +67,7 @@ div.user_town_write div.town_write_btn .townWrite {
 
 </head>
 <body>
-	<!-- http://localhost:9090/yomul/town_write -->
+	<!-- http://localhost:9000/yomul/town_write -->
 	<!-- HEADER -->
 	<jsp:include page="../header.jsp"></jsp:include>
 
