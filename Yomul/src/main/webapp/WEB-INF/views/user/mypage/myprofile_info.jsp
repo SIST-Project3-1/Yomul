@@ -4,11 +4,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>프로필 보기</title>
+<!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
-<body id="myprofile_info">
+<body>
+	<!-- HEADER -->
 	<jsp:include page="../header.jsp"></jsp:include>
+
+	<!--  BODY  -->
+	<section id="myprofile_info" class="container border">
+	
+	</section>
+
+	<!-- FOOTER -->
 	<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>
