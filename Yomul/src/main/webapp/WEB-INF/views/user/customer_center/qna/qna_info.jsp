@@ -27,7 +27,7 @@
 	<!--  BODY  -->
 	<section id="qna_info">
 		<div>
-			<h4 class="font-weight-bold">제모옥~~~</h4>
+			<h4 class="d-inline-block font-weight-bold">제모옥~~~</h4>
 			<p class="font-weight-bold text-secondary">2021.07.02</p>
 		</div>
 		<hr>
@@ -40,16 +40,19 @@
 		</div>
 		<hr>
 		<div class="my-5 mx-0">
-			<h5 class="mb-3 font-weight-bold">답변</h5>
+			<h4 class="d-inline-block font-weight-bold">답변드립니다~</h4>
+			<p class="d-inline-block font-weight-bold text-secondary">2021.07.04</p>
+			<div>
 			내요옹~~~<br>
 			내요옹~~~<br>
 			내요옹~~~<br>
 			내요옹~~~<br>
 			내요옹~~~<br>
+			</div>
 		</div>
 		<hr>
 		<div class="text-center">
-			<button class="btn btn-yomul d-inline-block font-weight-bold">목록으로 돌아가기</button>
+			<button class="btn btn-yomul d-inline-block px-3 font-weight-bold">목록으로 돌아가기</button>
 		</div>
 	</section>
 	

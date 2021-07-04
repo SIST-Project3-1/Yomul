@@ -34,25 +34,28 @@
 	
 	<!--  BODY  -->
 	<section id="qna_list">
-		<h2 class="my-5 mx-0">문의 내역</h2>
+		<h3 class="my-5 mx-0 font-weight-bold">문의 내역</h3>
 		<ul class="list p-0">
 			<li class="p-0 m-0">
 				<a class="m-0 text-decoration-none" href="customer_qna/1">
-					<p class="p-0 m-0 text-body">제목~~~~</p>
+					<p class="d-inline-block p-0 mb-1 mr-1 text-body">제목~~~~</p>
+					<kbd class="bg-yomul">답변대기</kbd>
 					<p class="text-secondary">2021.07.02</p>
 					<hr>
 				</a>
 			</li>
 			<li>
 				<a class="m-0 text-decoration-none" href="customer_qna/1">
-					<p class="p-0 m-0 text-body">제목~~~~</p>
+					<p class="d-inline-block p-0 mb-1 mr-1 text-body">제목~~~~</p>
+					<kbd class="bg-yomul">답변완료</kbd>
 					<p class="text-secondary">2021.07.02</p>
 					<hr>
 				</a>
 			</li>
 			<li>
 				<a class="m-0 text-decoration-none" href="customer_qna/1">
-					<p class="p-0 m-0 text-body">제목~~~~</p>
+					<p class="d-inline-block p-0 mb-1 mr-1 text-body">제목~~~~</p>
+					<kbd class="bg-yomul">답변완료</kbd>
 					<p class="text-secondary">2021.07.02</p>
 					<hr>
 				</a>
