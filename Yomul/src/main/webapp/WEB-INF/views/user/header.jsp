@@ -22,6 +22,10 @@
 		<li class="nav-item"><a class="nav-link" href="/yomul/login">로그인</a></li>
 		<li class="nav-item"><a class="nav-link" href="/yomul/join">회원가입</a></li>
 	</ul>
+	<ul class="navbar-nav">
+		<li class="nav-item"><a class="nav-link" href="#"><h5 class="bi bi-bell my-0"></h5></a></li>
+		<li class="nav-item"><a class="nav-link" href="/yomul/myprofile_info"><h5 class="bi bi-person-circle my-0"></h5></a></li>
+	</ul>
 	<div class="dropdown">
 		<button type="button" class="btn btn-yomul dropdown-toggle" data-toggle="dropdown">글쓰기</button>
 		<div class="dropdown-menu">
