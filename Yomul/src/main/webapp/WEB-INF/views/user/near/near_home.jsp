@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>내 근처</title>
+<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -14,63 +15,82 @@
 
 
 	<!--  BODY  -->
-	<div id="near_home">
+	<div id="near_home" class="near_home-content">
 		<!-- 검색창 -->
-		<div>
-			<input type="text">
-			<button>검색</button>
+		<div class="near-home-search">
+			<form class="form-inline ml-auto">
+				<label for="search_bar" class="bi bi-search" style="position:relative; z-index:20; left:23px;"></label>
+				<div class="input-group flex-nowrap">
+					<input class="form-control mr-sm-2 pl-4" type="search" placeholder="주변 가게를 찾아보세요" size="60">
+				</div>
+			</form>	
 		</div>
 
 		<!-- 키워드 -->
-		<div>
+		<div class="near-home-keyword">
 			<h3>키워드</h3>
-			<%
-			String keyword[] = { "부동산", "카페", "요가", "휴대폰", "마사지", "미용실", "왁싱" };
-			for (String str : keyword) {
-			%>
-			<label><%=str%></label>
-			<%
-			}
-			%>
+			<div>
+				<c:forEach var="keyword" items="${keyword}">
+					<label>${keyword }</label>
+				</c:forEach>
+			</div>
 		</div>
 
 		<!-- 내 근처 소식 -->
-		<div>
-			<div>
+		<div class="near-home-news">
+			<div class="near-home-news-title">
 				<h3>내 근처 소식</h3>
-				<a href="#">더보기</a>
+				<a href="#">전체보기 ></a>
 			</div>
-			<div>
-				<div>
-					<img src="#">
-				</div>
-				<div>
-					<h3>타이틀</h3>
-					<p>내용</p>
-					<p>작성자</p>
-				</div>
+			<% for(int i=0;i<3;i++){ %>
+			<div class="near-home-news-content">
+				<table>
+					<tr>
+						<td>
+							<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+						</td>
+						<td>
+							<div>
+								<h5>타이틀</h5>
+								<p>내용</p>
+								<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+								<label>작성자</label>
+							</div>
+						</td>
+					</tr>
+				</table>
 			</div>
+			<% } %>
 		</div>
 
 		<!-- 이웃들의 추천가게 -->
-		<div>
+		<div class="near-home-neighbor">
 			<h3>이웃들의 추천가게</h3>
-			<div>
+			<% for(int i=0;i<2;i++){ %>
+			<div class="near-home-neighbor-content">
 				<div>
-					<img src="#">
+					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg" style="margin-right:5px">
+					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 				</div>
 				<div>
-					<h3>타이틀</h3>
+					<h5>타이틀</h5>
 					<p>내용</p>
-					<p>작성자</p>
-					<p>후기</p>
-					<p>단골</p>
+					<label>후기</label>
+					<label>·</label>
+					<label style="color:gray">단골</label>
 				</div>
 				<div>
-					<h3>고객명</h3>
+					<p>고객명</p>
 					<p>후기</p>
 				</div>
 			</div>
+			<% } %>
+		</div>
+		
+		<!-- 비즈프로필 -->
+		<div class="near-home-vendor">
+			<h3>사장님이신가요? 단골을 모아보세요!</h3>
+			<a href="vendor_signup.jsp">비즈프로필 만들기 ></a>
 		</div>
 	</div>
 

@@ -3,13 +3,21 @@ package com.yomul.yomul;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class NearController {
 	//내 근처 기본화면
 	@RequestMapping(value="/near_home", method=RequestMethod.GET)
-	public String near_home() {
-		return "user/near/near_home";
+	public ModelAndView near_home() {
+		ModelAndView mv = new ModelAndView();
+		
+		String keyword[] = { "부동산", "카페", "요가", "휴대폰", "마사지", "미용실", "왁싱" };
+		
+		mv.setViewName("user/near/near_home");
+		mv.addObject("keyword",keyword);
+		
+		return mv;
 	}
 	
 	//내 근처 글 쓰기
