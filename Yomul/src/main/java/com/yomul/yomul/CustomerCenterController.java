@@ -31,15 +31,25 @@ public class CustomerCenterController {
 		return mv;
 	}
 	
-	// 문의하기
-	@RequestMapping(value = "qna_write", method = RequestMethod.GET)
-	public String qnaWrite() {
-		return "user/customer_center/qna/qna_write";
-	}
-	
 	// 문의 목록
-	@RequestMapping(value = "qna_list", method = RequestMethod.GET)
+	@RequestMapping(value = "customer_qna", method = RequestMethod.GET)
 	public String qnaList() {
 		return "user/customer_center/qna/qna_list";
+	}
+	
+	// 문의 상세
+	@RequestMapping(value = "customer_qna/{no}", method = RequestMethod.GET)
+	public ModelAndView qnaInfo(@PathVariable("no") int no) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("user/customer_center/qna/qna_info");
+		mv.addObject("no", no);
+		
+		return mv;
+	}
+	
+	// 문의 작성
+	@RequestMapping(value = "customer_qna/write", method = RequestMethod.GET)
+	public String qnaWrite() {
+		return "user/customer_center/qna/qna_write";
 	}
 }

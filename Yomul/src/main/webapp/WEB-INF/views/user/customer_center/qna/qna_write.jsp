@@ -6,13 +6,6 @@
 <meta charset="UTF-8">
 <title>문의하기</title>
 <style>
-	#qna_write {
-	}
-	
-	#qna_write .content {
-		margin: 50px 0;
-	}
-	
 	#qna_write .textarea {
 		height: 200px;
 	}
@@ -27,7 +20,7 @@
 	<!--  BODY 참고 페이지: https://ohou.se/contacts/new -->
 	<section id="qna_write" class="col-md-7 col-lg-5 mx-auto my-5">
 		<h4 class="font-weight-bold">문의하기</h4>
-		<form class="content container">
+		<form class="container my-5 mx-0">
 			<div class="row mt-3">
 				<select class="form-control col-md-6">
 				
