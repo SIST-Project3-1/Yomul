@@ -8,7 +8,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class TownController {
 
 	@RequestMapping(value = "town_list", method = RequestMethod.GET)
-	public String home_list() {
+	public String town_list() {
 		return "user/town/town_list";
+	}
+	@RequestMapping(value = "town_write", method = RequestMethod.GET)
+	public String town_write() {
+		return "user/town/town_write";
+	}
+	@RequestMapping(value = "town_update", method = RequestMethod.GET)
+	public String town_update() {
+		return "user/town/town_update";
 	}
 }
