@@ -12,6 +12,13 @@
 	<!-- HEADER -->
 	<jsp:include page="../header.jsp"></jsp:include>
 
+	<!-- MYPAGE HEADER -->
+	<%@include file="mypage_header.jsp"%>
+	<script type="text/javascript">
+		$("#mypage_header_myprofile").addClass("active").removeClass("text-muted").css("color", "rgb(255, 99, 95)");
+		$("#mypage_header_myprofile_info").addClass("active").removeClass("text-muted").css("color", "rgb(255, 99, 95)");
+	</script>
+
 	<!--  BODY  -->
 	<section id="myprofile_info" style="height: 75%; display: flex; align-items: center;">
 		<div class="container border mt-3 p-3">
@@ -27,19 +34,19 @@
 			</div>
 			<hr>
 			<div class="d-flex justify-content-around">
-				<a class="btn">
+				<a class="btn" href="/yomul/buy_list">
 					<h2>
 						<i class="bi bi-basket"></i>
 					</h2>
 					<div class="font-weight-bold">구매 내역</div>
 					<div>237</div>
-				</a> <a class="btn">
+				</a> <a class="btn" href="/yomul/sell_list">
 					<h2>
 						<i class="bi bi-cash-coin"></i>
 					</h2>
 					<div class="font-weight-bold">판매 내역</div>
 					<div>432</div>
-				</a> <a class="btn">
+				</a> <a class="btn" href="/yomul/favorite_list">
 					<div>
 						<h2>
 							<i class="bi bi-bookmark-star"></i>
