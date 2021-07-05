@@ -14,5 +14,4 @@
 <%-- CSS --%>
 <link rel="stylesheet" href="/yomul/css/bootstrap.min.css">
 <link rel="stylesheet" href="/yomul/css/commons.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-
+<link rel="stylesheet" href="/yomul/css/bootstrap-icons/bootstrap-icons.css">
