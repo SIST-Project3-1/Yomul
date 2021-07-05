@@ -27,19 +27,21 @@
 			</div>
 			<hr>
 			<div class="d-flex justify-content-around">
-				<a class="btn">
+				<a class="btn" href="/yomul/buy_list">
 					<h2>
 						<i class="bi bi-basket"></i>
 					</h2>
 					<div class="font-weight-bold">구매 내역</div>
 					<div>237</div>
-				</a> <a class="btn">
+				</a>
+				<a class="btn" href="/yomul/sell_list">
 					<h2>
 						<i class="bi bi-cash-coin"></i>
 					</h2>
 					<div class="font-weight-bold">판매 내역</div>
 					<div>432</div>
-				</a> <a class="btn">
+				</a>
+				<a class="btn" href="/yomul/favorite_list">
 					<div>
 						<h2>
 							<i class="bi bi-bookmark-star"></i>
