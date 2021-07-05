@@ -6,5 +6,24 @@
 }
 
 .bg-yomul {
-	background-color: rgb(95, 0, 128);
+	background-color: rgb(255, 99, 95);
+}
+
+.text-yomul {
+	color: rgb(255, 99, 95)!impotant;
+}
+
+.btn-yomul {
+	background-color: rgb(255, 99, 95);
+	color: white;
+}
+
+.btn-outline-yomul {
+	border-color: rgb(255, 99, 95);
+	color: rgb(255, 99, 95);
+}
+
+.btn-outline-yomul:hover {
+	background-color: rgb(255, 99, 95);
+	color: white;
 }

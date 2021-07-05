@@ -1,0 +1,239 @@
+@charset "UTF-8";
+
+.content {
+	border:1px red solid;
+	width:70%;
+	margin:auto;
+}
+
+/*
+	near-home.jsp
+*/
+.near_home-content {
+	/*border:1px red solid;*/
+	width:70%;
+	margin:auto;
+}
+.near-home-search {
+	/*border:1px red solid;*/
+	padding:20px 0;
+}
+.near-home-keyword {
+	/*border:1px red solid;*/
+	padding-bottom:40px;
+}
+.near-home-keyword label{
+	border:1px lightgray solid;
+	border-radius:15px;
+	padding:5px 10px;
+	margin:5px;
+}
+.near-home-keyword div{
+	margin-left:10px;
+}
+.near-home-news {
+	/*border:1px red solid;*/
+	padding-bottom:40px;
+}
+.near-home-news-title {
+	/*border:1px red solid;*/
+}
+.near-home-news h3{
+	/*border:1px red solid;*/
+	display:inline-block;
+}
+.near-home-news a{
+	/*border:1px red solid;*/
+	margin:5px 20px 5px 5px;
+	float:right;
+	color:rgb(255, 99, 95);
+}
+.near-home-news-content {
+	padding: 15px 0 16px 10px;
+	margin: 0 15px;
+	border-bottom: 1px lightgray solid;
+}
+.near-home-news-content div:first-child{
+	/*border:1px red solid;*/
+	float:left;
+	width:200px; height:200px;
+}
+.near-home-news-content div:last-child{
+	/*border:1px red solid;*/
+	float:left;
+	padding:15px 0 0 20px;
+ 	height:200px;
+}
+.near-home-news-content div:last-child >p{
+	/*border:1px red solid;*/
+ 	height:100px;
+}
+.near-home-news-content div:last-child img{
+	/*border:1px red solid;*/
+	float:left;
+	margin-right:8px;
+ 	width:25px; height:25px;
+ 	border-radius:30px;
+}
+.near-home-news-content div:last-child label{
+	/*border:1px red solid;*/
+ 	height:25px;
+ 	line-height:25px;
+}
+.near-home-news-content img{
+	width:195px; height:195px;
+	border-radius:30px;
+}
+.near-home-neighbor {
+	/*border:1px red solid;*/
+	padding-bottom:40px;
+}
+.near-home-neighbor-content {
+	display:inline-block;
+	border:1px rgb(236, 247, 250) solid;
+	border-radius:10px;
+	margin:10px;
+}
+.near-home-neighbor-content div:first-child{
+	display:inline-block;
+	width:400px; height:100px;
+	margin:auto;
+}
+.near-home-neighbor-content div:first-child img{
+	width:195px; height:100px;
+}
+.near-home-neighbor-content div:nth-child(2){
+	width:400px; height:120px;
+	padding:15px;
+}
+.near-home-neighbor-content div:nth-child(2) label{
+	float:left;
+}
+.near-home-neighbor-content div:nth-child(2) label:nth-child(3){
+	color:rgb(255, 99, 95);
+	font-weight:bold;
+}
+.near-home-neighbor-content div:nth-child(2) label:nth-child(4){
+	color:lightgray;
+	font-weight:900;
+	margin:0 5px;
+}
+.near-home-neighbor-content div:last-child{
+	width:400px; height:100px;
+	border-radius:10px;
+	background-color:rgb(240, 244, 245);
+	margin:10px; 
+	padding:20px 15px;
+}
+.near-home-neighbor-content div:last-child p{
+	float:left;
+}
+.near-home-neighbor-content div:last-child p:first-child{
+	margin-right:10px; 
+	font-weight:bold;
+}
+.near-home-vendor {
+	/*border:1px red solid;*/
+	border-radius:10px;
+	background-color:rgb(236, 247, 250);
+	padding:30px;
+	height:130px;
+}
+.near-home-vendor h3{
+	color:rgb(55, 134, 179);
+	font-weight:bold;
+	padding-bottom:10px;
+}
+.near-home-vendor a{
+	color:black;
+}
+
+/*
+	near-write.jsp
+*/
+.near-write {
+	/*border:1px red solid;*/
+	width:90%;
+	margin:auto;
+}
+.near-write-content {
+	display:inline-block;
+	margin:100px 0 40px 0;
+	width:100%;
+}
+.near-write-preview {
+	/*border:1px red solid;*/
+	width:10%;
+	float:left;
+	padding-top:20px;
+}
+.near-write-img {
+	/*border:1px red solid;*/
+	width:45%; height:600px;
+	float:left;
+	padding-top:20px;
+	text-align:center;
+}
+.near-write-img img{
+	width:90%; height:450px;
+	
+}
+.near-write-form {
+	/*border:1px red solid;*/
+	width:45%; height:600px;
+	float:left;
+	padding:20px 20px 0 20px;
+}
+.near-write-form table{
+	/*border:1px red solid;*/
+	width:100%;
+	margin-bottom:10px;
+}
+.near-write-form tr{
+	border-bottom:1px lightgray solid;
+}
+.near-write-form input{
+	border:none;
+	color:lightgray;
+}
+.near-write-form tr:first-child input,
+.near-write-form tr:nth-child(2) input{
+	margin-left:10px;
+	width:90%;
+}
+.near-write-form tr:nth-child(3) input{
+	margin-left:10px;
+	width:85%;
+}
+.near-write-form td{
+	padding-top:5px;
+}
+.near-write-form textarea{
+	border:none;
+	width:100%; 
+	height:300px; 
+	resize: none;
+	color:lightgray;
+	padding:7px 0 0 5px;
+}
+.near-write-form button{
+	border:1px rgb(255, 99, 95) solid;
+	background-color: rgb(255, 99, 95);
+	border-radius:10px;
+	color:white;
+	float:right;
+	padding:5px 10px;
+	margin-top:30px;
+}
+
+/*
+	near_write_property.jsp
+*/
+.near_write_property-content {
+	border:1px red solid;
+	width:70%;
+	margin:auto;
+}
+
+
+
