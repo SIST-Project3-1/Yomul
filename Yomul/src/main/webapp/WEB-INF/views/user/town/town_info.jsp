@@ -46,12 +46,12 @@ div.user_town_info .comment-wrapper .panel-body {
 	overflow: auto;
 }
 
-div.user_town_info #btn {
-	display: inline-block;
-	background-color:white;
-	color:rgb(255, 99, 95);
-	border:2px solid white;
-	font-weight:bold;
+div.user_town_info #button-addon2 {
+	background-color: white;
+	color: rgb(255, 99, 95);
+	border: 2px solid white;
+	font-weight: bold;
+	margin-left:3px;
 }
 
 div.user_town_info .comment-wrapper .media-list .media img {
@@ -72,8 +72,8 @@ div.user_town_info div.foot .page {
 }
 
 div.user_town_info .form-control {
-	width: 90%;
-	display: inline;
+	width: 70%;
+	border: 2px solid lightgray;
 }
 </style>
 </head>
@@ -96,7 +96,8 @@ div.user_town_info .form-control {
 					<img src="image/신발사진3.png"> <img src="image/신발사진2.png">
 				</div>
 				<div class="tag">
-					<a href="#">#동네생활</a><a href="#">#같이해요</a>
+					<a href="http://localhost:9000/yomul/town_list">#동네생활</a><a
+						href="http://localhost:9000/yomul/town_list">#같이해요</a>
 				</div>
 				<div class="info">
 					<label>2021년 7월 4일</label>&nbsp;<label>조회수8</label>&nbsp;
@@ -111,9 +112,16 @@ div.user_town_info .form-control {
 							<div class="comment-wrapper">
 								<div class="panel panel-info">
 									<div class="panel-body">
-										<input type="text" class="form-control"
-											placeholder="댓글을 남겨보세요"></input>
-										<button type="button" class="btn btn-info" id="btn">등록</button>
+										<div class="input-group mb-3">
+											<input type="text" class="form-control"
+												placeholder="Recipient's username"
+												aria-label="Recipient's username"
+												aria-describedby="button-addon2">
+											<div class="input-group-append">
+												<button class="btn btn-outline-secondary" type="button"
+													id="button-addon2">등록</button>
+											</div>
+										</div>
 										<br>
 										<div class="clearfix"></div>
 										<hr>
@@ -132,7 +140,7 @@ div.user_town_info .form-control {
 													<button type="button" class="report">답글달기</button>
 													<button type="button" class="report">신고</button>
 												</div></li>
-												
+
 											<li class="media"><a href="#" class="pull-left"> <img
 													src="image/신발사진3.png" class="img-circle">
 											</a>
