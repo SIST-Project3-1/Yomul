@@ -62,7 +62,7 @@
 				<button class="btn btn-block btn-yomul" type="submit">회원가입 완료</button>
 				<div class="text-center mt-3">
 					<p>
-						이미 아이디가 있으신가요? <a href="#">로그인</a>
+						이미 아이디가 있으신가요? <a href="/yomul/login">로그인</a>
 					</p>
 				</div>
 			</form>
