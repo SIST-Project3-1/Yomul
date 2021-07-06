@@ -13,9 +13,8 @@
 	<!-- HEADER -->
 	<jsp:include page="../header.jsp"></jsp:include>
 
-
 	<!--  BODY  -->
-	<div id="near_home" class="near_home-content">
+	<div id="near_home" class="near-home-content">
 		<!-- 검색창 -->
 		<div class="near-home-search">
 			<form class="form-inline ml-auto">
