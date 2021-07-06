@@ -11,9 +11,10 @@
 	background-color: Gainsboro;
 }
 
-.user_town_list_head #btn-yomul{
+.user_town_list_head #btn-yomul {
 	background-color: rgb(255, 99, 95);
 }
+
 .user_town_list_head .head {
 	width: 80%;
 	height: 300px;
@@ -40,12 +41,13 @@
 	text-align: center;
 }
 
-.user_town_list_head a {
+.user_town_list_head #product {
 	background-color: white;
 	border-radius: 20px;
 	display: inline;
 	color: black;
 	text-decoration: none;
+	border:2px solid white;
 }
 
 /*user_town_body 정렬 버튼 부분*/
@@ -147,6 +149,15 @@
 .user_town_list_body div.pagenation {
 	text-align: center;
 }
+
+.user_town_list_body #dropdown {
+	width: 80%;
+	margin: auto;
+}
+div.town_info label{
+	border-left:2px solid lightgray;
+	
+}
 </style>
 
 
@@ -155,142 +166,150 @@
 <meta charset="UTF-8">
 <title>동네 생활</title>
 <jsp:include page="../../head.jsp"></jsp:include>
+<script>
+//태그 누르면 검색창에 뜨도록
+ $(document).ready(function(){
+	$("#product").click(function(){
+		let productValue = $("#product").val();
+		$("#townSearch").val(productValue);
+	})
+});
+</script>
 </head>
 <body>
-<jsp:include page="../header.jsp"></jsp:include>
+	<jsp:include page="../header.jsp"></jsp:include>
 	<!-- //http://localhost:9090/yomul/town_list -->
 
 	<!-- user_town_list 검색창 부분 -->
-	<div  id="sample">
-	<div class="user_town_list_head">
-		<div class="head">
-			<div class="container">
-				<br />
-				<div class="text">
-					<h1>동네생활</h1>
-					<h3>요물마켓 동네 사람들끼리 소통하는 공간입니다</h3>
+	<div id="sample">
+		<div class="user_town_list_head">
+			<div class="head">
+				<div class="container">
+					<br />
+					<div class="text">
+						<h1>동네생활</h1>
+						<h3>요물마켓 동네 사람들끼리 소통하는 공간입니다</h3>
+					</div>
+					<div class="row justify-content-center">
+						<div class="col-12 col-md-10 col-lg-8">
+							<form class="card card-sm">
+								<div class="card-body row no-gutters align-items-center">
+									<div class="col-auto">
+										<i class="fas fa-search h4 text-body"></i>
+									</div>
+
+									<div class="col">
+										<input
+											class="form-control form-control-lg form-control-borderless"
+											type="search" placeholder="궁금한것을 찾아보세요" id="townSearch" name="townSearch">
+									</div>
+
+									<div class="col-auto">
+										<button class="btn btn-lg btn-primary" type="submit"
+											id="btn-yomul">검색</button>
+									</div>
+
+								</div>
+							</form>
+						</div>
+
+					</div>
 				</div>
-				<div class="row justify-content-center">
-					<div class="col-12 col-md-10 col-lg-8">
-						<form class="card card-sm">
-							<div class="card-body row no-gutters align-items-center">
-								<div class="col-auto">
-									<i class="fas fa-search h4 text-body"></i>
-								</div>
+				<br>
+				<div class="label">
+					<button type="button" value="중고상품" id="product">#중고상품</button>
+				</div>
+			</div>
+		</div>
+		<!-- user_town_list 정렬 부분 -->
+		<div class="user_town_list_body">
+			<div class="text-left mt-200" id="dropdown">
+				<span class="product_options">정렬</span><br>
+				<div class="dropdown">
+					<button class="dropbtn">
+						인기순 <i class="fa fa-caret-down"></i>
+					</button>
+					<div class="dropdown-content">
+						<a href="#">인기순</a> <a href="#">최신순</a>
+					</div>
+				</div>
+			</div>
+			<hr>
 
-								<div class="col">
-									<input
-										class="form-control form-control-lg form-control-borderless"
-										type="search" placeholder="궁금한것을 찾아보세요">
-								</div>
 
-								<div class="col-auto">
-									<button class="btn btn-lg btn-primary" type="submit" id="btn-yomul">검색</button>
+			<!--  게시글 부분 -->
+			<div class="container bootstrap snippets bootdey">
+				<div class="row">
+					<div class="post-list">
+						<div class="row">
+							<div class="col-sm-8">
+								<h1 class="description">제목</h1>
+								<div>
+									<a href="http://localhost:9000/yomul/town_info?no=">부엌 찐한
+										차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑
+										바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
 								</div>
-
+								<div class="town_info">
+									<label>해푸름</label><label>작성일자:2021-07-05</label><label
+										style="color: tomato">댓글:15</label><label>조회수:30</label>
+								</div>
 							</div>
-						</form>
+							<div class="col-sm-4">
+								<div class="picture">
+									<img src="image/신발사진1.jpg">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="post-list">
+						<div class="row">
+							<div class="col-sm-8">
+								<h1 class="description">제목</h1>
+								<div>
+									<a href="http://localhost:9000/yomul/town_info">부엌 찐한
+										차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑
+										바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
+								</div>
+								<div class="town_info">
+									<label>해푸름</label><label>작성일자:2021-07-05</label><label
+										style="color: tomato">댓글:15</label><label>조회수:30</label>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="picture">
+									<img src="image/신발사진1.jpg">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="post-list">
+						<div class="row">
+							<div class="col-sm-8">
+								<h1 class="description">제목</h1>
+								<div>
+									<a href="http://localhost:9000/yomul/town_info">부엌 찐한
+										차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑
+										바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
+								</div>
+								<div class="town_info">
+									<label>해푸름</label><label>작성일자:2021-07-05</label><label
+										style="color: tomato">댓글:15</label><label>조회수:30</label>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="picture">
+									<img src="image/신발사진1.jpg">
+								</div>
+							</div>
+						</div>
 					</div>
 
 				</div>
 			</div>
-			<br>
-			<div class="label">
-				<a href="#">#중고상품</a>&nbsp;&nbsp;<a href="#">#신발</a>
-			</div>
+
 		</div>
 	</div>
-	<!-- user_town_list 정렬 부분 -->
-	<div class="user_town_list_body">
-		<div class="text-left mt-200">
-			<span class="product_options">정렬</span><br>
-			<div class="dropdown">
-				<button class="dropbtn">
-					인기순 <i class="fa fa-caret-down"></i>
-				</button>
-				<div class="dropdown-content">
-					<a href="#">인기순</a> <a href="#">최신순</a>
-				</div>
-			</div>
-		</div>
-		<hr>
 
-
-		<!--  게시글 부분 -->
-		<div class="container bootstrap snippets bootdey">
-			<div class="row">
-				<div class="post-list">
-					<div class="row">
-						<div class="col-sm-8">
-							<h1 class="description">제목</h1>
-							<div>
-								<label>부엌 찐한 차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천
-									부탁드려용 거실 톤도 티비벽이랑 바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들
-									의견 부탁드려용</label>
-							</div>
-							<div class="town_info">
-								<label>아이디</label><label>작성시간</label><label
-									style="color: tomato">댓글갯수:</label><label>조회수</label>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="picture ">
-								<img src="image/신발사진1.jpg">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="post-list">
-					<div class="row">
-						<div class="col-sm-8">
-							<h1 class="description">제목</h1>
-							<div>
-								<label>거실 주방 일체형입니다.소파 3인용으로 들이고싶은데 색갈 어떤게 좋을가요?패브릭으로 하고
-									싶은데 아이 키우는 집이라 그래두 가죽느낌의 재질이 나을거 같아요..40만원 아래로 보고 있는데 추천해주실
-									색갈이나 브랜드 알려주시면 고맙겠습니다.</label>
-							</div>
-							<div class="town_info">
-								<label>아이디</label><label>작성시간</label><label
-									style="color: tomato">댓글갯수:</label><label>조회수</label>
-							</div>
-						</div>
-						<div class="col-sm-4 ">
-							<div class="picture ">
-								<img src="image/신발사진2.png">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="post-list">
-					<div class="row">
-						<div class="col-sm-8">
-							<h1 class="description">제목</h1>
-							<div>
-								<label>창 두개 넓직이 잘 빠진 거실을 어떻게 활용하면 좋을까요?고양이 키우는 집사라 인테리어에
-									한계가 있네요🥲홈바로 일년살고 처분했는데 어떻게 꾸미면 좋을지 모르겠어요홈캠핑도 생각중인데 앞에 건물이 있어서
-									뷰가 좋지않아요ㅜㅜ</label>
-							</div>
-							<div class="town_info">
-								<label>아이디</label><label>작성시간</label><label
-									style="color: tomato">댓글갯수:</label><label>조회수</label>
-							</div>
-						</div>
-						<div class="col-sm-4 ">
-							<div class="picture ">
-								<img src="image/신발사진3.png">
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<hr>
-				<div class="pagenation">1 2 3 4 5 6 7 8 9 10</div>
-			</div>
-		</div>
-
-	</div>
-</div>
-
-<jsp:include page="../footer.jsp"></jsp:include>
+	<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

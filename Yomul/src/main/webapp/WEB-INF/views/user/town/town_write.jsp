@@ -42,7 +42,7 @@ div.user_town_write .head .input-file-button {
 	border-radius: 20px;
 	color: white;
 	cursor: pointer;
-	 background-color : rgb( 255, 99, 95);
+	background-color: rgb(255, 99, 95);
 }
 
 div.user_town_write .footer .tag {
@@ -54,6 +54,7 @@ div.user_town_write .footer .tag {
 
 div.user_town_write div.town_write_btn {
 	text-align: center;
+	margin-left: 300px;
 }
 
 div.user_town_write div.town_write_btn .townWrite {
@@ -62,9 +63,33 @@ div.user_town_write div.town_write_btn .townWrite {
 	color: white;
 	border-radius: 20px;
 	border: 2px solid white;
+	display: block;
 }
 </style>
 
+<script>
+	function fileUpload(fis) {
+		var str = fis.value;
+		// 이미지를 변경한다.
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$('#profile_img_img').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(fis.files[0]);
+	}
+	
+	$(document).ready(function(){
+		$("#townWrite").click(function(){
+			var titleCheck = $("#title").val();
+			var contentCheck = $("#content").val();
+			if(titleCheck==""){
+				alert("제목을 입력해주세요");
+			}else if(contentCheck==""){
+				alert("내용을 작성해주세요")
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<!-- http://localhost:9000/yomul/town_write -->
@@ -82,15 +107,17 @@ div.user_town_write div.town_write_btn .townWrite {
 					</h4>
 					<hr>
 					<input type="text" name="title" id="title" class="title"
-						placeholder="제목을 입력해주세요">
+						placeholder="제목을 입력해주세요" required>
 					<div id="title_alert"></div>
-					<label class="input-file-button" for="input-file"> 사진업로드 </label> <input
-						type="file" id="input-file" style="display: none">
+					<label class="input-file-button" for="input-file"
+						style="white-space: nowrap;"> 사진 </label> <input type="file"
+						id="input-file" style="display: none" onchange="fileUpload(this)">
 				</div>
 				<div class="body">
-					<textarea name="content" id="content" class="content"
-						placeholder="내용을 적어주세요">
-					</textarea>
+					<textarea name="content" id="content" class="content" placeholder="내용을 적어주세요!!" required></textarea>
+					<img id="profile_img_img" class="rounded-circle mb-3"
+						src="/yomul/image/이미지준비중.jpg"
+						style="width: 200px; height: 200px; display: block;">
 				</div>
 				<div class="footer">
 					<button type="button" name="tag" id="tag" class="tag">#키워드를
