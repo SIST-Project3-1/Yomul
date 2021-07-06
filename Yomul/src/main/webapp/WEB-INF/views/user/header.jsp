@@ -5,9 +5,15 @@
 
 	<div class="collapse navbar-collapse" id="navbarText">
 		<ul class="navbar-nav">
-			<li class="nav-item"><a class="nav-link" href="/yomul/product_list">홈</a></li>
-			<li class="nav-item"><a class="nav-link" href="/yomul/town_list">동네생활</a></li>
-			<li class="nav-item"><a class="nav-link" href="/yomul/near_home">내 근처</a></li>
+			<li class="nav-item">
+				<a class="nav-link" href="/yomul/product_list">홈</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/yomul/town_list">동네생활</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/yomul/near_home">내 근처</a>
+			</li>
 		</ul>
 	</div>
 
@@ -19,16 +25,22 @@
 	</form>
 
 	<ul class="navbar-nav">
-		<li class="nav-item"><a class="nav-link" href="/yomul/login">로그인</a></li>
-		<li class="nav-item"><a class="nav-link" href="/yomul/join">회원가입</a></li>
-		<li class="nav-item"><a class="nav-link" href="/yomul/admin">ADMIN</a></li>
+		<li class="nav-item">
+			<a class="nav-link" href="/yomul/login">로그인</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/yomul/join">회원가입</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/yomul/admin">ADMIN</a>
+		</li>
 	</ul>
 	<ul class="navbar-nav">
 		<li class="nav-item">
-			<div class="dropdown mt-2">
+			<div class="dropdown mt-2 px-2">
 				<a role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<h5 class="bi bi-bell my-0">
-						<span class="badge badge-yomul rounded-circle" style="position: absolute; left: 0.8em; bottom: 0.9em; font-size: 65%;">6</span>
+						<span class="badge badge-yomul rounded-circle" style="position: absolute; left: 1.3em; bottom: 0.9em; font-size: 65%;">6</span>
 					</h5>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
@@ -47,9 +59,16 @@
 				</div>
 			</div>
 		</li>
-		<li class="nav-item"><a class="nav-link" href="/yomul/myprofile_info">
+		<li class="nav-item">
+			<a class="nav-link" href="/yomul/chat">
+				<h5 class="bi bi-chat-dots my-0"></h5>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/yomul/myprofile_info">
 				<h5 class="bi bi-person-circle my-0"></h5>
-			</a></li>
+			</a>
+		</li>
 	</ul>
 	<div class="dropdown">
 		<button type="button" class="btn btn-yomul dropdown-toggle" data-toggle="dropdown">글쓰기</button>
