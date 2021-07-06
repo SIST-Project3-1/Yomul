@@ -1,4 +1,4 @@
-package com.sist.dao;
+package com.yomul.dao;
 
 import java.sql.*;
 
