@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>관리자 FAQ 목록</title>
 <!-- HEAD -->
 <jsp:include page="../../../head.jsp"></jsp:include>
 <style>
 div.faq {
-	width: 60%;
+	width: 80%;
 	margin: auto;
 }
 
@@ -18,14 +18,15 @@ div.pagenation {
 	display: block;
 	text-algin: center;
 }
-div.faq th{
-white-space: nowrap;
+
+div.faq th, div.faq a.btn {
+	white-space: nowrap;
 }
 </style>
 </head>
 <body>
 	<!-- HEADER -->
-
+<jsp:include page="../../admin_header.jsp"></jsp:include>
 
 	<!--  BODY  -->
 	<section id="sample">
@@ -51,8 +52,8 @@ white-space: nowrap;
 									<td>커뮤니티 가이드라인</td>
 									<td>당근마켓은 동네 이웃간의 연결을 도와 따듯하고 활발한 교류가 있는 지역사회를 만들기 위해 노력하고
 										있어요</td>
-									<td><button>수정</button></td>
-									<td><button>삭제</button></td>
+									<td><a class="btn btn-yomul" href="admin_faq_update" role="button">수정</a></td>
+									<td><a class="btn btn-yomul" href="#" role="button">삭제</a></td>
 								</tr>
 								<tr>
 									<td>2</td>
@@ -60,17 +61,8 @@ white-space: nowrap;
 									<td>커뮤니티 가이드라인</td>
 									<td>당근마켓은 동네 이웃간의 연결을 도와 따듯하고 활발한 교류가 있는 지역사회를 만들기 위해 노력하고
 										있어요</td>
-									<td><button>수정</button></td>
-									<td><button>삭제</button></td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>운영정책</td>
-									<td>커뮤니티 가이드라인</td>
-									<td>당근마켓은 동네 이웃간의 연결을 도와 따듯하고 활발한 교류가 있는 지역사회를 만들기 위해 노력하고
-										있어요</td>
-									<td><button>수정</button></td>
-									<td><button>삭제</button></td>
+									<td><a class="btn btn-yomul" href="admin_faq_update" role="button">수정</a></td>
+									<td><a class="btn btn-yomul" href="#" role="button">삭제</a></td>
 								</tr>
 								</tbody>
 							</table>
@@ -80,8 +72,6 @@ white-space: nowrap;
 										<li class="page-item disabled"><a class="page-link"
 											href="#" tabindex="-1">이전</a></li>
 										<li class="page-item"><a class="page-link" href="#">1</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item"><a class="page-link" href="#">3</a></li>
 										<li class="page-item"><a class="page-link" href="#">다음</a>
 										</li>
 									</ul>
@@ -95,6 +85,6 @@ white-space: nowrap;
 	</section>
 
 	<!-- FOOTER -->
-
+	<jsp:include page="../../admin_footer.jsp"></jsp:include>
 </body>
 </html>

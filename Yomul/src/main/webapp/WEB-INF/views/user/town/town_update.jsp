@@ -26,6 +26,11 @@ div.user_town_write .head input {
 	border-radius: 10px;
 	text-align: left;
 }
+div.user_town_write .head .form-select{
+	padding:5px 20px;
+	border:2px solid lightgray;
+	border-radius:20px;
+}
 
 div.user_town_write .body textarea {
 	width: 900px;
@@ -42,7 +47,7 @@ div.user_town_write .head .input-file-button {
 	border-radius: 20px;
 	color: white;
 	cursor: pointer;
-	 background-color : rgb( 255, 99, 95);
+	background-color: rgb(255, 99, 95);
 }
 
 div.user_town_write .footer .tag {
@@ -67,7 +72,7 @@ div.user_town_write div.town_write_btn .townWrite {
 
 </head>
 <body>
-		<!-- http://localhost:9000/yomul/town_update -->
+	<!-- http://localhost:9000/yomul/town_update -->
 	<!-- HEADER -->
 	<jsp:include page="../header.jsp"></jsp:include>
 
@@ -81,20 +86,18 @@ div.user_town_write div.town_write_btn .townWrite {
 						글을 작성해주세요 궁금한 것이 있으면<a href="#">문의하기</a>
 					</h4>
 					<hr>
-					<input type="text" name="title" id="title" class="title"
-						placeholder="제목을 입력해주세요">
+					<select class="form-select" aria-label="Default select example">
+						<option selected>카테고리</option>
+						<option value="동네생활">동네생활</option>
+						<option value="용품인증">용품인증</option>
+					</select> <input type="text" name="title" id="title" class="title"
+						placeholder="제목을 입력해주세요" required>
 					<div id="title_alert"></div>
 					<label class="input-file-button" for="input-file"> 사진업로드 </label> <input
 						type="file" id="input-file" style="display: none">
 				</div>
 				<div class="body">
-					<textarea name="content" id="content" class="content"
-						placeholder="내용을 적어주세요">
-					</textarea>
-				</div>
-				<div class="footer">
-					<button type="button" name="tag" id="tag" class="tag">#키워드를
-						입력해주세요</button>
+					<textarea name="content" id="content" class="content" placeholder="내용을 적어주세요" required></textarea>
 				</div>
 				<div class="town_write_btn">
 					<button type="submit" name="townWrite" id="townWrite"
