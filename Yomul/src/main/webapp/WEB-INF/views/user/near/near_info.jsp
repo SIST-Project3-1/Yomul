@@ -30,12 +30,17 @@
 			<!--  내용  -->
 			<div class="near-info-left-content">
 				<p>
-					내용<br><br><br><br><br>
+					내용입니다<br>
+					내용입니다내용입니다내용입니다내용입니다내용입니다<br>
+					내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다
+					내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다<br>
+					내용입니다내용입니다내용입니다내용입니다<br>
+					내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다<br>
 				</p>
 				<div>
 					<label>2021년 07월 05일 23:22</label>
 					<label class="near-info-point">·</label>
-					<label>조회</label>
+					<label>조회 5</label>
 					<label class="near-info-point">·</label>
 					<button type="button" class="near-info-report">신고</button>
 				</div>
@@ -102,7 +107,7 @@
 			</div>
 			<div class="near-info-right-price">
 				<label>가격</label>
-				<label>원</label>
+				<label>22,000원</label>
 			</div>
 			<button type="button" class="near-info-inquiry">채팅문의</button>
 		</div>
