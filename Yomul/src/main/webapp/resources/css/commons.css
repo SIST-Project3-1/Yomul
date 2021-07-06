@@ -28,6 +28,18 @@
 	color: white;
 }
 
+.div-admin-msg {
+	width: 100%;
+	height: 27px;
+	text-align: center;
+	color: white;
+	background-color: teal;
+	font-weight: bold;
+	text-decoration: blink;
+	margin: auto;
+	line-height: 27px;
+}
+
 .badge-yomul {
 	background-color: rgb(255, 99, 95);
 	color: white;
