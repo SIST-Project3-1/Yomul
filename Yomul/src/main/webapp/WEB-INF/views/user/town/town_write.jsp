@@ -26,6 +26,11 @@ div.user_town_write .head input {
 	border-radius: 10px;
 	text-align: left;
 }
+div.user_town_write .head .form-select{
+	padding:5px 20px;
+	border:2px solid lightgray;
+	border-radius:20px;
+}
 
 div.user_town_write .body textarea {
 	width: 900px;
@@ -38,18 +43,11 @@ div.user_town_write .body textarea {
 div.user_town_write .head .input-file-button {
 	padding: 10px 30px;
 	margin-top: 5px;
-	margin-left: 750px;
+	
 	border-radius: 20px;
 	color: white;
 	cursor: pointer;
 	background-color: rgb(255, 99, 95);
-}
-
-div.user_town_write .footer .tag {
-	padding: 8px 40px;
-	background-color: Whitesmoke;
-	border-radius: 30px;
-	border: 2px solid white;
 }
 
 div.user_town_write div.town_write_btn {
@@ -77,18 +75,8 @@ div.user_town_write div.town_write_btn .townWrite {
 		}
 		reader.readAsDataURL(fis.files[0]);
 	}
+
 	
-	$(document).ready(function(){
-		$("#townWrite").click(function(){
-			var titleCheck = $("#title").val();
-			var contentCheck = $("#content").val();
-			if(titleCheck==""){
-				alert("제목을 입력해주세요");
-			}else if(contentCheck==""){
-				alert("내용을 작성해주세요")
-			}
-		});
-	});
 </script>
 </head>
 <body>
@@ -98,7 +86,7 @@ div.user_town_write div.town_write_btn .townWrite {
 
 	<!--  BODY  -->
 	<section id="sample">
-		<form name="townWrite" method="get" action="#">
+		<form name="townWrite" method="POST" action="#">
 			<div class="user_town_write">
 				<div class="head">
 					<h1>동네생활 글쓰기</h1>
@@ -106,7 +94,11 @@ div.user_town_write div.town_write_btn .townWrite {
 						글을 작성해주세요 궁금한 것이 있으면<a href="#">문의하기</a>
 					</h4>
 					<hr>
-					<input type="text" name="title" id="title" class="title"
+					<select class="form-select" aria-label="Default select example">
+						<option selected>카테고리</option>
+						<option value="동네생활">동네생활</option>
+						<option value="용품인증">용품인증</option>
+					</select> <input type="text" name="title" id="title" class="title"
 						placeholder="제목을 입력해주세요" required>
 					<div id="title_alert"></div>
 					<label class="input-file-button" for="input-file"
@@ -114,14 +106,11 @@ div.user_town_write div.town_write_btn .townWrite {
 						id="input-file" style="display: none" onchange="fileUpload(this)">
 				</div>
 				<div class="body">
-					<textarea name="content" id="content" class="content" placeholder="내용을 적어주세요!!" required></textarea>
+					<textarea name="content" id="content" class="content"
+						placeholder="내용을 적어주세요!!" required></textarea>
 					<img id="profile_img_img" class="rounded-circle mb-3"
 						src="/yomul/image/이미지준비중.jpg"
 						style="width: 200px; height: 200px; display: block;">
-				</div>
-				<div class="footer">
-					<button type="button" name="tag" id="tag" class="tag">#키워드를
-						입력해주세요</button>
 				</div>
 				<div class="town_write_btn">
 					<button type="submit" name="townWrite" id="townWrite"

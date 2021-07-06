@@ -51,7 +51,7 @@ div.user_town_info #button-addon2 {
 	color: rgb(255, 99, 95);
 	border: 2px solid white;
 	font-weight: bold;
-	margin-left:3px;
+	margin-left: 3px;
 }
 
 div.user_town_info .comment-wrapper .media-list .media img {
@@ -88,6 +88,10 @@ div.user_town_info .form-control {
 			<div class="head">
 				<a href="town_list">질문과 답변</a>
 				<h1>글 제목</h1>
+				<!-- 직접 작성한 사용자에게만 보여지는 버튼 -->
+				<a class="btn btn-yomul"
+					href="http://localhost:9000/yomul/town_update" role="button">수정</a>
+				<a class="btn btn-yomul" href="#" role="button">삭제</a>
 			</div>
 			<hr>
 			<div class="body">
