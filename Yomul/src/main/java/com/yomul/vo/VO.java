@@ -1,4 +1,4 @@
-package com.sist.vo;
+package com.yomul.vo;
 
 public interface VO {
 
