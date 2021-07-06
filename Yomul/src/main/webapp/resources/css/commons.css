@@ -39,3 +39,8 @@
 	margin: auto;
 	line-height: 27px;
 }
+
+.badge-yomul {
+	background-color: rgb(255, 99, 95);
+	color: white;
+}
