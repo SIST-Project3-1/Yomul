@@ -34,7 +34,9 @@
 	<section id="myprofile_update" class="container col-md-6 mt-3 border p-3">
 		<div class="d-flex justify-content-between mb-3">
 			<h1 class="d-inline">프로필 수정</h1>
-			<a href="#" class="text-black-50 text-decoration-none" style="line-height: 56px;"><small>탈퇴하기</small></a>
+			<a href="/yomul/withdrawal" class="text-black-50 text-decoration-none" style="line-height: 56px;">
+				<small>탈퇴하기</small>
+			</a>
 		</div>
 		<form name="join_form">
 			<div class="form-group row">
