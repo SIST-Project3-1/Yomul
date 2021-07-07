@@ -55,12 +55,8 @@ $(document).ready(function(){
 						<textarea placeholder="정보를 입력해 주세요"></textarea>
 					</div>
 					<div>
-						<label>가격</label>
-						<input type="text" placeholder="가격 (선택사항)">
-					</div>
-					<div>
 						<label>전화번호</label>
-						<input type="text" placeholder="전화번호 (선택사항)">
+						<input type="text" placeholder="전화번호를 입력해 주세요">
 					</div>
 					<button type="submit">완료</button>
 				</div>
