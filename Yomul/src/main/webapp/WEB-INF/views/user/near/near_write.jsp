@@ -6,13 +6,8 @@
 <meta charset="UTF-8">
 <title>내 근처</title>
 <link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
-<!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
 </head>
 <body>
-	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
-
 	<!--  BODY  -->
 	<div id="near_write" class="near-write">
 		<div class="near-write-content">
@@ -44,7 +39,7 @@
 							<td><label>가격</label><input type="text" placeholder="가격 (선택사항)"></td>
 						</tr>
 						<tr>
-							<td><label>전화번호</label><input type="text" placeholder="전화번호 (선택사항)"></td>
+							<td><label>전화번호</label><input type="text" placeholder="전화번호를 입력해주세요"></td>
 						</tr>
 						<tr>
 							<td><textarea placeholder="이웃들에게 홍보하고 싶은 내용을 입력해주세요"></textarea></td>
@@ -56,8 +51,5 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>
