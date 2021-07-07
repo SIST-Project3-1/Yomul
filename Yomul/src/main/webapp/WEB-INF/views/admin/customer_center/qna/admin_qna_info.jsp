@@ -8,19 +8,19 @@
 <!-- HEAD -->
 <jsp:include page="../../../head.jsp"></jsp:include>
 <style>
-	#admin_qna_write {
+	#admin_qna_info {
 		width: 750px;
 		margin: 50px auto;
 	}
 	
-	#admin_qna_write .textarea {
+	#admin_qna_info .textarea {
 		height: 200px;
 	}
 	
-	#admin_qna_write hr {
+	#admin_qna_info hr {
 		border-width: 1px 0 0 0;
 		border-color: lightgray;
-		margin: 25px 0;
+		margin: 0;
 	}
 </style>
 <script>
@@ -37,12 +37,12 @@
 	<jsp:include page="../../admin_header.jsp"></jsp:include>
 	
 	<!--  BODY  -->
-	<section id="admin_qna_write">
+	<section id="admin_qna_info">
 		<div>
 			<h4 class="d-inline-block font-weight-bold">제모옥~~~</h4>
-			<p class="font-weight-bold text-secondary">2021.07.02</p>
+			<p class="font-weight-bold  m-0 text-secondary">매너평가, 매너온도, 거래후기 관련 문의 2021.07.02</p>
 		</div>
-		<hr>
+		<hr class="my-2">
 		<div>
 			내요옹~~~<br>
 			내요옹~~~<br>
@@ -50,7 +50,7 @@
 			내요옹~~~<br>
 			내요옹~~~<br>
 		</div>
-		<hr>
+		<hr class="my-2">
 		
 		<!-- 아직 답변 없을 때 -->
 		<!-- 
@@ -79,7 +79,7 @@
 			</div>
 		</div>
 		
-		<hr>
+		<hr class="mt-2 mb-3">
 		<div class="text-center">
 			<button type="button" id="btn_list" class="btn btn-yomul d-inline-block px-3 font-weight-bold">목록으로 돌아가기</button>
 		</div>

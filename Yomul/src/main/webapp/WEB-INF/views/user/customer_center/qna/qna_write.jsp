@@ -41,7 +41,21 @@
 		<form class="container my-5 mx-0" action="#" method="post" enctype="multipart/form-data">
 			<div class="row mt-3">
 				<select name="category" class="form-control col-6 p-2 text-secondary">
-					<option value="">유형</option>
+					<option value="0">유형</option>
+					<option value="1">거래 환불/분쟁 및 사기 신고</option>
+					<option value="2">계정 문의</option>
+					<option value="3">판매 금지/거래 품목 문의</option>
+					<option value="4">매너평가, 매너온도, 거래후기 관련 문의</option>
+					<option value="5">게시글 노출, 미노출 문의</option>
+					<option value="6">채팅, 알림 문의</option>
+					<option value="7">앱 사용/거래 방법 문의</option>
+					<option value="8">동네 생활(커뮤니티) 문의</option>
+					<option value="9">지역 광고 문의</option>
+					<option value="10">비즈프로필(등록, 이용) 문의</option>
+					<option value="11">검색 문의</option>
+					<option value="12">기타 문의</option>
+					<option value="13">오류 제보</option>
+					<option value="14">개선/제안</option>
 				</select>
 			</div>
 			<div class="row mt-3">
