@@ -19,7 +19,7 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "kakao_login", method = RequestMethod.GET)
 	public String kakao_login() {
-		return "redirect:https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=" + APIKey.KAKAO_API_KEY + "&redirect_uri="
+		return "redirect:https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=" + APIKey.KAKAO_API_REST_KEY + "&redirect_uri="
 				+ APIKey.KAKAO_REDIRECT_URI;
 	}
 
