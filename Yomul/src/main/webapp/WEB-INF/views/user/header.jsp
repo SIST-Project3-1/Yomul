@@ -17,10 +17,12 @@
 		</ul>
 	</div>
 
-	<form class="form-inline ml-auto">
+	<!-- 통합 검색창 -->
+	<form name="total-search" class="form-inline ml-auto" action="total_search" method="GET">
 		<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 10; left: 23px;"> </label>
 		<div class="input-group flex-nowrap">
-			<input id="search_bar" class="form-control mr-sm-2 pl-4" type="search" name="total_search" placeholder="요물 통합검색" aria-label="Search">
+			<input id="search_bar" class="form-control mr-sm-2 pl-4" type="search" name="target" placeholder="요물 통합검색" aria-label="Search" value="${target!=null?target: ""}" required>
+			<button type="submit" class="d-none"></button>
 		</div>
 	</form>
 

@@ -15,3 +15,4 @@
 <link rel="stylesheet" href="/yomul/css/bootstrap.min.css">
 <link rel="stylesheet" href="/yomul/css/commons.css">
 <link rel="stylesheet" href="/yomul/css/bootstrap-icons/bootstrap-icons.css">
+<link rel="stylesheet" href="/yomul/css/near.css">
