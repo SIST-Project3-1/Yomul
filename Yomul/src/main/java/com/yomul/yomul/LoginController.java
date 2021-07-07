@@ -28,12 +28,27 @@ public class LoginController {
 		return mv;
 	}
 
+	/**
+	 * 패스워드 초기화 페이지
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "reset_password", method = RequestMethod.GET)
 	public ModelAndView reset_password() {
 		ModelAndView mv = new ModelAndView("user/login/reset_password");
 		return mv;
 	}
 
+	/**
+	 * 패스워드 초기화 처리
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "reset_password_proc", method = RequestMethod.GET)
+	public String reset_password_proc() {
+		return "";
+	}
 	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String login() {
 		return "user/login/login";
