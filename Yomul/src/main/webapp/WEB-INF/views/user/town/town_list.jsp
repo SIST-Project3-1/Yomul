@@ -47,7 +47,7 @@
 	display: inline;
 	color: black;
 	text-decoration: none;
-	border:2px solid white;
+	border: 2px solid white;
 }
 
 /*user_town_body 정렬 버튼 부분*/
@@ -154,9 +154,9 @@
 	width: 80%;
 	margin: auto;
 }
-div.town_info label{
-	border-left:2px solid lightgray;
-	
+
+div.town_info label {
+	border-left: 2px solid lightgray;
 }
 </style>
 
@@ -167,13 +167,13 @@ div.town_info label{
 <title>동네 생활</title>
 <jsp:include page="../../head.jsp"></jsp:include>
 <script>
-//태그 누르면 검색창에 뜨도록
- $(document).ready(function(){
-	$("#product").click(function(){
-		let productValue = $("#product").val();
-		$("#townSearch").val(productValue);
-	})
-});
+	//태그 누르면 검색창에 뜨도록
+	$(document).ready(function() {
+		$("#product").click(function() {
+			let productValue = $("#product").val();
+			$("#townSearch").val(productValue);
+		})
+	});
 </script>
 </head>
 <body>
@@ -201,7 +201,8 @@ div.town_info label{
 									<div class="col">
 										<input
 											class="form-control form-control-lg form-control-borderless"
-											type="search" placeholder="궁금한것을 찾아보세요" id="townSearch" name="townSearch">
+											type="search" placeholder="궁금한것을 찾아보세요" id="townSearch"
+											name="townSearch">
 									</div>
 
 									<div class="col-auto">
@@ -244,13 +245,14 @@ div.town_info label{
 						<div class="row">
 							<div class="col-sm-8">
 								<h1 class="description">제목</h1>
+								<span class="badge badge-pill badge-secondary">중고상품</span>
 								<div>
 									<a href="http://localhost:9000/yomul/town_info?no=">부엌 찐한
 										차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑
 										바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
 								</div>
 								<div class="town_info">
-									<label>해푸름</label><label>작성일자:2021-07-05</label><label
+									<label>닉네임</label><label>작성일자:2021-07-05</label><label
 										style="color: tomato">댓글:15</label><label>조회수:30</label>
 								</div>
 							</div>
@@ -265,13 +267,14 @@ div.town_info label{
 						<div class="row">
 							<div class="col-sm-8">
 								<h1 class="description">제목</h1>
+								<span class="badge badge-pill badge-secondary">중고상품</span>
 								<div>
 									<a href="http://localhost:9000/yomul/town_info">부엌 찐한
 										차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑
 										바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
 								</div>
 								<div class="town_info">
-									<label>해푸름</label><label>작성일자:2021-07-05</label><label
+									<label>닉네임</label><label>작성일자:2021-07-05</label><label
 										style="color: tomato">댓글:15</label><label>조회수:30</label>
 								</div>
 							</div>
@@ -286,13 +289,14 @@ div.town_info label{
 						<div class="row">
 							<div class="col-sm-8">
 								<h1 class="description">제목</h1>
+								<span class="badge badge-pill badge-secondary">중고상품</span>
 								<div>
 									<a href="http://localhost:9000/yomul/town_info">부엌 찐한
 										차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑
 										바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
 								</div>
 								<div class="town_info">
-									<label>해푸름</label><label>작성일자:2021-07-05</label><label
+									<label>닉네임</label><label>작성일자:2021-07-05</label><label
 										style="color: tomato">댓글:15</label><label>조회수:30</label>
 								</div>
 							</div>

@@ -26,10 +26,11 @@ div.user_town_write .head input {
 	border-radius: 10px;
 	text-align: left;
 }
-div.user_town_write .head .form-select{
-	padding:5px 20px;
-	border:2px solid lightgray;
-	border-radius:20px;
+
+div.user_town_write .head .form-select {
+	padding: 5px 20px;
+	border: 2px solid lightgray;
+	border-radius: 20px;
 }
 
 div.user_town_write .body textarea {
@@ -69,7 +70,17 @@ div.user_town_write div.town_write_btn .townWrite {
 	border: 2px solid white;
 }
 </style>
-
+<script>
+	function fileUpload(fis) {
+		var str = fis.value;
+		// 이미지를 변경한다.
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$('#profile_img_img').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(fis.files[0]);
+	}
+</script>
 </head>
 <body>
 	<!-- http://localhost:9000/yomul/town_update -->
@@ -93,11 +104,15 @@ div.user_town_write div.town_write_btn .townWrite {
 					</select> <input type="text" name="title" id="title" class="title"
 						placeholder="제목을 입력해주세요" required>
 					<div id="title_alert"></div>
-					<label class="input-file-button" for="input-file"> 사진업로드 </label> <input
-						type="file" id="input-file" style="display: none">
+						<label class="input-file-button" for="input-file"
+						style="white-space: nowrap;"> 사진 </label> <input type="file"
+						id="input-file" style="display: none" onchange="fileUpload(this)">
 				</div>
 				<div class="body">
 					<textarea name="content" id="content" class="content" placeholder="내용을 적어주세요" required></textarea>
+					<img id="profile_img_img" class="rounded-circle mb-3"
+						src="/yomul/image/이미지준비중.jpg"
+						style="width: 200px; height: 200px; display: block;">
 				</div>
 				<div class="town_write_btn">
 					<button type="submit" name="townWrite" id="townWrite"
