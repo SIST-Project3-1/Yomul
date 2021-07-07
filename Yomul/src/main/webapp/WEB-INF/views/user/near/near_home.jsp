@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>내 근처</title>
-<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -37,7 +36,7 @@
 
 		<!-- 내 근처 소식 -->
 		<div class="near-home-news">
-			<div class="near-home-news-title">
+			<div>
 				<h3>내 근처 소식</h3>
 				<a href="#">전체보기 ></a>
 			</div>
@@ -49,11 +48,13 @@
 							<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 						</td>
 						<td>
-							<div>
-								<h5>타이틀</h5>
+							<div class="near-home-news-title">
+								<h5><a href="near_info">타이틀</a></h5>
 								<p>내용</p>
-								<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
-								<label>작성자</label>
+								<div class="near-home-news-writer">
+									<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+									<label>작성자</label>
+								</div>
 							</div>
 						</td>
 					</tr>
@@ -86,10 +87,10 @@
 			<% } %>
 		</div>
 		
-		<!-- 비즈프로필 -->
+		<!-- 업체 프로필 -->
 		<div class="near-home-vendor">
 			<h3>사장님이신가요? 단골을 모아보세요!</h3>
-			<a href="vendor_signup.jsp">비즈프로필 만들기 ></a>
+			<a href="vendor_signup">업체 프로필 만들기 ></a>
 		</div>
 	</div>
 

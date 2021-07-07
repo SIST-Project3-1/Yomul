@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>프로필 보기</title>
-<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
