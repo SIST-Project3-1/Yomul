@@ -6,15 +6,10 @@
 <meta charset="UTF-8">
 <title>내 근처</title>
 <link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
-<!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
 </head>
 <body>
-	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
-
 	<!--  BODY  -->
-	<div id="near_write" class="near-write">
+	<div id="near_update" class="near-write">
 		<div class="near-write-content">
 			<!-- 선택한 사진 전체 미리보기 -->
 			<div class="near-write-preview">
@@ -32,7 +27,6 @@
 				</button>
 				<input type="file" id="file" style="display:none" >
 			</div>
-			
 			
 			<!-- 글 작성 -->
 			<div class="near-write-form" >
@@ -57,8 +51,5 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

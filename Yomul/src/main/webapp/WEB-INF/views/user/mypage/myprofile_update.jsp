@@ -34,7 +34,9 @@
 	<section id="myprofile_update" class="container col-md-6 mt-3 border p-3">
 		<div class="d-flex justify-content-between mb-3">
 			<h1 class="d-inline">프로필 수정</h1>
-			<a href="#" class="text-black-50 text-decoration-none" style="line-height: 56px;"><small>탈퇴하기</small></a>
+			<a href="/yomul/withdrawal" class="text-black-50 text-decoration-none" style="line-height: 56px;">
+				<small>탈퇴하기</small>
+			</a>
 		</div>
 		<form name="join_form">
 			<div class="form-group row">
@@ -80,7 +82,7 @@
 					<div class="input-group mb-3">
 						<div class="custom-file">
 							<input type="file" class="custom-file-input" id="profile_img" name="profile_img" aria-describedby="profile_img" onchange="fileUpload(this)">
-							<label class="custom-file-label" for="profile_img">Choose file</label>
+							<label class="custom-file-label" for="profile_img" data-browse="업로드">Choose file</label>
 						</div>
 					</div>
 					<img id="profile_img_img" class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 300px; height: 300px;">

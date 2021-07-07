@@ -56,24 +56,4 @@ public class NearController {
 		return "user/near/near_profile_form";
 	}
 	
-	//업체 등록
-	@RequestMapping(value="/vendor_signup", method=RequestMethod.GET)
-	public String vendor_signup() {
-		return "user/near/vendor_signup";
-	}
-	
-	//업체 프로필 보기
-	@RequestMapping(value="/vendor_profile", method=RequestMethod.GET)
-	public String vendor_profile() {
-		return "user/near/vendor_profile";
-	}
-	
-	//업체 프로필 수정
-	@RequestMapping(value="/vendor_profile_update", method=RequestMethod.GET)
-	public String vendor_profile_update() {
-		return "user/near/vendor_profile_update";
-	}
-	
-	
-	
 }

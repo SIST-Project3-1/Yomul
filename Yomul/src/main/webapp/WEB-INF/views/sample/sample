@@ -10,7 +10,7 @@
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 	
 	<!--  BODY  -->
 	<section id="sample">

@@ -1,4 +1,4 @@
-package com.yomul.commns;
+package com.yomul.util;
 
 public class Commons {
 
