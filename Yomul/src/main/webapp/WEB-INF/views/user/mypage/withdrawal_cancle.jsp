@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 탈퇴</title>
+<title>회원 탈퇴 취소</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -13,15 +13,15 @@
 	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
-	<section id="withdrawal" style="height: 75%; display: flex; align-items: center;">
+	<section id="withdrawal_cancle" style="height: 75%; display: flex; align-items: center;">
 		<div class="container mt-4 text-center" style="width: 800px;">
-			<h1 class="mb-3 text-center">
-				<strong>정말로 탈퇴하시겠습니까?</strong>
-			</h1>
-			<small class="text-yomul">탈퇴는 되돌릴 수 없습니다.</small>
+			<h2 class="mb-3 text-center">
+				<strong>회원 탈퇴 처리 중에는 사이트를 이용할 수 없습니다.</strong>
+				<strong>회원 탈퇴를 취소하시겠습니까?</strong>
+			</h2>
 			<div class="text-center mt-5 row">
 				<button type="button" class="btn btn-lg btn-yomul col-lg mr-lg-3">예</button>
-				<a href="javascript:window.history.back();" class="btn btn-lg btn-outline-yomul col-lg ml-lg-3">아니오</a>
+				<a href="logout" class="btn btn-lg btn-outline-yomul col-lg ml-lg-3">아니오</a>
 			</div>
 		</div>
 	</section>

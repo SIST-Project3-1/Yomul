@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class CustomerCenterController {
-
+	
 	// 고객센터 메인 FAQ
 	@RequestMapping(value = "customer_center", method = RequestMethod.GET)
 	public String customerCenter() {
@@ -37,6 +37,7 @@ public class CustomerCenterController {
 		return "user/customer_center/qna/qna_list";
 	}
 	
+	
 	// 문의 상세
 	@RequestMapping(value = "customer_qna/{no}", method = RequestMethod.GET)
 	public ModelAndView qnaInfo(@PathVariable("no") int no) {
@@ -51,5 +52,21 @@ public class CustomerCenterController {
 	@RequestMapping(value = "customer_qna/write", method = RequestMethod.GET)
 	public String qnaWrite() {
 		return "user/customer_center/qna/qna_write";
+	}
+	
+	// 관리자 임시 문의 목록
+	@RequestMapping(value = "admin/customer_qna", method = RequestMethod.GET)
+	public String adminQnaList() {
+		return "admin/customer_center/qna/admin_qna_list";
+	}
+	
+	// 관리자 임시 문의 상세
+	@RequestMapping(value = "admin/customer_qna/{no}", method = RequestMethod.GET)
+	public ModelAndView adminQnaInfo(@PathVariable("no") int no) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("admin/customer_center/qna/admin_qna_info");
+		mv.addObject("no", no);
+		
+		return mv;
 	}
 }

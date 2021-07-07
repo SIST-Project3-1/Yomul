@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- HEAD -->
+<jsp:include page="../../../head.jsp"></jsp:include>
 <style>
 	#qna_info {
 		width: 750px;
@@ -17,8 +19,14 @@
 		margin: 25px 0;
 	}
 </style>
-<!-- HEAD -->
-<jsp:include page="../../../head.jsp"></jsp:include>
+<script>
+	$(document).ready(function() {
+		// 목록 버튼 클릭
+		$("#btn_list").click(function() {
+			location.href = "../customer_qna";
+		});
+	});
+</script>
 </head>
 <body>
 	<!-- HEADER -->
@@ -52,7 +60,7 @@
 		</div>
 		<hr>
 		<div class="text-center">
-			<button class="btn btn-yomul d-inline-block px-3 font-weight-bold">목록으로 돌아가기</button>
+			<button type="button" id="btn_list" class="btn btn-yomul d-inline-block px-3 font-weight-bold">목록으로 돌아가기</button>
 		</div>
 	</section>
 	

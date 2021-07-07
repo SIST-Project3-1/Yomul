@@ -8,7 +8,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MyPageController {
 
-//	회원 탈퇴 페이지
+	@RequestMapping(value = "/withdrawal_cancle", method = RequestMethod.GET)
+	public ModelAndView withdrawal_cancle() {
+		ModelAndView mv = new ModelAndView("user/mypage/withdrawal_cancle");
+		return mv;
+	}
+
+	// 회원 탈퇴 페이지
 	@RequestMapping(value = "/withdrawal", method = RequestMethod.GET)
 	public ModelAndView withdrawal() {
 		ModelAndView mv = new ModelAndView("user/mypage/withdrawal");
