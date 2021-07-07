@@ -28,7 +28,47 @@
 	color: white;
 }
 
+.div-admin-msg {
+	width: 100%;
+	height: 27px;
+	text-align: center;
+	color: white;
+	background-color: teal;
+	font-weight: bold;
+	text-decoration: blink;
+	margin: auto;
+	line-height: 27px;
+}
+
 .badge-yomul {
 	background-color: rgb(255, 99, 95);
 	color: white;
+}
+
+.chat-you {
+	border-top-right-radius: 1.0rem;
+	border-bottom-right-radius: 1.0rem;
+	border-top-left-radius: 1.0rem;
+	max-width: 75%;
+	word-break: break-word !important;
+	word-wrap: break-word !important;
+	padding: 1rem !important;
+	display: inline-block !important;
+	border: 1px solid #dee2e6 !important;
+	background-color: #f8f9fa !important;
+}
+
+.chat-me {
+	border-top-right-radius: 1.0rem;
+	border-bottom-left-radius: 1.0rem;
+	border-top-left-radius: 1.0rem;
+	max-width: 75%;
+	word-break: break-word !important;
+	word-wrap: break-word !important;
+	color: #fff !important;
+	text-align: left !important;
+	padding: 1rem !important;
+	display: inline-block !important;
+	border: 1px solid #dee2e6 !important;
+	background-color: #17a2b8 !important;
 }
