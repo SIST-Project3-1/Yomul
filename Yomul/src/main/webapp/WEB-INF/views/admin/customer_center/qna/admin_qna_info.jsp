@@ -84,8 +84,5 @@
 			<button type="button" id="btn_list" class="btn btn-yomul d-inline-block px-3 font-weight-bold">목록으로 돌아가기</button>
 		</div>
 	</section>
-	
-	<!-- FOOTER -->
-	<jsp:include page="../../admin_footer.jsp"></jsp:include>
 </body>
 </html>

@@ -91,8 +91,5 @@
 			</li>
 		</ul>
 	</section>
-	
-	<!-- FOOTER -->
-	<jsp:include page="../../admin_footer.jsp"></jsp:include>
 </body>
 </html>
