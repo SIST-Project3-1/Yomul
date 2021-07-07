@@ -23,6 +23,36 @@ public class AdminController {
 		return "admin/customer_center/faq/admin_faq_update";
 	}
 
+	@RequestMapping(value = "admin_notice_list", method = RequestMethod.GET)
+	public String adminNoticeList() {
+		return "admin/customer_center/notice/admin_notice_list";
+	}
+
+	@RequestMapping(value = "admin_notice_info", method = RequestMethod.GET)
+	public String adminNoticeInfo() {
+		return "admin/customer_center/notice/admin_notice_info";
+	}
+
+	@RequestMapping(value = "admin_notice_update", method = RequestMethod.GET)
+	public String adminNoticeUpdate() {
+		return "admin/customer_center/notice/admin_notice_update";
+	}
+
+	@RequestMapping(value = "admin_notice_write", method = RequestMethod.GET)
+	public String adminNoticeWrite() {
+		return "admin/customer_center/notice/admin_notice_write";
+	}
+
+	@RequestMapping(value = "admin_qna_list", method = RequestMethod.GET)
+	public String adminQnaList() {
+		return "admin/customer_center/qna/admin_faq_list";
+	}
+
+	@RequestMapping(value = "admin_qna_write", method = RequestMethod.GET)
+	public String adminQnaWrite() {
+		return "admin/customer_center/qna/admin_faq_write";
+	}
+
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("/admin/member/admin_member_list");
