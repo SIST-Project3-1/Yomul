@@ -8,3 +8,4 @@
 *.class
 Yomul/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
 Yomul/target/m2e-wtp/web-resources/META-INF/maven/com.yomul/yomul/pom.properties
+Yomul/src/main/webapp/resources/js/config.js
