@@ -4,21 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>내 근처</title>
-<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
+<title>Insert title here</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
-
-	<!--  BODY  -->
-	<div id="" class="content">
+	<jsp:include page="../admin_header.jsp"></jsp:include>
 	
-	</div>
+	<!--  BODY  -->
+	<section id="sample">
+		전체 코드를 복사, 붙여넣기 한 다음 이 부분에 HTML 코드를 넣어주세요
+	</section>
+	
 
-	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

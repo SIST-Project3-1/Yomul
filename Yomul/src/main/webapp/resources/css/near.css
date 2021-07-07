@@ -9,7 +9,7 @@
 /*
 	near-home.jsp
 */
-.near_home-content {
+.near-home-content {
 	/*border:1px red solid;*/
 	width:70%;
 	margin:auto;
@@ -174,9 +174,26 @@
 	padding-top:20px;
 	text-align:center;
 }
-.near-write-img img{
+.near-write-img button{
 	width:90%; height:450px;
-	
+	border:1px lightgray dashed;
+	border-radius:10px;
+	display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.near-write-img svg{
+	color:gray;
+}
+.near-write-img span:nth-child(2){
+	color:gray;
+	font-weight:bold;
+	font-size:15px;
+}
+.near-write-img span:last-child{
+	color:gray;
+	font-size:13px;
 }
 .near-write-form {
 	/*border:1px red solid;*/
@@ -194,7 +211,6 @@
 }
 .near-write-form input{
 	border:none;
-	color:lightgray;
 }
 .near-write-form tr:first-child input,
 .near-write-form tr:nth-child(2) input{
@@ -213,12 +229,11 @@
 	width:100%; 
 	height:300px; 
 	resize: none;
-	color:lightgray;
 	padding:7px 0 0 5px;
 }
 .near-write-form button{
 	border:1px rgb(255, 99, 95) solid;
-	background-color: rgb(255, 99, 95);
+	background-color:rgb(255, 99, 95);
 	border-radius:10px;
 	color:white;
 	float:right;
@@ -227,13 +242,311 @@
 }
 
 /*
-	near_write_property.jsp
+	near_info.jsp
 */
-.near_write_property-content {
+.near-info-content {
+	/*border:1px red solid;*/
+	width:80%;
+	margin:auto;
+	padding-top:30px;
+	display:flex;
+    flex-direction:row;
+}
+.near-info-left {
+	/*border:1px red solid;*/
+    width:75%;
+    display:inline-block;
+    margin:auto;
+}
+.near-info-left-title, .near-info-left-content, .near-info-chat {
+	padding-left:15px;
+}
+.near-info-left-title h6{
+	color:rgb(255, 99, 95);
+}
+.near-info-left-img{
+	display: flex;
+    justify-content: center;
+    margin:40px;
+}
+.near-info-left-img img{
+    width:500px; height:500px;
+    border-radius:10px;
+}
+.near-info-left-content div{
+	margin-top: 20px;
+}
+.near-info-left-content label{
+	color:gray;
+    font-size:13px;
+}
+.near-info-point {
+	margin:0 3px;
+}
+.near-info-report {
+	border:none;
+    background:transparent;
+    color:lightgray;
+    font-size:13px;
+    padding:unset;
+}
+.near-info-report:hover {
+	text-decoration: underline;
+}
+.near-info-line {
+	border:1px rgb(240, 244, 245) solid;
+	margin:40px 0;
+}
+.near-info-chat {
+	/*border:1px red solid;*/
+	display: flex;
+	flex-direction:column;
+}
+.near-info-chat-title, .near-info-chat-writer, .near-info-chat-content{
+	display: flex;
+	flex-direction:row;
+	align-items:stretch;
+}
+.near-info-chat-title h3:last-child{
+	color:rgb(255, 99, 95);
+	margin-left:7px;
+}
+.near-info-chat-writer {
+	margin:10px 0 30px 10px;
+}
+.near-info-chat img{
+	margin-right:10px;
+ 	width:35px; height:35px;
+ 	border-radius:30px;
+}
+.near-info-chat-writer >div:nth-child(2){
+	border:1px lightgray solid;
+	border-radius:5px;
+	width:90%;
+	display: flex;
+	flex-direction:row;
+}
+.near-info-chat-writer input{
+	width:90%;
+	border:none;
+}
+.near-info-chat-button {
+	width:13%;
+	display: flex;
+    width: 10%;
+    align-items: center;
+    flex-direction: row;
+}
+.near-info-chat-button button{
+	color:rgb(255, 99, 95);
+	border:none;
+    background:transparent;
+    font-size:14px;
+    padding:unset;
+}
+.near-info-chat-button button:last-child{
+	margin:10px;
+}
+.near-info-chat-content {
+	margin:0 0 20px 10px;
+	display: flex;
+	flex-direction:column;
+}
+.near-info-chat-content span{
+	margin:0;
+	line-height:180%;
+}
+.near-info-chat-content >div{
+	width:95%;
+	display: flex;
+	flex-direction:row;
+}
+.near-info-chat-content >div >div:nth-child(2){
+	margin-left:3px;
+	margin-bottom:20px;
+}
+.near-info-chat-content >div >div div:first-child label{
+	font-weight:bold;
+	margin-right:10px;
+	margin-bottom:0;
+}
+.near-info-chat-content >div >div div:last-child label{
+	color:lightgray;
+}
+.near-info-chat-content >div >div div:last-child label:first-child{
+	color:gray;
+	font-size:14px;
+}
+.near-info-chat-content >div >div div:last-child button{
+	border:none;
+    background:transparent;
+    color:gray;
+    font-size:14px;
+    font-weight:bold;
+    padding:unset;
+}
+.near-info-chat-content >div >div div:last-child button:hover {
+	text-decoration: underline;
+}
+.near-info-chat-content >div >div div:last-child button:last-child{
+    color:lightgray;
+    font-weight:normal;
+}
+.near-info-page {
+	text-align:center;
+}
+.near-info-right {
+	/*border:1px red solid;*/
+    width:25%;
+    padding-top:40px;
+	display:flex;
+    flex-direction:column;
+}
+.near-info-right div img{
+	/*border:1px red solid;*/
+	float:left;
+	margin-right:10px;
+ 	width:35px; height:35px;
+ 	border-radius:30px;
+}
+.near-info-right-writer label{
+	/*border:1px red solid;*/
+ 	height:35px;
+ 	line-height:35px;
+}
+.near-info-right-writer button{
+	float:right;
+	height:30px;
+    width:30%;
+    border:none;
+    background-color:rgb(240, 244, 245);
+    border-radius:5px;
+    color:gray;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size:13px;
+}
+.near-info-right-writer button:hover{
+    background-color:rgb(255, 99, 95);
+    color:white;
+}
+.near-info-right-writer button p:first-child{
+	margin-right:5px;
+	font-size:20px;
+	font-weight:250;
+	padding-top:13px;
+}
+.near-info-right-writer button p:last-child{
+	margin-left:5px;
+	font-size:13px;
+	padding-top:17px;
+}
+.near-info-right-price label{
+	margin:20px 0;
+	font-weight:bold;
+}
+.near-info-right-price label:last-child{
+	float:right;
+	font-size:20px;
+}
+.near-info-inquiry {
+	/*border:1px red solid;*/
+ 	height:40px;
+    width:100%;
+    border:1px rgb(255, 99, 95) solid;
+    background-color:rgb(255, 99, 95);
+    border-radius:5px;
+    color:white;
+}
+
+/*
+	vendor_signup.jsp
+*/
+.vendor-signup-content {
+	border:1px red solid;
+	width:40%;
+	margin:auto;
+}
+.vendor-signup-form {
+	display:flex;
+	flex-direction:column;
+}
+.vendor-signup-img {
+	display:flex;
+    justify-content:center;
+}
+.vendor-signup-img >button{
+	height:150px; width:150px;
+	border:1px lightgray dashed;
+	border-radius:100px;
+	display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    margin:30px 0;
+}
+.vendor-signup-img svg, .vendor-signup-img span{
+	color:gray;
+}
+.vendor-signup-write div,
+.vendor-signup-write button{
+	display:flex;
+	flex-direction:column;
+	margin-bottom:25px;
+}
+.vendor-signup-write label{
+	font-weight:bold;
+}
+.vendor-signup-write textarea{
+	height:100px;
+}
+.vendor-signup-write p{
+	font-size:13px;
+	color:gray;
+	margin-top:10px;
+	margin-bottom:0;
+}
+.vendor-signup-category {
+	height:30px;
+}
+.vendor-signup-category {
+	color:gray;
+}
+.vendor-signup-category option{
+	color:black;
+}
+.vendor-signup-write button{
+	border:1px rgb(255, 99, 95) solid;
+	background-color:rgb(255, 99, 95);
+	border-radius:5px;
+	color:white;
+	width:100%;
+	align-items: center;
+	justify-content:center;
+	margin-top:40px;
+	height:35px;
+	font-size:17px;
+}
+
+/*
+	vendor_profile.jsp
+*/
+.vendor-profile-content {
 	border:1px red solid;
 	width:70%;
 	margin:auto;
 }
+
+
+
+
+
+
+
+
+
 
 
 

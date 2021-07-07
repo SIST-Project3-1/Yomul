@@ -20,22 +20,16 @@ public class NearController {
 		return mv;
 	}
 	
-	//내 근처 글 쓰기
+	//내 근처 글 쓰기 (동네구인구직, 과외/클래스, 농수산물, 중고차)
 	@RequestMapping(value="/near_write", method=RequestMethod.GET)
 	public String near_write() {
 		return "user/near/near_write";
 	}
 	
-	//내 근처 글 수정
+	//내 근처 글 수정 (동네구인구직, 과외/클래스, 농수산물, 중고차)
 	@RequestMapping(value="/near_update", method=RequestMethod.GET)
 	public String near_update() {
 		return "user/near/near_update";
-	}
-	
-	//내 근처 글 목록
-	@RequestMapping(value="/near_list", method=RequestMethod.GET)
-	public String near_list() {
-		return "user/near/near_list";
 	}
 	
 	//내 근처 글 상세보기
@@ -44,10 +38,42 @@ public class NearController {
 		return "user/near/near_info";
 	}
 	
-	//내 근처 업체등록
+	//카테고리 폼 - 뉴스
+	@RequestMapping(value="/near_news_form", method=RequestMethod.GET)
+	public String near_news_form() {
+		return "user/near/near_news_form";
+	}
+	
+	//카테고리 폼 - 카드
+	@RequestMapping(value="/near_card_form", method=RequestMethod.GET)
+	public String near_card_form() {
+		return "user/near/near_card_form";
+	}
+	
+	//카테고리 폼 - 프로필
+	@RequestMapping(value="/near_profile_form", method=RequestMethod.GET)
+	public String near_profile_form() {
+		return "user/near/near_profile_form";
+	}
+	
+	//업체 등록
 	@RequestMapping(value="/vendor_signup", method=RequestMethod.GET)
 	public String vendor_signup() {
 		return "user/near/vendor_signup";
 	}
+	
+	//업체 프로필 보기
+	@RequestMapping(value="/vendor_profile", method=RequestMethod.GET)
+	public String vendor_profile() {
+		return "user/near/vendor_profile";
+	}
+	
+	//업체 프로필 수정
+	@RequestMapping(value="/vendor_profile_update", method=RequestMethod.GET)
+	public String vendor_profile_update() {
+		return "user/near/vendor_profile_update";
+	}
+	
+	
 	
 }
