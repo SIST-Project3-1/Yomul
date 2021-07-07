@@ -14,7 +14,7 @@
 
 	<!--  BODY  -->
 	<section id="withdrawal" style="height: 75%; display: flex; align-items: center;">
-		<div class="container mt-4 text-center" style="width: 500px;">
+		<div class="container mt-4 text-center" style="width: 800px;">
 			<h1 class="mb-3 text-center">
 				<strong>정말로 탈퇴하시겠습니까?</strong>
 			</h1>
