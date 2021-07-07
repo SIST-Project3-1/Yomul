@@ -61,7 +61,7 @@ public class LoginController {
 	@ResponseBody
 	@RequestMapping(value = "reset_password_proc", method = RequestMethod.GET)
 	public String reset_password_proc() {
-		return "";
+		return "0";
 	}
 
 	/**
