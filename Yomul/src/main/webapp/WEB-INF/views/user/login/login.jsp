@@ -25,9 +25,15 @@
 				</div>
 				<button class="btn btn-block btn-yomul" type="submit">로그인</button>
 				<div class="text-center mt-3">
-					<a class="text-decoration-none text-body mr-3" href="/yomul/reset_password">비밀번호 재설정</a> <a class="text-decoration-none text-body" href="/yomul/join">회원가입</a>
+					<a class="text-decoration-none text-body mr-3" href="/yomul/reset_password">비밀번호 재설정</a>
+					<a class="text-decoration-none text-body" href="/yomul/join">회원가입</a>
 				</div>
 			</form>
+			<div class="text-center mt-5">
+				<a href="/yomul/kakao_login">
+					<img src="/yomul/image/kakao_login_medium.png">
+				</a>
+			</div>
 		</div>
 	</div>
 
