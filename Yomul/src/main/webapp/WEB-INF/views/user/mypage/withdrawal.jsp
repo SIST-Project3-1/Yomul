@@ -20,8 +20,8 @@
 			</h1>
 			<small class="text-yomul">탈퇴는 되돌릴 수 없습니다.</small>
 			<div class="text-center mt-5 row">
-				<button type="button" class="btn btn-lg btn-yomul col-lg mr-3">예</button>
-				<a href="javascript:window.history.back();" class="btn btn-lg btn-outline-yomul col-lg">아니오</a>
+				<button type="button" class="btn btn-lg btn-yomul col-lg mr-lg-3">예</button>
+				<a href="javascript:window.history.back();" class="btn btn-lg btn-outline-yomul col-lg ml-lg-3">아니오</a>
 			</div>
 		</div>
 	</section>
