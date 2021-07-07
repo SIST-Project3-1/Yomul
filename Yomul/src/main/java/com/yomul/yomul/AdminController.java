@@ -45,12 +45,47 @@ public class AdminController {
 
 	@RequestMapping(value = "admin_qna_list", method = RequestMethod.GET)
 	public String adminQnaList() {
-		return "admin/customer_center/qna/admin_faq_list";
+		return "admin/customer_center/qna/admin_qna_list";
 	}
 
-	@RequestMapping(value = "admin_qna_write", method = RequestMethod.GET)
-	public String adminQnaWrite() {
-		return "admin/customer_center/qna/admin_faq_write";
+	@RequestMapping(value = "admin_qna_info", method = RequestMethod.GET)
+	public String adminQnaInfo() {
+		return "admin/customer_center/qna/admin_qna_info";
+	}
+
+	@RequestMapping(value = "admin_member_list", method = RequestMethod.GET)
+	public String adminMemberList() {
+		return "admin/member/admin_member_list";
+	}
+
+	@RequestMapping(value = "admin_near_home", method = RequestMethod.GET)
+	public String adminNearHome() {
+		return "admin/near/admin_near_home";
+	}
+
+	@RequestMapping(value = "admin_near_info", method = RequestMethod.GET)
+	public String adminNearInfo() {
+		return "admin/near/admin_near_info";
+	}
+
+	@RequestMapping(value = "admin_product_list", method = RequestMethod.GET)
+	public String adminProductList() {
+		return "admin/product/admin_product_list";
+	}
+
+	@RequestMapping(value = "admin_product_info", method = RequestMethod.GET)
+	public String adminProductInfo() {
+		return "admin/product/admin_product_info";
+	}
+
+	@RequestMapping(value = "admin_town_list", method = RequestMethod.GET)
+	public String adminTownList() {
+		return "admin/town/admin_town_list";
+	}
+
+	@RequestMapping(value = "admin_town_info", method = RequestMethod.GET)
+	public String adminTownInfo() {
+		return "admin/town/admin_town_info";
 	}
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
