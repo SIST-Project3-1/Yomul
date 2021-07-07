@@ -5,22 +5,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yomul.secret.Secret;
+import com.yomul.api.APIKey;
+import com.yomul.api.kakao.KakaoLoginAPI;
 
 @Controller
 public class LoginController {
 
 	@RequestMapping(value = "kakao_login", method = RequestMethod.GET)
-	public ModelAndView kakao_login() {
-		ModelAndView mv = new ModelAndView("redirect:https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=" + Secret.KAKAO_API_KEY
-				+ "&redirect_uri=http://localhost:9000/yomul/kakao_login_proc");
-		return mv;
+	public String kakao_login() {
+		return "redirect:https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=" + APIKey.KAKAO_API_KEY + "&redirect_uri="
+				+ APIKey.KAKAO_REDIRECT_URI;
 	}
 
 	@RequestMapping(value = "kakao_login_proc", method = RequestMethod.GET)
-	public ModelAndView kakao_login_proc(String code) {
+	public ModelAndView kakao_login_proc_get_token(String code, String error, String error_description) {
+//		System.out.println("카카오 로그인 코드: " + code);
 		ModelAndView mv = new ModelAndView("redirect:/");
-		System.out.println(code);
+		KakaoLoginAPI kakao = new KakaoLoginAPI();
+		// 로그인 토큰으로 세션 처리 해야함
+		String access_token = kakao.getAccessToken(code);
+//		System.out.println("카카오 로그인 토큰: " + access_token);
 		return mv;
 	}
 
