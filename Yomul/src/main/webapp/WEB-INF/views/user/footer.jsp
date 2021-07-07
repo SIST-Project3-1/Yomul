@@ -17,9 +17,11 @@
 				<h5>고객센터 바로가기</h5>
 			</a>
 		</div>
-		<a href="https://github.com/Hwisaek/Yomul" class="text-muted">
-			<h4 class="bi bi-github d-inline"></h4>
-		</a>
+		<div class="d-flex">
+			<a href="https://github.com/Hwisaek/Yomul" class="text-muted">
+				<h4 class="bi bi-github d-inline"></h4>
+			</a>
+		</div>
 		<small class="d-flex">프로젝트명: 요거 물건이네!</small>
 		<small class="d-flex">프로젝트 기간: 21.06.28 ~ 21.07.28</small>
 		<small class="d-flex">개발자: 홍준수, 강진슬, 박준성, 이다빈, 이창민, 주동성</small>
