@@ -56,9 +56,8 @@ div.admin_faq_write div.faq_write_btn {
 	margin-left: 300px;
 }
 
-div.admin_faq_write div.faq_write_btn .fqaWrite {
+div.admin_faq_write div.faq_write_btn #fqaUpdate {
 	padding: 25px 80px;
-	background-color: rgb(255, 99, 95);
 	color: white;
 	border-radius: 20px;
 	border: 2px solid white;
@@ -78,7 +77,7 @@ div.admin_faq_write div.faq_write_btn .fqaWrite {
 				<div class="head">
 					<h1>FAQ 글 수정하기</h1>
 					<h4>
-						게시할 FAQ 글을 써주세요
+						게시할 FAQ 글을 수정해주세요
 					</h4>
 					<hr>
 					<select class="form-select" aria-label="Default select example">
@@ -96,7 +95,7 @@ div.admin_faq_write div.faq_write_btn .fqaWrite {
 				</div>
 				<div class="faq_write_btn">
 					<button type="submit" name="fqaUpdate" id="fqaUpdate"
-						class="fqaUpdate">저장하기</button>
+						class="btn-yomul">저장하기</button>
 				</div>
 			</div>
 		</form>
