@@ -31,7 +31,7 @@
 <script>
 	$(document).ready(function() {
 		$("li").click(function() {
-			location.href = "customer_qna/" + $(this).attr("no");
+			location.href = "admin_qna/" + $(this).attr("no");
 		})
 	});
 </script>

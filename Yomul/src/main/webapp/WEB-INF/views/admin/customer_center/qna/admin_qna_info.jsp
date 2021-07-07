@@ -27,7 +27,7 @@
 	$(document).ready(function() {
 		// 목록 버튼 클릭
 		$("#btn_list").click(function() {
-			location.href = "../customer_qna";
+			location.href = "admin_qna_list";
 		});
 	});
 </script>
