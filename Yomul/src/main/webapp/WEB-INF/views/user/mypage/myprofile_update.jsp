@@ -82,7 +82,7 @@
 					<div class="input-group mb-3">
 						<div class="custom-file">
 							<input type="file" class="custom-file-input" id="profile_img" name="profile_img" aria-describedby="profile_img" onchange="fileUpload(this)">
-							<label class="custom-file-label" for="profile_img">Choose file</label>
+							<label class="custom-file-label" for="profile_img" data-browse="업로드">Choose file</label>
 						</div>
 					</div>
 					<img id="profile_img_img" class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 300px; height: 300px;">

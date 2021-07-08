@@ -10,7 +10,7 @@
 	}
 	
 </style>
-<footer class="text-muted text-center">
+<footer class="text-muted text-center mt-5">
 	<section class="footer-content container d-inline-block p-4 w-100">
 		<div class="text-center mb-3">
 			<a href="/yomul/customer_center/" class="text-muted">
@@ -24,6 +24,6 @@
 		</div>
 		<small class="d-flex">프로젝트명: 요거 물건이네!</small>
 		<small class="d-flex">프로젝트 기간: 21.06.28 ~ 21.07.28</small>
-		<small class="d-flex">개발자: 홍준수, 강진슬, 박준성, 이다빈, 이창민, 주동성</small>
+		<small class="d-flex">개발자: 홍준수, 강진슬, 박준성, 오다빈, 이창민, 주동성</small>
 	</section>
 </footer>
