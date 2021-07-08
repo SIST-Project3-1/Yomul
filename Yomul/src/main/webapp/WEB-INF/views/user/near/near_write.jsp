@@ -4,48 +4,77 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>내 근처 - 글 쓰기</title>
+<title>내 근처</title>
+<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+	$('#category').change(function(){
+		$('#category').css('color','black');
+	});
+});
+</script>
+<!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
-<body id="near_write">
+<body>
+	<!-- HEADER -->
 	<jsp:include page="../header.jsp"></jsp:include>
 	
-	<!-- 선택한 사진 전체 미리보기 -->
-	<div>
-
+	<!--  BODY  -->
+	<div id="near_write" class="near-write">
+		<div class="near-write-content">
+			<!-- 선택한 사진 전체 미리보기 -->
+			<div class="near-write-preview">
+		
+			</div>
+			
+			<!-- 사진 -->
+			<div class="near-write-img">
+				<button type="button" onclick="document.getElementById('file').click();">
+					<svg  class="" width="48" height="48" viewBox="0 0 48 48" fill="currentColor" preserveAspectRatio="xMidYMid meet">
+					<path d="M11.952 9.778l2.397-5.994A1.778 1.778 0 0 1 16 2.667h16c.727 0 1.38.442 1.65 1.117l2.398 5.994h10.174c.982 0 1.778.796 1.778 1.778v32c0 .981-.796 1.777-1.778 1.777H1.778A1.778 1.778 0 0 1 0 43.556v-32c0-.982.796-1.778 1.778-1.778h10.174zM24 38c6.075 0 11-4.925 11-11s-4.925-11-11-11-11 4.925-11 11 4.925 11 11 11z"></path>
+					</svg>
+					<span class="">사진 올리기</span>
+					<span class="">(*최대 10장까지)</span>
+				</button>
+				<input type="file" id="file" style="display:none" >
+			</div>
+			
+			<!-- 글 작성 -->
+			<div class="near-write-form" >
+				<form name="near_write" action="#" method="post">
+					<div>
+						<label>제목</label>
+						<input type="text" placeholder="제목을 입력해 주세요" required>
+					</div>
+					<div>
+						<label>카테고리</label>
+						<select name="category" id="category" class="near-write-category" required>
+							<option value="" disabled selected hidden>카테고리를 설정해 주세요</option>
+							<option value="동네구인구직">동네구인구직</option>
+							<option value="과외/클래스">과외/클래스</option>
+							<option value="농수산물">농수산물</option>
+							<option value="중고차">중고차</option>
+						</select>
+					</div>
+					<div>
+						<label>가격</label>
+						<input type="text" placeholder="가격 (선택사항)">
+					</div>
+					<div>
+						<label>전화번호</label>
+						<input type="text" placeholder="전화번호 (선택사항)">
+					</div>
+					<div>
+						<textarea placeholder="이웃들에게 홍보하고 싶은 내용을 입력해주세요" required></textarea>
+					</div>
+					<input type="checkbox" class="near-write-checkbox">  채팅 안 받기
+					<button type="submit">완료</button>
+				</form>
+			</div>
+		</div>
 	</div>
-	
-	<!-- 사진 -->
-	<div>
-
-	</div>
-	
-	<!-- 글 작성 -->
-	<div>
-		<form name="near_write" action="" method="post" >
-			<table>
-				<tr>
-					<td><label>제목</label><input type="text"></td>
-				</tr>
-				<tr>
-					<td><label>가격</label><input type="text"></td>
-				</tr>
-				<tr>
-					<td><label>전화번호</label><input type="text"></td>
-				</tr>
-				<tr>
-					<td><textarea name="bcontent"></textarea></td>
-				</tr>
-				<tr>
-					<td><input type="checkbox">채팅 안 받기</td>
-				</tr>
-				<tr>
-					<td><button type="button"n>완료</button></td>
-				</tr>
-			</table>
-		</form>
-	</div>
-	
+	<!-- FOOTER -->
 	<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

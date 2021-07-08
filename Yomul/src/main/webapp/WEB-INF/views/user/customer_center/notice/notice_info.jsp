@@ -4,25 +4,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항 상세</title>
+<jsp:include page="../../../head.jsp"></jsp:include>
 <style>
-	#notice_info .content {
+	#notice_info {
 		width: 750px;
 		margin: 50px auto;
-	}
-	
-	#notice_info .notice_title {
-	}
-	
-	#notice_info h4 {
-	}
-	
-	#notice_info p {
-		color: gray;
-	}
-	
-	#notice_info .notice_content {
-		margin: 50px 0;
 	}
 	
 	#notice_info hr {
@@ -30,23 +17,26 @@
 		border-color: lightgray;
 		margin: 25px 0;
 	}
-	
-	#notice_info .btn_back {
-		display: inline-block;
-	}
 </style>
-<jsp:include page="../../../head.jsp"></jsp:include>
+<script>
+	$(document).ready(function() {
+		// 목록 버튼 클릭
+		$("#btn_list").click(function() {
+			location.href = "../customer_notices";
+		});
+	});
+</script>
 </head>
 <body>
 	<jsp:include page="../../header.jsp"></jsp:include>
 	
-	<div id="notice_info" class="content">
-		<div class="notice_title">
+	<section id="notice_info">
+		<div>
 			<h4 class="font-weight-bold">제모옥~~~</h4>
-			<p class="font-weight-bold">2021.07.02</p>
+			<p class="font-weight-bold text-secondary">2021.07.02</p>
 		</div>
 		<hr>
-		<div class="notice_content">
+		<div class="my-5 mx-0">
 			내요옹~~~<br>
 			내요옹~~~<br>
 			내요옹~~~<br>
@@ -55,9 +45,9 @@
 		</div>
 		<hr>
 		<div class="text-center">
-			<button class="btn btn-yomul btn_back font-weight-bold">목록으로 돌아가기</button>
+			<button type="button" id="btn_list" class="btn btn-yomul d-inline-block font-weight-bold">목록으로 돌아가기</button>
 		</div>
-	</div>
+	</section>
 	
 	<jsp:include page="../../footer.jsp"></jsp:include>
 </body>

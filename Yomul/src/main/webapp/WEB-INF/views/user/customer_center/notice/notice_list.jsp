@@ -4,50 +4,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항 목록</title>
 <style>
-	#notice_list h2 {
-		margin: 50px 0;
-	}
-
-	#notice_list .content {
+	#notice_list {
 		width: 750px;
 		margin: 0 auto;
 	}
 	
 	#notice_list .list {
 		list-style-type: none;
-		padding: 0;
-	}
-	
-	#notice_list li {
-		padding: 0;
-		margin: 0;
-		cursor: pointer;
 	}
 	
 	#notice_list li:hover {
 		opacity: 0.5;
-	}
-	
-	#notice_list a {
-		text-decoration: none;
-		margin:0;
-	}
-	
-	#notice_list p {
-		text-align: left;
-		display: block;
-		padding: 0;
-		margin: 0;
-	}
-	
-	#notice_list .notice_title {
-		color: black;
-	}
-	
-	#notice_list .notice_date {
-		color: gray;
 	}
 	
 	#notice_list hr {
@@ -61,32 +30,32 @@
 <body>
 	<jsp:include page="../../header.jsp"></jsp:include>
 	
-	<div id="notice_list" class="content">
-		<h2>공지사항</h2>
-		<ul class="list">
-			<li>
-				<a class="notice_link" href="customer_notices/1">
-					<p class="notice_title">제목~~~~</p>
-					<p class="notice_date">2021.07.02</p>
+	<section id="notice_list">
+		<h2 class="my-5 mx-0">공지사항</h2>
+		<ul class="list p-0">
+			<li class="p-0 m-0">
+				<a class="m-0 text-decoration-none" href="customer_notices/1">
+					<p class="p-0 m-0 text-body">제목~~~~</p>
+					<p class="text-secondary">2021.07.02</p>
 					<hr>
 				</a>
 			</li>
-			<li>
-				<a class="notice_link" href="customer_notices/1">
-					<p class="notice_title">제목~~~~</p>
-					<p class="notice_date">2021.07.02</p>
+			<li class="p-0 m-0">
+				<a class="m-0 text-decoration-none" href="customer_notices/1">
+					<p class="p-0 m-0 text-body">제목~~~~</p>
+					<p class="text-secondary">2021.07.02</p>
 					<hr>
 				</a>
 			</li>
-			<li>
-				<a class="notice_link" href="customer_notices/1">
-					<p class="notice_title">제목~~~~</p>
-					<p class="notice_date">2021.07.02</p>
+			<li class="p-0 m-0">
+				<a class="m-0 text-decoration-none" href="customer_notices/1">
+					<p class="p-0 m-0 text-body">제목~~~~</p>
+					<p class="text-secondary">2021.07.02</p>
 					<hr>
 				</a>
 			</li>
 		</ul>
-	</div>
+	</section>
 	
 	<jsp:include page="../../footer.jsp"></jsp:include>
 </body>
