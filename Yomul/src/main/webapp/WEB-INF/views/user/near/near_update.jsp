@@ -5,9 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>내 근처</title>
-<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
+<!-- HEAD -->
+<jsp:include page="../../head.jsp"></jsp:include>
 </head>
 <body>
+	<!-- HEADER -->
+	<jsp:include page="../header.jsp"></jsp:include>
+	
 	<!--  BODY  -->
 	<div id="near_update" class="near-write">
 		<div class="near-write-content">
@@ -51,5 +55,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- FOOTER -->
+	<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

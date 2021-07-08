@@ -5,9 +5,21 @@
 <head>
 <meta charset="UTF-8">
 <title>내 근처</title>
-<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
+<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+	$('#category').change(function(){
+		$('#category').css('color','black');
+	});
+});
+</script>
+<!-- HEAD -->
+<jsp:include page="../../head.jsp"></jsp:include>
 </head>
 <body>
+	<!-- HEADER -->
+	<jsp:include page="../header.jsp"></jsp:include>
+	
 	<!--  BODY  -->
 	<div id="near_write" class="near-write">
 		<div class="near-write-content">
@@ -36,10 +48,22 @@
 							<td><label>제목</label><input type="text" placeholder="제목을 입력해 주세요"></td>
 						</tr>
 						<tr>
+							<td>
+								<label>카테고리</label>
+								<select name="category" id="category" class="near-write-category">
+									<option value="" disabled selected hidden>카테고리를 설정해 주세요</option>
+									<option value="동네구인구직">동네구인구직</option>
+									<option value="과외/클래스">과외/클래스</option>
+									<option value="농수산물">농수산물</option>
+									<option value="중고차">중고차</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
 							<td><label>가격</label><input type="text" placeholder="가격 (선택사항)"></td>
 						</tr>
 						<tr>
-							<td><label>전화번호</label><input type="text" placeholder="전화번호를 입력해주세요"></td>
+							<td><label>전화번호</label><input type="text" placeholder="전화번호 (선택사항)"></td>
 						</tr>
 						<tr>
 							<td><textarea placeholder="이웃들에게 홍보하고 싶은 내용을 입력해주세요"></textarea></td>
@@ -51,5 +75,7 @@
 			</div>
 		</div>
 	</div>
+	<!-- FOOTER -->
+	<jsp:include page="../footer.jsp"></jsp:include>
 </body>
 </html>

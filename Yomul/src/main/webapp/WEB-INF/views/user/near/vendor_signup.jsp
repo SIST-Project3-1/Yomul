@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>업체 등록</title>
-<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
 <script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function(){

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>내 근처</title>
+<title>후기</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -15,26 +15,23 @@
 	<!--  BODY  -->
 	<div id="near_info" class="near-info-content">
 		<div class="near-info-left">
-			<!--  타이틀  -->
-			<div class="near-info-left-title">
-				<h6>카테고리</h6>
-				<h3>타이틀</h3>
-			</div>
-			
-			<!--  이미지  -->
-			<div class="near-info-left-img">
-				<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+			<!--  작성자 정보  -->
+			<div class="reviews-info-writer">
+				<div class="">
+					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+					<label>단골 닉네임</label>
+				</div>
 			</div>
 			
 			<!--  내용  -->
 			<div class="near-info-left-content">
 				<p>
-					내용입니다<br>
-					내용입니다내용입니다내용입니다내용입니다내용입니다<br>
-					내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다
-					내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다<br>
-					내용입니다내용입니다내용입니다내용입니다<br>
-					내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다<br>
+					요거 물건이네 이용해 봤는데 친절하고 너무 좋아요.<br>
+					사장님이 젊으셔서 그런지 인테리어도 예쁘더라구요 *^^*<br>
+					후기입니다후기입니다후기입니다후기입니다후기입니다<br>
+					후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다<br>
+					후기입니다후기입니다후기입니다<br>
+					후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다<br>
 				</p>
 				<div>
 					<label>2021년 07월 05일 23:22</label>
@@ -97,19 +94,6 @@
 			</div>
 		</div>
 		
-		<!--  작성자 정보  -->
-		<div class="near-info-right">
-			<div class="near-info-right-writer">
-				<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
-				<label>작성자</label>
-				<button type="button"><p>+</p>단골<p>22</p></button>
-			</div>
-			<div class="near-info-right-price">
-				<label>가격</label>
-				<label>22,000원</label>
-			</div>
-			<a href="/yomul/chat" class="near-info-inquiry">채팅문의</a>
-		</div>
 	</div>
 
 	<!-- FOOTER -->

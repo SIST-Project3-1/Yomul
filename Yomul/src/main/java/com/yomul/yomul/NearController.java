@@ -50,10 +50,10 @@ public class NearController {
 		return "user/near/near_card_form";
 	}
 	
-	//카테고리 폼 - 프로필
-	@RequestMapping(value="/near_profile_form", method=RequestMethod.GET)
-	public String near_profile_form() {
-		return "user/near/near_profile_form";
+	//단골 후기 상세보기
+	@RequestMapping(value="/reviews_info", method=RequestMethod.GET)
+	public String reviews_info() {
+		return "user/near/reviews_info";
 	}
 	
 }

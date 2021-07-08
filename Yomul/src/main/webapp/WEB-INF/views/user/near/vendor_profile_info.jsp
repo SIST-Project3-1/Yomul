@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>프로필 보기</title>
-<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -27,11 +26,12 @@
 				<div class="col-md-4 text-center">
 					<img class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 300px; height: 300px;">
 				</div>
-				<div class="col-md my-auto">
-					<h3 class="mb-3">작성자 닉네임</h3>
+				<div class="col-md my-auto" id="vendor-profile-info">
+					<h3>업체명</h3>
 					<label>카테고리</label>
+					<label>전화번호 : 02-123-1234</label>
 					<div class="vendor-profile-follow">
-						<button type="button">단골<p>2  ></p></button>
+						<a href="/yomul/vendor_profile_follow">단골<label>10  ></label></a>
 					</div>
 					<p class="mb-3">이 자리는 업체 정보가 들어가는 자리로 프로필 페이지의 소개 부분인데 프로필 수정에서 소개 쪽을 수정해서 데이터를 입력할 수 있다는 매우 크면서도 작은 장점이 있습니다.</p>
 				</div>
