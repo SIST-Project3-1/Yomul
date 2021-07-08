@@ -108,7 +108,7 @@
 				<label>가격</label>
 				<label>22,000원</label>
 			</div>
-			<button type="button" class="near-info-inquiry">채팅문의</button>
+			<a href="/yomul/chat" class="near-info-inquiry">채팅문의</a>
 		</div>
 	</div>
 

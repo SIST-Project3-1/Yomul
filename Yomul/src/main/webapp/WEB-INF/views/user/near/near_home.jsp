@@ -38,7 +38,7 @@
 		<div class="near-home-news">
 			<div>
 				<h3>내 근처 소식</h3>
-				<a href="#">전체보기 ></a>
+				<a href="/yomul/near_card_form">전체보기 ></a>
 			</div>
 			<% for(int i=0;i<3;i++){ %>
 			<div class="near-home-news-content">
@@ -49,8 +49,9 @@
 						</td>
 						<td>
 							<div class="near-home-news-title">
-								<h5><a href="near_info">타이틀</a></h5>
-								<p>내용</p>
+								<h5><a href="near_info">타이틀입니다</a></h5>
+								<p>내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다
+								내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내내용입니다용입니다...</p>
 								<div class="near-home-news-writer">
 									<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 									<label>작성자</label>
@@ -69,19 +70,18 @@
 			<% for(int i=0;i<2;i++){ %>
 			<div class="near-home-neighbor-content">
 				<div>
-					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg" style="margin-right:5px">
 					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+					<a href="/yomul/vendor_profile_info">업체명입니다</a>
 				</div>
 				<div>
-					<h5>타이틀</h5>
-					<p>내용</p>
-					<label>후기</label>
+					<p>정보입니다정보입니다정보입니다정보입니다정보입니다정보입니다...</p>
+					<label>후기 5</label>
 					<label>·</label>
-					<label style="color:gray">단골</label>
+					<label style="color:gray">단골 10</label>
 				</div>
 				<div>
-					<p>고객명</p>
-					<p>후기</p>
+					<p>단골 닉네임</p>
+					<p>후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다...</p>
 				</div>
 			</div>
 			<% } %>

@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>업체 등록</title>
+<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function(){
 	$('#category').change(function(){

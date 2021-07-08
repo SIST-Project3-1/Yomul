@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로필 수정</title>
+<title>단골</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -28,7 +28,6 @@
 			 <h5 class="mt-0">단골 닉네임</h5>
 			</div>
 		</div>
-		<div class="vendor-profile-follow-line"></div>
 		<% } %>
 	</div>
 	
