@@ -26,7 +26,13 @@
 	border-color: lightgray;
 	margin: 25px 0;
 }
-
+div.button #btn-yomul {
+	background-color: rgb(255, 99, 95);
+	color: white;
+	border-radius: 10px;
+	border: 2px solid white;
+	display: block;
+}
 </style>
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -71,11 +77,17 @@
 					 -->
 			</table>
 		</div>
-		<div class="button">
-			<button type="button" id="">물건보기</button>
-			<button type="button" id="">글 보기</button>
-			<button type="button" id="">삭제</button>
-		</div>
+		<table>
+		<td><div class="button">
+			<button type="button" id="btn-yomul"class="btn btn-block btn-yomul">물건보기</button>
+		</div></td>
+		<td><div class="button">
+			<button type="button" id="btn-yomul"class="btn btn-block btn-yomul">글 보기</button>
+		</div></td>
+		<td><div class="button">
+			<button type="button" id="btn-yomul"class="btn btn-block btn-yomul">삭제</button>
+		</div></td>
+		</table>
 	</section>
 </body>
 </html>
