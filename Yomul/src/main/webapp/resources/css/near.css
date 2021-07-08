@@ -23,6 +23,13 @@
 	/*border:1px red solid;*/
 	padding-bottom:40px;
 }
+.near-home-keyword a{
+	text-decoration:none;
+	color:black;
+}
+.near-home-keyword a:hover{
+	color:rgb(255, 99, 95);
+}
 .near-home-keyword label{
 	border:1px lightgray solid;
 	border-radius:15px;
@@ -35,9 +42,6 @@
 .near-home-news {
 	/*border:1px red solid;*/
 	padding-bottom:40px;
-}
-.near-home-news-title {
-	/*border:1px red solid;*/
 }
 .near-home-news h3{
 	/*border:1px red solid;*/
@@ -63,13 +67,28 @@
 	float:left;
 	width:95%; height:200px;
 	padding: 15px 0 0 15px;
+	display: flex;
+    flex-direction: column;
 }
-.near-home-news-title h5{
-	/*border:1px red solid;*/
+.near-home-neighbor-review a{
+	text-decoration:none;
+	color:black;
+}
+.near-home-neighbor-review a:hover{
+	color:rgb(255, 99, 95);
+}
+.near-home-neighbor-review >a p{
+	font-weight:normal;
+}
+.near-home-news-title a{
  	display: flex;
-}
-.near-home-news-title h5 a{
 	margin:0;
+	color:black;
+	display: flex;
+    flex-direction: column;
+}
+.near-home-news-title a:hover{
+	color:rgb(255, 99, 95);
 }
 .near-home-news-title p{
 	/*border:1px red solid;*/
@@ -147,7 +166,7 @@
 	float:left;
 	margin-bottom:5px;
 }
-.near-home-neighbor-content div:last-child p:first-child{
+.near-home-neighbor-content div:last-child >p{
 	margin-right:10px; 
 	font-weight:bold;
 }
@@ -218,30 +237,18 @@
 	/*border:1px red solid;*/
 	width:45%; height:600px;
 	float:left;
-	padding:20px 20px 0 20px;
+	padding:0 20px;
 }
-.near-write-form table{
-	/*border:1px red solid;*/
-	width:100%;
-	margin-bottom:10px;
-}
-.near-write-form tr{
+.near-write-form div{
 	border-bottom:1px lightgray solid;
 }
 .near-write-form input{
 	border:none;
+	padding:10px 0 10px 10px;
 }
-.near-write-form tr:first-child input,
-.near-write-form tr:nth-child(2) input{
-	margin-left:10px;
-	width:90%;
-}
-.near-write-form tr:nth-child(3) input{
-	margin-left:10px;
-	width:85%;
-}
-.near-write-form td{
-	padding-top:5px;
+.near-write-form select{
+	border:none;
+	margin:5px 0 5px 10px;
 }
 .near-write-category {
     border:none;
@@ -257,6 +264,9 @@
 	resize: none;
 	padding:7px 0 0 5px;
 }
+.near-write-checkbox {
+	margin-top:20px;
+}
 .near-write-form button{
 	border:1px rgb(255, 99, 95) solid;
 	background-color:rgb(255, 99, 95);
@@ -264,7 +274,8 @@
 	color:white;
 	float:right;
 	padding:5px 10px;
-	margin-top:30px;
+	margin-top:45px;
+	width:80px; 
 }
 
 /*
@@ -455,10 +466,6 @@
     align-items: center;
     font-size:13px;
 }
-.near-info-right-writer button:hover{
-    background-color:rgb(255, 99, 95);
-    color:white;
-}
 .near-info-right-writer button p:first-child{
 	margin-right:5px;
 	font-size:20px;
@@ -571,11 +578,12 @@
 	font-size:15px;
 	color:gray;
 }
-#vendor-profile-info label:nth-child(3){
-	display:block;
+#vendor-profile-info div::nth-child(3){
+	display:flex;
+	flex-direction:row;
 }
 .vendor-profile-follow {
-	margin:20px 0 20px 0;
+	margin:10px 0;
 }
 .vendor-profile-follow a{
 	height:30px;
@@ -595,6 +603,22 @@
     cursor:pointer;
 	margin-left:3px;
 }
+
+/*
+	vendor_profile_update.jsp
+*/
+.vendor-profile-update-btn {
+	border:1px rgb(255, 99, 95) solid;
+	background-color:rgb(255, 99, 95);
+	border-radius:5px;
+	color:white;
+	width:100%;
+	align-items: center;
+	justify-content:center;
+	margin:30px 0;
+	font-size:17px;
+}
+
 
 /*
 	vendor_profile_follow.jsp
@@ -644,8 +668,12 @@
 #vendor-news-list-news label{
 	color:gray;
 }
-#vendor-news-list-news label{
-	color:gray;
+.vendor-news-list-info {
+	text-decoration:none;
+	color:black;
+}
+.vendor-news-list-info:hover{
+	color:rgb(255, 99, 95);
 }
 .vendor_news_list_update a{
 	color:rgb(255, 99, 95);
@@ -660,7 +688,7 @@
 	margin:auto;
 	display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+	justify-content: flex-start;
     flex-direction: row;
     padding:50px 0;
 }
@@ -723,12 +751,18 @@
 	margin:auto;
 	display:flex;
 	flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-direction: row;
     padding:50px 0;
 }
 .near-card-form-card {
 	margin:20px;	
+}
+.near-card-form-card a:hover{
+	color:rgb(255, 99, 95);
+}
+.near-card-form-bottom label{
+	color:gray;
 }
 
 /*

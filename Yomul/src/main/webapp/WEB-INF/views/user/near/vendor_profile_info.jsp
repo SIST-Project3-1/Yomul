@@ -29,7 +29,11 @@
 				<div class="col-md my-auto" id="vendor-profile-info">
 					<h3>업체명</h3>
 					<label>카테고리</label>
-					<label>전화번호 : 02-123-1234</label>
+					<div>
+						<label>전화번호 : 02-123-1234</label>
+						<label class="near-info-point">·</label>
+						<label>주소 : 서울특별시 강남구 역삼동</label>
+					</div>
 					<div class="vendor-profile-follow">
 						<a href="/yomul/vendor_profile_follow">단골<label>10  ></label></a>
 					</div>

@@ -42,21 +42,21 @@
 			
 			<!-- 글 작성 -->
 			<div class="near-write-form" >
-				<form name="near_write" action="" method="post">
-					<table>
-						<tr>
-							<td><label>제목</label><input type="text" placeholder="제목을 입력해 주세요"></td>
-						</tr>
-						<tr>
-							<td><label>가격</label><input type="text" placeholder="가격 (선택사항)"></td>
-						</tr>
-						<tr>
-							<td><textarea placeholder="단골들에게 홍보하고 싶은 내용을 입력해주세요"></textarea></td>
-						</tr>
-					</table>
+				<form name="near_write" action="#" method="post">
+					<div>
+						<label>제목</label>
+						<input type="text" placeholder="제목을 입력해 주세요" required>
+					</div>
+					<div>
+						<label>가격</label>
+						<input type="text" placeholder="가격 (선택사항)">
+					</div>
+					<div>
+						<textarea placeholder="단골들에게 홍보하고 싶은 내용을 입력해주세요" required></textarea>
+					</div>
+					<input type="checkbox" class="near-write-checkbox">  채팅 안 받기
+					<button type="submit">완료</button>
 				</form>
-				<input type="checkbox">  채팅 안 받기
-				<button type="button">완료</button>
 			</div>
 		</div>
 	</div>

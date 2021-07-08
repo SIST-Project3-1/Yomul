@@ -69,16 +69,14 @@
 						<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 						<div>
 							<div>
-								<label>작성자</label>
+								<label>댓글 작성자</label>
 								<span>댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다
 								댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다</span>
 							</div>
 							<div>
 								<label>1시간 전</label>
 								<label class="near-info-point">·</label>
-								<button type="button" class="near-info-chat-like">좋아요</button>
-								<label class="near-info-point">·</label>
-								<button type="button" class="near-info-chat-like">답글달기</button>
+								<button type="button" class="near-info-chat-like">좋아요 65</button>
 								<label class="near-info-point">·</label>
 								<button type="button" class="near-info-chat-report">신고</button>
 							</div>

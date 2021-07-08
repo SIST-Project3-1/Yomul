@@ -5,6 +5,14 @@
 <head>
 <meta charset="UTF-8">
 <title>내 근처</title>
+<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+	$( "#btn_regular" ).on( "click", function() {
+		  $("#btn_regular").css('color','white').css('background-color','rgb(255, 99, 95)');
+	});
+});
+</script>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -72,16 +80,14 @@
 						<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 						<div>
 							<div>
-								<label>작성자</label>
+								<label>댓글 작성자 닉네임</label>
 								<span>댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다
 								댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다</span>
 							</div>
 							<div>
 								<label>1시간 전</label>
 								<label class="near-info-point">·</label>
-								<button type="button" class="near-info-chat-like">좋아요</button>
-								<label class="near-info-point">·</label>
-								<button type="button" class="near-info-chat-like">답글달기</button>
+								<button type="button" class="near-info-chat-like">좋아요 22</button>
 								<label class="near-info-point">·</label>
 								<button type="button" class="near-info-chat-report">신고</button>
 							</div>
@@ -101,8 +107,8 @@
 		<div class="near-info-right">
 			<div class="near-info-right-writer">
 				<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
-				<label>작성자</label>
-				<button type="button"><p>+</p>단골<p>22</p></button>
+				<label>작성자 닉네임</label>
+				<button type="button" id="btn_regular"><p>+</p>단골<p>22</p></button>
 			</div>
 			<div class="near-info-right-price">
 				<label>가격</label>
