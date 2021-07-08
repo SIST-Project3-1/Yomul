@@ -13,6 +13,7 @@
 	/*border:1px red solid;*/
 	width:70%;
 	margin:auto;
+	padding-bottom:50px;
 }
 .near-home-search {
 	/*border:1px red solid;*/
@@ -60,11 +61,8 @@
 .near-home-news-content div:first-child{
 	/*border:1px red solid;*/
 	float:left;
-	width:200px; height:200px;
+	width:95%; height:200px;
 	padding: 15px 0 0 15px;
-}
-.near-home-news-title {
-	/*border:1px red solid;*/
 }
 .near-home-news-title h5{
 	/*border:1px red solid;*/
@@ -105,25 +103,35 @@
 	margin:10px;
 }
 .near-home-neighbor-content div:first-child{
-	display:inline-block;
+	display:flex;
+	align-items: center;
 	width:400px; height:100px;
 	margin:auto;
 }
 .near-home-neighbor-content div:first-child img{
-	width:195px; height:100px;
+	width:70px; height:70px;
+	border-radius:70px;
+	margin-right:20px;
+}
+.near-home-neighbor-content div:first-child a{
+	align-items: center;
+	text-decoration:none;
+	color:black;
+	font-size:20px;
+	font-weight:500;
+}
+.near-home-neighbor-content div:first-child a:hover{
+	color:rgb(255, 99, 95);
 }
 .near-home-neighbor-content div:nth-child(2){
-	width:400px; height:120px;
-	padding:15px;
+	width:400px; height:110px;
+	padding:0 15px 15px 15px;
 }
-.near-home-neighbor-content div:nth-child(2) label{
-	float:left;
-}
-.near-home-neighbor-content div:nth-child(2) label:nth-child(3){
+.near-home-neighbor-content div:nth-child(2) label:nth-child(2){
 	color:rgb(255, 99, 95);
 	font-weight:bold;
 }
-.near-home-neighbor-content div:nth-child(2) label:nth-child(4){
+.near-home-neighbor-content div:nth-child(2) label:nth-child(3){
 	color:lightgray;
 	font-weight:900;
 	margin:0 5px;
@@ -133,10 +141,11 @@
 	border-radius:10px;
 	background-color:rgb(240, 244, 245);
 	margin:10px; 
-	padding:20px 15px;
+	padding:10px 15px;
 }
 .near-home-neighbor-content div:last-child p{
 	float:left;
+	margin-bottom:5px;
 }
 .near-home-neighbor-content div:last-child p:first-child{
 	margin-right:10px; 
@@ -234,6 +243,13 @@
 .near-write-form td{
 	padding-top:5px;
 }
+.near-write-category {
+    border:none;
+    width: 82%;
+	height:30px;
+	color:gray;
+	margin-left:5px;
+}
 .near-write-form textarea{
 	border:none;
 	width:100%; 
@@ -259,6 +275,7 @@
 	width:80%;
 	margin:auto;
 	padding-top:30px;
+	padding-bottom:50px;
 	display:flex;
     flex-direction:row;
 }
@@ -469,15 +486,24 @@
     background-color:rgb(255, 99, 95);
     border-radius:5px;
     color:white;
+    text-align: center;
+    padding-top: 7px;
+    text-decoration:none;
+}
+.near-info-inquiry:hover {
+    background-color:white;
+    color:rgb(255, 99, 95);
+    text-decoration:none;
 }
 
 /*
 	vendor_signup.jsp
 */
 .vendor-signup-content {
-	border:1px red solid;
+	/*border:1px red solid;*/
 	width:40%;
 	margin:auto;
+	padding-bottom:50px;
 }
 .vendor-signup-form {
 	display:flex;
@@ -520,12 +546,7 @@
 }
 .vendor-signup-category {
 	height:30px;
-}
-.vendor-signup-category {
 	color:gray;
-}
-.vendor-signup-category option{
-	color:black;
 }
 .vendor-signup-write button{
 	border:1px rgb(255, 99, 95) solid;
@@ -543,10 +564,20 @@
 /*
 	vendor_profile_info.jsp
 */
-.vendor-profile-follow {
-	margin:20px 0 30px 0;
+#vendor-profile-info >h3{
+	margin-bottom:7px;
 }
-.vendor-profile-follow button{
+#vendor-profile-info label:nth-child(2){
+	font-size:15px;
+	color:gray;
+}
+#vendor-profile-info label:nth-child(3){
+	display:block;
+}
+.vendor-profile-follow {
+	margin:20px 0 20px 0;
+}
+.vendor-profile-follow a{
 	height:30px;
     width:100px;
     border:1px lightgray solid;
@@ -557,8 +588,11 @@
     justify-content:center;
     font-size:14px;
     padding-top:3px;
+    color:rgb(255, 99, 95);
+    text-decoration:none;
 }
-.vendor-profile-follow button p{
+.vendor-profile-follow a label{
+    cursor:pointer;
 	margin-left:3px;
 }
 
@@ -569,20 +603,22 @@
 	/*border:1px red solid;*/
 	width:50%;
 	margin:auto;
+	padding-top:20px;
+	padding-bottom:100px;
 }
 #vendor-profile-follow-img img{
-	margin-right:30px;
+	margin-right:40px;
  	width:70px; height:70px;
  	border-radius:70px;
 }
 #vendor-profile-follow-img {
-	padding:20px 0;
+	border:1px lightgray solid;
+	border-radius:20px;
+	margin:10px 0;
+	padding:10px 0 10px 30px;
 }
 #vendor-profile-follow-img h5{
 	padding-top:23px;
-}
-.vendor-profile-follow-line {
-	border-bottom:1px lightgray solid;
 }
 
 /*
@@ -592,19 +628,129 @@
 	/*border:1px red solid;*/
 	width:70%;
 	margin:auto;
+	padding-top:20px;
+	padding-bottom:50px;
 }
-#vendor-news-list-img {
+#vendor-news-list-news {
 	padding:20px 0;
 	margin-left:50px;
+	border-bottom:1px lightgray solid;
 }
-#vendor-news-list-img img{
+#vendor-news-list-news img{
 	margin-right:30px;
  	width:110px; height:110px;
  	border-radius:5px;
 }
-#vendor-news-list-img label{
+#vendor-news-list-news label{
 	color:gray;
 }
+#vendor-news-list-news label{
+	color:gray;
+}
+.vendor_news_list_update a{
+	color:rgb(255, 99, 95);
+}
+
+/*
+	vendor_reviews.jsp
+*/
+.vendor-reviews-content {
+	/*border:1px red solid;*/
+	width:75%;
+	margin:auto;
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+    padding:50px 0;
+}
+.vendor-reviews-card {
+	margin:20px;	
+}
+.vendor-reviews-card img{
+	margin-right:10px;
+ 	width:35px; height:35px;
+ 	border-radius:35px;	
+}
+.vendor-reviews-regular {
+	display: flex;
+    flex-direction: row;
+    margin-bottom:5px;
+}
+.vendor-reviews-regular h5{
+    padding-top:5px;
+}
+.vendor-reviews-card a{
+	text-decoration:none;
+	color:gray;
+}
+.vendor-reviews-card a:hover {
+	color:rgb(255, 99, 95);
+}
+
+/*
+	reviews_info.jsp
+*/
+.reviews-info-writer {
+	/*border:1px red solid;*/
+    width:500px;
+    padding:10px 0 30px 18px;
+	display:flex;
+    flex-direction:column;
+}
+.reviews-info-writer >div img{
+	/*border:1px red solid;*/
+	float:left;
+	margin-right:20px;
+ 	width:55px; height:55px;
+ 	border-radius:50px;
+}
+.reviews-info-writer >div label{
+	/*border:1px red solid;*/
+	padding-top:10px;
+	font-size:25px;
+	font-weight:500;
+}
+
+
+
+/*
+	near_card_form.jsp
+*/
+.near-card-form-content {
+	border:1px red solid;
+	width:75%;
+	margin:auto;
+	display:flex;
+	flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+    padding:50px 0;
+}
+.near-card-form-card {
+	margin:20px;	
+}
+
+/*
+	near_profile_form.jsp
+*/
+.near-profile-form-content {
+	border:1px red solid;
+	width:70%;
+	margin:auto;
+}
+.near-card-form-card a {
+	color:black;
+	text-decoration:none;
+}
+.near-card-form-bottom {
+	padding-left:20px;
+	padding-bottom:5px;
+}
+
+
+
+
 
 
 
