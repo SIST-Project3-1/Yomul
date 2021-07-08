@@ -34,6 +34,13 @@
 	border: 2px solid white;
 	display: block;
 }
+div.list #btn-yomul {
+	background-color: rgb(255, 99, 95);
+	color: white;
+	border-radius: 10px;
+	border: 2px solid white;
+	display: block;
+}
 </style>
 <jsp:include page="../../../head.jsp"></jsp:include>
 </head>
@@ -47,7 +54,7 @@
 			<table class="content_layout">
 				<tr>
 					<td colspan="3"><a href='/yomul/admin_notice_write'>
-							<button type="button" id="noticeList">글쓰기</button>
+							<button type="button" id="btn-yomul" class="btn btn-block btn-yomul">글쓰기</button>
 					</a></td>
 				</tr>
 				<tr>

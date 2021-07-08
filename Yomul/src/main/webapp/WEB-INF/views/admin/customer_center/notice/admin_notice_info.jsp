@@ -17,12 +17,36 @@
 		border-color: lightgray;
 		margin: 25px 0;
 	}
+	div.button #btn_list {
+	background-color: rgb(255, 99, 95);
+	color: white;
+	border-radius: 10px;
+	border: 2px solid white;
+	display: block;
+}
+	div.button #btn_update {
+	background-color: rgb(255, 99, 95);
+	color: white;
+	border-radius: 10px;
+	border: 2px solid white;
+	display: block;
+}
+	div.button #btn_delete {
+	background-color: rgb(255, 99, 95);
+	color: white;
+	border-radius: 10px;
+	border: 2px solid white;
+	display: block;
+}
 </style>
 <script>
 	$(document).ready(function() {
 		// 목록 버튼 클릭
 		$("#btn_list").click(function() {
 			location.href = "admin_notice_list";
+		});
+		$("#btn_update").click(function() {
+			location.href = "admin_notice_update";
 		});
 	});
 </script>
