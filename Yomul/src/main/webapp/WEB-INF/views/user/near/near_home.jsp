@@ -19,7 +19,7 @@
 			<form class="form-inline ml-auto">
 				<label for="search_bar" class="bi bi-search" style="position:relative; z-index:20; left:23px;"></label>
 				<div class="input-group flex-nowrap">
-					<input class="form-control mr-sm-2 pl-4" type="search" placeholder="주변 가게를 찾아보세요" size="60">
+					<input class="form-control mr-sm-2 pl-4" type="search" placeholder="주변 가게를 찾아보세요" size="60" required>
 				</div>
 			</form>	
 		</div>
@@ -29,7 +29,7 @@
 			<h3>키워드</h3>
 			<div>
 				<c:forEach var="keyword" items="${keyword}">
-					<label>${keyword }</label>
+					<a href="/yomul/near_card_form"><label>${keyword }</label></a>
 				</c:forEach>
 			</div>
 		</div>
@@ -49,9 +49,11 @@
 						</td>
 						<td>
 							<div class="near-home-news-title">
-								<h5><a href="near_info">타이틀입니다</a></h5>
-								<p>내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다
-								내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내내용입니다용입니다...</p>
+								<a href="near_info">
+									<h5>타이틀입니다</h5>
+									<p>내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다
+									내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내내용입니다용입니다...</p>
+								</a>
 								<div class="near-home-news-writer">
 									<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 									<label>작성자</label>
@@ -79,9 +81,11 @@
 					<label>·</label>
 					<label style="color:gray">단골 10</label>
 				</div>
-				<div>
+				<div class="near-home-neighbor-review">
 					<p>단골 닉네임</p>
-					<p>후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다...</p>
+					<a href="/yomul/reviews_info">
+						<p>후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다...</p>
+					</a>
 				</div>
 			</div>
 			<% } %>
@@ -90,7 +94,7 @@
 		<!-- 업체 프로필 -->
 		<div class="near-home-vendor">
 			<h3>사장님이신가요? 단골을 모아보세요!</h3>
-			<a href="vendor_signup">업체 프로필 만들기 ></a>
+			<a href="vendor_signup">비즈 프로필 만들기 ></a>
 		</div>
 	</div>
 

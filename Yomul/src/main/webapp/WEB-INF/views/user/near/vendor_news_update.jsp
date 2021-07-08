@@ -34,21 +34,21 @@
 			
 			<!-- 글 작성 -->
 			<div class="near-write-form" >
-				<form name="near_write" action="" method="post">
-					<table>
-						<tr>
-							<td><label>제목</label><input type="text" value="요거 물건이네 오픈~!"></td>
-						</tr>
-						<tr>
-							<td><label>가격</label><input type="text" value="22,000"></td>
-						</tr>
-						<tr>
-							<td><textarea>안녕하세요. 요거 물건이네 소식입니다. 우리 업체는 어쩌구 저쩌구 많이 이용해주시고 악플은 사절합니다.</textarea></td>
-						</tr>
-					</table>
+				<form name="near_write" action="#" method="post">
+					<div>
+						<label>제목</label>
+						<input type="text" value="요거 물건이네 오픈~!" required>
+					</div>
+					<div>
+						<label>가격</label>
+						<input type="text" value="22,000">
+					</div>
+					<div>
+						<textarea required>안녕하세요. 요거 물건이네 소식입니다. 우리 업체는 어쩌구 저쩌구 많이 이용해주시고 악플은 사절합니다.</textarea>
+					</div>
+					<input type="checkbox" class="near-write-checkbox">  채팅 안 받기
+					<button type="submit">완료</button>
 				</form>
-				<input type="checkbox">  채팅 안 받기
-				<button type="button">저장</button>
 			</div>
 		</div>
 	</div>

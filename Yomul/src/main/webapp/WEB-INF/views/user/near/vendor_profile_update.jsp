@@ -49,7 +49,13 @@
 			<div class="form-group row">
 				<label for="phone" class="col-md-3 col-form-label">전화번호</label>
 				<div class="col-md-9">
-					<input type="tel" class="form-control" value="02-123-1234" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-0000-0000" name="phone" id="phone">
+					<input type="tel" class="form-control" value="02-123-1234" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="phone" id="phone">
+				</div>
+			</div>
+			<div class="form-group row">
+				<label for="phone" class="col-md-3 col-form-label">주소</label>
+				<div class="col-md-9">
+					<input type="tel" class="form-control" value="서울특별시 강남구 역삼동">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -64,7 +70,7 @@
 					<img id="profile_img_img" class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 300px; height: 300px;">
 				</div>
 			</div>
-			<button class="btn btn-block btn-yomul" type="submit">업체 정보 수정</button>
+			<button class="vendor-profile-update-btn" type="submit">업체 정보 수정</button>
 		</form>
 	</section>
 
