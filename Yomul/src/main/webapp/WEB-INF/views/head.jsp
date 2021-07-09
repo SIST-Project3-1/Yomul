@@ -1,6 +1,9 @@
 <%@page import="com.yomul.api.APIKey"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 
+<%--jQuery --%>
+<script src="/yomul/js/jquery-3.6.0.min.js"></script>
+
 <%-- Bootstrap --%>
 <link rel="stylesheet" href="/yomul/css/bootstrap.min.css">
 <link rel="stylesheet" href="/yomul/css/bootstrap-icons/bootstrap-icons.css">
@@ -17,7 +20,6 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<%=APIKey.KAKAO_API_JAVASCRIPT_KEY%>&libraries=services,clusterer,drawing"></script>
 
 <%--JS --%>
-<script src="/yomul/js/jquery-3.6.0.min.js"></script>
 <script src="/yomul/js/commons.js"></script>
 
 <%-- CSS --%>
