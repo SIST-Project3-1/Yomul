@@ -20,13 +20,19 @@
 			</h1>
 			<form name="login_form">
 				<div class="form-group h-100 align-middle">
-					<input class="w-100 form-control rounded-0" style="border-radius: .25rem .25rem 0 0 !important;" type="email" id="email" name="email" placeholder="이메일">
-					<input class="w-100 form-control rounded-0 border-top-0" style="border-radius: 0 0 .25rem .25rem !important;" type="password" id="pw" name="pw" placeholder="비밀번호">
+					<input class="w-100 form-control rounded-0" style="border-radius: .25rem .25rem 0 0 !important;" type="email" id="email" name="email" placeholder="이메일"> <input class="w-100 form-control rounded-0 border-top-0" style="border-radius: 0 0 .25rem .25rem !important;" type="password" id="pw" name="pw" placeholder="비밀번호">
 				</div>
-				<button class="btn btn-block btn-yomul" type="submit">로그인</button>
-				<div class="text-center mt-3">
-					<a class="text-decoration-none text-body mr-3" href="/yomul/reset_password">비밀번호 재설정</a>
-					<a class="text-decoration-none text-body" href="/yomul/join">회원가입</a>
+				<button class="btn btn-block btn-yomul mb-2" type="submit">로그인</button>
+				<a class="btn btn-outline-yomul btn-block rounded-pill text-dark bg-white border-dark mb-2" href="/yomul/join">계정이 없으신가요? 간편하게 가입하기</a>
+				<div class="d-flex text-muted mb-2">
+					<label>
+						<input type="checkbox" name="id_store" id="id_store"> <small> 아이디 저장 </small>
+					</label>
+					<label class="ml-2">
+						<input type="checkbox" name="auto_login" id="auto_login"> <small> 자동 로그인 </small>
+					</label>
+					<small class="ml-auto"> <a href="find_id.jsp" class="text-decoration-none text-muted">아이디 찾기</a> | <a href="find_password.jsp" class="text-decoration-none text-muted">비밀번호 찾기</a>
+					</small>
 				</div>
 			</form>
 			<div class="text-center mt-5">
