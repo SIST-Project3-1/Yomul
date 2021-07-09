@@ -21,7 +21,7 @@
 	<form name="total-search" class="form-inline ml-auto" action="total_search" method="GET">
 		<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 10; left: 23px;"> </label>
 		<div class="input-group flex-nowrap">
-			<input id="search_bar" class="form-control mr-sm-2 pl-4" type="search" name="target" placeholder="요물 통합검색" aria-label="Search" value="${target!=null?target: ""}" required>
+			<input id="search_bar" class="form-control mr-sm-2 pl-4" type="search" name="target" placeholder="요물 통합검색" aria-label="Search" value="${target!=null?target: " "}" required>
 			<button type="submit" class="d-none"></button>
 		</div>
 	</form>
@@ -37,7 +37,10 @@
 			<a class="nav-link" href="/yomul/admin">ADMIN</a>
 		</li>
 	</ul>
+
 	<ul class="navbar-nav">
+
+		<!-- 알림창 -->
 		<li class="nav-item">
 			<div class="dropdown mt-2 px-2">
 				<a role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -61,11 +64,15 @@
 				</div>
 			</div>
 		</li>
+
+		<!-- 채팅 알림 -->
 		<li class="nav-item">
 			<a class="nav-link" href="/yomul/chat">
 				<h5 class="bi bi-chat-dots my-0"></h5>
 			</a>
 		</li>
+
+		<!-- 내 프로필 -->
 		<li class="nav-item">
 			<a class="nav-link" href="/yomul/myprofile_info">
 				<h5 class="bi bi-person-circle my-0"></h5>
@@ -74,10 +81,10 @@
 	</ul>
 	<div class="dropdown">
 		<button type="button" class="btn btn-yomul dropdown-toggle" data-toggle="dropdown">글쓰기</button>
-		<div class="dropdown-menu">
-			<a class="dropdown-item" href="#">Link 1</a>
-			<a class="dropdown-item" href="#">Link 2</a>
-			<a class="dropdown-item" href="#">Link 3</a>
+		<div class="dropdown-menu dropdown-menu-right">
+			<a class="dropdown-item" href="/yomul/product_write">물건 등록</a>
+			<a class="dropdown-item" href="/yomul/town_write">동네생활</a>
+			<a class="dropdown-item" href="/yomul/near_write">내 근처</a>
 		</div>
 	</div>
 </nav>
