@@ -37,9 +37,11 @@
 	</beans:bean>
 
 	<!-- DAO Object -->
+	<beans:bean id="nearDAO" class="com.yomul.dao.NearDAO"></beans:bean>
+
 
 	<!-- Service Object -->
-
+	<beans:bean id="nearService" class="com.yomul.service.NearServiceImplement"></beans:bean>
 
 	<context:component-scan
 		base-package="com.yomul.yomul" />
