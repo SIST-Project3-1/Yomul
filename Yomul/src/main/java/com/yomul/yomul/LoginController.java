@@ -73,4 +73,14 @@ public class LoginController {
 	public String login() {
 		return "user/login/login";
 	}
+
+	/**
+	 * 로그아웃 처리
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String logout() {
+		return "user/home/product_list";
+	}
 }

@@ -15,7 +15,7 @@
 		</ul>
 	</div>
 	<ul class="navbar-nav">
-		<li class="nav-item"><a class="nav-link" href="#">로그아웃</a></li>
+		<li class="nav-item"><a class="nav-link" href="/yomul/logout">로그아웃</a></li>
 		</ul>
 </nav>
 <div class="div div-admin-msg">※ 관리자 계정으로 접속 중입니다</div>
