@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>내 근처</title>
-<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -20,7 +19,7 @@
 			<form class="form-inline ml-auto">
 				<label for="search_bar" class="bi bi-search" style="position:relative; z-index:20; left:23px;"></label>
 				<div class="input-group flex-nowrap">
-					<input class="form-control mr-sm-2 pl-4" type="search" placeholder="주변 가게를 찾아보세요" size="60">
+					<input class="form-control mr-sm-2 pl-4" type="search" placeholder="주변 가게를 찾아보세요" size="60" required>
 				</div>
 			</form>	
 		</div>
@@ -30,16 +29,16 @@
 			<h3>키워드</h3>
 			<div>
 				<c:forEach var="keyword" items="${keyword}">
-					<label>${keyword }</label>
+					<a href="/yomul/near_card_form"><label>${keyword }</label></a>
 				</c:forEach>
 			</div>
 		</div>
 
 		<!-- 내 근처 소식 -->
 		<div class="near-home-news">
-			<div class="near-home-news-title">
+			<div>
 				<h3>내 근처 소식</h3>
-				<a href="#">전체보기 ></a>
+				<a href="/yomul/near_card_form">전체보기 ></a>
 			</div>
 			<% for(int i=0;i<3;i++){ %>
 			<div class="near-home-news-content">
@@ -49,11 +48,16 @@
 							<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 						</td>
 						<td>
-							<div>
-								<h5>타이틀</h5>
-								<p>내용</p>
-								<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
-								<label>작성자</label>
+							<div class="near-home-news-title">
+								<a href="near_info">
+									<h5>타이틀입니다</h5>
+									<p>내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다
+									내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내내용입니다용입니다...</p>
+								</a>
+								<div class="near-home-news-writer">
+									<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+									<label>작성자</label>
+								</div>
 							</div>
 						</td>
 					</tr>
@@ -68,28 +72,29 @@
 			<% for(int i=0;i<2;i++){ %>
 			<div class="near-home-neighbor-content">
 				<div>
-					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg" style="margin-right:5px">
 					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+					<a href="/yomul/vendor_profile_info">업체명입니다</a>
 				</div>
 				<div>
-					<h5>타이틀</h5>
-					<p>내용</p>
-					<label>후기</label>
+					<p>정보입니다정보입니다정보입니다정보입니다정보입니다정보입니다...</p>
+					<label>후기 5</label>
 					<label>·</label>
-					<label style="color:gray">단골</label>
+					<label style="color:gray">단골 10</label>
 				</div>
-				<div>
-					<p>고객명</p>
-					<p>후기</p>
+				<div class="near-home-neighbor-review">
+					<p>단골 닉네임</p>
+					<a href="/yomul/reviews_info">
+						<p>후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다후기입니다...</p>
+					</a>
 				</div>
 			</div>
 			<% } %>
 		</div>
 		
-		<!-- 비즈프로필 -->
+		<!-- 업체 프로필 -->
 		<div class="near-home-vendor">
 			<h3>사장님이신가요? 단골을 모아보세요!</h3>
-			<a href="vendor_signup.jsp">비즈프로필 만들기 ></a>
+			<a href="vendor_signup">비즈 프로필 만들기 ></a>
 		</div>
 	</div>
 

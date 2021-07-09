@@ -5,7 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>업체 등록</title>
-<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
 <script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -23,7 +22,7 @@ $(document).ready(function(){
 
 	<!--  BODY  -->
 	<div id="vendor_signup" class="vendor-signup-content">
-		<form name="vendor_signup" action="" method="post">
+		<form name="vendor_signup" action="#" method="post">
 			<div class="vendor-signup-form">
 				<div class="vendor-signup-img">
 					<button type="button" onclick="document.getElementById('file').click();">
@@ -37,12 +36,12 @@ $(document).ready(function(){
 				<div class="vendor-signup-write">
 					<div>
 					<label>업체명</label>
-					<input type="text"  placeholder="예) 당근베이커리, 당근슈퍼">
+					<input type="text"  placeholder="예) 당근베이커리, 당근슈퍼" required>
 					<p>업체, 비즈니스 또는 단체를 나타내는 이름이 좋아요</p>
 					</div>
 					<div>
 						<label>카테고리</label>
-						<select name="category" id="category" class="vendor-signup-category">
+						<select name="category" id="category" class="vendor-signup-category" required>
 							<option value="" disabled selected hidden>카테고리를 설정해 주세요</option>
 							<option value="동네구인구직">동네구인구직</option>
 							<option value="과외/클래스">과외/클래스</option>
@@ -52,11 +51,15 @@ $(document).ready(function(){
 					</div>
 					 <div>
 						<label>정보</label>
-						<textarea placeholder="정보를 입력해 주세요"></textarea>
+						<textarea placeholder="정보를 입력해 주세요" required></textarea>
 					</div>
 					<div>
 						<label>전화번호</label>
-						<input type="text" placeholder="전화번호를 입력해 주세요">
+						<input type="text" placeholder="전화번호를 입력해 주세요" required>
+					</div>
+					<div>
+						<label>주소</label>
+						<input type="text" placeholder="주소를 입력해 주세요" required>
 					</div>
 					<button type="submit">완료</button>
 				</div>
