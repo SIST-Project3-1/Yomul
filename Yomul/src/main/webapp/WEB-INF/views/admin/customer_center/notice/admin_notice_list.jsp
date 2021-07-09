@@ -9,7 +9,7 @@
 <!-- HEAD -->
 <style>
 #admin_notice_list {
-	width: 750px;
+	width: 1200px;
 	margin: 0 auto;
 }
 
@@ -26,6 +26,7 @@
 	border-color: lightgray;
 	margin: 25px 0;
 }
+
 #admin_notice_list .noticeList {
 	padding: 25px 80px;
 	background-color: rgb(255, 99, 95);
@@ -34,6 +35,15 @@
 	border: 2px solid white;
 	display: block;
 }
+
+div.list #btn-yomul {
+	background-color: rgb(255, 99, 95);
+	color: white;
+	border-radius: 10px;
+	border: 2px solid white;
+	display: block;
+	width: 200px;
+}
 </style>
 <jsp:include page="../../../head.jsp"></jsp:include>
 </head>
@@ -41,32 +51,39 @@
 	<!-- HEADER -->
 	<jsp:include page="../../admin_header.jsp"></jsp:include>
 	<!--  BODY  -->
-	<section id="admin_notice_list">
+	<section id="admin_product_list">
 		<div class="list">
-			<h2 class="my-5 mx-0">공지사항</h2>
-			<table class="content_layout">
-				<tr>
-					<td colspan="3"><a href='/yomul/admin_notice_write'>
-							<button type="button" id="noticeList">글쓰기</button>
-					</a></td>
-				</tr>
-				<tr>
-					<th>번호</th>
-					<th>제목</th>
-					<th>등록일</th>
-				</tr>
+			<div class="article">
+				<div class="container">
 
-				<tr>
-					<td>1</td>
-					<td><a href='/yomul/admin_notice_info'>글제목이당</a></td>
-					<td>1972.11.21</td>
-				</tr>
-				<hr>
-				<!-- 
-					
-					 -->
-			</table>
+					<h2 class="my-5 mx-0">공지사항 관리</h2>
+					<div class="row">
+						<div class="table-responsive">
+							<a href="/yomul/admin_notice_write">
+								<button type="button" id="btn-yomul"
+									class="btn btn-block btn-yomul">글쓰기</button>
+							</a>
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>번호</th>
+										<th>제목</th>
+										<th>등록일</th>
+									</tr>
+								</thead>
+								<tr>
+									<td>1</td>
+									<td><a href="admin_notice_info">정글러</td>
+									<td>1972.11.21</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
+</body>
 </body>
 </html>

@@ -9,7 +9,7 @@
 <!-- HEAD -->
 <style>
 #admin_town_list {
-	width: 750px;
+	width: 1200px;
 	margin: 0 auto;
 }
 
@@ -36,36 +36,45 @@
 	<!--  BODY  -->
 
 	<section id="admin_town_list">
-			<!-- 검색창 -->
+		<div class="list">
+			<div class="article">
+				<div class="container">
+				
+		<!-- 검색창 -->
 		<div class="near-home-search">
 			<form class="form-inline ml-auto">
-				<label for="search_bar" class="bi bi-search" style="position:relative; z-index:20; left:23px;"></label>
+				<label for="search_bar" class="bi bi-search"
+					style="position: relative; z-index: 20; left: 23px;"></label>
 				<div class="input-group flex-nowrap">
-					<input class="form-control mr-sm-2 pl-4" type="search" placeholder="검색" size="60">
+					<input class="form-control mr-sm-2 pl-4" type="search"
+						placeholder="검색" size="60">
 				</div>
-			</form>	
+			</form>
 		</div>
-	
-		<div class="list">
-			<h2 class="my-5 mx-0">동네생활</h2>
-			<table class="content_layout">
-				<tr>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>등록일</th>
-				</tr>
 
-				<tr>
-					
-					<td><a href="admin_town_info">제목</a></td>
-					<td><a href="admin_member_list">정글러</a></td>
-					<td>1972.11.21</td>
-				</tr>
-				<hr>
-				<!-- 
-					
-					 -->
-			</table>
+			<h2 class="my-5 mx-0">동네생활 관리</h2>
+					<div class="row">
+						<div class="table-responsive">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>제목</th>
+										<th>작성자</th>
+										<th>등록일</th>
+									</tr>
+								</thead>
+								<tr>
+									<td><a href="admin_town_info">정글차이</td>
+									<td><a href="admin_member_list">정글러</td>
+									<td>1972.11.21</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</section>
 </body>
 </html>
