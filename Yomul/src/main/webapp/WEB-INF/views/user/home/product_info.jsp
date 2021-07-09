@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<meta charset="UTF-8">
-
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- HEAD -->
+<%@ include file="../../head.jsp"%>
 <link rel="stylesheet" href="http://localhost:9000/yomul/resources/css/product_info.css">
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
 	<form>
