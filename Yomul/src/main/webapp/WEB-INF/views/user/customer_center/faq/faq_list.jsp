@@ -37,7 +37,7 @@
 	$(document).ready(function() {
 		// 문의하기 버튼 클릭
 		$("#btn_question").click(function() {
-			location.href = "customer_qna/write";
+			location.href = "../customer_qna/write";
 		});
 	});
 </script>
@@ -50,7 +50,7 @@
 	<section id="faq_list">
 		<div class="top">
 			<h4 class="font-weight-bold">고객센터</h4>
-			운영시간 어쩌구저쩌구~~<br>
+			운영시간: 평일 09:00 ~ 18:00<br>
 			<button type="button" id="btn_question" class="btn btn-yomul px-4 py-2">문의하기</button>
 		</div>
 		<div class="center">

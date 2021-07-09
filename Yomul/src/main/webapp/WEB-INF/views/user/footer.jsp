@@ -9,12 +9,25 @@
 		max-width: 1200px;
 	}
 	
+	footer .vertical_line {
+		display: inline;
+		width: 1px;
+		border-left: 1px solid gray;
+	}
+	
+	footer h5 {
+		display: inline;
+	}
 </style>
 <footer class="text-muted text-center mt-5">
 	<section class="footer-content container d-inline-block p-4 w-100">
 		<div class="text-center mb-3">
-			<a href="/yomul/customer_center/" class="text-muted">
-				<h5>고객센터 바로가기</h5>
+			<a href="/yomul/customer_center/" class="d-inline text-muted">
+				<h5>고객센터</h5>
+			</a>
+			<div class="vertical_line mr-1"></div>
+			<a href="/yomul/vendor_signup" class="d-inline text-muted">
+				<h5>업체등록</h5>
 			</a>
 		</div>
 		<div class="d-flex">
