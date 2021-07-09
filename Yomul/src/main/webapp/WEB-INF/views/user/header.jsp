@@ -30,6 +30,9 @@
 			<a class="nav-link" href="/yomul/login">로그인</a>
 		</li>
 		<li class="nav-item">
+			<a class="nav-link" href="/yomul/logout">로그아웃</a>
+		</li>
+		<li class="nav-item">
 			<a class="nav-link" href="/yomul/join">회원가입</a>
 		</li>
 		<li class="nav-item">
