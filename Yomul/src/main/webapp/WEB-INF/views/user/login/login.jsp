@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>로그인</title>
+<title>요물 로그인</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>

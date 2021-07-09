@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>비밀번호 재설정</title>
+<title>요물 비밀번호 재설정</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 <script type="text/javascript">
