@@ -11,6 +11,16 @@ public class HomeController {
 	public String product_write() {
 		return "user/home/product_write";
 	}
+	
+	@RequestMapping(value = "product_update", method = RequestMethod.GET)
+	public String product_update() {
+		return "user/home/product_update";
+	}
+	
+	@RequestMapping(value = "product_info", method = RequestMethod.GET)
+	public String product_info() {
+		return "user/home/product_info";
+	}
 
 	@RequestMapping(value = "/product_list", method = RequestMethod.GET)
 	public String product_list() {

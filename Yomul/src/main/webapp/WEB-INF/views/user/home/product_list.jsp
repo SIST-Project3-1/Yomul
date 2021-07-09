@@ -20,7 +20,7 @@
 			<div class="card" style="width: 18rem;">
 			 	<img src="/yomul/image/이미지준비중.jpg" class="card-img-top">
 			 	<div class="card-body">
-				 	<a href="/yomul/near_info">
+				 	<a href="/yomul/product_info">
 					    <h5 class="card-title">타이틀입니다</h5>
 					    <p class="card-text">내용입니다내용입니다내용입니다내용입니내용입니다
 						내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내내용입니다용입니다...</p>
