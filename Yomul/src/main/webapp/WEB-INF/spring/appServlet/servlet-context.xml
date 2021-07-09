@@ -29,6 +29,11 @@
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	</beans:bean> 
 	
+	<!-- DAO Object -->
+	
+	<!-- Service Object -->
+	
+	
 	<context:component-scan base-package="com.yomul.yomul" />
 	
 	
