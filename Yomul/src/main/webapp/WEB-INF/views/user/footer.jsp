@@ -35,8 +35,6 @@
 				<h4 class="bi bi-github d-inline"></h4>
 			</a>
 		</div>
-		<small class="d-flex">프로젝트명: 요거 물건이네!</small>
-		<small class="d-flex">프로젝트 기간: 21.06.28 ~ 21.07.28</small>
-		<small class="d-flex">개발자: 홍준수, 강진슬, 박준성, 오다빈, 이창민, 주동성</small>
+		<small class="d-flex">프로젝트명: 요거 물건이네!</small> <small class="d-flex">프로젝트 기간: 21.06.28 ~ 21.07.28</small> <small class="d-flex">개발자: 홍준수, 강진슬, 박준성, 오다빈, 이창민, 주동성</small>
 	</section>
 </footer>
