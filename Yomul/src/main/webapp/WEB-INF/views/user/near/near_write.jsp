@@ -42,15 +42,15 @@ $(document).ready(function(){
 			
 			<!-- 글 작성 -->
 			<div class="near-write-form" >
-				<form name="near_write" action="#" method="post">
+				<form name="near_write" action="near_write_proc" method="post">
 					<div>
 						<label>제목</label>
-						<input type="text" placeholder="제목을 입력해 주세요" required>
+						<input type="text" placeholder="제목을 입력해 주세요" required name="title">
 					</div>
 					<div>
 						<label>카테고리</label>
 						<select name="category" id="category" class="near-write-category" required>
-							<option value="" disabled selected hidden>카테고리를 설정해 주세요</option>
+							<option value="카테고리" disabled selected hidden>카테고리를 설정해 주세요</option>
 							<option value="동네구인구직">동네구인구직</option>
 							<option value="과외/클래스">과외/클래스</option>
 							<option value="농수산물">농수산물</option>
@@ -59,16 +59,16 @@ $(document).ready(function(){
 					</div>
 					<div>
 						<label>가격</label>
-						<input type="text" placeholder="가격 (선택사항)">
+						<input type="text" placeholder="가격 (선택사항)" name="price">
 					</div>
 					<div>
 						<label>전화번호</label>
-						<input type="text" placeholder="전화번호 (선택사항)">
+						<input type="text" placeholder="전화번호 (선택사항)" name="hp">
 					</div>
 					<div>
-						<textarea placeholder="이웃들에게 홍보하고 싶은 내용을 입력해주세요" required></textarea>
+						<textarea placeholder="이웃들에게 홍보하고 싶은 내용을 입력해주세요" required name="content"></textarea>
 					</div>
-					<input type="checkbox" class="near-write-checkbox">  채팅 안 받기
+					<input type="checkbox" class="near-write-checkbox" name="chatCheck" value="1">  채팅 안 받기
 					<button type="submit">완료</button>
 				</form>
 			</div>
