@@ -15,4 +15,16 @@ public class UserController {
 		mv.addObject("target", target);
 		return mv;
 	}
+
+	@RequestMapping(value = "/usepolicy", method = RequestMethod.GET)
+	public ModelAndView usepolicy() {
+		ModelAndView mv = new ModelAndView("user/usepolicy");
+		return mv;
+	}
+
+	@RequestMapping(value = "/privacy", method = RequestMethod.GET)
+	public ModelAndView privacy() {
+		ModelAndView mv = new ModelAndView("user/privacy");
+		return mv;
+	}
 }

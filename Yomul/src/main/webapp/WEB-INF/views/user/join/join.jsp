@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원가입</title>
+<title>요물 회원가입</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -19,12 +19,16 @@
 			<form name="join_form">
 				<div class="form-group">
 					<label for="email">이메일</label>
-					<input id="email" name="email" class="w-100 form-control" type="email" required>
+					<div class="input-group mb-3">
+						<input type="email" class="form-control" placeholder="example@yomul.com" id="email" name="email" aria-describedby="button-addon2" required>
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" type="button" id="button-addon2">중복확인</button>
+						</div>
+					</div>
 				</div>
 				<div class="form-group">
 					<label for="pw">비밀번호</label>
-					<small id="pwHelp" class="form-text text-muted">8자 이상 입력해주세요.</small>
-					<input id="pw" name="pw" class="w-100 form-control" type="password" required>
+					<small id="pwHelp" class="form-text text-muted">8자 이상 입력해주세요.</small> <input id="pw" name="pw" class="w-100 form-control" type="password" required>
 				</div>
 				<div class="form-group">
 					<label for="pwchk">비밀번호 확인</label>
@@ -32,8 +36,7 @@
 				</div>
 				<div class="form-group">
 					<label for="nickname">별명</label>
-					<small id="nicknameHelp" class="form-text text-muted">다른 유저와 겹치지 않는 별명을 입력해주세요.(2~15자)</small>
-					<input id="nickname" name="nickname" class="w-100 form-control" type="text" required>
+					<small id="nicknameHelp" class="form-text text-muted">다른 유저와 겹치지 않는 별명을 입력해주세요.(2~15자)</small> <input id="nickname" name="nickname" class="w-100 form-control" type="text" required>
 				</div>
 				<p>약관 동의</p>
 				<div class="form-group border rounded pt-3 pl-2 pb-1 pr-3">
@@ -48,11 +51,17 @@
 					</div>
 					<div class="form-check">
 						<input id="check_2" name="check_2" type="checkbox" class="form-check-input" required>
-						<label class="form-check-label"> 이용약관 </label>
+						<label class="form-check-label">
+							이용약관
+							<a href="/yomul/usepolicy">보기</a>
+						</label>
 					</div>
 					<div class="form-check">
 						<input id="check_3" name="check_3" type="checkbox" class="form-check-input" required>
-						<label class="form-check-label"> 개인정보수집 및 이용동의 </label>
+						<label class="form-check-label">
+							개인정보수집 및 이용동의
+							<a href="/yomul/privacy">보기</a>
+						</label>
 					</div>
 					<div class="form-check">
 						<input id="check_4" name="check_4" type="checkbox" class="form-check-input">
@@ -62,7 +71,8 @@
 				<button class="btn btn-block btn-yomul" type="submit">회원가입 완료</button>
 				<div class="text-center mt-3">
 					<p>
-						이미 아이디가 있으신가요? <a href="/yomul/login">로그인</a>
+						이미 아이디가 있으신가요?
+						<a href="/yomul/login">로그인</a>
 					</p>
 				</div>
 			</form>
