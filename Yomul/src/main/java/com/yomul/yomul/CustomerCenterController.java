@@ -53,20 +53,4 @@ public class CustomerCenterController {
 	public String qnaWrite() {
 		return "user/customer_center/qna/qna_write";
 	}
-	
-	// 관리자 임시 문의 목록
-	@RequestMapping(value = "admin/customer_qna", method = RequestMethod.GET)
-	public String adminQnaList() {
-		return "admin/customer_center/qna/admin_qna_list";
-	}
-	
-	// 관리자 임시 문의 상세
-	@RequestMapping(value = "admin/customer_qna/{no}", method = RequestMethod.GET)
-	public ModelAndView adminQnaInfo(@PathVariable("no") int no) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("admin/customer_center/qna/admin_qna_info");
-		mv.addObject("no", no);
-		
-		return mv;
-	}
 }
