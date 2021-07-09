@@ -7,6 +7,29 @@
 <title>요물 회원가입</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#btn_email_check").on("click", function() {
+			$.ajax({
+				url : "/yomul/email_check",
+				method : "GET",
+				data : {
+					"email" : $("#email").val()
+				},
+				success : function(result) {
+					if (result == 1) {
+						alert("사용할 수 있는 이메일입니다.");
+						$("#email").attr("disabled", "");
+						$("#btn_email_check").attr("disabled", "");
+					} else {
+						alert("사용중인 이메일입니다. 다른 이메일을 입력해주세요.");
+
+					}
+				}
+			});
+		});
+	});
+</script>
 </head>
 <body>
 	<!-- HEADER -->
@@ -20,9 +43,9 @@
 				<div class="form-group">
 					<label for="email">이메일</label>
 					<div class="input-group mb-3">
-						<input type="email" class="form-control" placeholder="example@yomul.com" id="email" name="email" aria-describedby="button-addon2" required>
+						<input type="email" class="form-control" placeholder="example@yomul.com" id="email" name="email" aria-describedby="btn_email_check" required>
 						<div class="input-group-append">
-							<button class="btn btn-outline-secondary" type="button" id="button-addon2">중복확인</button>
+							<button class="btn btn-outline-secondary" type="button" id="btn_email_check">중복확인</button>
 						</div>
 					</div>
 				</div>

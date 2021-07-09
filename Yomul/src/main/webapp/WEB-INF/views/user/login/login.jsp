@@ -31,7 +31,7 @@
 					<label class="ml-2">
 						<input type="checkbox" name="auto_login" id="auto_login"> <small> 자동 로그인 </small>
 					</label>
-					<small class="ml-auto"> <a href="find_id.jsp" class="text-decoration-none text-muted">아이디 찾기</a> | <a href="find_password.jsp" class="text-decoration-none text-muted">비밀번호 찾기</a>
+					<small class="ml-auto"> <a href="/yomul/reset_password" class="text-decoration-none text-muted">비밀번호 재설정</a>
 					</small>
 				</div>
 			</form>
