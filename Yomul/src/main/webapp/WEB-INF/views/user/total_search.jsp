@@ -32,10 +32,7 @@
 										<a href="http://localhost:9000/yomul/town_info?no=">부엌 찐한 차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑 바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
 									</div>
 									<div class="town_info">
-										<label>해푸름</label>
-										<label>작성일자:2021-07-05</label>
-										<label style="color: tomato">댓글:15</label>
-										<label>조회수:30</label>
+										<label>해푸름</label> <label>작성일자:2021-07-05</label> <label style="color: tomato">댓글:15</label> <label>조회수:30</label>
 									</div>
 								</div>
 								<div class="col-sm-4">
@@ -53,10 +50,7 @@
 										<a href="http://localhost:9000/yomul/town_info">부엌 찐한 차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑 바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
 									</div>
 									<div class="town_info">
-										<label>해푸름</label>
-										<label>작성일자:2021-07-05</label>
-										<label style="color: tomato">댓글:15</label>
-										<label>조회수:30</label>
+										<label>해푸름</label> <label>작성일자:2021-07-05</label> <label style="color: tomato">댓글:15</label> <label>조회수:30</label>
 									</div>
 								</div>
 								<div class="col-sm-4">
@@ -74,10 +68,7 @@
 										<a href="http://localhost:9000/yomul/town_info">부엌 찐한 차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑 바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
 									</div>
 									<div class="town_info">
-										<label>해푸름</label>
-										<label>작성일자:2021-07-05</label>
-										<label style="color: tomato">댓글:15</label>
-										<label>조회수:30</label>
+										<label>해푸름</label> <label>작성일자:2021-07-05</label> <label style="color: tomato">댓글:15</label> <label>조회수:30</label>
 									</div>
 								</div>
 								<div class="col-sm-4">
@@ -98,19 +89,22 @@
 			<div class="near-home-news">
 				<div>
 					<h3>내 근처 소식</h3>
-					<a href="near_home">전체보기 ></a>
+					<a href="/yomul/near_card_form">전체보기 ></a>
 				</div>
 				<c:forEach var="i" begin="0" end="2" step="1">
 					<div class="near-home-news-content">
 						<table>
 							<tr>
-								<td><img src="/yomul/image/이미지준비중.jpg"></td>
+								<td><img src="http://localhost:9000/yomul/image/이미지준비중.jpg"></td>
 								<td>
-									<div>
-										<h5>타이틀</h5>
-										<p>내용</p>
-										<img src="/yomul/image/이미지준비중.jpg">
-										<label>작성자</label>
+									<div class="near-home-news-title">
+										<a href="near_info">
+											<h5>타이틀입니다</h5>
+											<p>내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다 내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내내용입니다용입니다...</p>
+										</a>
+										<div class="near-home-news-writer">
+											<img src="http://localhost:9000/yomul/image/이미지준비중.jpg"> <label>작성자</label>
+										</div>
 									</div>
 								</td>
 							</tr>
