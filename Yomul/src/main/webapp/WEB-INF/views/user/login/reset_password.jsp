@@ -9,7 +9,7 @@
 <jsp:include page="../../head.jsp"></jsp:include>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#form_join").on("submit", function() {
+		$("#form_reset_password").on("submit", function() {
 			$.ajax({
 				url : "/yomul/reset_password_proc",
 				method : "GET",
@@ -33,7 +33,7 @@
 	<section id="login">
 		<div class="container col-md-6 mt-3">
 			<h1 class="mb-3">비밀번호 재설정</h1>
-			<form id="form_join">
+			<form id="form_reset_password">
 				<div class="form-group">
 					<label for="email">
 						이메일 <small class="text-yomul">임시 비밀번호를 발급하여 이메일로 전송합니다.</small>
