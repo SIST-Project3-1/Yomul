@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>비밀번호 초기화</title>
+<title>비밀번호 재설정</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 <script type="text/javascript">
@@ -32,7 +32,7 @@
 	<!--  BODY  -->
 	<section id="login">
 		<div class="container col-md-6 mt-3">
-			<h1 class="mb-3">비밀번호 초기화</h1>
+			<h1 class="mb-3">비밀번호 재설정</h1>
 			<form id="form_join">
 				<div class="form-group">
 					<label for="email">
@@ -40,7 +40,7 @@
 					</label>
 					<input id="email" name="email" class="w-100 form-control" type="email" required>
 				</div>
-				<button id="btn_submit" class="btn btn-block btn-yomul" type="submit">비밀번호 초기화</button>
+				<button id="btn_submit" class="btn btn-block btn-yomul" type="submit">비밀번호 재설정</button>
 			</form>
 		</div>
 	</section>
