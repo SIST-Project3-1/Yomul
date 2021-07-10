@@ -25,4 +25,25 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.nicknameCheck(nickname) == 1 ? 1 : 0;
 	}
 
+
+	@Override
+	public int getBuyCount(MemberVO vo) {
+		return memberDAO.getBuyCount(vo);
+	}
+
+	@Override
+	public int getSellCount(MemberVO vo) {
+		return memberDAO.getSellCount(vo);
+	}
+
+	@Override
+	public MemberVO getMyProfileInfo(MemberVO vo) {
+		return memberDAO.getMyProfileInfo(vo);
+	}
+
+	@Override
+	public int getFavoriteCount(MemberVO vo) {
+		return memberDAO.getFavoriteCount(vo);
+	}
+
 }
