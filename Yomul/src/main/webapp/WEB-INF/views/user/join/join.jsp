@@ -8,14 +8,11 @@
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$("#btn_email_check").on("click", function() {
 	// 이메일 체크
 	function emailCheck() {
 		if (validateEmail($("#email").val())) {
 			$.ajax({
 				url : "/yomul/email_check",
-				method : "GET",
 				method : "POST",
 				data : {
 					"email" : $("#email").val()
@@ -52,6 +49,24 @@
 	}
 
 		});
+	}
+
+	// 전체 동의
+	function checkAll() {
+		if ($("#check_all").is(":checked") == true) {
+			$("#check_1").prop("checked", true);
+			$("#check_2").prop("checked", true);
+			$("#check_3").prop("checked", true);
+			$("#check_4").prop("checked", true);
+		} else if ($("#check_all").is(":checked") == false) {
+			$("#check_1").prop("checked", false);
+			$("#check_2").prop("checked", false);
+			$("#check_3").prop("checked", false);
+			$("#check_4").prop("checked", false);
+
+		}
+	}
+
 	});
 </script>
 </head>
@@ -82,6 +97,7 @@
 					<label for="pw_chk">비밀번호 확인</label>
 					<input id="pw_chk" class="w-100 form-control" type="password" onkeyup="pwCheck()" required>
 					<div class="valid-feedback">비밀번호가 일치합니다.</div>
+					<div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
 				</div>
 				<div class="form-group">
 					<label for="nickname">별명</label>
@@ -90,19 +106,22 @@
 				<p>약관 동의</p>
 				<div class="form-group border rounded pt-3 pl-2 pb-1 pr-3">
 					<div class="form-check">
-						<input id="check_all" type="checkbox" class="form-check-input">
+						<input id="check_all" type="checkbox" class="form-check-input" onchange="checkAll()">
 						<label class="form-check-label"> 전체동의 </label>
 					</div>
 					<hr>
 					<div class="form-check">
 						<input id="check_1" name="check_1" type="checkbox" class="form-check-input" required>
-						<label class="form-check-label"> 만 14세 이상입니다. </label>
+						<label class="form-check-label">
+							만 14세 이상입니다. <span class="text-yomul">(필수)</span>
+						</label>
 					</div>
 					<div class="form-check">
 						<input id="check_2" name="check_2" type="checkbox" class="form-check-input" required>
 						<label class="form-check-label">
 							이용약관
 							<a href="/yomul/usepolicy">보기</a>
+							<span class="text-yomul">(필수)</span>
 						</label>
 					</div>
 					<div class="form-check">
@@ -110,11 +129,14 @@
 						<label class="form-check-label">
 							개인정보수집 및 이용동의
 							<a href="/yomul/privacy">보기</a>
+							<span class="text-yomul">(필수)</span>
 						</label>
 					</div>
 					<div class="form-check">
 						<input id="check_4" name="check_4" type="checkbox" class="form-check-input">
-						<label class="form-check-label"> 이벤트, 프로모션 알림 메일 및 SMS 수신 </label>
+						<label class="form-check-label">
+							이벤트, 프로모션 알림 메일 및 SMS 수신 <span>(선택)</span>
+						</label>
 					</div>
 				</div>
 				<button class="btn btn-block btn-yomul" type="submit">회원가입 완료</button>
