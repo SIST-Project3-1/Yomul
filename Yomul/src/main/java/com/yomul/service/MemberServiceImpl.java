@@ -15,4 +15,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.emailCheck(email) == 1 ? 1 : 0;
 	}
 
+	@Override
+	public int nicknameCheck(String nickname) {
+		return memberDAO.nicknameCheck(nickname) == 1 ? 1 : 0;
+	}
+
 }

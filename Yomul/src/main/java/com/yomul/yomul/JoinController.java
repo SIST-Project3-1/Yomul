@@ -36,4 +36,13 @@ public class JoinController {
 	public String email_check(String email) {
 		return String.valueOf(memberService.emailCheck(email));
 	}
+
+	/**
+	 * 닉네임 중복 확인
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/nickname_check", method = RequestMethod.POST)
+	public String nickname_check(String nickname) {
+		return String.valueOf(memberService.nicknameCheck(nickname));
+	}
 }

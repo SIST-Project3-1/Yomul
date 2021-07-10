@@ -19,12 +19,12 @@
 					"email" : $("#email").val()
 				},
 				success : function(result) {
-					if (result == 1) {
+					if (result == 1) { // 이메일 사용 불가
 						$("#email").siblings(".valid-feedback").css("display", "none");
 						$("#email").siblings(".invalid-feedback").css("display", "block");
 						$("#email").siblings(".wrong_regex").css("display", "none");
 						return false;
-					} else {
+					} else { // 이메일 사용 가능
 						$("#email").siblings(".valid-feedback").css("display", "block");
 						$("#email").siblings(".invalid-feedback").css("display", "none");
 						$("#email").siblings(".wrong_regex").css("display", "none");
@@ -34,11 +34,12 @@
 					}
 				}
 			});
-		} else {
+		} else { // 이메일 형식 오류
 			$("#email").siblings(".valid-feedback").css("display", "none");
 			$("#email").siblings(".invalid-feedback").css("display", "none");
 			$("#email").siblings(".wrong_regex").css("display", "block");
 			$("#email").focus();
+			return false;
 		}
 	}
 
@@ -55,6 +56,25 @@
 		}
 	}
 
+	// 닉네임 중복 확인
+	function nicknameCheck() {
+		$.ajax({
+			url : "/yomul/nickname_check",
+			method : "POST",
+			data : {
+				"nickname" : $("#nickname").val()
+			},
+			success : function(result) {
+				if (result == 1) {
+					$("#nickname").siblings(".valid-feedback").css("display", "none");
+					$("#nickname").siblings(".invalid-feedback").css("display", "block");
+					return false;
+				} else {
+					$("#nickname").siblings(".valid-feedback").css("display", "block");
+					$("#nickname").siblings(".invalid-feedback").css("display", "none");
+					return true;
+				}
+			}
 		});
 	}
 
@@ -111,7 +131,10 @@
 				</div>
 				<div class="form-group">
 					<label for="nickname">별명</label>
-					<small id="nicknameHelp" class="form-text text-muted">다른 유저와 겹치지 않는 별명을 입력해주세요.(2~15자)</small> <input id="nickname" name="nickname" class="w-100 form-control" type="text" required>
+					<small id="nicknameHelp" class="form-text text-muted">다른 유저와 겹치지 않는 별명을 입력해주세요.(2~15자)</small>
+					<input id="nickname" name="nickname" class="w-100 form-control" type="text" onkeyup="nicknameCheck()" required>
+					<div class="valid-feedback">사용할 수 있는 닉네임입니다.</div>
+					<div class="invalid-feedback">사용할 수 없는 닉네임입니다.</div>
 				</div>
 				<p>약관 동의</p>
 				<div class="form-group border rounded pt-3 pl-2 pb-1 pr-3">
