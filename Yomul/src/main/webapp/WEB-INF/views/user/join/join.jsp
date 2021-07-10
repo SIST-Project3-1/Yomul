@@ -8,6 +8,11 @@
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
 <script type="text/javascript">
+	var emailCheckFlag = false;
+	var pwCheckFlag = false;
+	var nicknameCheckFlag = false;
+	var checkBoxCheckFlag = false;
+
 	// 이메일 체크
 	function emailCheck() {
 		// 이메일 형식 확인
@@ -15,6 +20,7 @@
 			$.ajax({
 				url : "/yomul/email_check",
 				method : "POST",
+				async : false,
 				data : {
 					"email" : $("#email").val()
 				},
@@ -23,14 +29,14 @@
 						$("#email").siblings(".valid-feedback").css("display", "none");
 						$("#email").siblings(".invalid-feedback").css("display", "block");
 						$("#email").siblings(".wrong_regex").css("display", "none");
-						return false;
+						emailCheckFlag = false;
 					} else { // 이메일 사용 가능
 						$("#email").siblings(".valid-feedback").css("display", "block");
 						$("#email").siblings(".invalid-feedback").css("display", "none");
 						$("#email").siblings(".wrong_regex").css("display", "none");
 						$("#email").attr("readonly", "");
 						$("#btn_email_check").attr("disabled", "");
-						return true;
+						emailCheckFlag = true;
 					}
 				}
 			});
@@ -39,20 +45,21 @@
 			$("#email").siblings(".invalid-feedback").css("display", "none");
 			$("#email").siblings(".wrong_regex").css("display", "block");
 			$("#email").focus();
-			return false;
+			emailCheckFlag = false;
 		}
 	}
 
 	// 비밀번호 체크
 	function pwCheck() {
-		if ($("#pw_chk").val() == $("#pw").val()) {
+		console.log("pwCheck");
+		if ($("#pw").val() != "" && $("#pw_chk").val() == $("#pw").val()) {
 			$("#pw_chk").siblings(".valid-feedback").css("display", "block");
 			$("#pw_chk").siblings(".invalid-feedback").css("display", "none");
-			return true;
+			pwCheckFlag = true;
 		} else {
 			$("#pw_chk").siblings(".valid-feedback").css("display", "none");
 			$("#pw_chk").siblings(".invalid-feedback").css("display", "block");
-			return false;
+			pwCheckFlag = false;
 		}
 	}
 
@@ -68,33 +75,77 @@
 				if (result == 1) {
 					$("#nickname").siblings(".valid-feedback").css("display", "none");
 					$("#nickname").siblings(".invalid-feedback").css("display", "block");
-					return false;
+					nicknameCheckFlag = false;
 				} else {
 					$("#nickname").siblings(".valid-feedback").css("display", "block");
 					$("#nickname").siblings(".invalid-feedback").css("display", "none");
-					return true;
+					nicknameCheckFlag = true;
 				}
 			}
 		});
 	}
 
 	// 전체 동의
-	function checkAll() {
+	function checkAllCheckbox() {
 		if ($("#check_all").is(":checked") == true) {
 			$("#check_1").prop("checked", true);
 			$("#check_2").prop("checked", true);
 			$("#check_3").prop("checked", true);
-			$("#check_4").prop("checked", true);
+			$("#subscribe").prop("checked", true);
 		} else if ($("#check_all").is(":checked") == false) {
 			$("#check_1").prop("checked", false);
 			$("#check_2").prop("checked", false);
 			$("#check_3").prop("checked", false);
-			$("#check_4").prop("checked", false);
+			$("#subscribe").prop("checked", false);
 
 		}
 	}
 
-	});
+	// 필수 약관 동의 확인
+	function checkBoxCheck() {
+		if (!$("#check_1").is(":checked")) {
+			$("#check_1").parent().siblings(".invalid-feedback").css("disbplay", "block");
+			checkBoxCheckFlag = false;
+		} else if (!$("#check_2").is(":checked")) {
+			$("#check_1").parent().siblings(".invalid-feedback").css("disbplay", "none");
+			$("#check_2").parent().siblings(".invalid-feedback").css("disbplay", "block");
+			checkBoxCheckFlag = false;
+		} else if (!$("#check_3").is(":checked")) {
+			$("#check_1").parent().siblings(".invalid-feedback").css("disbplay", "none");
+			$("#check_2").parent().siblings(".invalid-feedback").css("disbplay", "none");
+			$("#check_3").parent().siblings(".invalid-feedback").css("disbplay", "block");
+			checkBoxCheckFlag = false;
+		} else {
+			checkBoxCheckFlag = true;
+		}
+	}
+
+	// 회원가입 처리
+	function join_submit() {
+		if (!emailCheckFlag) {
+			emailCheck();
+		} else if (!pwCheckFlag) {
+			pwCheck();
+		} else if (!nicknameCheckFlag) {
+			nicknameCheck();
+		} else if (!checkBoxCheckFlag) {
+			checkBoxCheck();
+		} else {
+			$.ajax({
+				url : "/yomul/join_proc",
+				method : "POST",
+				data : $("#form_join").serialize(),
+				success : function(result) {
+					if (result == 1) {
+						alert("회원가입에 성공했습니다.");
+						location.href = "/yomul/login";
+					} else {
+						alert("회원가입에 실패했습니다.");
+					}
+				}
+			});
+		}
+	}
 </script>
 </head>
 <body>
@@ -139,40 +190,45 @@
 				<p>약관 동의</p>
 				<div class="form-group border rounded pt-3 pl-2 pb-1 pr-3">
 					<div class="form-check">
-						<input id="check_all" type="checkbox" class="form-check-input" onchange="checkAll()">
-						<label class="form-check-label"> 전체동의 </label>
+						<label class="form-check-label">
+							<input id="check_all" type="checkbox" class="form-check-input" onchange="checkAllCheckbox()">
+							전체동의
+						</label>
 					</div>
 					<hr>
 					<div class="form-check">
-						<input id="check_1" name="check_1" type="checkbox" class="form-check-input" required>
 						<label class="form-check-label">
+							<input id="check_1" name="check_1" type="checkbox" class="form-check-input" required>
 							만 14세 이상입니다. <span class="text-yomul">(필수)</span>
 						</label>
+						<div class="invalid-feedback">필수 약관에 동의해주세요.</div>
 					</div>
 					<div class="form-check">
-						<input id="check_2" name="check_2" type="checkbox" class="form-check-input" required>
 						<label class="form-check-label">
+							<input id="check_2" name="check_2" type="checkbox" class="form-check-input" required>
 							이용약관
 							<a href="/yomul/usepolicy">보기</a>
 							<span class="text-yomul">(필수)</span>
 						</label>
+						<div class="invalid-feedback">필수 약관에 동의해주세요.</div>
 					</div>
 					<div class="form-check">
-						<input id="check_3" name="check_3" type="checkbox" class="form-check-input" required>
 						<label class="form-check-label">
+							<input id="check_3" name="check_3" type="checkbox" class="form-check-input" required>
 							개인정보수집 및 이용동의
 							<a href="/yomul/privacy">보기</a>
 							<span class="text-yomul">(필수)</span>
 						</label>
+						<div class="invalid-feedback">필수 약관에 동의해주세요.</div>
 					</div>
 					<div class="form-check">
-						<input id="check_4" name="check_4" type="checkbox" class="form-check-input">
 						<label class="form-check-label">
+							<input id="subscribe" name="subscribe" type="checkbox" class="form-check-input">
 							이벤트, 프로모션 알림 메일 및 SMS 수신 <span>(선택)</span>
 						</label>
 					</div>
 				</div>
-				<button class="btn btn-block btn-yomul" type="submit">회원가입 완료</button>
+				<button class="btn btn-block btn-yomul" type="button" onclick="join_submit()">회원가입 완료</button>
 				<div class="text-center mt-3">
 					<p>
 						이미 아이디가 있으신가요?
@@ -180,27 +236,6 @@
 					</p>
 				</div>
 			</form>
-
-			<script>
-				// Example starter JavaScript for disabling form submissions if there are invalid fields
-				(function() {
-					'use strict';
-					window.addEventListener('load', function() {
-						// Fetch all the forms we want to apply custom Bootstrap validation styles to
-						var forms = document.getElementsByClassName('needs-validation');
-						// Loop over them and prevent submission
-						var validation = Array.prototype.filter.call(forms, function(form) {
-							form.addEventListener('submit', function(event) {
-								if (form.checkValidity() === false) {
-									event.preventDefault();
-									event.stopPropagation();
-								}
-								form.classList.add('was-validated');
-							}, false);
-						});
-					}, false);
-				})();
-			</script>
 		</div>
 	</section>
 

@@ -27,6 +27,20 @@ public class JoinController {
 	}
 
 	/**
+	 * 회원가입 처리
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/join_proc", method = RequestMethod.POST)
+	public String join_proc(MemberVO vo) {
+		// 비밀번호 암호화
+		vo.setHashsalt(Security.getSalt());
+		vo.setPw(Security.pwHashing(vo.getPw(), vo.getHashsalt()));
+		return String.valueOf(memberService.join(vo));
+	}
+
+	/**
 	 * 이메일 중복 확인
 	 * 
 	 * @return

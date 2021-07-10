@@ -11,6 +11,11 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDAO memberDAO;
 
 	@Override
+	public int join(MemberVO vo) {
+		return memberDAO.join(vo) == 1 ? 1 : 0;
+	}
+
+	@Override
 	public int emailCheck(String email) {
 		return memberDAO.emailCheck(email) == 1 ? 1 : 0;
 	}

@@ -13,6 +13,7 @@ public class MemberVO extends VO {
 	private String authority;
 	private int withdrawal = -1;
 	private String mdate;
+	private String subscribe;
 
 	public String getEmail() {
 		return email;
@@ -109,4 +110,13 @@ public class MemberVO extends VO {
 	public void setNo(String no) {
 		this.no = no;
 	}
+
+	public String getSubscribe() {
+		return subscribe != null ? subscribe : "off";
+	}
+
+	public void setSubscribe(String subscribe) {
+		this.subscribe = subscribe;
+	}
+
 }
