@@ -19,13 +19,13 @@
 				},
 				success : function(result) {
 					if (result == 1) {
+						alert("사용중인 이메일입니다. 다른 이메일을 입력해주세요.");
+						return false;
+					} else {
 						alert("사용할 수 있는 이메일입니다.");
-						$("#email").attr("disabled", "");
 						$("#email").attr("readonly", "");
 						$("#btn_email_check").attr("disabled", "");
-					} else {
-						alert("사용중인 이메일입니다. 다른 이메일을 입력해주세요.");
-
+						return true;
 					}
 				}
 			});
