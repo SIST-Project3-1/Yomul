@@ -1,12 +1,20 @@
 package com.yomul.yomul;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yomul.service.MemberService;
+import com.yomul.util.Security;
+import com.yomul.vo.MemberVO;
+
 @Controller
 public class JoinController {
+
+	@Autowired
+	private MemberService memberService;
 
 	/**
 	 * 회원가입 페이지
@@ -24,8 +32,8 @@ public class JoinController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/email_check", method = RequestMethod.GET)
+	@RequestMapping(value = "/email_check", method = RequestMethod.POST)
 	public String email_check(String email) {
-		return "1";
+		return String.valueOf(memberService.emailCheck(email));
 	}
 }

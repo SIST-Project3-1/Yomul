@@ -10,9 +10,13 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#btn_email_check").on("click", function() {
+	// 이메일 체크
+	function emailCheck() {
+		if (validateEmail($("#email").val())) {
 			$.ajax({
 				url : "/yomul/email_check",
 				method : "GET",
+				method : "POST",
 				data : {
 					"email" : $("#email").val()
 				},
@@ -20,6 +24,7 @@
 					if (result == 1) {
 						alert("사용할 수 있는 이메일입니다.");
 						$("#email").attr("disabled", "");
+						$("#email").attr("readonly", "");
 						$("#btn_email_check").attr("disabled", "");
 					} else {
 						alert("사용중인 이메일입니다. 다른 이메일을 입력해주세요.");
@@ -27,6 +32,12 @@
 					}
 				}
 			});
+		} else {
+			alert("이메일 형식에 맞지 않습니다.");
+			$("#email").focus();
+		}
+	}
+
 		});
 	});
 </script>
@@ -40,12 +51,14 @@
 		<div class="container col-md-6 mt-3">
 			<h1 class="mb-3">회원가입</h1>
 			<form name="join_form">
+			<form id="form_join" class="needs-validation" novalidate>
 				<div class="form-group">
 					<label for="email">이메일</label>
 					<div class="input-group mb-3">
 						<input type="email" class="form-control" placeholder="example@yomul.com" id="email" name="email" aria-describedby="btn_email_check" required>
 						<div class="input-group-append">
 							<button class="btn btn-outline-secondary" type="button" id="btn_email_check">중복확인</button>
+							<button class="btn btn-outline-secondary" type="button" id="btn_email_check" onclick="emailCheck()">중복확인</button>
 						</div>
 					</div>
 				</div>
@@ -99,6 +112,27 @@
 					</p>
 				</div>
 			</form>
+
+			<script>
+				// Example starter JavaScript for disabling form submissions if there are invalid fields
+				(function() {
+					'use strict';
+					window.addEventListener('load', function() {
+						// Fetch all the forms we want to apply custom Bootstrap validation styles to
+						var forms = document.getElementsByClassName('needs-validation');
+						// Loop over them and prevent submission
+						var validation = Array.prototype.filter.call(forms, function(form) {
+							form.addEventListener('submit', function(event) {
+								if (form.checkValidity() === false) {
+									event.preventDefault();
+									event.stopPropagation();
+								}
+								form.classList.add('was-validated');
+							}, false);
+						});
+					}, false);
+				})();
+			</script>
 		</div>
 	</section>
 
