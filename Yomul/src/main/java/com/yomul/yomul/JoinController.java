@@ -34,6 +34,9 @@ public class JoinController {
 	@ResponseBody
 	@RequestMapping(value = "/email_check", method = RequestMethod.POST)
 	public String email_check(String email) {
+		if (email.equals("")) {
+			return "1";
+		}
 		return String.valueOf(memberService.emailCheck(email));
 	}
 
@@ -43,6 +46,9 @@ public class JoinController {
 	@ResponseBody
 	@RequestMapping(value = "/nickname_check", method = RequestMethod.POST)
 	public String nickname_check(String nickname) {
+		if (nickname.equals("") || nickname.length() <= 1) {
+			return "1";
+		}
 		return String.valueOf(memberService.nicknameCheck(nickname));
 	}
 }
