@@ -21,7 +21,10 @@ DROP TABLE YOMUL_QNA_CATEGORIES CASCADE CONSTRAINTS;
 DROP TABLE YOMUL_QNA_ARTICLES CASCADE CONSTRAINTS;
 DROP TABLE YOMUL_FILES CASCADE CONSTRAINTS;
 DROP TABLE YOMUL_COMMENTS CASCADE CONSTRAINTS;
+DROP TABLE YOMUL_LIKES CASCADE CONSTRAINTS;
+DROP TABLE YOMUL_REPORTS CASCADE CONSTRAINTS;
 -- 시퀀스 삭제----------------------------------------------------------------------------------------------------------------------------------
+DROP SEQUENCE YOMUL_MEMBERS_NO_SEQ;
 DROP SEQUENCE YOMUL_PRODUCTS_NO_SEQ;
 DROP SEQUENCE YOMUL_TRADE_HISTORY_NO_SEQ;
 DROP SEQUENCE YOMUL_CHATS_NO_SEQ;
@@ -224,6 +227,21 @@ CREATE TABLE YOMUL_COMMENTS(
   CONSTRAINT PK_Y_CO_NO PRIMARY KEY (NO),
   CONSTRAINT FK_Y_CO_M_EMAIL FOREIGN KEY(EMAIL) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
 );
+
+-- 게시글, 댓글 좋아요 테이블
+CREATE TABLE YOMUL_LIKES(
+    ARTICLE_NO VARCHAR2(10), -- 좋아요 눌린 게시글 번호
+    MEMBER_NO VARCHAR2(10),  -- 좋아요 누른 사람
+    CONSTRAINT PK_Y_L PRIMARY KEY (ARTICLE_NO, MEMBER_NO)
+);
+
+-- 신고
+CREATE TABLE YOMUL_REPORTS(
+    ARTICLE_NO VARCHAR2(10), -- 신고 눌린 게시글 번호
+    MEMBER_NO VARCHAR2(10), -- 신고 누른 사람
+    CONSTRAINT PK_Y_R PRIMARY KEY (ARTICLE_NO, MEMBER_NO)
+);
+
 -- 테이블 생성 끝----------------------------------------------------------------------------------------------------------------------------------
 
 -- 시퀀스 생성----------------------------------------------------------------------------------------------------------------------------------
