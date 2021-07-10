@@ -15,7 +15,7 @@ public class MemberDAO extends DAO {
 	public MemberVO getMyProfileInfo(MemberVO vo) {
 		MemberVO result = null;
 		try {
-			String sql = "SELECT NICKNAME, INTRO FROM YOMUL_MEMBERS WHERE NO = ?";
+			String sql = "SELECT EMAIL, NICKNAME, PHONE, GENDER, INTRO, F.FILENAME FILENAME FROM YOMUL_MEMBERS M LEFT JOIN YOMUL_FILES F ON M.NO = F.ARTICLE_NO WHERE M.NO = ?";
 			getPreparedStatement(sql);
 
 			pstmt.setString(1, vo.getNo());
@@ -23,8 +23,12 @@ public class MemberDAO extends DAO {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				result = new MemberVO();
-				result.setNickname(rs.getString(1));
-				result.setIntro(rs.getString(2));
+				result.setEmail(rs.getString(1));
+				result.setNickname(rs.getString(2));
+				result.setPhone(rs.getString(3));
+				result.setGender(rs.getString(4));
+				result.setIntro(rs.getString(5));
+				result.setProfileImg(rs.getString(6));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
