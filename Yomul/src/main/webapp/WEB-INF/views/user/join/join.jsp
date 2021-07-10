@@ -6,10 +6,11 @@
 <meta charset="UTF-8">
 <title>요물 회원가입</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 <script type="text/javascript">
 	// 이메일 체크
 	function emailCheck() {
+		// 이메일 형식 확인
 		if (validateEmail($("#email").val())) {
 			$.ajax({
 				url : "/yomul/email_check",
@@ -19,10 +20,14 @@
 				},
 				success : function(result) {
 					if (result == 1) {
-						alert("사용중인 이메일입니다. 다른 이메일을 입력해주세요.");
+						$("#email").siblings(".valid-feedback").css("display", "none");
+						$("#email").siblings(".invalid-feedback").css("display", "block");
+						$("#email").siblings(".wrong_regex").css("display", "none");
 						return false;
 					} else {
-						alert("사용할 수 있는 이메일입니다.");
+						$("#email").siblings(".valid-feedback").css("display", "block");
+						$("#email").siblings(".invalid-feedback").css("display", "none");
+						$("#email").siblings(".wrong_regex").css("display", "none");
 						$("#email").attr("readonly", "");
 						$("#btn_email_check").attr("disabled", "");
 						return true;
@@ -30,7 +35,9 @@
 				}
 			});
 		} else {
-			alert("이메일 형식에 맞지 않습니다.");
+			$("#email").siblings(".valid-feedback").css("display", "none");
+			$("#email").siblings(".invalid-feedback").css("display", "none");
+			$("#email").siblings(".wrong_regex").css("display", "block");
 			$("#email").focus();
 		}
 	}
@@ -86,6 +93,9 @@
 						<div class="input-group-append">
 							<button class="btn btn-outline-secondary" type="button" id="btn_email_check" onclick="emailCheck()">중복확인</button>
 						</div>
+						<div class="valid-feedback">사용할 수 있는 이메일입니다.</div>
+						<div class="invalid-feedback">사용할 수 없는 이메일입니다.</div>
+						<div class="invalid-feedback wrong_regex">이메일 형식에 맞지 않습니다.</div>
 					</div>
 				</div>
 				<div class="form-group">
