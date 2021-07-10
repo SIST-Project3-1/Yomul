@@ -41,7 +41,7 @@ DROP SEQUENCE YOMUL_COMMENTS_NO_SEQ;
 -- 테이블 생성----------------------------------------------------------------------------------------------------------------------------------
 -- 회원
 CREATE TABLE YOMUL_MEMBERS(
-    NO VARCHAR2(10) DEFAULT 'M'||YOMUL_MEMBERS_NO_SEQ.NEXTVAL, -- 회원번호
+    NO VARCHAR2(10), -- 회원번호
     EMAIL VARCHAR2(100) CONSTRAINT NN_Y_M_EMAIL NOT NULL CONSTRAINT U_Y_M_EMAIL UNIQUE, -- 이메일
     PW VARCHAR2(50) CONSTRAINT NN_Y_M_PW NOT NULL, -- 비밀번호
     NICKNAME VARCHAR2(50) CONSTRAINT NN_Y_M_NICKNAME NOT NULL CONSTRAINT U_Y_M_NICKNAME UNIQUE, -- 별명
