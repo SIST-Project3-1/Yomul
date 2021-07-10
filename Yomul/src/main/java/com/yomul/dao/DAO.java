@@ -2,6 +2,7 @@ package com.yomul.dao;
 
 import java.sql.*;
 
+//반환형이 int인 경우 성공하면 1, 성공 못하면 0, SQL 에러나면 -1, 자바에서 에러나면 -2
 abstract public class DAO {
 	String url;
 	String user = "scott";

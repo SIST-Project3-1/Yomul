@@ -54,12 +54,12 @@ public class Security {
 	}
 
 	public static void main(String[] args) {
-		String tmp = getRandomString();
+		String tmp = "1234";
 		String salt = getSalt();
 		String pw = pwHashing(tmp, salt);
 
 		System.out.println("pw: " + tmp);
-		System.out.print("salt: " + salt);
+		System.out.println("salt: " + salt);
 		System.out.println("hashed pw: " + pw);
 	}
 }
