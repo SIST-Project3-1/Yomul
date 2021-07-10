@@ -1,13 +1,22 @@
 package com.yomul.yomul;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.ModelAndView;import com.yomul.service.MemberService;
+import com.yomul.vo.MemberVO;
 
 @Controller
 public class MyPageController {
 
+	@Autowired
+	private MemberService memberService;
+	
 	@RequestMapping(value = "/withdrawal_cancle", method = RequestMethod.GET)
 	public ModelAndView withdrawal_cancle() {
 		ModelAndView mv = new ModelAndView("user/mypage/withdrawal_cancle");
@@ -65,8 +74,17 @@ public class MyPageController {
 
 	@RequestMapping(value = "myprofile_info", method = RequestMethod.GET)
 	public ModelAndView myprofile_info() {
+	public ModelAndView myprofile_info(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("user/mypage/myprofile_info");
+
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
 		mv.addObject("headerType", "myprofile");
+		mv.addObject("member", memberService.getMyProfileInfo(member));
+		mv.addObject("buyCount", memberService.getBuyCount(member));
+		mv.addObject("sellCount", memberService.getSellCount(member));
+		mv.addObject("favoriteCount", memberService.getFavoriteCount(member));
 		return mv;
 	}
 }
