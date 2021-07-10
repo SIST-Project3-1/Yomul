@@ -31,7 +31,32 @@ $(document).ready(function(){
 			
 			<!--  이미지  -->
 			<div class="near-info-left-img">
-				<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+				  <ol class="carousel-indicators">
+				    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+				   <% for(int i=0;i<5;i++){ %>
+				    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+				   <% } %>
+				  </ol>
+				  <div class="carousel-inner" style="width:500px; height:500px;">
+				 	 <div class="carousel-item active">
+				      <img src="http://localhost:9000/yomul/image/이미지준비중.jpg" class="d-block w-100" style="width:500px; height:500px;">
+				     </div>
+				  <% for(int i=0;i<5;i++){ %>
+				 	 <div class="carousel-item">
+				      <img src="http://localhost:9000/yomul/image/이미지준비중.jpg" class="d-block w-100" style="width:500px; height:500px;">
+				     </div>
+		 		  <% } %>
+				  </div>
+				  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				    <span class="sr-only">Previous</span>
+				  </a>
+				  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    <span class="sr-only">Next</span>
+				  </a>
+				</div>
 			</div>
 			
 			<!--  내용  -->
@@ -104,7 +129,7 @@ $(document).ready(function(){
 		</div>
 		
 		<!--  작성자 정보  -->
-		<div class="near-info-right">
+		<div class="near-info-right" id="near_info_right">
 			<div class="near-info-right-writer">
 				<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 				<label>작성자 닉네임</label>
