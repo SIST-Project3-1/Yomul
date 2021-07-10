@@ -9,7 +9,7 @@ public class MemberDAO extends DAO {
 	public int emailCheck(String email) {
 		int result = -2;
 		try {
-			String sql = "SELECT COUNT(EMAIL) FROM YOMUL_MEMBERS WHERE LOWER(EMAIL) = LOWER('?')";
+			String sql = "SELECT COUNT(EMAIL) FROM YOMUL_MEMBERS WHERE LOWER(EMAIL) = LOWER(?)";
 			getPreparedStatement(sql);
 
 			pstmt.setString(1, email);
