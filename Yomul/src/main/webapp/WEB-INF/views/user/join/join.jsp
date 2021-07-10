@@ -38,6 +38,19 @@
 		}
 	}
 
+	// 비밀번호 체크
+	function pwCheck() {
+		if ($("#pw_chk").val() == $("#pw").val()) {
+			$("#pw_chk").siblings(".valid-feedback").css("display", "block");
+			$("#pw_chk").siblings(".invalid-feedback").css("display", "none");
+			return true;
+		} else {
+			$("#pw_chk").siblings(".valid-feedback").css("display", "none");
+			$("#pw_chk").siblings(".invalid-feedback").css("display", "block");
+			return false;
+		}
+	}
+
 		});
 	});
 </script>
@@ -50,25 +63,25 @@
 	<section id="join">
 		<div class="container col-md-6 mt-3">
 			<h1 class="mb-3">회원가입</h1>
-			<form name="join_form">
 			<form id="form_join" class="needs-validation" novalidate>
 				<div class="form-group">
 					<label for="email">이메일</label>
 					<div class="input-group mb-3">
 						<input type="email" class="form-control" placeholder="example@yomul.com" id="email" name="email" aria-describedby="btn_email_check" required>
 						<div class="input-group-append">
-							<button class="btn btn-outline-secondary" type="button" id="btn_email_check">중복확인</button>
 							<button class="btn btn-outline-secondary" type="button" id="btn_email_check" onclick="emailCheck()">중복확인</button>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="pw">비밀번호</label>
-					<small id="pwHelp" class="form-text text-muted">8자 이상 입력해주세요.</small> <input id="pw" name="pw" class="w-100 form-control" type="password" required>
+					<small id="pwHelp" class="form-text text-muted">8자 이상 입력해주세요.</small>
+					<input id="pw" name="pw" class="w-100 form-control" type="password" onkeyup="pwCheck()" required>
 				</div>
 				<div class="form-group">
-					<label for="pwchk">비밀번호 확인</label>
-					<input id="pwchk" class="w-100 form-control" type="password" required>
+					<label for="pw_chk">비밀번호 확인</label>
+					<input id="pw_chk" class="w-100 form-control" type="password" onkeyup="pwCheck()" required>
+					<div class="valid-feedback">비밀번호가 일치합니다.</div>
 				</div>
 				<div class="form-group">
 					<label for="nickname">별명</label>
