@@ -11,16 +11,24 @@ public class TownController {
 	public String town_list() {
 		return "user/town/town_list";
 	}
+
 	@RequestMapping(value = "town_write", method = RequestMethod.GET)
 	public String town_write() {
 		return "user/town/town_write";
 	}
+
 	@RequestMapping(value = "town_update", method = RequestMethod.GET)
 	public String town_update() {
 		return "user/town/town_update";
 	}
+
 	@RequestMapping(value = "town_info", method = RequestMethod.GET)
 	public String town_info() {
 		return "user/town/town_info";
+	}
+
+	@RequestMapping(value = "town_write_api", method = RequestMethod.GET)
+	public String town_write_api() {
+		return "user/town/town_write_api";
 	}
 }
