@@ -21,24 +21,11 @@ public class CustomerCenterController {
 	
 	// 고객센터 메인 FAQ - 전체
 	@RequestMapping(value = "customer_center", method = RequestMethod.GET)
-	public String customerCenter() {
-		return "redirect:/customer_center/0";
-	}
-	
-	// 고객센터 메인 FAQ - 카테고리별
-	@RequestMapping(value = "customer_center/{category}", method = RequestMethod.GET)
-	public ModelAndView customerCenter(@PathVariable("category") int category) {
+	public ModelAndView customerCenter() {
 		ModelAndView mv = new ModelAndView();
 		
 		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보
-		ArrayList<FaqVO> faqlist = null;
-		
-		// faq 목록
-		if(category == 0) { // 카테고리 입력이 0일 경우 전체 출력
-			faqlist = customerCenterService.getFaqList();
-		}else {
-			faqlist = customerCenterService.getFaqList(category);
-		}
+		ArrayList<FaqVO> faqlist = customerCenterService.getFaqList();
 		
 		mv.setViewName("user/customer_center/faq/faq_list");
 		mv.addObject("categories", categories);

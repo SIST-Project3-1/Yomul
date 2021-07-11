@@ -27,6 +27,10 @@
 		list-style-type: none;
 	}
 	
+	#faq_list .category {
+		cursor: pointer;
+	}
+	
 	#faq_list hr {
 		border-width: 1px 0 0 0;
 		border-color: lightgray;
@@ -38,6 +42,29 @@
 		// 문의하기 버튼 클릭
 		$("#btn_question").click(function() {
 			location.href = "../customer_qna/write";
+		});
+		
+		// 카테고리 클릭
+		$(".category").click(function() {
+			// 선택된 카테고리의 색상 변경
+			$(".category").removeClass("text-yomul");
+			$(this).addClass("text-yomul");
+			
+			var faqlist = $(".faq_info");
+			
+			if($(this).attr("category") == "all") {
+				faqlist.removeClass("d-none");
+			} else { // 모든 faq에 d-none을 추가하고, 선택된 faq에만 d-none을 삭제한다
+				for(var i=0;i<faqlist.length;i++) {
+					if(!$(faqlist[i]).hasClass("d-none")) {
+						$(faqlist[i]).addClass("d-none");
+					}
+					
+					if($(this).attr("category") == $(faqlist[i]).attr("category")) {
+						$(faqlist[i]).removeClass("d-none");
+					}
+				}
+			}
 		});
 	});
 </script>
@@ -58,18 +85,18 @@
 		<div class="center">
 			<ul class="list font-weight-bold p-0">
 				<li class="d-flex justify-content-between">
-					<a class="text-decoration-none text-reset <c:if test="${category == 0 }">text-yomul</c:if>" href="/yomul/customer_center">전체</a>
-					<c:forEach items="${categories }" var="vo">
-						<a class="text-decoration-none text-reset <c:if test="${category == vo.getNo() }">text-yomul</c:if>" href="/yomul/customer_center/${vo.getNo() }">${vo.getContent() }</a>
+					<p class="category text-decoration-none text-reset text-yomul" category="all">전체</p>
+					<c:forEach items="${categories }" var="cvo">
+						<p class="category text-decoration-none text-reset" category="${cvo.getNo() }">${cvo.getContent() }</p>
 					</c:forEach>
 				</li>
 				<hr>
-				<c:forEach var="vo" items="${faqlist }" varStatus="status">
-				<li>
-					<a class="text-decoration-none text-reset" data-toggle="collapse" href="#faq${status.index }" aria-expanded="false" aria-controls="#faq${status.index }">${vo.getTitle() }</a>
-					<p class="collapse mt-2" id="faq${status.index }">${vo.getContent() }</p>
+				<c:forEach var="fvo" items="${faqlist }" varStatus="status">
+				<li class="faq_info" category="${fvo.getCategory() }">
+					<a class="text-decoration-none text-reset" data-toggle="collapse" href="#faq${status.index }" aria-expanded="false" aria-controls="#faq${status.index }">${fvo.getTitle() }</a>
+					<p class="collapse mt-2" id="faq${status.index }">${fvo.getContent() }</p>
+					<hr>
 				</li>
-				<hr>
 				</c:forEach>
 			</ul>
 		</div>

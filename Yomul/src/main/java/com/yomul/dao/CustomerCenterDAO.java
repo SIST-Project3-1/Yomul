@@ -42,7 +42,7 @@ public class CustomerCenterDAO extends DAO {
 		FaqVO vo = null;
 		
 		try {
-			String sql = " select title, content from yomul_faq_articles order by no asc ";
+			String sql = " select category, title, content from yomul_faq_articles order by no asc ";
 			
 			getPreparedStatement(sql);
 			
@@ -50,38 +50,9 @@ public class CustomerCenterDAO extends DAO {
 			while(rs.next()) {
 				vo = new FaqVO();
 				
-				vo.setTitle(rs.getString(1));
-				vo.setContent(rs.getString(2));
-				
-				list.add(vo);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return list;
-	}
-	
-	// faq 목록 반환 - 카테고리별
-	public ArrayList<FaqVO> getFaqList(int category) {
-		ArrayList<FaqVO> list = new ArrayList<FaqVO>();
-		FaqVO vo = null;
-		
-		try {
-			String sql = " select title, content from yomul_faq_articles "
-					+ " where category = ? "
-					+ " order by no asc ";
-			
-			getPreparedStatement(sql);
-			
-			pstmt.setInt(1, category);
-			
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				vo = new FaqVO();
-				
-				vo.setTitle(rs.getString(1));
-				vo.setContent(rs.getString(2));
+				vo.setCategory(rs.getInt(1));
+				vo.setTitle(rs.getString(2));
+				vo.setContent(rs.getString(3));
 				
 				list.add(vo);
 			}

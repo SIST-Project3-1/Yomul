@@ -26,11 +26,6 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	}
 	
 	@Override
-	public ArrayList<FaqVO> getFaqList(int category) {
-		return customerCenterDAO.getFaqList(category);
-	}
-	
-	@Override
 	public ArrayList<NoticeVO> getNoticeList() {
 		return customerCenterDAO.getNoticeList();
 	}

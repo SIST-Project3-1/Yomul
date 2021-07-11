@@ -12,8 +12,6 @@ public interface CustomerCenterService {
 	
 	public ArrayList<FaqVO> getFaqList();
 	
-	public ArrayList<FaqVO> getFaqList(int category);
-	
 	public ArrayList<NoticeVO> getNoticeList();
 	
 	public NoticeVO getNoticeInfo(int no);
