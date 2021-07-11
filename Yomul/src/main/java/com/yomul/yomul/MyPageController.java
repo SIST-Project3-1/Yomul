@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndView;import com.yomul.service.MemberService;
+import com.yomul.service.MemberService;
 import com.yomul.vo.MemberVO;
 
 @Controller
@@ -16,7 +17,7 @@ public class MyPageController {
 
 	@Autowired
 	private MemberService memberService;
-	
+
 	@RequestMapping(value = "/withdrawal_cancle", method = RequestMethod.GET)
 	public ModelAndView withdrawal_cancle() {
 		ModelAndView mv = new ModelAndView("user/mypage/withdrawal_cancle");
@@ -65,19 +66,65 @@ public class MyPageController {
 		return mv;
 	}
 
+	/**
+	 * 프로필 수정 페이지
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "myprofile_update", method = RequestMethod.GET)
-	public ModelAndView myprofile_update() {
-		ModelAndView mv = new ModelAndView("user/mypage/myprofile_update");
-		mv.addObject("headerType", "myprofile");
-		return mv;
-	}
-
-	@RequestMapping(value = "myprofile_info", method = RequestMethod.GET)
-	public ModelAndView myprofile_info(HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView("user/mypage/myprofile_info");
+	public ModelAndView myprofile_update(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
 
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		if (member != null) {// 로그인 되어 있으면 접속 허용
+			mv = new ModelAndView("user/mypage/myprofile_update");
+		} else { // 로그인이 되어 있지 않으면 로그인 페이지로 이동
+			return new ModelAndView("redirect:/login");
+		}
+
+		mv.addObject("headerType", "myprofile");
+		mv.addObject("member", memberService.getMyProfileInfo(member));
+		return mv;
+	}
+
+	/**
+	 * 프로필 수정 처리
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "myprofile_update_proc", method = RequestMethod.POST)
+	public String myprofile_update_proc(MemberVO vo, HttpServletRequest request) {
+		// 세션으로부터 접속한 유저 정보를 받아서 실행
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		vo.setNo(member.getNo());
+
+		return String.valueOf(memberService.setMyProfileInfo(vo));
+	}
+
+	/**
+	 * 프로필 보기 페이지
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "myprofile_info", method = RequestMethod.GET)
+	public ModelAndView myprofile_info(HttpServletRequest request) {
+		ModelAndView mv;
+
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		if (member != null) {// 로그인 되어 있으면 접속 허용
+			mv = new ModelAndView("user/mypage/myprofile_info");
+		} else { // 로그인이 되어 있지 않으면 로그인 페이지로 이동
+			return new ModelAndView("redirect:/login");
+		}
 
 		mv.addObject("headerType", "myprofile");
 		mv.addObject("member", memberService.getMyProfileInfo(member));

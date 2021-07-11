@@ -14,6 +14,7 @@ public class MemberVO extends VO {
 	private int withdrawal = -1;
 	private String mdate;
 	private String subscribe;
+	private String profileImg;
 
 	public String getEmail() {
 		return email;
@@ -117,6 +118,14 @@ public class MemberVO extends VO {
 
 	public void setSubscribe(String subscribe) {
 		this.subscribe = subscribe;
+	}
+
+	public String getProfileImg() {
+		return profileImg;
+	}
+
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
 	}
 
 }

@@ -15,7 +15,7 @@ public class MemberDAO extends DAO {
 	public MemberVO getMyProfileInfo(MemberVO vo) {
 		MemberVO result = null;
 		try {
-			String sql = "SELECT NICKNAME, INTRO FROM YOMUL_MEMBERS WHERE NO = ?";
+			String sql = "SELECT EMAIL, NICKNAME, PHONE, GENDER, INTRO, F.FILENAME FILENAME FROM YOMUL_MEMBERS M LEFT JOIN YOMUL_FILES F ON M.NO = F.ARTICLE_NO WHERE M.NO = ?";
 			getPreparedStatement(sql);
 
 			pstmt.setString(1, vo.getNo());
@@ -23,8 +23,49 @@ public class MemberDAO extends DAO {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				result = new MemberVO();
-				result.setNickname(rs.getString(1));
-				result.setIntro(rs.getString(2));
+				result.setEmail(rs.getString(1));
+				result.setNickname(rs.getString(2));
+				result.setPhone(rs.getString(3));
+				result.setGender(rs.getString(4));
+				result.setIntro(rs.getString(5));
+				result.setProfileImg(rs.getString(6));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public int setMyProfileInfo(MemberVO vo) {
+		int result = -2;
+		try {
+			// 정보 업데이트
+			String sql = "UPDATE YOMUL_MEMBERS SET NICKNAME = ?, PHONE = ?, GENDER = ?, INTRO = ? WHERE NO = ? ";
+			getPreparedStatement(sql);
+
+			pstmt.setString(1, vo.getNickname());
+			pstmt.setString(2, vo.getPhone());
+			pstmt.setString(3, vo.getGender());
+			pstmt.setString(4, vo.getIntro());
+			pstmt.setString(5, vo.getNo());
+
+			result = pstmt.executeUpdate();
+
+			if (result == 1 && vo.getProfileImg() != null) { // 프로필 사진 변경
+				sql = "MERGE INTO YOMUL_FILES USING DUAL ON (ARTICLE_NO = ?) ";
+				sql += "  WHEN MATCHED THEN ";
+				sql += "    UPDATE SET FILENAME = ? WHERE ARTICLE_NO = ? ";
+				sql += "  WHEN NOT MATCHED THEN ";
+				sql += "    INSERT (ARTICLE_NO, NO, FILENAME) VALUES(?, YOMUL_FILES_NO_SEQ.NEXTVAL, ?) ";
+				getPreparedStatement(sql);
+
+				pstmt.setString(1, vo.getNo());
+				pstmt.setString(2, vo.getProfileImg());
+				pstmt.setString(3, vo.getNo());
+				pstmt.setString(4, vo.getNo());
+				pstmt.setString(5, vo.getProfileImg());
+
+				result = pstmt.executeUpdate();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
