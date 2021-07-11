@@ -37,7 +37,12 @@
 		</div>
 		<hr>
 		<div class="my-5 mx-0">
-			${vo.getContent() }
+			<c:forEach var="fname" items="${files }">
+				<img src="/yomul/image/${fname }" class="img-fluid">
+			</c:forEach>
+			<div>
+				${vo.getContent() }
+			</div>
 		</div>
 		<hr>
 		<div class="text-center">
