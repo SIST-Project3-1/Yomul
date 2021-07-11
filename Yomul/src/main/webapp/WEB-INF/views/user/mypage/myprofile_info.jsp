@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로필 보기</title>
+<title>요물 프로필 보기</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 </head>
@@ -24,7 +24,7 @@
 		<div class="container border mt-3 p-3">
 			<div class="row">
 				<div class="col-md-4 text-center">
-					<img class="rounded-circle mb-3" src='/yomul/image/${member.profileImg!=null?member.profileImg: "default.jpg" }' style="width: 300px; height: 300px;">
+					<img class="rounded-circle mb-3" src='/yomul/upload/${member.profileImg!=null?member.profileImg: "default.jpg" }' style="width: 300px; height: 300px;">
 				</div>
 				<div class="col-md my-auto">
 					<div class="mb-3 d-flex justify-content-between">
