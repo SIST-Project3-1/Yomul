@@ -73,7 +73,6 @@ public class MyPageController {
 	}
 
 	@RequestMapping(value = "myprofile_info", method = RequestMethod.GET)
-	public ModelAndView myprofile_info() {
 	public ModelAndView myprofile_info(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("user/mypage/myprofile_info");
 
