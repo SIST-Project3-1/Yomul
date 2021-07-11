@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndView;
 import com.yomul.service.MemberService;
 import com.yomul.vo.MemberVO;
 
@@ -66,13 +65,30 @@ public class MyPageController {
 		return mv;
 	}
 
+	/**
+	 * 프로필 수정 페이지
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "myprofile_update", method = RequestMethod.GET)
-	public ModelAndView myprofile_update() {
+	public ModelAndView myprofile_update(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("user/mypage/myprofile_update");
+
+		HttpSession session = request.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
 		mv.addObject("headerType", "myprofile");
+		mv.addObject("member", memberService.getMyProfileInfo(member));
 		return mv;
 	}
 
+	/**
+	 * 프로필 보기 페이지
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "myprofile_info", method = RequestMethod.GET)
 	public ModelAndView myprofile_info(HttpServletRequest request) {
 		ModelAndView mv;

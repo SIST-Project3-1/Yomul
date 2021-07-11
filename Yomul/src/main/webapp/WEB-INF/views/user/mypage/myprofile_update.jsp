@@ -42,19 +42,19 @@
 			<div class="form-group row">
 				<label for="email" class="col-md-3 col-form-label">이메일</label>
 				<div class="col-md-9">
-					<input id="email" name="email" class="w-100 form-control" value="test@test.com" disabled>
+					<input id="email" name="email" class="w-100 form-control" value="${member.email }" disabled>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="nickname" class="col-md-3 col-form-label">별명</label>
 				<div class="col-md-9">
-					<input id="nickname" name="nickname" class="w-100 form-control" type="text" value="Hwisaek" required>
+					<input id="nickname" name="nickname" class="w-100 form-control" type="text" value="${member.nickname }" required>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="phone" class="col-md-3 col-form-label">전화번호</label>
 				<div class="col-md-9">
-					<input type="tel" class="form-control" value="010-1234-1234" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-0000-0000" name="phone" id="phone">
+					<input type="tel" class="form-control" value="${member.phone }" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" placeholder="010-0000-0000" name="phone" id="phone">
 				</div>
 			</div>
 			<div class="form-group row">
