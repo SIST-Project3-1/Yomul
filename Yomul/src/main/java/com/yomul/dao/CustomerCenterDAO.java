@@ -118,4 +118,53 @@ public class CustomerCenterDAO extends DAO {
 		
 		return list;
 	}
+	
+	// 사용자 공지사항 상세 조회
+	public NoticeVO getNoticeInfo(int no) {
+		NoticeVO vo = null;
+		
+		try {
+			String sql = " select title, content, ndate, hits "
+					+ " from yomul_notices "
+					+ " where no = ? ";
+			
+			getPreparedStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				vo = new NoticeVO();
+				
+				vo.setTitle(rs.getString(1));
+				vo.setContent(rs.getString(2));
+				vo.setDate(rs.getString(3));
+				vo.setHits(rs.getInt(4));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return vo;
+	}
+	
+	// 공지사항 조회수 추가
+	public int addNoticeHits(int no) {
+		int result = -1;
+		try {
+			String sql = " update yomul_notices "
+					+ " set hits = hits + 1 "
+					+ " where no = ? ";
+			
+			getPreparedStatement(sql);
+			
+			pstmt.setInt(1, no);
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

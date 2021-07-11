@@ -63,8 +63,17 @@ public class CustomerCenterController {
 	@RequestMapping(value = "customer_notices/{no}", method = RequestMethod.GET)
 	public ModelAndView noticeList(@PathVariable("no") int no) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("user/customer_center/notice/notice_info");
-		mv.addObject("no", no);
+		NoticeVO vo = customerCenterService.getNoticeInfo(no);
+
+		// 해당 공지사항이 없을 경우 에러페이지 이동
+		if(vo == null) {
+			mv.setViewName("redirect:/error");
+		}else {
+			customerCenterService.addNoticeHits(no); // 조회수 추가
+			
+			mv.setViewName("user/customer_center/notice/notice_info");
+			mv.addObject("vo", vo);
+		}
 		
 		return mv;
 	}

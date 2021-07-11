@@ -379,6 +379,9 @@ INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT, NDATE) VALUES(YOMUL_NOTICE
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT, NDATE) VALUES(YOMUL_NOTICES_NO_SEQ.NEXTVAL, 'M1', '제목4', '내용4', SYSDATE);
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT, NDATE) VALUES(YOMUL_NOTICES_NO_SEQ.NEXTVAL, 'M1', '제목5', '내용5', SYSDATE);
 
+-- 공지사항 조회수 업데이트
+UPDATE YOMUL_NOTICES SET HITS = HITS + 1 WHERE NO = 2;
+
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 
 COMMIT;
