@@ -58,9 +58,9 @@
 		<div class="center">
 			<ul class="list font-weight-bold p-0">
 				<li class="d-flex justify-content-between">
-					<a class="text-decoration-none text-reset" href="/yomul/customer_center">전체</a>
+					<a class="text-decoration-none text-reset <c:if test="${category == 0 }">text-yomul</c:if>" href="/yomul/customer_center">전체</a>
 					<c:forEach items="${categories }" var="vo">
-						<a class="text-decoration-none text-reset" href="/yomul/customer_center/${vo.getNo() }">${vo.getContent() }</a>
+						<a class="text-decoration-none text-reset <c:if test="${category == vo.getNo() }">text-yomul</c:if>" href="/yomul/customer_center/${vo.getNo() }">${vo.getContent() }</a>
 					</c:forEach>
 				</li>
 				<hr>
