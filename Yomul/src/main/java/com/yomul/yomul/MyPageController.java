@@ -8,7 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndView;import com.yomul.service.MemberService;
+import org.springframework.web.servlet.ModelAndView;
+import com.yomul.service.MemberService;
 import com.yomul.vo.MemberVO;
 
 @Controller
@@ -16,7 +17,7 @@ public class MyPageController {
 
 	@Autowired
 	private MemberService memberService;
-	
+
 	@RequestMapping(value = "/withdrawal_cancle", method = RequestMethod.GET)
 	public ModelAndView withdrawal_cancle() {
 		ModelAndView mv = new ModelAndView("user/mypage/withdrawal_cancle");
@@ -73,12 +74,17 @@ public class MyPageController {
 	}
 
 	@RequestMapping(value = "myprofile_info", method = RequestMethod.GET)
-	public ModelAndView myprofile_info() {
 	public ModelAndView myprofile_info(HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView("user/mypage/myprofile_info");
+		ModelAndView mv;
 
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		if (member != null) {// 로그인 되어 있으면 접속 허용
+			mv = new ModelAndView("user/mypage/myprofile_info");
+		} else { // 로그인이 되어 있지 않으면 로그인 페이지로 이동
+			return new ModelAndView("redirect:/login");
+		}
 
 		mv.addObject("headerType", "myprofile");
 		mv.addObject("member", memberService.getMyProfileInfo(member));
