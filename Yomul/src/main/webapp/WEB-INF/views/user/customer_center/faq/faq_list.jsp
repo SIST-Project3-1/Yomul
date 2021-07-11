@@ -50,27 +50,27 @@
 	<section id="faq_list">
 		<div class="top">
 			<h4 class="font-weight-bold">고객센터</h4>
-			운영시간: 평일 09:00 ~ 18:00<br>
+			<div class="mt-4 mb-2">
+			<p>운영시간: 평일 09:00 ~ 18:00</p>
+			</div>
 			<button type="button" id="btn_question" class="btn btn-yomul px-4 py-2">문의하기</button>
 		</div>
 		<div class="center">
-			<ul class="list p-0">
-				<li class="font-weight-bold">
-					<a class="text-decoration-none text-reset" href="#전체">전체</a>
-					<a class="text-decoration-none text-reset" href="#">카테고리~</a>
-					<a class="text-decoration-none text-reset" href="#">카테고리~</a>
+			<ul class="list font-weight-bold p-0">
+				<li class="d-flex justify-content-between">
+					<a class="text-decoration-none text-reset" href="/yomul/customer_center">전체</a>
+					<c:forEach items="${categories }" var="vo">
+						<a class="text-decoration-none text-reset" href="/yomul/customer_center/${vo.getNo() }">${vo.getContent() }</a>
+					</c:forEach>
 				</li>
 				<hr>
+				<c:forEach var="vo" items="${faqlist }" varStatus="status">
 				<li>
-					<a class="text-decoration-none text-reset" data-toggle="collapse" href="#faq1" aria-expanded="false" aria-controls="#faq1">faq 제목~~~~~~</a>
-					<p class="collapse" id="faq1">faq 상세~</p>
+					<a class="text-decoration-none text-reset" data-toggle="collapse" href="#faq${status.index }" aria-expanded="false" aria-controls="#faq${status.index }">${vo.getTitle() }</a>
+					<p class="collapse mt-2" id="faq${status.index }">${vo.getContent() }</p>
 				</li>
 				<hr>
-				<li>
-					<a class="text-decoration-none text-reset" data-toggle="collapse" href="#faq2" aria-expanded="false" aria-controls="#faq2">faq 제목~~~~~~</a>
-					<p class="collapse" id="faq2">faq 상세~</p>
-				</li>
-				<hr>
+				</c:forEach>
 			</ul>
 		</div>
 	</section>
