@@ -46,4 +46,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.getFavoriteCount(vo);
 	}
 
+	@Override
+	public int setMyProfileInfo(MemberVO vo) {
+		return memberDAO.setMyProfileInfo(vo) == 1 ? 1 : 0;
+	}
+
 }

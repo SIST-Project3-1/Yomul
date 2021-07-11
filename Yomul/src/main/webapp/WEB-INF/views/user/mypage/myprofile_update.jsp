@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로필 수정</title>
+<title>요물 프로필 수정</title>
 <!-- HEAD -->
 <jsp:include page="../../head.jsp"></jsp:include>
 <script>
@@ -17,6 +17,24 @@
 		}
 		reader.readAsDataURL(fis.files[0]);
 	}
+
+	$(document).ready(function() {
+		$("#form_myprofile_update").on("submit", function() {
+			$.ajax({
+				url : "/yomul/myprofile_update_proc",
+				method : "POST",
+				data : $("#form_myprofile_update").serialize(),
+				success : function(result) {
+					if (result == 1) {
+						alert("프로필 수정 성공했습니다.");
+						location.href = "/yomul/myprofile_info";
+					} else {
+						alert("프로필 수정에 실패했습니다.");
+					}
+				}
+			});
+		})
+	});
 </script>
 </head>
 <body>
@@ -38,7 +56,7 @@
 				<small>탈퇴하기</small>
 			</a>
 		</div>
-		<form name="join_form">
+		<form id="form_myprofile_update">
 			<div class="form-group row">
 				<label for="email" class="col-md-3 col-form-label">이메일</label>
 				<div class="col-md-9">
@@ -61,11 +79,11 @@
 				<label for="gender" class="col-md-3 col-form-label">성별</label>
 				<div class="col-md-9">
 					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" name="gender" id="male" value="male">
+						<input class="form-check-input" type="radio" name="gender" id="male" value="M" ${member.gender.equals('M') ? "checked" :"" }>
 						<label class="form-check-label" for="male">남자</label>
 					</div>
 					<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" name="gender" id="female" value="female">
+						<input class="form-check-input" type="radio" name="gender" id="female" value="F" ${member.gender.equals('F') ? "checked" :"" }>
 						<label class="form-check-label" for="female">여자</label>
 					</div>
 				</div>
@@ -73,7 +91,7 @@
 			<div class="form-group row">
 				<label for="intro" class="col-md-3 col-form-label">소개</label>
 				<div class="col-md-9">
-					<textarea id="intro" name="intro" rows="10" class="form-control"></textarea>
+					<textarea id="intro" name="intro" rows="10" class="form-control">${member.intro }</textarea>
 				</div>
 			</div>
 			<div class="form-group row">
@@ -81,11 +99,11 @@
 				<div class="col-md-9">
 					<div class="input-group mb-3">
 						<div class="custom-file">
-							<input type="file" class="custom-file-input" id="profile_img" name="profile_img" aria-describedby="profile_img" onchange="fileUpload(this)">
-							<label class="custom-file-label" for="profile_img" data-browse="업로드">Choose file</label>
+							<input type="file" class="custom-file-input" id="profile_img" name="profile_img" aria-describedby="profile_img" onchange="fileUpload(this)" value='${member.profileImg !=null ? member.profileImg: "defalut.jpg" }'>
+							<label class="custom-file-label" for="profile_img" data-browse="업로드">${member.profileImg !=null ? member.profileImg: "이미지를 업로드해주세요" }</label>
 						</div>
 					</div>
-					<img id="profile_img_img" class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 300px; height: 300px;">
+					<img id="profile_img_img" class="rounded-circle mb-3" src='/yomul/upload/${member.profileImg !=null ? member.profileImg: "defalut.jpg" }' style="width: 300px; height: 300px;">
 				</div>
 			</div>
 

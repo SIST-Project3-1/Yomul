@@ -11,9 +11,11 @@ public interface MemberService {
 
 	MemberVO getMyProfileInfo(MemberVO vo);
 
+	int setMyProfileInfo(MemberVO vo);
+
 	int getBuyCount(MemberVO vo);
 
 	int getSellCount(MemberVO vo);
-	
+
 	int getFavoriteCount(MemberVO vo);
 }
