@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yomul.dao.CustomerCenterDAO;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
+import com.yomul.vo.NoticeVO;
 
 @Service("CustomerCenterService")
 public class CustomerCenterServiceImpl implements CustomerCenterService {
@@ -27,5 +28,10 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	@Override
 	public ArrayList<FaqVO> getFaqList(int category) {
 		return customerCenterDAO.getFaqList(category);
+	}
+	
+	@Override
+	public ArrayList<NoticeVO> getNoticeList() {
+		return customerCenterDAO.getNoticeList();
 	}
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
+import com.yomul.vo.NoticeVO;
 
 public class CustomerCenterDAO extends DAO {
 	
@@ -81,6 +82,33 @@ public class CustomerCenterDAO extends DAO {
 				
 				vo.setTitle(rs.getString(1));
 				vo.setContent(rs.getString(2));
+				
+				list.add(vo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	// 사용자 공지사항 목록 조회
+	public ArrayList<NoticeVO> getNoticeList() {
+		ArrayList<NoticeVO> list = new ArrayList<NoticeVO>();
+		NoticeVO vo = null;
+		
+		try {
+			String sql = " select no, title, ndate from yomul_notices ";
+			
+			getPreparedStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				vo = new NoticeVO();
+				
+				vo.setNo(rs.getInt(1));
+				vo.setTitle(rs.getString(2));
+				vo.setDate(rs.getString(3));
 				
 				list.add(vo);
 			}
