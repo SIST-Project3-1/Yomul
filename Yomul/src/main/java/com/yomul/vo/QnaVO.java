@@ -1,6 +1,8 @@
 package com.yomul.vo;
 
-public class QnaVO extends VO{
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+public class QnaVO extends VO {
 	private String no; // 글 번호
 	private String name; // 작성자 이름
 	private String email; // 작성자 이메일
@@ -10,6 +12,7 @@ public class QnaVO extends VO{
 	private int category; // 카테고리
 	private String title; // 글 제목
 	private String content; // 글 내용
+	private CommonsMultipartFile file;// 첨부파일
 	private int hits; // 조회수
 
 	private String rdate; // 답변 일자
@@ -118,6 +121,14 @@ public class QnaVO extends VO{
 
 	public void setRcontent(String rcontent) {
 		this.rcontent = rcontent;
+	}
+
+	public CommonsMultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(CommonsMultipartFile file) {
+		this.file = file;
 	}
 
 }

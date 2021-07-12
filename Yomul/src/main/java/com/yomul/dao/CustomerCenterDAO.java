@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.NoticeVO;
+import com.yomul.vo.QnaVO;
 
 @Repository
 public class CustomerCenterDAO extends DAO {
@@ -18,7 +19,32 @@ public class CustomerCenterDAO extends DAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
+	/**
+	 * 다음에 작성될 QnA 글 번호 가져오기
+	 * 
+	 * @return
+	 */
+	public String getNextQnaNo() {
+		return sqlSession.selectOne(nameSpace + ".getnextqnano");
+	}
 
+	/**
+	 * QnA 문의하기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int writeQna(QnaVO vo) {
+		System.out.println(vo.toStringDefault());
+		System.out.println("file: " + vo.getFile().getOriginalFilename());
+		return sqlSession.insert(nameSpace + ".writeqna", vo);
+	}
+
+	/**
+	 * QnA 카테고리 불러오기
+	 * 
+	 * @return
+	 */
 	public ArrayList<CategoryVO> getQnaCategories() {
 		List<CategoryVO> list = sqlSession.selectList(nameSpace + ".getqnacategories");
 		return (ArrayList<CategoryVO>) list;

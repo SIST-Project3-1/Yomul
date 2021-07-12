@@ -8,27 +8,28 @@
 <!-- HEAD -->
 <%@ include file="../../../head.jsp"%>
 <script>
-	$(document).ready(function() {
+/* 	$(document).ready(function() {
 		// 보내기 버튼 클릭
 		$("#form_qna_write").on("submit", function() {
 			$.ajax({
 				url : "/yomul/customer_qna/write_proc",
 				method : "POST",
-				data : $("#form_join").serialize(),
-				enctype : 'multipart/form-data',
+				data : $("#form_qna_wrtie").serialize(), // 필수 
+				enctype : "multipart/form-data",
+				processData : false, // 필수 
+				contentType : false, // 필수
 				success : function(result) {
 					if (result == 1) {
-						alert("회원가입에 성공했습니다.");
-						location.href = "/yomul/login";
+						alert("문의 작성에 성공했습니다.");
 					} else {
-						alert("회원가입에 실패했습니다.");
+						alert("문의 작성에 실패했습니다.");
 					}
 				}
 			});
-			
+
 			return false;
 		});
-	});
+	}); */
 </script>
 </head>
 <body>
@@ -38,9 +39,9 @@
 	<!--  BODY 참고 페이지: https://ohou.se/contacts/new -->
 	<section id="qna_write" class="container mt-3">
 		<h4 class="font-weight-bold">문의하기</h4>
-		<form id="form_qna_write" class="container my-5 mx-0">
+		<form id="form_qna_write" class="container my-5 mx-0" action="/yomul/customer_qna/write_proc" method="post" enctype="multipart/form-data">
 			<div class="row mt-3">
-				<select name="category" class="form-control p-2 text-secondary" required>
+				<select name="category" class="form-control p-2 text-dark" required>
 					<option value="">유형</option>
 					<c:forEach var="category" items="${categories}">
 						<option value="${category.no}">${category.content}</option>
@@ -51,7 +52,7 @@
 				<input type="text" name="name" class="form-control" placeholder="이름" required>
 			</div>
 			<div class="row mt-3">
-				<input type="text" name="email" class="form-control" placeholder="이메일" required>
+				<input type="email" name="email" class="form-control" placeholder="이메일" required>
 			</div>
 			<div class="row mt-3">
 				<input type="password" name="pw" class="form-control " placeholder="비밀번호" required>
@@ -64,7 +65,7 @@
 			</div>
 			<div class="row mt-3">
 				<div class="custom-file">
-					<input type="file" class="custom-file-input" id="validatedCustomFile" lang="kor" required>
+					<input type="file" class="custom-file-input" id="validatedCustomFile" lang="kor" name="file">
 					<label class="custom-file-label" for="validatedCustomFile">파일 선택</label>
 				</div>
 			</div>

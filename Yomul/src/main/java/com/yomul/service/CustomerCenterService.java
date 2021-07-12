@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.NoticeVO;
+import com.yomul.vo.QnaVO;
 
 public interface CustomerCenterService {
 	ArrayList<CategoryVO> getFaqCategories();
@@ -20,4 +21,8 @@ public interface CustomerCenterService {
 	ArrayList<String> getNoticeFiles(int no);
 
 	ArrayList<CategoryVO> getQnaCategories();
+
+	int writeQna(QnaVO vo);
+
+	String getNextQnaNo();
 }

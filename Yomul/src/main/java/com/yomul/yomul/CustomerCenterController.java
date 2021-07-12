@@ -1,6 +1,10 @@
 package com.yomul.yomul;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,8 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.CustomerCenterService;
+import com.yomul.service.FileService;
+import com.yomul.util.Security;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.NoticeVO;
 import com.yomul.vo.QnaVO;
 
@@ -21,6 +28,8 @@ public class CustomerCenterController {
 
 	@Autowired
 	private CustomerCenterService customerCenterService;
+	@Autowired
+	private FileService fileService;
 
 	// 고객센터 메인 FAQ - 전체
 	@RequestMapping(value = "customer_center", method = RequestMethod.GET)
@@ -61,7 +70,7 @@ public class CustomerCenterController {
 		} else {
 			customerCenterService.addNoticeHits(no); // 조회수 추가
 			ArrayList<String> files = customerCenterService.getNoticeFiles(no);
-			
+
 			mv.setViewName("user/customer_center/notice/notice_info");
 			mv.addObject("vo", vo);
 			mv.addObject("files", files);
@@ -94,15 +103,45 @@ public class CustomerCenterController {
 		mv.addObject("categories", customerCenterService.getQnaCategories());
 		return mv;
 	}
-	
+
 	/**
 	 * 문의 작성 처리
+	 * 
 	 * @return
+	 * @throws IOException
+	 * @throws IllegalStateException
 	 */
 	@ResponseBody
-	@RequestMapping(value="customer_qna/write_proc", method = RequestMethod.POST)
-	public String customer_qna_wrte_proc(QnaVO vo) {
-		System.out.println(vo.toStringDefault());
-		return "0";
+	@RequestMapping(value = "customer_qna/write_proc", method = RequestMethod.POST)
+	public String customer_qna_write_proc(QnaVO vo, HttpServletRequest requset) throws IllegalStateException, IOException {
+		// 비밀번호 암호화
+		vo.setHashsalt(Security.getSalt());
+		vo.setPw(Security.pwHashing(vo.getPw(), vo.getHashsalt()));
+
+		// 작성될 글 번호 가져오기
+		vo.setNo(customerCenterService.getNextQnaNo());
+		System.out.println("컨트롤라ㅣ :" + vo.toStringDefault());
+		int result = customerCenterService.writeQna(vo);
+
+		if (result == 1) { // 글 작성에 성공하면 파일 업로드
+			String rootPath = requset.getSession().getServletContext().getRealPath("/");
+			String attach_path = "resources//upload//";
+
+			// 파일 객체 생성
+			FileVO fileVO = new FileVO();
+			fileVO.setArticle_no(vo.getNo());
+			fileVO.setNo(fileService.getNextFileNo());
+			fileVO.setFilename(vo.getFile().getOriginalFilename());
+			String filename = vo.getNo() + "_" + fileVO.getNo() + "_" + fileVO.getFilename();
+
+			// DB에 파일 생성
+			result = fileService.uploadFile(fileVO);
+			if (result == 1) {// 서버에 파일 생성
+				File file = new File(rootPath + attach_path + filename);
+				vo.getFile().transferTo(file);
+			}
+		}
+
+		return String.valueOf(result);
 	}
 }
