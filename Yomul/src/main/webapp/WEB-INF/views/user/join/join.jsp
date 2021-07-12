@@ -30,6 +30,7 @@
 						$("#email").siblings(".invalid-feedback").css("display", "block");
 						$("#email").siblings(".wrong_regex").css("display", "none");
 						emailCheckFlag = false;
+						$("#email").focus();
 					} else { // 이메일 사용 가능
 						$("#email").siblings(".valid-feedback").css("display", "block");
 						$("#email").siblings(".invalid-feedback").css("display", "none");
@@ -51,7 +52,6 @@
 
 	// 비밀번호 체크
 	function pwCheck() {
-		console.log("pwCheck");
 		if ($("#pw").val() != "" && $("#pw_chk").val() == $("#pw").val()) {
 			$("#pw_chk").siblings(".valid-feedback").css("display", "block");
 			$("#pw_chk").siblings(".invalid-feedback").css("display", "none");
@@ -104,20 +104,24 @@
 	// 필수 약관 동의 확인
 	function checkBoxCheck() {
 		if (!$("#check_1").is(":checked")) {
-			$("#check_1").parent().siblings(".invalid-feedback").css("disbplay", "block");
+			$("#check_1").parent().siblings(".invalid-feedback").css("display", "block");
 			checkBoxCheckFlag = false;
+			$("#check_1").focus();
 		} else if (!$("#check_2").is(":checked")) {
-			$("#check_1").parent().siblings(".invalid-feedback").css("disbplay", "none");
-			$("#check_2").parent().siblings(".invalid-feedback").css("disbplay", "block");
+			$("#check_1").parent().siblings(".invalid-feedback").css("display", "none");
+			$("#check_2").parent().siblings(".invalid-feedback").css("display", "block");
 			checkBoxCheckFlag = false;
+			$("#check_2").focus();
 		} else if (!$("#check_3").is(":checked")) {
-			$("#check_1").parent().siblings(".invalid-feedback").css("disbplay", "none");
-			$("#check_2").parent().siblings(".invalid-feedback").css("disbplay", "none");
-			$("#check_3").parent().siblings(".invalid-feedback").css("disbplay", "block");
+			$("#check_1").parent().siblings(".invalid-feedback").css("display", "none");
+			$("#check_2").parent().siblings(".invalid-feedback").css("display", "none");
+			$("#check_3").parent().siblings(".invalid-feedback").css("display", "block");
 			checkBoxCheckFlag = false;
+			$("#check_3").focus();
 		} else {
 			checkBoxCheckFlag = true;
 		}
+		return checkBoxCheckFlag;
 	}
 
 	// 회원가입 처리
@@ -126,10 +130,10 @@
 			emailCheck();
 		} else if (!pwCheckFlag) {
 			pwCheck();
+			$("#pw").focus();
 		} else if (!nicknameCheckFlag) {
 			nicknameCheck();
-		} else if (!checkBoxCheckFlag) {
-			checkBoxCheck();
+		} else if (!checkBoxCheck()) {
 		} else {
 			$.ajax({
 				url : "/yomul/join_proc",
