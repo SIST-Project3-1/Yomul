@@ -1,10 +1,20 @@
 package com.yomul.dao;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.yomul.util.Security;
 import com.yomul.vo.MemberVO;
 
 //반환형이 int인 경우 성공하면 1, 성공 못하면 0, SQL 에러나면 -1, 자바에서 에러나면 -2
+@Repository
 public class MemberDAO extends DAO {
+
+	@Autowired
+	private SqlSessionTemplate sqlSession;
+
+	private static String namespace = "mapper.member";
 
 	/**
 	 * 프로필 정보 가져오기
@@ -147,22 +157,7 @@ public class MemberDAO extends DAO {
 
 	// 회원 가입
 	public int join(MemberVO vo) {
-		int result = -2;
-		try {
-			String sql = "INSERT INTO YOMUL_MEMBERS(NO, EMAIL, PW, NICKNAME, HASHSALT, SUBSCRIBE) VALUES('M'||YOMUL_MEMBERS_NO_SEQ.NEXTVAL, ?, ?, ?, ?, ?)";
-			getPreparedStatement(sql);
-
-			pstmt.setString(1, vo.getEmail());
-			pstmt.setString(2, vo.getPw());
-			pstmt.setString(3, vo.getNickname());
-			pstmt.setString(4, vo.getHashsalt());
-			pstmt.setString(5, vo.getSubscribe());
-
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		return sqlSession.insert(namespace + ".join", vo);
 	}
 
 	// 이메일 중복 확인
