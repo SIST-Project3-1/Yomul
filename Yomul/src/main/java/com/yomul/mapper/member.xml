@@ -33,4 +33,16 @@
 		FROM YOMUL_FAVORITE_LISTS 
 		WHERE MEMBER_NO = #{no}
 	</select>
+	
+	<select id="emailcheck" parameterType="string" resultType="int">
+		SELECT COUNT(EMAIL) 
+		FROM YOMUL_MEMBERS 
+		WHERE LOWER(EMAIL) = LOWER(#{email})
+	</select>
+	
+	<select id="nicknamecheck" parameterType="string" resultType="int">
+		SELECT COUNT(NICKNAME) 
+		FROM YOMUL_MEMBERS 
+		WHERE LOWER(NICKNAME) = LOWER(#{nickname})
+	</select>
 </mapper>

@@ -100,40 +100,12 @@ public class MemberDAO extends DAO {
 
 	// 이메일 중복 확인
 	public int emailCheck(String email) {
-		int result = -2;
-		try {
-			String sql = "SELECT COUNT(EMAIL) FROM YOMUL_MEMBERS WHERE LOWER(EMAIL) = LOWER(?)";
-			getPreparedStatement(sql);
-
-			pstmt.setString(1, email);
-
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				result = rs.getInt(1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		return sqlSession.selectOne(namespace + ".emailcheck", email);
 	}
 
 	// 닉네임 중복 확인
 	public int nicknameCheck(String nickname) {
-		int result = -2;
-		try {
-			String sql = "SELECT COUNT(NICKNAME) FROM YOMUL_MEMBERS WHERE LOWER(NICKNAME) = LOWER(?)";
-			getPreparedStatement(sql);
-
-			pstmt.setString(1, nickname);
-
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				result = rs.getInt(1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		return sqlSession.selectOne(namespace + ".nicknamecheck", nickname);
 	}
 
 }
