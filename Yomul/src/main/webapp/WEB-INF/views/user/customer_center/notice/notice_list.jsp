@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 목록</title>
+<!-- HEAD -->
+<%@ include file="../../../head.jsp"%>
 <style>
 	#notice_list {
 		width: 750px;
@@ -25,10 +27,9 @@
 		margin: 25px 0;
 	}
 </style>
-<jsp:include page="../../../head.jsp"></jsp:include>
 </head>
 <body>
-	<jsp:include page="../../header.jsp"></jsp:include>
+	<%@ include file="../../header.jsp"%>
 	
 	<section id="notice_list">
 		<h2 class="my-5 mx-0">공지사항</h2>
@@ -45,6 +46,6 @@
 		</ul>
 	</section>
 	
-	<jsp:include page="../../footer.jsp"></jsp:include>
+	<%@ include file="../../footer.jsp"%>
 </body>
 </html>

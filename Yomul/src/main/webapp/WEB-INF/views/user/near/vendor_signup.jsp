@@ -14,11 +14,11 @@ $(document).ready(function(){
 });
 </script>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
 	<div id="vendor_signup" class="vendor-signup-content">
@@ -68,6 +68,6 @@ $(document).ready(function(){
 	</div>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

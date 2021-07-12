@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <!-- HEAD -->
-<jsp:include page="../../../head.jsp"></jsp:include>
+<%@ include file="../../../head.jsp"%>
 <style>
 	#admin_qna_list {
 		width: 750px;
@@ -38,7 +38,7 @@
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../../admin_header.jsp"></jsp:include>
+	<%@ include file="../../admin_header.jsp"%>
 	
 	<!--  BODY  -->
 	<section id="admin_qna_list">

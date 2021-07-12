@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>동네생활 수정하기</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 <style>
 div.user_town_write {
 	width: 50%;
@@ -85,7 +85,7 @@ div.user_town_write div.town_write_btn .townWrite {
 <body>
 	<!-- http://localhost:9000/yomul/town_update -->
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
 	<section id="sample">
@@ -123,6 +123,6 @@ div.user_town_write div.town_write_btn .townWrite {
 	</section>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>
