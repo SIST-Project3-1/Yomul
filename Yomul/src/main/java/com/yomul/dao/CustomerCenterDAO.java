@@ -16,7 +16,6 @@ public class CustomerCenterDAO extends DAO {
 		
 		try {
 			String sql = " select no, content from yomul_faq_categories order by no asc ";
-			
 			getPreparedStatement(sql);
 			
 			rs = pstmt.executeQuery();
@@ -43,7 +42,6 @@ public class CustomerCenterDAO extends DAO {
 		
 		try {
 			String sql = " select category, title, content from yomul_faq_articles order by no asc ";
-			
 			getPreparedStatement(sql);
 			
 			rs = pstmt.executeQuery();
@@ -67,17 +65,19 @@ public class CustomerCenterDAO extends DAO {
 	public ArrayList<NoticeVO> getNoticeList() {
 		ArrayList<NoticeVO> list = new ArrayList<NoticeVO>();
 		NoticeVO vo = null;
+		int no = 0;
 		
 		try {
 			String sql = " select no, title, ndate from yomul_notices ";
-			
 			getPreparedStatement(sql);
 			
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				vo = new NoticeVO();
 				
-				vo.setNo(rs.getInt(1));
+				no = Integer.parseInt(rs.getString(1).substring(1));
+				
+				vo.setNo(no);
 				vo.setTitle(rs.getString(2));
 				vo.setDate(rs.getString(3));
 				
@@ -91,17 +91,16 @@ public class CustomerCenterDAO extends DAO {
 	}
 	
 	// 사용자 공지사항 상세 조회
-	public NoticeVO getNoticeInfo(int no) {
+	public NoticeVO getNoticeInfo(String no) {
 		NoticeVO vo = null;
 		
 		try {
 			String sql = " select title, content, ndate, hits "
 					+ " from yomul_notices "
 					+ " where no = ? ";
-			
 			getPreparedStatement(sql);
 			
-			pstmt.setInt(1, no);
+			pstmt.setString(1, no);
 			
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
@@ -120,16 +119,15 @@ public class CustomerCenterDAO extends DAO {
 	}
 	
 	// 공지사항 조회수 추가
-	public int addNoticeHits(int no) {
+	public int addNoticeHits(String no) {
 		int result = -1;
 		try {
 			String sql = " update yomul_notices "
 					+ " set hits = hits + 1 "
 					+ " where no = ? ";
-			
 			getPreparedStatement(sql);
 			
-			pstmt.setInt(1, no);
+			pstmt.setString(1, no);
 			
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
