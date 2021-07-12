@@ -1,16 +1,16 @@
 package com.yomul.vo;
 
 public class FaqVO extends VO {
-	private int no; // 번호
 	private int category; // 카테고리
+	private String no; // 번호
 	private String title; // 제목
 	private String content; // 내용
 	
-	public int getNo() {
+	public String getNo() {
 		return no;
 	}
 
-	public void setNo(int no) {
+	public void setNo(String no) {
 		this.no = no;
 	}
 
