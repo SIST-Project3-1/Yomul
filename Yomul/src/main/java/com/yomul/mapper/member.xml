@@ -16,6 +16,18 @@
 		WHERE M.NO = #{no}
 	</select>
 	
+	<insert id="setmyprofileinfo" parameterType="com.yomul.vo.MemberVO">
+		UPDATE YOMUL_MEMBERS SET NICKNAME = #{nickname}, PHONE = #{phone}, GENDER = #{gender}, INTRO = #{intro} WHERE NO = #{no}
+	</insert>
+	
+	<update id="setmyprofileimg" parameterType="com.yomul.vo.MemberVO">
+		MERGE INTO YOMUL_FILES USING DUAL ON (ARTICLE_NO = #{no})
+			WHEN MATCHED THEN
+				UPDATE SET FILENAME = #{profileImg} WHERE ARTICLE_NO = #{no}
+			WHEN NOT MATCHED THEN
+				INSERT (ARTICLE_NO, NO, FILENAME) VALUES(#{no}, YOMUL_FILES_NO_SEQ.NEXTVAL, #{profileImg}) 
+	</update>
+	
 	<select id="getbuycount" parameterType="com.yomul.vo.MemberVO" resultType="int">
 		SELECT COUNT(*) 
 		FROM YOMUL_TRADE_HISTORY 

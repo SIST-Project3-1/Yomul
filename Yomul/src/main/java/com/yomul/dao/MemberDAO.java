@@ -26,41 +26,24 @@ public class MemberDAO extends DAO {
 		return sqlSession.selectOne(namespace + ".getmyprofileinfo", vo);
 	}
 
+	/**
+	 * 프로필 정보 업데이트
+	 * 
+	 * @param vo
+	 * @return
+	 */
 	public int setMyProfileInfo(MemberVO vo) {
-		int result = -2;
-		try {
-			// 정보 업데이트
-			String sql = "UPDATE YOMUL_MEMBERS SET NICKNAME = ?, PHONE = ?, GENDER = ?, INTRO = ? WHERE NO = ? ";
-			getPreparedStatement(sql);
+		return sqlSession.insert(namespace + ".setmyprofileinfo", vo);
+	}
 
-			pstmt.setString(1, vo.getNickname());
-			pstmt.setString(2, vo.getPhone());
-			pstmt.setString(3, vo.getGender());
-			pstmt.setString(4, vo.getIntro());
-			pstmt.setString(5, vo.getNo());
-
-			result = pstmt.executeUpdate();
-
-			if (result == 1 && vo.getProfileImg() != null) { // 프로필 사진 변경
-				sql = "MERGE INTO YOMUL_FILES USING DUAL ON (ARTICLE_NO = ?) ";
-				sql += "  WHEN MATCHED THEN ";
-				sql += "    UPDATE SET FILENAME = ? WHERE ARTICLE_NO = ? ";
-				sql += "  WHEN NOT MATCHED THEN ";
-				sql += "    INSERT (ARTICLE_NO, NO, FILENAME) VALUES(?, YOMUL_FILES_NO_SEQ.NEXTVAL, ?) ";
-				getPreparedStatement(sql);
-
-				pstmt.setString(1, vo.getNo());
-				pstmt.setString(2, vo.getProfileImg());
-				pstmt.setString(3, vo.getNo());
-				pstmt.setString(4, vo.getNo());
-				pstmt.setString(5, vo.getProfileImg());
-
-				result = pstmt.executeUpdate();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+	/**
+	 * 프로필 사진 업데이트
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int setMyProfileImg(MemberVO vo) {
+		return sqlSession.insert(namespace + ".setmyprofileimg", vo);
 	}
 
 	/**
