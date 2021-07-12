@@ -7,16 +7,17 @@ import com.yomul.vo.FaqVO;
 import com.yomul.vo.NoticeVO;
 
 public interface CustomerCenterService {
-	
-	public ArrayList<CategoryVO> getFaqCategories();
-	
-	public ArrayList<FaqVO> getFaqList();
-	
-	public ArrayList<NoticeVO> getNoticeList();
-	
-	public NoticeVO getNoticeInfo(int no);
-	
-	public int addNoticeHits(int no);
-	
-	public ArrayList<String> getNoticeFiles(int no);
+	ArrayList<CategoryVO> getFaqCategories();
+
+	ArrayList<FaqVO> getFaqList();
+
+	ArrayList<NoticeVO> getNoticeList();
+
+	NoticeVO getNoticeInfo(int no);
+
+	int addNoticeHits(int no);
+
+	ArrayList<String> getNoticeFiles(int no);
+
+	ArrayList<CategoryVO> getQnaCategories();
 }

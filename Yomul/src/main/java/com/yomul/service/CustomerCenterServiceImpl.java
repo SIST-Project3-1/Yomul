@@ -44,4 +44,9 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	public ArrayList<String> getNoticeFiles(int no) {
 		return customerCenterDAO.getArticleFiles("N", no);
 	}
+
+	@Override
+	public ArrayList<CategoryVO> getQnaCategories() {
+		return customerCenterDAO.getQnaCategories();
+	}
 }
