@@ -63,7 +63,7 @@ div.list th, div.list a.btn {
 	white-space: nowrap;
 }
 </style>
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 <script>
 	$(document).ready(function() {
 		// 목록 버튼 클릭
@@ -84,7 +84,7 @@ div.list th, div.list a.btn {
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../admin_header.jsp"></jsp:include>
+	<%@ include file="../admin_header.jsp"%>
 	<!--  BODY  -->
 
 

@@ -1,139 +1,49 @@
 package com.yomul.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.NoticeVO;
 
+@Repository
 public class CustomerCenterDAO extends DAO {
+//	@Autowired
+//	private SqlSessionTemplate sqlSession;
+	
+	private static String nameSpace = "mapper.customerCenter";
+	
 	
 	// faq 카테고리 목록 구하기
 	public ArrayList<CategoryVO> getFaqCategories() {
-		ArrayList<CategoryVO> list = new ArrayList<CategoryVO>();
-		CategoryVO vo = null;
-		
-		try {
-			String sql = " select no, content from yomul_faq_categories order by no asc ";
-			getPreparedStatement(sql);
-			
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				vo = new CategoryVO();
-				
-				vo.setNo(rs.getInt(1));
-				vo.setContent(rs.getString(2));
-				
-				list.add(vo);
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return list;
+		List<CategoryVO> list = sqlSession.selectList(nameSpace + ".selectFaqCategories");
+		return (ArrayList<CategoryVO>) list;
 	}
 	
 	// faq 목록 반환
 	public ArrayList<FaqVO> getFaqList() {
-		ArrayList<FaqVO> list = new ArrayList<FaqVO>();
-		FaqVO vo = null;
-		
-		try {
-			String sql = " select category, title, content from yomul_faq_articles order by no asc ";
-			getPreparedStatement(sql);
-			
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				vo = new FaqVO();
-				
-				vo.setCategory(rs.getInt(1));
-				vo.setTitle(rs.getString(2));
-				vo.setContent(rs.getString(3));
-				
-				list.add(vo);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return list;
+		List<FaqVO> list = sqlSession.selectList(nameSpace + ".selectFaqList");
+		return (ArrayList<FaqVO>) list;
 	}
 	
 	// 사용자 공지사항 목록 조회
 	public ArrayList<NoticeVO> getNoticeList() {
-		ArrayList<NoticeVO> list = new ArrayList<NoticeVO>();
-		NoticeVO vo = null;
-		int no = 0;
-		
-		try {
-			String sql = " select no, title, ndate from yomul_notices ";
-			getPreparedStatement(sql);
-			
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				vo = new NoticeVO();
-				
-				no = Integer.parseInt(rs.getString(1).substring(1));
-				
-				vo.setNo(no);
-				vo.setTitle(rs.getString(2));
-				vo.setDate(rs.getString(3));
-				
-				list.add(vo);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return list;
+		List<NoticeVO> list = sqlSession.selectList(nameSpace + ".selectNoticeList");
+		return (ArrayList<NoticeVO>) list;
 	}
 	
 	// 사용자 공지사항 상세 조회
 	public NoticeVO getNoticeInfo(String no) {
-		NoticeVO vo = null;
-		
-		try {
-			String sql = " select title, content, ndate, hits "
-					+ " from yomul_notices "
-					+ " where no = ? ";
-			getPreparedStatement(sql);
-			
-			pstmt.setString(1, no);
-			
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				vo = new NoticeVO();
-				
-				vo.setTitle(rs.getString(1));
-				vo.setContent(rs.getString(2));
-				vo.setDate(rs.getString(3));
-				vo.setHits(rs.getInt(4));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return vo;
+		return sqlSession.selectOne(nameSpace + ".selectNoticeInfo", no);
 	}
 	
 	// 공지사항 조회수 추가
 	public int addNoticeHits(String no) {
-		int result = -1;
-		try {
-			String sql = " update yomul_notices "
-					+ " set hits = hits + 1 "
-					+ " where no = ? ";
-			getPreparedStatement(sql);
-			
-			pstmt.setString(1, no);
-			
-			result = pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
+		return sqlSession.update(nameSpace + ".updateNoticeHits", no);
 	}
 }

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>통합 검색</title>
 <!-- HEAD -->
-<jsp:include page="../head.jsp"></jsp:include>
+<%@ include file="../head.jsp"%>
 </head>
 <body>
 	<!-- HEADER -->
@@ -116,6 +116,6 @@
 	</section>
 
 	<!-- FOOTER -->
-	<jsp:include page="footer.jsp"></jsp:include>
+	<%@ include file="footer.jsp"%>
 </body>
 </html>

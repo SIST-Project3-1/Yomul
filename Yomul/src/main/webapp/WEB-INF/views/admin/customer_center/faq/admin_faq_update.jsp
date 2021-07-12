@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>관리자 FAQ 글 수정하기</title>
 <!-- HEAD -->
-<jsp:include page="../../../head.jsp"></jsp:include>
+<%@ include file="../../../head.jsp"%>
 <style>
 div.admin_faq_write {
 	width: 50%;
@@ -68,7 +68,7 @@ div.admin_faq_write div.faq_write_btn #fqaUpdate {
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../../admin_header.jsp"></jsp:include>
+	<%@ include file="../../admin_header.jsp"%>
 
 	<!--  BODY  -->
 	<section id="sample">

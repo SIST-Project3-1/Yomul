@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>회원 탈퇴 취소</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 </head>
 <body style="height: 100vh;">
 	<!-- HEADER -->
@@ -27,6 +27,6 @@
 	</section>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

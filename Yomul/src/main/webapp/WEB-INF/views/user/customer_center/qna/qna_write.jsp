@@ -6,7 +6,6 @@
 <meta charset="UTF-8">
 <title>문의하기</title>
 <!-- HEAD -->
-<jsp:include page="../../../head.jsp"></jsp:include>
 <style>
 	#qna_write {
 		width: 600px;
@@ -16,6 +15,7 @@
 		height: 200px;
 	}
 </style>
+<%@ include file="../../../head.jsp"%>
 <script>
 	$(document).ready(function() {
 		
@@ -33,8 +33,8 @@
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../../header.jsp"></jsp:include>
-	
+	<%@ include file="../../header.jsp"%>
+
 	<!--  BODY 참고 페이지: https://ohou.se/contacts/new -->
 	<section id="qna_write" class="mx-auto m-5">
 		<h4 class="font-weight-bold">문의하기</h4>
@@ -83,6 +83,6 @@
 	</section>
 	
 	<!-- FOOTER -->
-	<jsp:include page="../../footer.jsp"></jsp:include>
+	<%@ include file="../../footer.jsp"%>
 </body>
 </html>

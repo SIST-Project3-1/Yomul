@@ -19,6 +19,12 @@ public class MemberVO extends VO {
 	private String subscribe;
 	private String profileImg;
 
+	@Override
+	public String toString() {
+		return "no: " + no + ", nickname: " + nickname + "phone: " +phone + ", gender: " + gender+", img: "+profileImg;
+
+	}
+
 	public String getEmail() {
 		return email;
 	}

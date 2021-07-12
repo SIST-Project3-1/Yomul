@@ -6,11 +6,11 @@
 <meta charset="UTF-8">
 <title>요물 로그인</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 </head>
 <body style="height: 100vh;">
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
 	<div id="login" style="height: 75%; display: flex; align-items: center;">
@@ -44,6 +44,6 @@
 	</div>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

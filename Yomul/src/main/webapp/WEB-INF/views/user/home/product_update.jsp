@@ -7,11 +7,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- HEAD -->
+<%@ include file="../../head.jsp"%>
 <link rel="stylesheet" href="http://localhost:9000/yomul/resources/css/product_update.css">
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
 	<form>
@@ -309,6 +311,6 @@
 		<!--pu_wrap -->
 	</form>
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>
