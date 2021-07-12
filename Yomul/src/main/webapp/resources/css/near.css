@@ -439,6 +439,8 @@
     padding-top:40px;
 	display:flex;
     flex-direction:column;
+    position: sticky;
+    top:0px;
 }
 .near-info-right div img{
 	/*border:1px red solid;*/

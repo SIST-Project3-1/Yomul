@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 <nav class="border-bottom navbar navbar-expand-md bg-white navbar-light sticky-top">
 	<a class="navbar-brand" href="/yomul/"> 요물 </a>
 
@@ -21,7 +20,7 @@
 	<form name="total-search" class="form-inline ml-auto" action="total_search" method="GET">
 		<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 10; left: 23px;"> </label>
 		<div class="input-group flex-nowrap">
-			<input id="search_bar" class="form-control mr-sm-2 pl-4" type="search" name="target" placeholder="요물 통합검색" aria-label="Search" value="${target!=null?target: " "}" required>
+			<input id="search_bar" class="form-control mr-sm-2 pl-4" type="search" name="target" placeholder="요물 통합검색" aria-label="Search" value="${target!=null?target: null}" required>
 			<button type="submit" class="d-none"></button>
 		</div>
 	</form>
@@ -29,6 +28,9 @@
 	<ul class="navbar-nav">
 		<li class="nav-item">
 			<a class="nav-link" href="/yomul/login">로그인</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="/yomul/logout">로그아웃</a>
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" href="/yomul/join">회원가입</a>

@@ -15,6 +15,7 @@
 		</ul>
 	</div>
 	<ul class="navbar-nav">
+		<li class="nav-item"><a class="nav-link" href="/yomul/">사용자 화면</a></li>
 		<li class="nav-item"><a class="nav-link" href="/yomul/logout">로그아웃</a></li>
 		</ul>
 </nav>

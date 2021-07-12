@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,27 +33,15 @@
 	<section id="notice_list">
 		<h2 class="my-5 mx-0">공지사항</h2>
 		<ul class="list p-0">
-			<li class="p-0 m-0">
-				<a class="m-0 text-decoration-none" href="customer_notices/1">
-					<p class="p-0 m-0 text-body">제목~~~~</p>
-					<p class="text-secondary">2021.07.02</p>
-					<hr>
-				</a>
-			</li>
-			<li class="p-0 m-0">
-				<a class="m-0 text-decoration-none" href="customer_notices/1">
-					<p class="p-0 m-0 text-body">제목~~~~</p>
-					<p class="text-secondary">2021.07.02</p>
-					<hr>
-				</a>
-			</li>
-			<li class="p-0 m-0">
-				<a class="m-0 text-decoration-none" href="customer_notices/1">
-					<p class="p-0 m-0 text-body">제목~~~~</p>
-					<p class="text-secondary">2021.07.02</p>
-					<hr>
-				</a>
-			</li>
+			<c:forEach var="vo" items="${list }">
+				<li class="p-0 m-0">
+					<a class="m-0 text-decoration-none" href="customer_notices/${vo.getNo() }">
+						<p class="p-0 m-0 text-body">${vo.getTitle() }</p>
+						<p class="text-secondary">${vo.getDate() }</p>
+						<hr>
+					</a>
+				</li>
+			</c:forEach>
 		</ul>
 	</section>
 	

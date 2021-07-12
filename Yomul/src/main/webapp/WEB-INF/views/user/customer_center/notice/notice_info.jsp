@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,16 +32,17 @@
 	
 	<section id="notice_info">
 		<div>
-			<h4 class="font-weight-bold">제모옥~~~</h4>
-			<p class="font-weight-bold text-secondary">2021.07.02</p>
+			<h4 class="font-weight-bold">${vo.getTitle() }</h4>
+			<p class="font-weight-bold text-secondary">${vo.getDate() }</p>
 		</div>
 		<hr>
 		<div class="my-5 mx-0">
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
+			<c:forEach var="fname" items="${files }">
+				<img src="/yomul/image/${fname }" class="img-fluid">
+			</c:forEach>
+			<div>
+				${vo.getContent() }
+			</div>
 		</div>
 		<hr>
 		<div class="text-center">
