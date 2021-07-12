@@ -42,6 +42,6 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	
 	@Override
 	public ArrayList<String> getNoticeFiles(int no) {
-		return customerCenterDAO.getFiles("N", no);
+		return customerCenterDAO.getArticleFiles("N", no);
 	}
 }

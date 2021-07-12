@@ -1,10 +1,20 @@
 package com.yomul.dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 //반환형이 int인 경우 성공하면 1, 성공 못하면 0, SQL 에러나면 -1, 자바에서 에러나면 -2
 abstract public class DAO {
+	@Autowired
+	protected SqlSessionTemplate sqlSession;
+	
 	String url;
 	String user = "scott";
 	String pass = "tiger";
@@ -57,28 +67,9 @@ abstract public class DAO {
 		}
 	}
 	
-	// 게시글 파일 불러오기
-	public ArrayList<String> getFiles(String board, int no) {
-		ArrayList<String> list = new ArrayList<String>();
-		String articleNo = board + no;
-		
-		try {
-			String sql = " select filename "
-					+ " from yomul_files "
-					+ " where article_no = ? "
-					+ " order by no asc ";
-			getPreparedStatement(sql);
-			
-			pstmt.setString(1, articleNo);
-			
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				list.add(rs.getString(1));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return list;
+	/** 게시글 파일 조회 **/
+	public ArrayList<String> getArticleFiles(String board, int no) {
+		List<String> list = sqlSession.selectList("mapper.file.selectArticleFiles", board + no);
+		return (ArrayList<String>) list;
 	}
 }

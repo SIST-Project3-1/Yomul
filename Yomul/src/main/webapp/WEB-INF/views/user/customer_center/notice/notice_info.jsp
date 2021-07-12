@@ -33,7 +33,7 @@
 	<section id="notice_info">
 		<div>
 			<h4 class="font-weight-bold">${vo.getTitle() }</h4>
-			<p class="font-weight-bold text-secondary">${vo.getDate() }</p>
+			<p class="font-weight-bold text-secondary">${vo.getNdate() }</p>
 		</div>
 		<hr>
 		<div class="my-5 mx-0">

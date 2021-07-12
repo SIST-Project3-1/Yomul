@@ -37,7 +37,7 @@
 				<li class="p-0 m-0">
 					<a class="m-0 text-decoration-none" href="customer_notices/${vo.getNo() }">
 						<p class="p-0 m-0 text-body">${vo.getTitle() }</p>
-						<p class="text-secondary">${vo.getDate() }</p>
+						<p class="text-secondary">${vo.getNdate() }</p>
 						<hr>
 					</a>
 				</li>
