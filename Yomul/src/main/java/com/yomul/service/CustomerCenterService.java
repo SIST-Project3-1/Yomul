@@ -17,4 +17,6 @@ public interface CustomerCenterService {
 	public NoticeVO getNoticeInfo(int no);
 	
 	public int addNoticeHits(int no);
+	
+	public ArrayList<String> getNoticeFiles(int no);
 }

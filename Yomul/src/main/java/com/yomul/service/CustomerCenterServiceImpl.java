@@ -32,11 +32,16 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	
 	@Override
 	public NoticeVO getNoticeInfo(int no) {
-		return customerCenterDAO.getNoticeInfo(no);
+		return customerCenterDAO.getNoticeInfo("N" + no);
 	}
 	
 	@Override
 	public int addNoticeHits(int no) {
-		return customerCenterDAO.addNoticeHits(no);
+		return customerCenterDAO.addNoticeHits("N" + no);
+	}
+	
+	@Override
+	public ArrayList<String> getNoticeFiles(int no) {
+		return customerCenterDAO.getArticleFiles("N", no);
 	}
 }
