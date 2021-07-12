@@ -23,27 +23,7 @@ public class MemberDAO extends DAO {
 	 * @return
 	 */
 	public MemberVO getMyProfileInfo(MemberVO vo) {
-		MemberVO result = null;
-		try {
-			String sql = "SELECT EMAIL, NICKNAME, PHONE, GENDER, INTRO, F.FILENAME FILENAME FROM YOMUL_MEMBERS M LEFT JOIN YOMUL_FILES F ON M.NO = F.ARTICLE_NO WHERE M.NO = ?";
-			getPreparedStatement(sql);
-
-			pstmt.setString(1, vo.getNo());
-
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				result = new MemberVO();
-				result.setEmail(rs.getString(1));
-				result.setNickname(rs.getString(2));
-				result.setPhone(rs.getString(3));
-				result.setGender(rs.getString(4));
-				result.setIntro(rs.getString(5));
-				result.setProfileImg(rs.getString(6));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		return sqlSession.selectOne(namespace + ".getmyprofileinfo", vo);
 	}
 
 	public int setMyProfileInfo(MemberVO vo) {
@@ -90,21 +70,7 @@ public class MemberDAO extends DAO {
 	 * @return
 	 */
 	public int getBuyCount(MemberVO vo) {
-		int result = -2;
-		try {
-			String sql = "SELECT COUNT(*) FROM YOMUL_TRADE_HISTORY WHERE BUYER = ?";
-			getPreparedStatement(sql);
-
-			pstmt.setString(1, vo.getNo());
-
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				result = rs.getInt(1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		return sqlSession.selectOne(namespace + ".getbuycount", vo);
 	}
 
 	/**
@@ -114,21 +80,7 @@ public class MemberDAO extends DAO {
 	 * @return
 	 */
 	public int getSellCount(MemberVO vo) {
-		int result = -2;
-		try {
-			String sql = "SELECT COUNT(*) FROM YOMUL_TRADE_HISTORY WHERE SELLER = ?";
-			getPreparedStatement(sql);
-
-			pstmt.setString(1, vo.getNo());
-
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				result = rs.getInt(1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		return sqlSession.selectOne(namespace + ".getsellcount", vo);
 	}
 
 	/**
@@ -138,21 +90,7 @@ public class MemberDAO extends DAO {
 	 * @return
 	 */
 	public int getFavoriteCount(MemberVO vo) {
-		int result = -2;
-		try {
-			String sql = "SELECT COUNT(*) FROM YOMUL_FAVORITE_LISTS WHERE MEMBER_NO = ?";
-			getPreparedStatement(sql);
-
-			pstmt.setString(1, vo.getNo());
-
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				result = rs.getInt(1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		return sqlSession.selectOne(namespace + ".getfavoritecount", vo);
 	}
 
 	// 회원 가입

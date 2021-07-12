@@ -9,4 +9,28 @@
 		INSERT INTO YOMUL_MEMBERS(NO, EMAIL, PW, NICKNAME, HASHSALT, SUBSCRIBE) 
 		VALUES('M'||YOMUL_MEMBERS_NO_SEQ.NEXTVAL, #{email}, #{pw}, #{nickname}, #{hashsalt}, #{subscribe})
 	</insert>
+	
+	<select id="getmyprofileinfo" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
+		SELECT EMAIL, NICKNAME, PHONE, GENDER, INTRO, F.FILENAME FILENAME 
+		FROM YOMUL_MEMBERS M LEFT JOIN YOMUL_FILES F ON M.NO = F.ARTICLE_NO 
+		WHERE M.NO = #{no}
+	</select>
+	
+	<select id="getbuycount" parameterType="com.yomul.vo.MemberVO" resultType="int">
+		SELECT COUNT(*) 
+		FROM YOMUL_TRADE_HISTORY 
+		WHERE BUYER = #{no}
+	</select>
+	
+	<select id="getsellcount" parameterType="com.yomul.vo.MemberVO" resultType="int">
+		SELECT COUNT(*) 
+		FROM YOMUL_TRADE_HISTORY
+		 WHERE SELLER = #{no}
+	</select>
+	
+	<select id="getfavoritecount" parameterType="com.yomul.vo.MemberVO" resultType="int">
+		SELECT COUNT(*) 
+		FROM YOMUL_FAVORITE_LISTS 
+		WHERE MEMBER_NO = #{no}
+	</select>
 </mapper>
