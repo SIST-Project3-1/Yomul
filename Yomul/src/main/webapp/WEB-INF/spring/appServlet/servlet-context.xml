@@ -21,8 +21,14 @@
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/image/**" location="/resources/image/" />
 	<resources mapping="/upload/**" location="/resources/upload/" />
-	<resources mapping="/texteditor/**" location="/resources/texteditor/" />
-	
+	<resources mapping="/texteditor/**"
+		location="/resources/texteditor/" />
+
+
+	<!-- resource mapping -->
+	<!-- location : 물리적 주소 / mapping : 가상 주소 -->
+	<resources location="file:/upload/" mapping="/upload/*" />
+
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
@@ -33,9 +39,11 @@
 	</beans:bean>
 
 	<!-- multipartResolver -->
-	<beans:bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	</beans:bean>
+
+
+
 
 	<!-- DAO Object -->
 	<beans:bean id="nearDAO" class="com.yomul.dao.NearDAO"></beans:bean>
@@ -46,9 +54,9 @@
 	<beans:bean id="nearService" class="com.yomul.service.NearServiceImplement"></beans:bean>
 	<beans:bean id="memberService" class="com.yomul.service.MemberServiceImpl"></beans:bean>
 	<beans:bean id="customerCenterService" class="com.yomul.service.CustomerCenterServiceImpl"></beans:bean>
+	<beans:bean id="fileUploadService" class="com.yomul.service.FileUploadService"></beans:bean>
 
-	<context:component-scan
-		base-package="com.yomul.yomul" />
+	<context:component-scan base-package="com.yomul.yomul" />
 
 
 

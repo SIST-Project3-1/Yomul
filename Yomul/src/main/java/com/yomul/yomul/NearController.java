@@ -2,8 +2,10 @@ package com.yomul.yomul;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.dao.NearDAO;
@@ -14,7 +16,7 @@ public class NearController {
 	
 	@Autowired
 	private NearDAO dao;
-	
+
 	@RequestMapping(value="/near_home", method=RequestMethod.GET)
 	public ModelAndView near_home() {
 		ModelAndView mv = new ModelAndView();
@@ -48,12 +50,10 @@ public class NearController {
 			// mv.setViewName("error"); 에러페이지
 		}
 		
-		
 		return mv;
 	}
 	
-	//�궡 洹쇱쿂 湲� �닔�젙 (�룞�꽕援ъ씤援ъ쭅, 怨쇱쇅/�겢�옒�뒪, �냽�닔�궛臾�, 以묎퀬李�)
-	
+
 	@RequestMapping(value="/near_update", method=RequestMethod.GET)
 	public String near_update() {
 		return "user/near/near_update";
@@ -81,5 +81,6 @@ public class NearController {
 	public String reviews_info() {
 		return "user/near/reviews_info";
 	}
+	
 	
 }
