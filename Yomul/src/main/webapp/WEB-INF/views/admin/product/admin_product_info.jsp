@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="http://localhost:9000/yomul/resources/css/product_info.css">
+<jsp:include page="../../head.jsp"></jsp:include>
 </head>
 <body>
 	<!-- HEADER -->
