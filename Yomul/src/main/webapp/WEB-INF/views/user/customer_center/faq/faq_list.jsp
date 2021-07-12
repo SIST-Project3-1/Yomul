@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>고객센터 FAQ</title>
 <!-- HEAD -->
-<jsp:include page="../../../head.jsp"></jsp:include>
+<%@ include file="../../../head.jsp"%>
 <style>
 	#faq_list {
 		width: 1120px;
@@ -71,7 +71,7 @@
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../../header.jsp"></jsp:include>
+	<%@ include file="../../header.jsp"%>
 	
 	<!--  BODY  -->
 	<section id="faq_list">
@@ -103,6 +103,6 @@
 	</section>
 	
 	<!-- FOOTER -->
-	<jsp:include page="../../footer.jsp"></jsp:include>
+	<%@ include file="../../footer.jsp"%>
 </body>
 </html>

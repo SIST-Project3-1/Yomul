@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>요물 프로필 수정</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 <script>
 	function fileUpload(fis) {
 		var str = fis.value;
@@ -39,7 +39,7 @@
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!-- MYPAGE HEADER -->
 	<%@include file="mypage_header.jsp"%>
@@ -112,6 +112,6 @@
 	</section>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

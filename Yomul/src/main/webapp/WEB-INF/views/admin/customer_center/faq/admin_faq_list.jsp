@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>관리자 FAQ 목록</title>
 <!-- HEAD -->
-<jsp:include page="../../../head.jsp"></jsp:include>
+<%@ include file="../../../head.jsp"%>
 <style>
 div.faq {
 	width: 80%;
@@ -26,7 +26,7 @@ div.faq th, div.faq a.btn {
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../../admin_header.jsp"></jsp:include>
+	<%@ include file="../../admin_header.jsp"%>
 
 	<!--  BODY  -->
 	<section id="sample">

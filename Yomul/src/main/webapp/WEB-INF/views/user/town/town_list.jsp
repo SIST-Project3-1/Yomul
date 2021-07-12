@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<meta charset="UTF-8">
+<title>동네 생활</title>
+<%@ include file="../../head.jsp"%>
 <style>
 /* town_list head 부분 (검색) */
 .user_town_list_head {
@@ -159,13 +161,6 @@ div.town_info label {
 	border-left: 2px solid lightgray;
 }
 </style>
-
-
-
-
-<meta charset="UTF-8">
-<title>동네 생활</title>
-<jsp:include page="../../head.jsp"></jsp:include>
 <script>
 	//태그 누르면 검색창에 뜨도록
 	$(document).ready(function() {
@@ -177,7 +172,7 @@ div.town_info label {
 </script>
 </head>
 <body>
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 	<!-- //http://localhost:9090/yomul/town_list -->
 
 	<!-- user_town_list 검색창 부분 -->
@@ -314,6 +309,6 @@ div.town_info label {
 		</div>
 	</div>
 
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

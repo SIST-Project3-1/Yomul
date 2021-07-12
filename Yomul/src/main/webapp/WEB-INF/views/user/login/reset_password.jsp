@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>요물 비밀번호 재설정</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#form_reset_password").on("submit", function() {
@@ -27,7 +27,7 @@
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
 	<section id="login">
@@ -46,6 +46,6 @@
 	</section>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

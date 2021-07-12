@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>내 근처</title>
+<!-- HEAD -->
+<%@ include file="../../head.jsp"%>
 <script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function(){
@@ -13,12 +15,10 @@ $(document).ready(function(){
 	});
 });
 </script>
-<!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
 	<div id="near_info" class="near-info-content">
@@ -144,6 +144,6 @@ $(document).ready(function(){
 	</div>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>
