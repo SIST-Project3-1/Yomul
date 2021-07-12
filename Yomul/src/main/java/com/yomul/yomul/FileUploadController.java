@@ -17,11 +17,8 @@ public class FileUploadController {
 	@Autowired
 	FileUploadService fileUploadService;
 	
-//	@RequestMapping( "/near_write_proc" )
-//	public String form() {
-//		return "redirect:/near_home";
-//	}
-	
+
+	//내근처 글쓰기 파일 업로드
 	@RequestMapping(value="/upload_file_proc" ,method=RequestMethod.POST)
 	public String upload(Model model, @RequestParam("uploadFile") List<MultipartFile> files) {
 		String url = fileUploadService.restore(files);
