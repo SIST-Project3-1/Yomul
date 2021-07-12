@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+	<insert id="join" parameterType="com.yomul.vo.MemberVO">
+		INSERT INTO YOMUL_MEMBERS(NO, EMAIL, PW, NICKNAME, HASHSALT, SUBSCRIBE) 
+		VALUES('M'||YOMUL_MEMBERS_NO_SEQ.NEXTVAL, #{email}, #{pw}, #{nickname}, #{hashsalt}, #{subscribe})
+	</insert>
+</mapper>
