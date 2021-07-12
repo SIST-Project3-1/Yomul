@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 상세</title>
-<jsp:include page="../../../head.jsp"></jsp:include>
+<%@ include file="../../../head.jsp"%>
 <style>
 	#notice_info {
 		width: 750px;
@@ -52,7 +52,7 @@
 </script>
 </head>
 <body>
-	<jsp:include page="../../admin_header.jsp"></jsp:include>
+	<%@ include file="../../admin_header.jsp"%>
 	
 	<section id="notice_info">
 		<div>

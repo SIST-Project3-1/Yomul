@@ -5,13 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>내 근처</title>
-<link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
 	<div id="near_card_form" class="near-card-form-content">
@@ -37,6 +36,6 @@
 	</div>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

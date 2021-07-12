@@ -6,11 +6,11 @@
 <meta charset="UTF-8">
 <title>소식 목록</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!-- MYPAGE HEADER -->
 	<%@include file="vendor_header.jsp"%>
@@ -40,6 +40,6 @@
 		<% } %>
 	</div>
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

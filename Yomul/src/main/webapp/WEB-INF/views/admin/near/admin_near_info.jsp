@@ -7,11 +7,11 @@
 <title>내 근처</title>
 <link rel="stylesheet" href="http://localhost:9000/yomul/css/near.css">
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../admin_header.jsp"></jsp:include>
+	<%@ include file="../admin_header.jsp"%>
 
 	<!--  BODY  -->
 	<div id="near_info" class="near-info-content">

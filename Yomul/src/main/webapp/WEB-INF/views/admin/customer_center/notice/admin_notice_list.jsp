@@ -45,11 +45,11 @@ div.list #btn-yomul {
 	width: 200px;
 }
 </style>
-<jsp:include page="../../../head.jsp"></jsp:include>
+<%@ include file="../../../head.jsp"%>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../../admin_header.jsp"></jsp:include>
+	<%@ include file="../../admin_header.jsp"%>
 	<!--  BODY  -->
 	<section id="admin_product_list">
 		<div class="list">

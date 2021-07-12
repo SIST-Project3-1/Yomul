@@ -154,7 +154,7 @@
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
 	<section id="join">
@@ -244,7 +244,7 @@
 	</section>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>
 

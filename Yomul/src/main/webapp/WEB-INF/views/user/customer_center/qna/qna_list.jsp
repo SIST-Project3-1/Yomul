@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>문의 내역</title>
+<!-- HEAD -->
+<%@ include file="../../../head.jsp"%>
 <style>
 	#qna_list {
 		width: 750px;
@@ -25,12 +27,10 @@
 		margin: 25px 0;
 	}
 </style>
-<!-- HEAD -->
-<jsp:include page="../../../head.jsp"></jsp:include>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../../header.jsp"></jsp:include>
+	<%@ include file="../../header.jsp"%>
 	
 	<!--  BODY  -->
 	<section id="qna_list">
@@ -64,6 +64,6 @@
 	</section>
 	
 	<!-- FOOTER -->
-	<jsp:include page="../../footer.jsp"></jsp:include>
+	<%@ include file="../../footer.jsp"%>
 </body>
 </html>

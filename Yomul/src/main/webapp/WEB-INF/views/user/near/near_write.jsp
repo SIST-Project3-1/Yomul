@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>내 근처</title>
-<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- HEAD -->
+<%@ include file="../../head.jsp"%>
 <script>
 $(document).ready(function(){
 	$('#category').change(function(){
@@ -13,12 +14,10 @@ $(document).ready(function(){
 	});
 });
 </script>
-<!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 	
 	<!--  BODY  -->
 	<div id="near_write" class="near-write">
@@ -75,6 +74,6 @@ $(document).ready(function(){
 		</div>
 	</div>
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

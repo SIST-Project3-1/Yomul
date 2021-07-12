@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>관리자 공지사항 수정</title>
 <!-- HEAD -->
-<jsp:include page="../../../head.jsp"></jsp:include>
+<%@ include file="../../../head.jsp"%>
 <style>
 div.admin_notice_write {
 	width: 50%;
@@ -68,7 +68,7 @@ div.admin_notice_write div.notice_write_btn #noticeUpdate {
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../../admin_header.jsp"></jsp:include>
+	<%@ include file="../../admin_header.jsp"%>
 
 	<!--  BODY  -->
 	<section id="sample">

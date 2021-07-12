@@ -6,11 +6,11 @@
 <meta charset="UTF-8">
 <title>내 근처</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 	
 	<!--  BODY  -->
 	<div id="near_update" class="near-write">
@@ -58,6 +58,6 @@
 	</div>
 	
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>
