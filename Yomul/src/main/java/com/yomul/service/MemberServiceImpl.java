@@ -48,7 +48,6 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int setMyProfileInfo(MemberVO vo) {
-		return memberDAO.setMyProfileInfo(vo) == 1 ? 1 : 0;
 		int result = memberDAO.setMyProfileInfo(vo);
 		if (result == 1 && vo.getProfileImg() != null) {
 			result = setMyProfileImg(vo);
