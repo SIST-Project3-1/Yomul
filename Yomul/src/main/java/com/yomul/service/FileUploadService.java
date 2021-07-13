@@ -4,12 +4,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.yomul.dao.NearDAO;
-import com.yomul.vo.NearVO;
 
 @Service
 public class FileUploadService {
@@ -40,8 +37,8 @@ public class FileUploadService {
 		try {
 
 			// 파일 정보
-			List<MultipartFile> originFilenameList = multipartFile;
-			for (MultipartFile mf : originFilenameList) {
+			
+			for (MultipartFile mf : multipartFile) {
 				//원파일명
 				String originFilename = mf.getOriginalFilename();
 				//변환 파일명
@@ -59,7 +56,7 @@ public class FileUploadService {
 				System.out.println("size : " + size);
 				System.out.println("saveFileName : " + saveFileName);
 				
-				writeFile(multipartFile, saveFileName);
+				writeFile(mf, saveFileName);
 				url = PREFIX_URL + saveFileName;
 				
 				System.out.println("url :" + url );
@@ -90,17 +87,16 @@ public class FileUploadService {
 	}
 
 	// 파일을 실제로 저장
-	private boolean writeFile(List<MultipartFile> multipartFile, String saveFileName) throws IOException {
+	private boolean writeFile(MultipartFile mf, String saveFileName) throws IOException {
 		boolean result = false;
 		
-		for (MultipartFile mf : multipartFile) {
 			byte[] data = mf.getBytes();
 			System.out.println("data : " + data);
 			
 			FileOutputStream fos = new FileOutputStream(SAVE_PATH + "/" + saveFileName);
 			fos.write(data);
 			fos.close();
-		}
+		
 		
 		return result;
 	}
