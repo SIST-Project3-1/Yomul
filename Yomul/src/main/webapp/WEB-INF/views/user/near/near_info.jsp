@@ -25,8 +25,8 @@ $(document).ready(function(){
 		<div class="near-info-left">
 			<!--  타이틀  -->
 			<div class="near-info-left-title">
-				<h6>카테고리</h6>
-				<h3>타이틀</h3>
+				<h6>${vo.category }</h6>
+				<h3>${vo.title }</h3>
 			</div>
 			
 			<!--  이미지  -->
@@ -61,18 +61,12 @@ $(document).ready(function(){
 			
 			<!--  내용  -->
 			<div class="near-info-left-content">
-				<p>
-					내용입니다<br>
-					내용입니다내용입니다내용입니다내용입니다내용입니다<br>
-					내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다
-					내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다<br>
-					내용입니다내용입니다내용입니다내용입니다<br>
-					내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다<br>
-				</p>
+				<p>${vo.content }</p>
 				<div>
-					<label>2021년 07월 05일 23:22</label>
+					<!-- <label>2021년 07월 05일 23:22</label> -->
+					<label>${vo.ndate }</label>
 					<label class="near-info-point">·</label>
-					<label>조회 5</label>
+					<label>조회 ${vo.hits }</label>
 					<label class="near-info-point">·</label>
 					<button type="button" class="near-info-report">신고</button>
 				</div>
@@ -132,14 +126,14 @@ $(document).ready(function(){
 		<div class="near-info-right" id="near_info_right">
 			<div class="near-info-right-writer">
 				<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
-				<label>작성자 닉네임</label>
+				<label>${vo.writer }</label>
 				<button type="button" id="btn_regular"><p>+</p>단골<p>22</p></button>
 			</div>
 			<div class="near-info-right-price">
 				<label>가격</label>
-				<label>22,000원</label>
+				<label>${vo.price }원</label>
 			</div>
-			<a href="/yomul/chat" class="near-info-inquiry">채팅문의</a>
+			<a href="/yomul/chat" class="btn near-info-inquiry <c:if test="${vo.chatCheck != 1 }">disabled</c:if>">채팅문의</a>
 		</div>
 	</div>
 

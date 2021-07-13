@@ -12,14 +12,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yomul.service.FileService;
 import com.yomul.service.VendorService;
 import com.yomul.util.FileUtils;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.VendorVO;
 
 @Controller
 public class VendorController {
 	@Autowired
 	private VendorService vendorService;
+	@Autowired
+	private FileService fileService;
 	
 	//업체 등록
 	@RequestMapping(value="/vendor_signup", method=RequestMethod.GET)
@@ -31,28 +35,39 @@ public class VendorController {
 	@ResponseBody
 	@RequestMapping(value="/vendor_signup_proc", method=RequestMethod.POST)
 	public String vendor_signup_proc(VendorVO vo, MultipartFile file, HttpServletRequest request) {
-		String result = "0";
-		vo.setNo("M3"); // 임시 테스트용
+		int result = 0;
+		FileVO fvo = null;
+		
+		String uno = "M3"; // 임시 테스트용
+		vo.setNo(uno);
 //		HttpSession session = request.getSession();
 //		vo.setNo((String)session.getAttribute("id"));
 		
-		String path = FileUtils.getUploadPath(request);
-		String fileName = FileUtils.getFileName("M3", file);
+		result = vendorService.vendorSignUp(vo);
 		
-		File savedFile = new File(path, fileName);
-		
-		try {
-			file.transferTo(savedFile);
-		} catch (Exception e) {
-			e.printStackTrace();
+		// 업체 등록에 성공하고 입력된 파일이 있을 경우 파일 저장 및 업로드
+		if(result == 1 && !file.isEmpty()) {
+			fvo = new FileVO();
+			
+			String path = FileUtils.getUploadPath(request);
+			String fileName = FileUtils.getFileName(uno, file);
+			
+			File savedFile = new File(path, fileName);
+			
+			try {
+				file.transferTo(savedFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			fvo.setArticle_no(uno);
+			fvo.setNo(1);
+			fvo.setFilename(fileName);
+			
+			fileService.uploadFile(fvo);
 		}
 		
-		if(savedFile.exists()) {
-			vo.setImg(fileName);
-			result = String.valueOf(vendorService.vendorSignUp(vo));
-		}
-		
-		return result;
+		return String.valueOf(result);
 	}
 	
 	//업체 프로필 보기

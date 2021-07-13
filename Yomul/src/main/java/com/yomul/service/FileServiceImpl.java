@@ -1,5 +1,7 @@
 package com.yomul.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,4 +19,8 @@ public class FileServiceImpl implements FileService {
 		return fileDAO.uploadFile(vo) == 1 ? 1 : 0;
 	}
 
+	@Override
+	public ArrayList<String> getNoticeFiles(int no) {
+		return fileDAO.getArticleFiles("N", no);
+	}
 }

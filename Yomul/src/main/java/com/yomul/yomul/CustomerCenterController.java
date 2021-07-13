@@ -70,7 +70,7 @@ public class CustomerCenterController {
 			mv.setViewName("redirect:/error");
 		} else {
 			customerCenterService.addNoticeHits(no); // 조회수 추가
-			ArrayList<String> files = customerCenterService.getNoticeFiles(no);
+			ArrayList<String> files = fileService.getNoticeFiles(no);
 
 			mv.setViewName("user/customer_center/notice/notice_info");
 			mv.addObject("vo", vo);

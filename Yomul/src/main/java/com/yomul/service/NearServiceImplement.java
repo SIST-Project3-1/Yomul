@@ -18,5 +18,18 @@ public class NearServiceImplement implements NearService{
 		return dao.getNearWrite(vo);
 	}
 
+	@Override
+	public NearVO getNearInfo(int no) {
+		return dao.getNearInfo("N" + no);
+	}
 	
+	@Override
+	public boolean updateNearHits(int no) {
+		boolean result = false;
+		if(dao.updateNearHits("N" + no) != 0) {
+			result = true;
+		}
+		
+		return result;
+	}
 }
