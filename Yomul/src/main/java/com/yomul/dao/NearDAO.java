@@ -1,9 +1,16 @@
 package com.yomul.dao;
 
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.yomul.vo.NearVO;
 
 public class NearDAO extends DAO{
+	@Autowired
+	private SqlSessionTemplate sqlSession;
 
+	private static String nameSpace = "mapper.near";
+	
 	public int getNearWrite(NearVO vo) {
 		int result = -2;
 		
@@ -26,4 +33,13 @@ public class NearDAO extends DAO{
 		return result;
 	}
 	
+	// 내 근처 게시글 상세 보기
+	public NearVO getNearInfo(String no) {
+		return sqlSession.selectOne(nameSpace + ".selectNearInfo", no);
+	}
+	
+	// 내 근처 게시글 조회수 업데이트
+	public int updateNearHits(String no) {
+		return sqlSession.update(nameSpace + ".updateNearHits", no);
+	}
 }

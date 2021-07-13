@@ -2,18 +2,20 @@ package com.yomul.yomul;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.dao.NearDAO;
+import com.yomul.service.NearService;
 import com.yomul.vo.NearVO;
 
 @Controller
 public class NearController {
 	
 	@Autowired
-	private NearDAO dao;
+	private NearService nearService;
 	
 	@RequestMapping(value="/near_home", method=RequestMethod.GET)
 	public ModelAndView near_home() {
@@ -59,10 +61,25 @@ public class NearController {
 		return "user/near/near_update";
 	}
 	
-	
-	@RequestMapping(value="/near_info", method=RequestMethod.GET)
-	public String near_info() {
-		return "user/near/near_info";
+	// 내 근처 상세보기
+	@RequestMapping(value="/near_info/{no}", method=RequestMethod.GET)
+	public ModelAndView near_info(@PathVariable("no") int no) {
+		ModelAndView mv = new ModelAndView();
+
+		// 조회수 갱신 겸 게시글 유무 확인
+		if(nearService.updateNearHits(no)) {
+			NearVO vo = nearService.getNearInfo(no);
+			//ArrayList<CommentVO> comments = nearService.getNearCommentList(no);
+			
+			mv.setViewName("user/near/near_info");
+			//mv.addObject("comments", comments);
+			mv.addObject("vo", vo);
+		}else {
+			mv.setViewName("redirect:/user/error");
+		}
+		
+		
+		return mv;
 	}
 	
 	
