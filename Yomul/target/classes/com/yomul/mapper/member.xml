@@ -42,9 +42,11 @@
 	</select>
 	
 	<!-- 프로필 사진 가져오기 -->
-	<select id="getmyprofileimg" parameterType="com.yomul.vo.MemberVO" resultType="string">
+	<select id="getmyprofileimg" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.FileVO">
 		SELECT 
-			ARTICLE_NO || '_' || NO || '_' || FILENAME 
+			  ARTICLE_NO
+			, NO
+			, FILENAME 
 		FROM 
 			YOMUL_FILES 
 		WHERE 

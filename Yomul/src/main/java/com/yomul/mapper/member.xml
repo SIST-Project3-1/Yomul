@@ -6,6 +6,8 @@
 
 <mapper namespace="mapper.member">
 	<insert id="join" parameterType="com.yomul.vo.MemberVO">
+		INSERT INTO YOMUL_MEMBERS
+		(
 			  NO
 			, EMAIL
 			, PW
@@ -26,6 +28,9 @@
 	
 	<!-- 프로필 정보 가져오기 -->
 	<select id="getmyprofileinfo" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
+		SELECT
+			  NO
+			, EMAIL
 			, NICKNAME
 			, PHONE
 			, GENDER
@@ -37,9 +42,11 @@
 	</select>
 	
 	<!-- 프로필 사진 가져오기 -->
-	<select id="getmyprofileimg" parameterType="com.yomul.vo.MemberVO" resultType="string">
+	<select id="getmyprofileimg" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.FileVO">
 		SELECT 
-			ARTICLE_NO || '_' || NO || '_' || FILENAME 
+			  ARTICLE_NO
+			, NO
+			, FILENAME 
 		FROM 
 			YOMUL_FILES 
 		WHERE 

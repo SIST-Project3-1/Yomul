@@ -3,6 +3,7 @@ package com.yomul.service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yomul.dao.MemberDAO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 
 public class MemberServiceImpl implements MemberService {
@@ -53,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public String getMyProfileImg(MemberVO vo) {
+	public FileVO getMyProfileImg(MemberVO vo) {
 		return memberDAO.getMyProfileImg(vo);
 	}
 

@@ -1,5 +1,6 @@
 package com.yomul.service;
 
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 
 public interface MemberService {
@@ -19,5 +20,5 @@ public interface MemberService {
 
 	int getFavoriteCount(MemberVO vo);
 
-	String getMyProfileImg(MemberVO vo);
+	FileVO getMyProfileImg(MemberVO vo);
 }

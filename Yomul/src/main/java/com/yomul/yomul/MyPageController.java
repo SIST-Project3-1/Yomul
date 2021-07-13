@@ -92,10 +92,10 @@ public class MyPageController {
 		}
 
 		MemberVO vo =  memberService.getMyProfileInfo(member);
-		vo.setProfileImg(memberService.getMyProfileImg(vo));
 		
 		mv.addObject("headerType", "myprofile");
 		mv.addObject("member", vo);
+		mv.addObject("file", memberService.getMyProfileImg(vo));
 		return mv;
 	}
 
@@ -152,10 +152,10 @@ public class MyPageController {
 		}
 
 		MemberVO vo =  memberService.getMyProfileInfo(member);
-		vo.setProfileImg(memberService.getMyProfileImg(vo));
 		
 		mv.addObject("headerType", "myprofile");
 		mv.addObject("member", vo);
+		mv.addObject("file", memberService.getMyProfileImg(vo));
 		mv.addObject("buyCount", memberService.getBuyCount(member));
 		mv.addObject("sellCount", memberService.getSellCount(member));
 		mv.addObject("favoriteCount", memberService.getFavoriteCount(member));
