@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class File {
+public class FileUtils {
 	// 저장하는 파일 이름을 구하는 함수
 	public static String getFileName(String articleNo, MultipartFile file) {
 		return articleNo + "_1_" + file.getOriginalFilename();

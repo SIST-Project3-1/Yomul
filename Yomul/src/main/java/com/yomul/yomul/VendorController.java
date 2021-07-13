@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.VendorService;
-import com.yomul.util.File;
+import com.yomul.util.FileUtils;
 import com.yomul.vo.VendorVO;
 
 @Controller
@@ -36,8 +36,8 @@ public class VendorController {
 //		HttpSession session = request.getSession();
 //		vo.setNo((String)session.getAttribute("id"));
 		
-		String path = File.getUploadPath(request);
-		String fileName = File.getFileName("M3", file);
+		String path = FileUtils.getUploadPath(request);
+		String fileName = FileUtils.getFileName("M3", file);
 		
 		File savedFile = new File(path, fileName);
 		
