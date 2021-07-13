@@ -1,5 +1,8 @@
 package com.yomul.vo;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class MemberVO extends VO {
 	private String no;
 	private String email;
