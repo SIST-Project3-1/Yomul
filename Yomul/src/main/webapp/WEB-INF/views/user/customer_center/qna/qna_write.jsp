@@ -8,14 +8,16 @@
 <!-- HEAD -->
 <%@ include file="../../../head.jsp"%>
 <script>
-/* 	$(document).ready(function() {
+	$(document).ready(function() {
 		// 보내기 버튼 클릭
-		$("#form_qna_write").on("submit", function() {
+		$("#form_qna_write").on('submit',function(e) {
+			e.preventDefault();
+
 			$.ajax({
 				url : "/yomul/customer_qna/write_proc",
 				method : "POST",
-				data : $("#form_qna_wrtie").serialize(), // 필수 
-				enctype : "multipart/form-data",
+				data : new FormData(this), // 필수
+				async : false,
 				processData : false, // 필수 
 				contentType : false, // 필수
 				success : function(result) {
@@ -26,10 +28,9 @@
 					}
 				}
 			});
-
 			return false;
 		});
-	}); */
+	});
 </script>
 </head>
 <body>
@@ -39,7 +40,8 @@
 	<!--  BODY 참고 페이지: https://ohou.se/contacts/new -->
 	<section id="qna_write" class="container mt-3">
 		<h4 class="font-weight-bold">문의하기</h4>
-		<form id="form_qna_write" class="container my-5 mx-0" action="/yomul/customer_qna/write_proc" method="post" enctype="multipart/form-data">
+		<form id="form_qna_write" class="container my-5 mx-0" 
+				action="/yomul/customer_qna/write_proc" method="post" enctype="multipart/form-data">
 			<div class="row mt-3">
 				<select name="category" class="form-control p-2 text-dark" required>
 					<option value="">유형</option>

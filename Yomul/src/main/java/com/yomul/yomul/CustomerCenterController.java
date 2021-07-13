@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.HttpSessionMutexListener;
 
 import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FileService;
@@ -113,7 +115,7 @@ public class CustomerCenterController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "customer_qna/write_proc", method = RequestMethod.POST)
-	public String customer_qna_write_proc(QnaVO vo, HttpServletRequest requset) throws IllegalStateException, IOException {
+	public String customer_qna_write_proc(QnaVO vo, HttpServletRequest request) throws IllegalStateException, IOException {
 		// 비밀번호 암호화
 		vo.setHashsalt(Security.getSalt());
 		vo.setPw(Security.pwHashing(vo.getPw(), vo.getHashsalt()));
@@ -124,7 +126,7 @@ public class CustomerCenterController {
 		int result = customerCenterService.writeQna(vo);
 
 		if (result == 1) { // 글 작성에 성공하면 파일 업로드
-			String rootPath = requset.getSession().getServletContext().getRealPath("/");
+			String rootPath = request.getSession().getServletContext().getRealPath("/");
 			String attach_path = "resources//upload//";
 
 			// 파일 객체 생성
