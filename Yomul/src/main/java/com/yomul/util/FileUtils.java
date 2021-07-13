@@ -52,7 +52,7 @@ public class FileUtils {
 			try { // 서버에 파일 정보 업로드
 				File file = new File(getUploadPath(request), vo.getSavedFilename());
 				multifile.transferTo(file);
-			} catch (IllegalStateException | IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
