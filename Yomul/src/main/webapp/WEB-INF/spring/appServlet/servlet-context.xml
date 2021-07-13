@@ -35,6 +35,10 @@
 	<!-- multipartResolver -->
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- max upload size in bytes -->
+        <beans:property name="maxUploadSize" value="5242880" /> <!-- 5MB -->
+        <!-- max size of file in memory (in bytes) -->
+        <beans:property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
 	</beans:bean>
 
 	<!-- DAO Object -->
@@ -42,12 +46,14 @@
 	<beans:bean id="memberDAO" class="com.yomul.dao.MemberDAO"></beans:bean>
 	<beans:bean id="customerCenterDAO" class="com.yomul.dao.CustomerCenterDAO"></beans:bean>
 	<beans:bean id="VendorDAO" class="com.yomul.dao.VendorDAO"></beans:bean>
+	<beans:bean id="fileDAO" class="com.yomul.dao.FileDAO"></beans:bean>
 
 	<!-- Service Object -->
 	<beans:bean id="nearService" class="com.yomul.service.NearServiceImplement"></beans:bean>
 	<beans:bean id="memberService" class="com.yomul.service.MemberServiceImpl"></beans:bean>
 	<beans:bean id="customerCenterService" class="com.yomul.service.CustomerCenterServiceImpl"></beans:bean>
 	<beans:bean id="vendorService" class="com.yomul.service.VendorServiceImpl"></beans:bean>
+	<beans:bean id="fileService" class="com.yomul.service.FileServiceImpl"></beans:bean>
 
 	<context:component-scan
 		base-package="com.yomul.yomul" />
