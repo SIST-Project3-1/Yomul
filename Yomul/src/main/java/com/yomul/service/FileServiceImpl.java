@@ -15,9 +15,4 @@ public class FileServiceImpl implements FileService {
 		return fileDAO.uploadFile(vo) == 1 ? 1 : 0;
 	}
 
-	@Override
-	public int getNextFileNo() {
-		return fileDAO.getNextFileNo();
-	}
-
 }

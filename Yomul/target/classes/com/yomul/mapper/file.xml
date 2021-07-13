@@ -28,9 +28,4 @@
 		)
 	</insert>
 	
-	<!-- 다음 파일 번호 가져오기 -->
-	<select id="getnextfileno" resultType="_int">
-		SELECT YOMUL_FILES_NO_SEQ.NEXTVAL 
-		FROM DUAL
-	</select>
 </mapper>

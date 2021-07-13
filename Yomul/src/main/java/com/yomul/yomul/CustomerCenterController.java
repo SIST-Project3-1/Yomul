@@ -125,14 +125,14 @@ public class CustomerCenterController {
 		System.out.println("컨트롤라ㅣ :" + vo.toStringDefault());
 		int result = customerCenterService.writeQna(vo);
 
-		if (result == 1) { // 글 작성에 성공하면 파일 업로드
+		if (result == 1 && vo.getFile().getSize() != 0) { // 글 작성에 성공하면 파일 업로드
 			String rootPath = request.getSession().getServletContext().getRealPath("/");
 			String attach_path = "resources//upload//";
 
 			// 파일 객체 생성
 			FileVO fileVO = new FileVO();
 			fileVO.setArticle_no(vo.getNo());
-			fileVO.setNo(fileService.getNextFileNo());
+			fileVO.setNo(1);
 			fileVO.setFilename(vo.getFile().getOriginalFilename());
 			String filename = vo.getNo() + "_" + fileVO.getNo() + "_" + fileVO.getFilename();
 

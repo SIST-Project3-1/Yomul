@@ -36,7 +36,6 @@ DROP SEQUENCE YOMUL_VENDOR_REVIEWS_NO_SEQ;
 DROP SEQUENCE YOMUL_NOTICES_NO_SEQ;
 DROP SEQUENCE YOMUL_FAQ_ARTICLES_NO_SEQ;
 DROP SEQUENCE YOMUL_QNA_ARTICLES_NO_SEQ;
-DROP SEQUENCE YOMUL_FILES_NO_SEQ;
 DROP SEQUENCE YOMUL_COMMENTS_NO_SEQ;
 -- 테이블 생성----------------------------------------------------------------------------------------------------------------------------------
 -- 회원
@@ -241,7 +240,7 @@ CREATE TABLE YOMUL_FILES(
     ARTICLE_NO VARCHAR2(10) CONSTRAINT NN_Y_F_ARTICLE_NO NOT NULL, -- 작성된 게시글 번호
     NO NUMBER(10), -- 파일 번호
     FILENAME VARCHAR2(100) CONSTRAINT NN_Y_F_FILENAME NOT NULL, -- 파일 명
-    CONSTRAINT PK_Y_F_NO PRIMARY KEY (NO)
+    CONSTRAINT PK_Y_F_NO PRIMARY KEY (ARTICLE_NO, NO, FILENAME)
 );
 
 -- 댓글
@@ -309,9 +308,6 @@ CREATE SEQUENCE YOMUL_FAQ_ARTICLES_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
 -- QNA 글 번호 시퀀스 생성, 1부터 시작, 1씩 증가 
 CREATE SEQUENCE YOMUL_QNA_ARTICLES_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
 
--- 파일 번호 시퀀스 생성, 1부터 시작, 1씩 증가, 메모리에 미리 올려 놓을 인덱스 개수 2
-CREATE SEQUENCE YOMUL_FILES_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2; 
-
 -- 댓글 번호 시퀀스 생성, 1부터 시작, 1씩 증가 
 CREATE SEQUENCE YOMUL_COMMENTS_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
 -- 시퀀스 생성 끝----------------------------------------------------------------------------------------------------------------------------------
@@ -353,6 +349,7 @@ INSERT INTO YOMUL_MEMBERS(NO, EMAIL, PW, NICKNAME, HASHSALT, SUBSCRIBE) VALUES('
 INSERT INTO YOMUL_MEMBERS(NO, EMAIL, PW, NICKNAME, HASHSALT, SUBSCRIBE) VALUES('M'||YOMUL_MEMBERS_NO_SEQ.NEXTVAL, 'corsair@yomul.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', '해적선', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', 'on');
 INSERT INTO YOMUL_MEMBERS(NO, EMAIL, PW, NICKNAME, HASHSALT, SUBSCRIBE) VALUES('M'||YOMUL_MEMBERS_NO_SEQ.NEXTVAL, 'carrier@yomul.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', '우주모함', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', 'on');
 
+-- 로그인 
 -- 프로필 정보 가져오기
 SELECT EMAIL, NICKNAME, PHONE, GENDER, INTRO, F.FILENAME FILENAME FROM YOMUL_MEMBERS M LEFT JOIN YOMUL_FILES F ON M.NO = F.ARTICLE_NO WHERE M.NO = 'M1'; -- 프로필 내용 가져오기
 SELECT COUNT(*) FROM YOMUL_TRADE_HISTORY WHERE SELLER = 'M1'; -- 판매 내역 수
@@ -406,7 +403,7 @@ SELECT 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL AS NO FROM DUAL;
 
 -- QNA 문의하기 작성
 INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT) VALUES('Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '홍길동', 'test@youml.com',  'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', 1, '문의할게 있습니다', '이게 대체 뭐여!');
-INSERT INTO YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES('Q1', YOMUL_FILES_NO_SEQ.NEXTVAL, '신발사진1.jpg');
+INSERT INTO YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES('Q1', 1, '신발사진1.jpg');
 
 
 -- FAQ 데이터 생성
@@ -437,8 +434,6 @@ INSERT INTO yomul_vendors(NO, NAME, CATEGORY, info, tel, addr, img)
 INSERT INTO yomul_vendors(NO, NAME, CATEGORY, info, tel, addr, img)
 		VALUES('M2', '요물학원2', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~', NULL);
 
--- 다음 파일 번호 가져오기 
-SELECT YOMUL_FILES_NO_SEQ.NEXTVAL FROM DUAL;
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 

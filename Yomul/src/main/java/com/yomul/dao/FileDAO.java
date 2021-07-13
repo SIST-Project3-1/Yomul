@@ -14,11 +14,14 @@ public class FileDAO {
 
 	private static String namespace = "mapper.file";
 
+	/**
+	 * 파일 업로드
+	 * 
+	 * @param vo
+	 * @return
+	 */
 	public int uploadFile(FileVO vo) {
 		return sqlSessiion.insert(namespace + ".uploadfile", vo);
 	}
 
-	public int getNextFileNo() {
-		return sqlSessiion.selectOne(namespace + ".getnextfileno");
-	}
 }
