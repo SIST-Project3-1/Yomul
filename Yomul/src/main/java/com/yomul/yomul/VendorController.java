@@ -1,12 +1,12 @@
 package com.yomul.yomul;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.VendorService;
@@ -17,6 +17,9 @@ public class VendorController {
 	@Autowired
 	private VendorService vendorService;
 	
+//	@Resource(name="uploadPath")
+//	private String uploadPath;
+	
 	//업체 등록
 	@RequestMapping(value="/vendor_signup", method=RequestMethod.GET)
 	public String vendor_signup() {
@@ -24,16 +27,20 @@ public class VendorController {
 	}
 	
 	// 업체 등록 처리
-	@ResponseBody
 	@RequestMapping(value="/vendor_signup_proc", method=RequestMethod.POST)
-	public String vendor_signup_proc(VendorVO vo, HttpServletRequest request) {
+	public String vendor_signup_proc(VendorVO vo, MultipartFile file) {
 		vo.setNo("M3"); // 임시 테스트용
 //		HttpSession session = request.getSession();
 //		vo.setNo((String)session.getAttribute("id"));
 		
-		int result = vendorService.vendorSignUp(vo);
+		//System.out.println(vo.getImg());
+		System.out.println(vo.getName());
+		System.out.println(file.getOriginalFilename());
 		
-		return String.valueOf(result);
+		//int result = vendorService.vendorSignUp(vo);
+		
+		//return String.valueOf(result);
+		return "0";
 	}
 	
 	//업체 프로필 보기

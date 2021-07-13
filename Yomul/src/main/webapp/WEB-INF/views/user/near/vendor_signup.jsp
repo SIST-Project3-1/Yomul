@@ -15,10 +15,14 @@ $(document).ready(function(){
 });
 
 function vendor_signup_submit() {
+	var formData = new FormData($("#vendor_signup_form")[0]);
 	$.ajax({
 		url : "/yomul/vendor_signup_proc",
 		method : "POST",
-		data : $("#vendor_signup_form").serialize(),
+		data : formData,
+		enctype : "multipart/form-data",
+		contentType : false,
+		processData : false,
 		success : function(result) {
 			if (result == 1) {
 				alert("업체 등록에 성공했습니다.");
@@ -48,7 +52,7 @@ function vendor_signup_submit() {
 						</svg>
 						<span class="">사진 추가</span>
 					</button>
-					<input type="file" id="img" style="display:none" >
+					<input type="file" name="file" id="file" style="display:none" >
 				</div>
 				<div class="vendor-signup-write">
 					<div>
