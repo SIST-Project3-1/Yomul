@@ -18,7 +18,7 @@ import org.springframework.web.util.HttpSessionMutexListener;
 
 import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FileService;
-import com.yomul.util.Commons;
+import com.yomul.util.File;
 import com.yomul.util.Security;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
@@ -137,7 +137,7 @@ public class CustomerCenterController {
 			// DB에 파일 생성
 			result = fileService.uploadFile(fileVO);
 			if (result == 1) {// 서버에 파일 생성
-				File file = new File(Commons.getUploadPath(request)+ filename);
+				File file = new File(File.getUploadPath(request)+ filename);
 				vo.getFile().transferTo(file);
 			}
 		}
