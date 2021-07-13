@@ -37,14 +37,14 @@
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	</beans:bean>
 
-
-
+	
 
 	<!-- DAO Object -->
 	<beans:bean id="nearDAO" class="com.yomul.dao.NearDAO"></beans:bean>
 	<beans:bean id="memberDAO" class="com.yomul.dao.MemberDAO"></beans:bean>
 	<beans:bean id="customerCenterDAO" class="com.yomul.dao.CustomerCenterDAO"></beans:bean>
-	<beans:bean id="VendorDAO" class="com.yomul.dao.VendorDAO"></beans:bean>
+	<beans:bean id="vendorDAO" class="com.yomul.dao.VendorDAO"></beans:bean>
+	<beans:bean id="fileDAO" class="com.yomul.dao.FileDAO"></beans:bean>
 
 	<!-- Service Object -->
 	<beans:bean id="nearService" class="com.yomul.service.NearServiceImplement"></beans:bean>
@@ -52,6 +52,7 @@
 	<beans:bean id="customerCenterService" class="com.yomul.service.CustomerCenterServiceImpl"></beans:bean>
 	<beans:bean id="fileUploadService" class="com.yomul.service.FileUploadService"></beans:bean>
 	<beans:bean id="vendorService" class="com.yomul.service.VendorServiceImpl"></beans:bean>
+	<beans:bean id="fileService" class="com.yomul.service.FileServiceImpl"></beans:bean>
 
 
 	<context:component-scan base-package="com.yomul.yomul" />

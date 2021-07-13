@@ -11,4 +11,21 @@
 		where article_no = #{no}
 		order by no asc
 	</select>
+	
+	<!-- 파일 업로드 -->
+	<insert id="uploadfile" parameterType="com.yomul.vo.FileVO">
+		INSERT INTO YOMUL_FILES 
+		(
+			  ARTICLE_NO
+			, NO
+			, FILENAME
+		) 
+		VALUES
+		(
+			  #{article_no}
+			, YOMUL_FILES_NO_SEQ.NEXTVAL
+			, #{filename}
+		)
+	</insert>
+	
 </mapper>

@@ -5,6 +5,45 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.customerCenter">
+
+	<select id="getnextqnano" resultType="String">
+		SELECT
+			'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL AS NO 
+		FROM
+			DUAL
+	</select>
+	
+	<insert id="writeqna" parameterType="com.yomul.vo.QnaVO">
+		INSERT INTO YOMUL_QNA_ARTICLES
+		(
+			  NO
+			, NAME
+			, EMAIL
+			, PW
+			, HASHSALT
+			, CATEGORY
+			, TITLE
+			, CONTENT
+		) 
+		VALUES
+		(
+			  'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL
+			, #{name}
+			, #{email}
+			, #{pw}
+			, #{hashsalt}
+			, #{category}
+			, #{title}
+			, #{content}
+		)
+	</insert>
+	
+	<!-- faq 카테고리 목록 조회 -->
+	<select id="getqnacategories" resultType="com.yomul.vo.CategoryVO">
+		SELECT NO, CONTENT 
+		FROM YOMUL_QNA_CATEGORIES 
+		ORDER BY NO
+	</select>
 	
 	<!-- faq 카테고리 목록 조회 -->
 	<select id="selectFaqCategories" resultType="com.yomul.vo.CategoryVO">
