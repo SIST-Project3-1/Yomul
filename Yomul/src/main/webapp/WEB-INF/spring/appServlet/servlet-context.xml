@@ -33,19 +33,17 @@
 	</beans:bean>
 
 	<!-- multipartResolver -->
-	<beans:bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- max upload size in bytes -->
-        <beans:property name="maxUploadSize" value="5242880" /> <!-- 5MB -->
-        <!-- max size of file in memory (in bytes) -->
-        <beans:property name="maxInMemorySize" value="1048576" /> <!-- 1MB -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 파일업로드 용량 (10MB) -->
+		<beans:property name="maxUploadSize" value="10485760"/>
+		<beans:property name="defaultEncoding" value="UTF-8" />
 	</beans:bean>
-
+	
 	<!-- DAO Object -->
 	<beans:bean id="nearDAO" class="com.yomul.dao.NearDAO"></beans:bean>
 	<beans:bean id="memberDAO" class="com.yomul.dao.MemberDAO"></beans:bean>
 	<beans:bean id="customerCenterDAO" class="com.yomul.dao.CustomerCenterDAO"></beans:bean>
-	<beans:bean id="VendorDAO" class="com.yomul.dao.VendorDAO"></beans:bean>
+	<beans:bean id="vendorDAO" class="com.yomul.dao.VendorDAO"></beans:bean>
 	<beans:bean id="fileDAO" class="com.yomul.dao.FileDAO"></beans:bean>
 
 	<!-- Service Object -->
