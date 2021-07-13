@@ -1,5 +1,7 @@
 package com.yomul.util;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class Commons {
@@ -15,5 +17,10 @@ public class Commons {
 			result[i] = articleNo + "_" + i + "_" + files[i].getOriginalFilename();
 		}
 		return result;
+	}
+	
+	// 파일 저장 경로를 구하는 함수
+	public static String getUploadPath(HttpServletRequest request) {
+		return request.getSession().getServletContext().getRealPath("/resources/upload");
 	}
 }

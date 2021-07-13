@@ -36,7 +36,7 @@ public class VendorController {
 //		HttpSession session = request.getSession();
 //		vo.setNo((String)session.getAttribute("id"));
 		
-		String path = request.getSession().getServletContext().getRealPath("/resources/upload");
+		String path = Commons.getUploadPath(request);
 		String fileName = Commons.getFileName("M3", file);
 		
 		File savedFile = new File(path, fileName);
