@@ -21,9 +21,6 @@ public class VendorController {
 	@Autowired
 	private VendorService vendorService;
 	
-//	@Resource(name="uploadPath")
-//	private String uploadPath;
-	
 	//업체 등록
 	@RequestMapping(value="/vendor_signup", method=RequestMethod.GET)
 	public String vendor_signup() {
