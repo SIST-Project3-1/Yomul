@@ -1,13 +1,12 @@
 package com.yomul.vo;
 
 public class VendorVO extends VO {
-	private String no;
-	private String name;
-	private String category;
-	private String info;
-	private String tel;
-	private String addr;
-	private String img;
+	private String no; // 유저 번호
+	private String name; // 업체명
+	private String category; // 카테고리
+	private String info; // 상세정보
+	private String tel; // 전화번호
+	private String addr; // 주소
 	
 	public String getNo() {
 		return no;
@@ -27,7 +26,6 @@ public class VendorVO extends VO {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	
 	public String getInfo() {
 		return info;
 	}
@@ -46,11 +44,4 @@ public class VendorVO extends VO {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-	public String getImg() {
-		return img;
-	}
-	public void setImg(String img) {
-		this.img = img;
-	}
-	
 }

@@ -8,12 +8,29 @@
 <script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function(){
+	
+	// 카테고리 변경 시
 	$('#category').change(function(){
 		$('#category').css('color','black');
 	});
-	
+
 });
 
+// 이미지 선택 시 버튼을 선택된 이미지로 변경
+function changeFile(fis) {
+	var reader = new FileReader();
+	
+	reader.onload = function(e) {
+		$(".vendor-signup-img").removeClass("vendor-signup-img");
+		$("#btn_img").css("border", "none");
+		$("#btn_img").css("background", "none");
+		$("#btn_img").html("<img src='" + e.target.result + "' class='img-fluid'>");
+	}
+	
+	reader.readAsDataURL(fis.files[0]);
+}
+
+// 업체 등록 버튼 클릭 시
 function vendor_signup_submit() {
 	var formData = new FormData($("#vendor_signup_form")[0]);
 	$.ajax({
@@ -34,6 +51,11 @@ function vendor_signup_submit() {
 	});
 }
 </script>
+
+<style>
+	#btn_img {
+	}
+</style>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
 </head>
@@ -45,14 +67,17 @@ function vendor_signup_submit() {
 	<div id="vendor_signup" class="vendor-signup-content">
 		<form id="vendor_signup_form" class="needs-validation" novalidate>
 			<div class="vendor-signup-form">
-				<div class="vendor-signup-img">
-					<button type="button" onclick="document.getElementById('file').click();">
-						<svg  class="" width="48" height="48" viewBox="0 0 48 48" fill="currentColor" preserveAspectRatio="xMidYMid meet">
-						<path d="M11.952 9.778l2.397-5.994A1.778 1.778 0 0 1 16 2.667h16c.727 0 1.38.442 1.65 1.117l2.398 5.994h10.174c.982 0 1.778.796 1.778 1.778v32c0 .981-.796 1.777-1.778 1.777H1.778A1.778 1.778 0 0 1 0 43.556v-32c0-.982.796-1.778 1.778-1.778h10.174zM24 38c6.075 0 11-4.925 11-11s-4.925-11-11-11-11 4.925-11 11 4.925 11 11 11z"></path>
-						</svg>
-						<span class="">사진 추가</span>
+				<div class="vendor-signup-img text-center">
+					<button type="button" id="btn_img" class="vendor-signup-img" onclick="document.getElementById('file').click();">
+						<div id="svg">
+							<svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor" preserveAspectRatio="xMidYMid meet">
+								<path d="M11.952 9.778l2.397-5.994A1.778 1.778 0 0 1 16 2.667h16c.727 0 1.38.442 1.65 1.117l2.398 5.994h10.174c.982 0 1.778.796 1.778 1.778v32c0 .981-.796 1.777-1.778 1.777H1.778A1.778 1.778 0 0 1 0 43.556v-32c0-.982.796-1.778 1.778-1.778h10.174zM24 38c6.075 0 11-4.925 11-11s-4.925-11-11-11-11 4.925-11 11 4.925 11 11 11z">
+								</path>
+							</svg>
+							<span class="d-flex">사진 추가</span>
+						</div>
 					</button>
-					<input type="file" name="file" id="file" style="display:none" >
+					<input type="file" name="file" id="file" style="display:none" onchange="changeFile(this)">
 				</div>
 				<div class="vendor-signup-write">
 					<div>

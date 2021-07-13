@@ -27,7 +27,7 @@ public class FileUtils {
 		}
 		return result;
 	}
-	
+
 	// 파일 저장 경로를 구하는 함수
 	public static String getUploadPath(HttpServletRequest request) {
 		return request.getSession().getServletContext().getRealPath("/resources/upload");

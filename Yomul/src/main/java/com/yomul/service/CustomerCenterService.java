@@ -18,8 +18,6 @@ public interface CustomerCenterService {
 
 	int addNoticeHits(int no);
 
-	ArrayList<String> getNoticeFiles(int no);
-
 	ArrayList<CategoryVO> getQnaCategories();
 
 	int writeQna(QnaVO vo);
