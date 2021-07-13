@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.dao.NearDAO;
-import com.yomul.util.File;
+import com.yomul.util.FileUtils;
 import com.yomul.vo.NearVO;
 
 @Controller
@@ -22,7 +22,7 @@ public class NearController {
 	@Autowired
 	private NearDAO dao;
 	@Autowired
-	File fileUploadService;
+	FileUtils fileUploadService;
 
 	@RequestMapping(value="/near_home", method=RequestMethod.GET)
 	public ModelAndView near_home() {
