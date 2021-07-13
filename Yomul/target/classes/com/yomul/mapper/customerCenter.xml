@@ -43,7 +43,8 @@
 	<!-- QNA 목록 가져오기 -->
 	<select id="getqnalist" resultType="com.yomul.vo.QnaVO">
 		SELECT
-			  TITLE
+			  NO
+			, TITLE
 			, CONTENT
 			, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
 			, RDATE 

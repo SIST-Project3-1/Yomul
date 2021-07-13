@@ -38,7 +38,7 @@
 		<ul class="list p-0">
 			<c:forEach var="qna" items="${qnaList}">
 				<li>
-					<a class="m-0 text-decoration-none" href="customer_qna/1">
+					<a class="m-0 text-decoration-none" href="customer_qna/${qna.no}">
 						<p class="d-inline-block p-0 mb-1 mr-1 text-body">${qna.title}</p>
 						<kbd class="bg-yomul">${qna.rdate==null?"답변대기":"답변완료"}</kbd>
 						<p class="text-secondary">${qna.wdate}</p>
