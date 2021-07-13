@@ -18,6 +18,7 @@ import org.springframework.web.util.HttpSessionMutexListener;
 
 import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FileService;
+import com.yomul.util.Commons;
 import com.yomul.util.Security;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
@@ -126,20 +127,17 @@ public class CustomerCenterController {
 		int result = customerCenterService.writeQna(vo);
 
 		if (result == 1 && vo.getFile().getSize() != 0) { // 글 작성에 성공하면 파일 업로드
-			String rootPath = request.getSession().getServletContext().getRealPath("/");
-			String attach_path = "resources//upload//";
-
 			// 파일 객체 생성
 			FileVO fileVO = new FileVO();
 			fileVO.setArticle_no(vo.getNo());
 			fileVO.setNo(1);
 			fileVO.setFilename(vo.getFile().getOriginalFilename());
-			String filename = vo.getNo() + "_" + fileVO.getNo() + "_" + fileVO.getFilename();
+			String filename = fileVO.getSavedFilename();
 
 			// DB에 파일 생성
 			result = fileService.uploadFile(fileVO);
 			if (result == 1) {// 서버에 파일 생성
-				File file = new File(rootPath + attach_path + filename);
+				File file = new File(Commons.getUploadPath(request)+ filename);
 				vo.getFile().transferTo(file);
 			}
 		}
