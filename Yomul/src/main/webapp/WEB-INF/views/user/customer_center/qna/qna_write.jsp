@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의하기</title>
+<title>요물 문의하기</title>
 <!-- HEAD -->
 <%@ include file="../../../head.jsp"%>
 <script>

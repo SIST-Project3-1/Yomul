@@ -82,8 +82,12 @@ public class CustomerCenterController {
 
 	// 문의 목록
 	@RequestMapping(value = "customer_qna", method = RequestMethod.GET)
-	public String qnaList() {
-		return "user/customer_center/qna/qna_list";
+	public ModelAndView qnaList() {
+		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_list");
+		
+		mv.addObject("qnaList", customerCenterService.getQnaList());
+		
+		return mv;
 	}
 
 	// 문의 상세
@@ -135,7 +139,7 @@ public class CustomerCenterController {
 			// DB에 파일 생성
 			result = fileService.uploadFile(fileVO);
 			if (result == 1) {// 서버에 파일 생성
-				File file = new File(FileUtils.getUploadPath(request)+ filename);
+				File file = new File(FileUtils.getUploadPath(request) + filename);
 				vo.getFile().transferTo(file);
 			}
 		}
