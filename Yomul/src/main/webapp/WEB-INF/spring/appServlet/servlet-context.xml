@@ -39,11 +39,6 @@
 		<beans:property name="defaultEncoding" value="UTF-8" />
 	</beans:bean>
 	
-	<!--  파일업로드 디렉토리 설정 -->
-	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="C\:"/>
-	</beans:bean>
-	
 	<!-- DAO Object -->
 	<beans:bean id="nearDAO" class="com.yomul.dao.NearDAO"></beans:bean>
 	<beans:bean id="memberDAO" class="com.yomul.dao.MemberDAO"></beans:bean>

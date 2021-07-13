@@ -1,15 +1,19 @@
 package com.yomul.yomul;
 
-import javax.annotation.Resource;
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.VendorService;
+import com.yomul.util.Commons;
 import com.yomul.vo.VendorVO;
 
 @Controller
@@ -27,20 +31,31 @@ public class VendorController {
 	}
 	
 	// 업체 등록 처리
+	@ResponseBody
 	@RequestMapping(value="/vendor_signup_proc", method=RequestMethod.POST)
-	public String vendor_signup_proc(VendorVO vo, MultipartFile file) {
+	public String vendor_signup_proc(VendorVO vo, MultipartFile file, HttpServletRequest request) {
+		String result = "0";
 		vo.setNo("M3"); // 임시 테스트용
 //		HttpSession session = request.getSession();
 //		vo.setNo((String)session.getAttribute("id"));
 		
-		//System.out.println(vo.getImg());
-		System.out.println(vo.getName());
-		System.out.println(file.getOriginalFilename());
+		String path = request.getSession().getServletContext().getRealPath("/resources/upload");
+		String fileName = Commons.getFileName("M3", file);
 		
-		//int result = vendorService.vendorSignUp(vo);
+		File savedFile = new File(path, fileName);
 		
-		//return String.valueOf(result);
-		return "0";
+		try {
+			file.transferTo(savedFile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(savedFile.exists()) {
+			vo.setImg(fileName);
+			result = String.valueOf(vendorService.vendorSignUp(vo));
+		}
+		
+		return result;
 	}
 	
 	//업체 프로필 보기
