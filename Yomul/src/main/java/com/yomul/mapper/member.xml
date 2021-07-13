@@ -6,27 +6,49 @@
 
 <mapper namespace="mapper.member">
 	<insert id="join" parameterType="com.yomul.vo.MemberVO">
-		INSERT INTO YOMUL_MEMBERS(NO, EMAIL, PW, NICKNAME, HASHSALT, SUBSCRIBE) 
-		VALUES('M'||YOMUL_MEMBERS_NO_SEQ.NEXTVAL, #{email}, #{pw}, #{nickname}, #{hashsalt}, #{subscribe})
+			  NO
+			, EMAIL
+			, PW
+			, NICKNAME
+			, HASHSALT
+			, SUBSCRIBE
+		) 
+		VALUES
+		(
+			  'M'||YOMUL_MEMBERS_NO_SEQ.NEXTVAL
+			, #{email}
+			, #{pw}
+			, #{nickname}
+			, #{hashsalt}
+			, #{subscribe}
+		)
 	</insert>
 	
+	<!-- 프로필 정보 가져오기 -->
 	<select id="getmyprofileinfo" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
-		SELECT EMAIL, NICKNAME, PHONE, GENDER, INTRO, F.FILENAME FILENAME 
-		FROM YOMUL_MEMBERS M LEFT JOIN YOMUL_FILES F ON M.NO = F.ARTICLE_NO 
-		WHERE M.NO = #{no}
+			, NICKNAME
+			, PHONE
+			, GENDER
+			, INTRO
+		FROM 
+			YOMUL_MEMBERS
+		WHERE
+			NO = #{no}
+	</select>
+	
+	<!-- 프로필 사진 가져오기 -->
+	<select id="getmyprofileimg" parameterType="com.yomul.vo.MemberVO" resultType="string">
+		SELECT 
+			ARTICLE_NO || '_' || NO || '_' || FILENAME 
+		FROM 
+			YOMUL_FILES 
+		WHERE 
+			ARTICLE_NO = #{no}
 	</select>
 	
 	<insert id="setmyprofileinfo" parameterType="com.yomul.vo.MemberVO">
 		UPDATE YOMUL_MEMBERS SET NICKNAME = #{nickname}, PHONE = #{phone}, GENDER = #{gender}, INTRO = #{intro} WHERE NO = #{no}
 	</insert>
-	
-	<update id="setmyprofileimg" parameterType="com.yomul.vo.MemberVO">
-		MERGE INTO YOMUL_FILES USING DUAL ON (ARTICLE_NO = #{no})
-			WHEN MATCHED THEN
-				UPDATE SET FILENAME = #{profileImg} WHERE ARTICLE_NO = #{no}
-			WHEN NOT MATCHED THEN
-				INSERT (ARTICLE_NO, NO, FILENAME) VALUES(#{no}, YOMUL_FILES_NO_SEQ.NEXTVAL, #{profileImg}) 
-	</update>
 	
 	<select id="getbuycount" parameterType="com.yomul.vo.MemberVO" resultType="int">
 		SELECT COUNT(*) 

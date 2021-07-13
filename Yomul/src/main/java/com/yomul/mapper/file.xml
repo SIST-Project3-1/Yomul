@@ -23,7 +23,7 @@
 		VALUES
 		(
 			  #{article_no}
-			, YOMUL_FILES_NO_SEQ.NEXTVAL
+			, #{no}
 			, #{filename}
 		)
 	</insert>

@@ -13,11 +13,11 @@ public interface MemberService {
 
 	int setMyProfileInfo(MemberVO vo);
 
-	int setMyProfileImg(MemberVO vo);
-
 	int getBuyCount(MemberVO vo);
 
 	int getSellCount(MemberVO vo);
 
 	int getFavoriteCount(MemberVO vo);
+
+	String getMyProfileImg(MemberVO vo);
 }
