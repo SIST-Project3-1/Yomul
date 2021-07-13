@@ -42,4 +42,23 @@ public class NearDAO extends DAO{
 	public int updateNearHits(String no) {
 		return sqlSession.update(nameSpace + ".updateNearHits", no);
 	}
+ 
+	public int getNearFile(String saveFileName, String originFilename) {
+		int result = -2;
+		
+		try {
+			String sql = "INSERT INTO YOMUL_FILES(ARTICLE_NO,NO,FILENAME) VALUES(?,YOMUL_FILES_NO_SEQ.NEXTVAL,?) ";
+			getPreparedStatement(sql);
+			
+			
+			pstmt.setString(1, saveFileName);
+			pstmt.setString(2, originFilename);
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

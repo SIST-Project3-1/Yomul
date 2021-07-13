@@ -1,14 +1,21 @@
 package com.yomul.yomul;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.dao.NearDAO;
 import com.yomul.service.NearService;
+import com.yomul.util.FileUtils;
 import com.yomul.vo.NearVO;
 
 @Controller
@@ -17,6 +24,9 @@ public class NearController {
 	@Autowired
 	private NearService nearService;
 	
+	@Autowired
+  private FileUtils fileUploadService;
+  
 	@RequestMapping(value="/near_home", method=RequestMethod.GET)
 	public ModelAndView near_home() {
 		ModelAndView mv = new ModelAndView();
@@ -36,12 +46,16 @@ public class NearController {
 	}
 	
 	@RequestMapping(value="/near_write_proc", method=RequestMethod.POST)
-	public ModelAndView near_write_proc(NearVO vo) {
-		int result;
-		ModelAndView mv = new ModelAndView();
-		NearDAO dao = new NearDAO();
+	public ModelAndView near_write_proc(NearVO vo, @RequestParam("uploadFile") List<MultipartFile> files, HttpServletRequest request) {
 		
-		result = dao.getNearWrite(vo);
+	
+		ModelAndView mv = new ModelAndView();	
+		int fileCount = fileUploadService.getUploadedCount(files);
+		String url = fileUploadService.restore(files,dao, request);
+		mv.addObject("url", url);
+		mv.addObject("fileCount", fileCount);
+		int result = dao.getNearWrite(vo);
+		
 		if(result==1) {
 			
 			mv.setViewName("redirect:/near_home");
@@ -50,11 +64,8 @@ public class NearController {
 			// mv.setViewName("error"); 에러페이지
 		}
 		
-		
 		return mv;
 	}
-	
-	//�궡 洹쇱쿂 湲� �닔�젙 (�룞�꽕援ъ씤援ъ쭅, 怨쇱쇅/�겢�옒�뒪, �냽�닔�궛臾�, 以묎퀬李�)
 	
 	@RequestMapping(value="/near_update", method=RequestMethod.GET)
 	public String near_update() {
@@ -98,5 +109,6 @@ public class NearController {
 	public String reviews_info() {
 		return "user/near/reviews_info";
 	}
+	
 	
 }
