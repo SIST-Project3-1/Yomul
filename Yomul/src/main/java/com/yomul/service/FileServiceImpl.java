@@ -3,10 +3,12 @@ package com.yomul.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.yomul.dao.FileDAO;
 import com.yomul.vo.FileVO;
 
+@Service("fileService")
 public class FileServiceImpl implements FileService {
 
 	@Autowired

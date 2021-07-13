@@ -16,18 +16,26 @@
 	
 	<!-- 파일 업로드 -->
 	<insert id="uploadfile" parameterType="com.yomul.vo.FileVO">
-		INSERT INTO YOMUL_FILES 
-		(
-			  ARTICLE_NO
-			, NO
-			, FILENAME
-		) 
-		VALUES
-		(
-			  #{article_no}
-			, YOMUL_FILES_NO_SEQ.NEXTVAL
-			, #{filename}
-		)
+		MERGE INTO YOMUL_FILES 
+			USING DUAL ON (ARTICLE_NO = #{article_no})
+		WHEN MATCHED THEN
+			UPDATE SET
+				FILENAME = #{filename}
+			WHERE
+				ARTICLE_NO = #{article_no}
+		WHEN NOT MATCHED THEN
+			INSERT
+			(
+				  ARTICLE_NO
+				, NO
+				, FILENAME
+			)
+			VALUES
+			(
+				  #{article_no}
+				, #{no}
+				, #{filename}
+			)
 	</insert>
 	
 </mapper>
