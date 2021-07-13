@@ -2,6 +2,8 @@ package com.yomul.yomul;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.dao.NearDAO;
-import com.yomul.service.FileUploadService;
+import com.yomul.util.File;
 import com.yomul.vo.NearVO;
 
 @Controller
@@ -20,7 +22,7 @@ public class NearController {
 	@Autowired
 	private NearDAO dao;
 	@Autowired
-	FileUploadService fileUploadService;
+	File fileUploadService;
 
 	@RequestMapping(value="/near_home", method=RequestMethod.GET)
 	public ModelAndView near_home() {
@@ -41,12 +43,12 @@ public class NearController {
 	}
 	
 	@RequestMapping(value="/near_write_proc", method=RequestMethod.POST)
-	public ModelAndView near_write_proc(NearVO vo, @RequestParam("uploadFile") List<MultipartFile> files) {
+	public ModelAndView near_write_proc(NearVO vo, @RequestParam("uploadFile") List<MultipartFile> files, HttpServletRequest request) {
 		
 	
 		ModelAndView mv = new ModelAndView();	
 		int fileCount = fileUploadService.getUploadedCount(files);
-		String url = fileUploadService.restore(files,dao);
+		String url = fileUploadService.restore(files,dao, request);
 		mv.addObject("url", url);
 		mv.addObject("fileCount", fileCount);
 		int result = dao.getNearWrite(vo);

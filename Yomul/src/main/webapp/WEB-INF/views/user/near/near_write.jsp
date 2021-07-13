@@ -42,7 +42,7 @@
 					<span class="">사진 올리기</span>
 					<span class="">(*최대 10장까지)</span>
 				</button>
-					
+			
 						 <input type="file" name="uploadFile" multiple>
 				</div>
 
