@@ -23,4 +23,6 @@ public interface CustomerCenterService {
 	int writeQna(QnaVO vo);
 
 	String getNextQnaNo();
+
+	ArrayList<QnaVO> getQnaList();
 }

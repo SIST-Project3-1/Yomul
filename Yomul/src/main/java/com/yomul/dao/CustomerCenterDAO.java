@@ -20,6 +20,16 @@ public class CustomerCenterDAO extends DAO {
 	private SqlSessionTemplate sqlSession;
 
 	/**
+	 * QnA 목록 가져오기
+	 * 
+	 * @return
+	 */
+	public ArrayList<QnaVO> getQnaList() {
+		List<QnaVO> list = sqlSession.selectList(nameSpace + ".getqnalist");
+		return (ArrayList<QnaVO>) list;
+	}
+
+	/**
 	 * 다음에 작성될 QnA 글 번호 가져오기
 	 * 
 	 * @return

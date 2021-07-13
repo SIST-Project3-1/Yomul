@@ -6,6 +6,7 @@
 
 <mapper namespace="mapper.customerCenter">
 
+	<!-- 다음 QNA 글 번호 가져오기 -->
 	<select id="getnextqnano" resultType="String">
 		SELECT
 			'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL AS NO 
@@ -13,6 +14,7 @@
 			DUAL
 	</select>
 	
+	<!-- QNA 작성하기 -->
 	<insert id="writeqna" parameterType="com.yomul.vo.QnaVO">
 		INSERT INTO YOMUL_QNA_ARTICLES
 		(
@@ -37,6 +39,19 @@
 			, #{content}
 		)
 	</insert>
+	
+	<!-- QNA 목록 가져오기 -->
+	<select id="getqnalist" resultType="com.yomul.vo.QnaVO">
+		SELECT
+			  TITLE
+			, CONTENT
+			, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
+			, RDATE 
+		FROM
+			YOMUL_QNA_ARTICLES 
+		ORDER BY
+			WDATE DESC
+	</select>
 	
 	<!-- faq 카테고리 목록 조회 -->
 	<select id="getqnacategories" resultType="com.yomul.vo.CategoryVO">

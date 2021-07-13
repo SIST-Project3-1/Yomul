@@ -55,4 +55,9 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	public String getNextQnaNo() {
 		return customerCenterDAO.getNextQnaNo();
 	}
+
+	@Override
+	public ArrayList<QnaVO> getQnaList() {
+		return customerCenterDAO.getQnaList();
+	}
 }
