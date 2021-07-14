@@ -29,7 +29,7 @@
 		) 
 		VALUES
 		(
-			  'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL
+			  #{no}
 			, #{name}
 			, #{email}
 			, #{pw}
@@ -49,9 +49,34 @@
 			, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
 			, RDATE 
 		FROM
-			YOMUL_QNA_ARTICLES 
-		ORDER BY
-			WDATE DESC
+		(
+			SELECT
+				*
+			FROM 
+				YOMUL_QNA_ARTICLES 
+			ORDER BY 
+				WDATE DESC
+		)
+	</select>
+	
+	<!-- QnA 상세보기 -->
+	<select id="getqnainfo" parameterType="com.yomul.vo.QnaVO" resultType="com.yomul.vo.QnaVO">
+		SELECT 
+			  NO
+			, NAME
+			, EMAIL
+			, TO_CHAR(WDATE, 'YYYY-MM-DD') WDATE
+			, CATEGORY
+			, TITLE
+			, CONTENT
+			, HITS
+			, TO_CHAR(RDATE, 'YYYY-MM-DD') RDATE
+			, RWRITER
+			, RCONTENT
+		FROM
+			YOMUL_QNA_ARTICLES
+		WHERE
+			NO = #{no}
 	</select>
 	
 	<!-- faq 카테고리 목록 조회 -->

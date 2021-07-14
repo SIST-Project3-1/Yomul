@@ -28,6 +28,10 @@ public class CustomerCenterDAO extends DAO {
 		List<QnaVO> list = sqlSession.selectList(nameSpace + ".getqnalist");
 		return (ArrayList<QnaVO>) list;
 	}
+	
+	public QnaVO getQnaInfo(String no) {
+		return sqlSession.selectOne(nameSpace+".getqnainfo", no);
+	}
 
 	/**
 	 * 다음에 작성될 QnA 글 번호 가져오기
