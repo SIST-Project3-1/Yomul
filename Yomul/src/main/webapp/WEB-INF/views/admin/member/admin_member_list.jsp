@@ -1,158 +1,137 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>요물 회원 관리</title>
 <!-- HEAD -->
-<style>
-#admin_member_list {
-	width: 1200px;
-	margin: 0 auto;
-}
-
-#admin_member_list .list {
-	list-style-type: none;
-}
-
-#admin_member_list li:hover {
-	opacity: 0.5;
-}
-
-#admin_member_list hr {
-	border-width: 1px 0 0 0;
-	border-color: lightgray;
-	margin: 25px 0;
-}
-
-div.button #btn_product {
-	background-color: rgb(255, 99, 95);
-	color: white;
-	border-radius: 10px;
-	border: 2px solid white;
-	display: block;
-}
-
-div.button #btn_town {
-	background-color: rgb(255, 99, 95);
-	color: white;
-	border-radius: 10px;
-	border: 2px solid white;
-	display: block;
-}
-
-div.button #btn_near {
-	background-color: rgb(255, 99, 95);
-	color: white;
-	border-radius: 10px;
-	border: 2px solid white;
-	display: block;
-}
-
-div.button #btn_delete {
-	background-color: rgb(255, 99, 95);
-	color: white;
-	border-radius: 10px;
-	border: 2px solid white;
-	display: block;
-}
-
-div.list th, div.list a.btn {
-	white-space: nowrap;
-}
-</style>
 <%@ include file="../../head.jsp"%>
 <script>
 	$(document).ready(function() {
-		// 목록 버튼 클릭
-		$("#btn_product").click(function() {
-			location.href = "admin_product_list";
-		});
-		$("#btn_town").click(function() {
-			location.href = "admin_town_list";
-		});
-		$("#btn_near").click(function() {
-			location.href = "admin_near_home";
-		});
-		$("#btn_delete").click(function() {
-			location.href = "admin_member_list";
+		// 하단 버튼 클릭
+		$("button.btn-outline-yomul").on("click", function() {
+			var no = $("input[name='no']:checked").val();
+			var link = $(this).attr("data-link");
+			location.href = link + "?no=" + no;
 		});
 	});
+
+	function deleteMember() {
+		var no = $("#modal-no").text();
+		alert(no);
+
+		$.ajax({
+			url : "/yomul/admin/delete_member",
+			method : "POST",
+			data : {
+				"no" : no
+			},
+			async : false,
+			processData : false, // 필수 
+			contentType : false, // 필수
+			success : function(result) {
+				var json = JSON.parse(result);
+				if (json.result == 1) {
+					alert("회원 삭제 성공");
+				} else {
+					alert("회원 삭제 실패");
+				}
+			}
+		});
+	}
 </script>
 </head>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../admin_header.jsp"%>
+
 	<!--  BODY  -->
-
-
 	<section id="admin_member_list">
 		<div class="list">
 			<div class="article">
 				<div class="container">
 
 					<!-- 검색창 -->
-					<div class="near-home-search">
-						<form class="form-inline ml-auto">
-							<label for="search_bar" class="bi bi-search"
-								style="position: relative; z-index: 20; left: 23px;"></label>
-							<div class="input-group flex-nowrap">
-								<input class="form-control mr-sm-2 pl-4" type="search"
-									placeholder="검색" size="60">
+					<form action="/yomul/admin_member_list" method="get">
+						<div class="input-group mt-3">
+							<div class="input-group-prepend">
+								<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 20; left: 23px; top: 8px;"></label>
 							</div>
-						</form>
-					</div>
+							<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search">
+						</div>
+					</form>
 
 					<h2 class="my-5 mx-0">회원 관리</h2>
-					<div class="row">
-						<div class="table-responsive">
-							<table class="table table-hover">
-								<thead>
-									<tr>
-										<th></th>
-										<th>E-mail</th>
-										<th>닉네임</th>
-										<th>이름</th>
-										<th>전화번호</th>
-										<th>가입일</th>
-									</tr>
-								</thead>
-								<tr>
-									<td><input type="radio" name="chk_id"></input></td>
-									<td>123@naver.com</td>
-									<td>정글차이</td>
-									<td>정글러</td>
-									<td>010-0000-0000</td>
-									<td>1972.11.21</td>
-								</tr>
-								</tbody>
-							</table>
-							<table>
-								<td><div class="button">
-										<button type="button" id="btn_product"
-											class="btn btn-block btn-yomul">물건보기</button>
-									</div></td>
-								<td><div class="button">
-										<button type="button" id="btn_town"
-											class="btn btn-block btn-yomul">동네생활 글 보기</button>
-									</div></td>
-								<td><div class="button">
-										<button type="button" id="btn_near"
-											class="btn btn-block btn-yomul">내근처 글 보기</button>
-									</div></td>
-								<td><div class="button">
-										<button type="button" id="btn_delete"
-											class="btn btn-block btn-yomul">삭제</button>
-									</div></td>
-							</table>
-						</div>
+
+					<table class="table table-hover text-center">
+						<thead>
+							<tr>
+								<th scope="col" class="align-middle"></th>
+								<th scope="col" class="align-middle">E-mail</th>
+								<th scope="col" class="align-middle">닉네임</th>
+								<th scope="col" class="align-middle">이름</th>
+								<th scope="col" class="align-middle">전화번호</th>
+								<th scope="col" class="align-middle">가입일</th>
+								<th scope="col" class="align-middle">탈퇴</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="align-middle">
+									<input type="radio" name="no" value="Q1"></input>
+								</td>
+								<td class="align-middle">123@naver.com</td>
+								<td class="align-middle">정글차이</td>
+								<td class="align-middle">정글러</td>
+								<td class="align-middle">010-0000-0000</td>
+								<td class="align-middle">1972.11.21</td>
+								<td class="align-middle">
+									<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="Q1">탈퇴</button>
+
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<div class="text-right">
+						<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_member_list">물건보기</button>
+						<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_town_list">동네생활 글 보기</button>
+						<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_near_home">내근처 글 보기</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
 	</section>
+
+	<!-- Modal -->
+	<div class="modal fade" id="deleteModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">
+						<span id="modal-no" class="modal-no"></span>번 회원을 삭제하시겠습니까?
+					</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-yomul" onclick="deleteMember()">삭제</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$('#deleteModal').on('show.bs.modal', function(event) {
+			var button = $(event.relatedTarget);
+			var no = button.data('no');
+			var modal = $(this);
+			modal.find('.modal-no').text(no);
+			modal.find('.modal-body input').val(no);
+		});
+	</script>
 </body>
 </html>
