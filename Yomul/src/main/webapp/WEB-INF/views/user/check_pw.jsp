@@ -13,7 +13,7 @@
 			e.preventDefault();
 
 			$.ajax({
-				url : "/yomul/${ajaxLink}",
+				url : "${ajaxLink}",
 				method : "POST",
 				data : new FormData(this), // 필수
 				processData : false, // 필수 
