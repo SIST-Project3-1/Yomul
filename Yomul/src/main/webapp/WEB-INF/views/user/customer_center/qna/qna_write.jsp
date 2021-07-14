@@ -10,7 +10,7 @@
 <script>
 	$(document).ready(function() {
 		// 보내기 버튼 클릭
-		$("#form_qna_write").on('submit',function(e) {
+		$("#form_qna_write").on('submit', function(e) {
 			e.preventDefault();
 
 			$.ajax({
@@ -23,7 +23,7 @@
 				success : function(result) {
 					if (result == 1) {
 						alert("문의 작성에 성공했습니다.");
-						location.href="/yomul/customer_qna"
+						location.href = "/yomul/customer_qna"
 					} else {
 						alert("문의 작성에 실패했습니다.");
 					}
@@ -41,8 +41,7 @@
 	<!--  BODY 참고 페이지: https://ohou.se/contacts/new -->
 	<section id="qna_write" class="container mt-3">
 		<h4 class="font-weight-bold">문의하기</h4>
-		<form id="form_qna_write" class="container my-5 mx-0" 
-				action="/yomul/customer_qna/write_proc" method="post" enctype="multipart/form-data">
+		<form id="form_qna_write" class="container my-5 mx-0" action="/yomul/customer_qna/write_proc" method="post" enctype="multipart/form-data">
 			<div class="row mt-3">
 				<select name="category" class="form-control p-2 text-dark" required>
 					<option value="">유형</option>
@@ -73,7 +72,11 @@
 				</div>
 			</div>
 			<div class="mt-3 text-right">
-				<button type="submit" id="btn_submit" class="btn btn-yomul px-4">보내기</button>
+				<div class="d-inline-block mr-3">
+					<input type="checkbox" id="secret" name="secret" class="form-check-input">
+					<label class="form-check-label" for="secret">비밀 글</label>
+				</div>
+				<button type="submit" id="btn_submit" class="btn btn-yomul px-4">등록</button>
 			</div>
 		</form>
 	</section>

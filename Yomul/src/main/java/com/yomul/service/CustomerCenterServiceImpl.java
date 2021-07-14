@@ -63,8 +63,8 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	}
 
 	@Override
-	public QnaVO getQnaInfo(String no) {
-		return customerCenterDAO.getQnaInfo(no);
+	public QnaVO getQnaInfo(QnaVO vo) {
+		return customerCenterDAO.getQnaInfo(vo);
 	}
 
 	@Override
@@ -78,7 +78,11 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	@Override
 	public int deleteQna(QnaVO vo) {
 		vo.setPw(Security.pwHashing(vo.getPw(), getQnaHashsalt(vo)));
-		System.out.println(vo.toStringDefault());
 		return customerCenterDAO.deleteQna(vo) == 1 ? 1 : 0;
+	}
+
+	@Override
+	public int checkPw(QnaVO vo) {
+		return customerCenterDAO.checkPw(vo) == 1 ? 1 : 0;
 	}
 }

@@ -7,30 +7,33 @@
 <title>${title}</title>
 <!-- HEAD -->
 <%@ include file="../head.jsp"%>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#form_check_pw").on("submit", function(e) {
-			e.preventDefault();
+<c:if test="${useAjax}">
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#form_check_pw").on("submit", function(e) {
+				e.preventDefault();
 
-			$.ajax({
-				url : "${ajaxLink}",
-				method : "POST",
-				data : new FormData(this), // 필수
-				processData : false, // 필수 
-				contentType : false, // 필수
-				success : function(result) {
-					if (result == 1) {
-						alert("${successMsg}");
-						location.href = "${successLink}";
-					} else {
-						alert("${failMsg}");
+				$.ajax({
+					url : "${url}",
+					method : "${method}",
+					data : new FormData(this), // 필수
+					processData : false, // 필수 
+					contentType : false, // 필수
+					success : function(result) {
+						var json = JSON.parse(result);
+						if (json.result == 1) {
+							alert("${successMsg}");
+							location.href = "${successLink}";
+						} else {
+							alert("${failMsg}");
+						}
 					}
-				}
-			});
-			return false;
-		})
-	});
-</script>
+				});
+				return false;
+			})
+		});
+	</script>
+</c:if>
 </head>
 <body>
 	<!-- HEADER -->
@@ -38,7 +41,9 @@
 
 	<!--  BODY  -->
 	<section id="check_pw">
-		<form id="form_check_pw">
+		<form id="form_check_pw" <c:if test="${!useAjax}">
+		action="${url}" method="${method}"
+		</c:if>>
 			<c:forEach var="data" items="${formData}">
 				<input type="hidden" name="${data.key}" value="${data.value}">
 			</c:forEach>

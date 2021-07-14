@@ -15,6 +15,17 @@
 			AND PW = #{pw}
 	</delete>
 	
+	<!-- 비밀번호 확인하기 -->
+	<select id="checkpw" parameterType="com.yomul.vo.QnaVO" resultType="_int">
+		SELECT 
+			COUNT(*) 
+		FROM
+			YOMUL_QNA_ARTICLES 
+		WHERE
+				NO = #{no} 
+			AND PW = #{pw}
+	</select>
+	
 	<!-- 삭제할 QnA의 HashSalt 가져오기 -->
 	<select id="getqnahashsalt" parameterType="com.yomul.vo.QnaVO" resultType="string">
 		SELECT
@@ -45,6 +56,7 @@
 			, CATEGORY
 			, TITLE
 			, CONTENT
+			, SECRET
 		) 
 		VALUES
 		(
@@ -56,6 +68,7 @@
 			, #{category}
 			, #{title}
 			, #{content}
+			, #{secret}
 		)
 	</insert>
 	
@@ -67,6 +80,7 @@
 			, CONTENT
 			, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
 			, RDATE 
+			, SECRET
 		FROM
 		(
 			SELECT
@@ -92,10 +106,14 @@
 			, TO_CHAR(RDATE, 'YYYY-MM-DD') RDATE
 			, RWRITER
 			, RCONTENT
+			, SECRET
 		FROM
 			YOMUL_QNA_ARTICLES
 		WHERE
-			NO = #{no}
+				NO = #{no}
+			<if test="pw != null">
+			AND PW = #{pw}
+			</if>
 	</select>
 	
 	<!-- faq 카테고리 목록 조회 -->
