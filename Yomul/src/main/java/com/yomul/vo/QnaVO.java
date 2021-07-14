@@ -19,6 +19,8 @@ public class QnaVO extends VO {
 	private String rwriter; // 답변자
 	private String rcontent; // 답변 내용
 
+	private String secret;
+
 	public String getNo() {
 		return no;
 	}
@@ -129,6 +131,14 @@ public class QnaVO extends VO {
 
 	public void setFile(CommonsMultipartFile file) {
 		this.file = file;
+	}
+
+	public String getSecret() {
+		return secret != null ? secret : "off";
+	}
+
+	public void setSecret(String secret) {
+		this.secret = secret;
 	}
 
 }

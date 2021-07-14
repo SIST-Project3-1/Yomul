@@ -69,8 +69,6 @@ public class CustomerCenterDAO extends DAO {
 	 * @return
 	 */
 	public int writeQna(QnaVO vo) {
-		System.out.println(vo.toStringDefault());
-		System.out.println("file: " + vo.getFile().getOriginalFilename());
 		return sqlSession.insert(nameSpace + ".writeqna", vo);
 	}
 

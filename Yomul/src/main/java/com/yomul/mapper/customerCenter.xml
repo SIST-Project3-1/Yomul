@@ -45,6 +45,7 @@
 			, CATEGORY
 			, TITLE
 			, CONTENT
+			, SECRET
 		) 
 		VALUES
 		(
@@ -56,6 +57,7 @@
 			, #{category}
 			, #{title}
 			, #{content}
+			, #{secret}
 		)
 	</insert>
 	
