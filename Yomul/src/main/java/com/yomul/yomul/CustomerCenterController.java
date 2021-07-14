@@ -86,9 +86,7 @@ public class CustomerCenterController {
 	@RequestMapping(value = "customer_qna", method = RequestMethod.GET)
 	public ModelAndView qnaList() {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_list");
-
 		mv.addObject("qnaList", customerCenterService.getQnaList());
-
 		return mv;
 	}
 
@@ -96,7 +94,6 @@ public class CustomerCenterController {
 	@RequestMapping(value = "customer_qna/{no}", method = RequestMethod.GET)
 	public ModelAndView qnaInfo(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_info");
-
 		mv.addObject("qna", customerCenterService.getQnaInfo(no));
 		mv.addObject("images", fileService.getFileList(no));
 		return mv;
@@ -106,7 +103,6 @@ public class CustomerCenterController {
 	@RequestMapping(value = "customer_qna/write", method = RequestMethod.GET)
 	public ModelAndView qnaWrite() {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_write");
-
 		mv.addObject("categories", customerCenterService.getQnaCategories());
 		return mv;
 	}
@@ -127,7 +123,6 @@ public class CustomerCenterController {
 
 		// 작성될 글 번호 가져오기
 		vo.setNo(customerCenterService.getNextQnaNo());
-		System.out.println("컨트롤라ㅣ :" + vo.toStringDefault());
 		int result = customerCenterService.writeQna(vo);
 
 		if (result == 1 && vo.getFile().getSize() != 0) { // 글 작성에 성공하면 파일 업로드

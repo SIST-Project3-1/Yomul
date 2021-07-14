@@ -69,6 +69,7 @@
 			, CONTENT
 			, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
 			, RDATE 
+			, SECRET
 		FROM
 		(
 			SELECT
