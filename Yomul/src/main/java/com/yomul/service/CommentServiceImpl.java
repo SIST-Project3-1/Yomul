@@ -20,4 +20,8 @@ public class CommentServiceImpl implements CommentService {
 		
 		return commentDAO.getComments(params);
 	}
+	
+	public int getCommentCount(String no) {
+		return commentDAO.getCommentCount(no);
+	}
 }

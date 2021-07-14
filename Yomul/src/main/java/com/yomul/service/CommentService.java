@@ -8,4 +8,7 @@ public interface CommentService {
 
 	// 게시글 댓글 조회
 	public ArrayList<CommentVO> getCommentList(String no, int page);
+	
+	// 게시글 댓글 갯수 조회
+	public int getCommentCount(String no);
 }

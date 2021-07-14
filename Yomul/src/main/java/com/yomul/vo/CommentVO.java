@@ -9,6 +9,7 @@ public class CommentVO extends VO {
 	private String nickname; // 작성자 닉네임
 	private String content; // 내용
 	private String wdate; // 작성일시
+	private String img; // 작성자 프로필 이미지
 	
 	public int getNo() {
 		return no;
@@ -58,5 +59,14 @@ public class CommentVO extends VO {
 	public void setWdate(String wdate) {
 		this.wdate = wdate;
 	}
-	
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		if(img.equals("__")) {
+			this.img = "default.jpg";
+		}else {
+			this.img = img;
+		}
+	}
 }

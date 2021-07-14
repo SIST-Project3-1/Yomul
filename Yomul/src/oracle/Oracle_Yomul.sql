@@ -475,16 +475,24 @@ VALUES(yomul_comments_no_seq.nextval,  'N1', 'M11', '댓글입니다~', SYSDATE,
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
 values(yomul_comments_no_seq.nextval,  'N1', 'M12', '댓글입니다~', sysdate, 0, 0);
 
-select * from yomul_comments;
-
 -- 댓글 목록 조회
-SELECT writer, content, wdate, likes
-FROM (SELECT rownum as rno, writer, content, wdate, likes
-	FROM (SELECT m.nickname AS writer, c.CONTENT, c.wdate, c.likes
-		FROM yomul_comments c, yomul_members m
+SELECT writer, CONTENT, wdate, likes, img
+FROM (SELECT ROWNUM AS rno, writer, CONTENT, wdate, likes, img
+	FROM (SELECT m.nickname AS writer, c.CONTENT, c.wdate, c.likes, f.ARTICLE_NO||'_'||f.NO||'_'||f.FILENAME as img
+		FROM yomul_comments c, yomul_members m, yomul_files f
+		where c.article_no = 'N1' and c.writer = m.no and m.no = f.ARTICLE_NO(+)
 		ORDER BY c.NO)
-	WHERE ROWNUM <= 10 * 2)
-WHERE rno > 10 * (2 - 1);
+	WHERE ROWNUM <= 10 * 1)
+WHERE rno > 10 * (1 - 1);
+
+SELECT writer, CONTENT, wdate, likes, img
+	FROM (SELECT ROWNUM as rno, writer, CONTENT, wdate, likes, img
+		from (select m.nickname as writer, c.content, c.wdate, c.likes, f.article_no||'_'||f.no||'_'||f.filename as img
+			FROM yomul_comments c, yomul_members m, yomul_files f
+			where c.article_no = 'N1' and c.writer = m.no and m.no = f.article_no(+)
+			ORDER BY c.NO DESC)
+		WHERE rownum <= 10 * 2)
+	where rno > 10 * (2 - 1);
 
 -- 댓글 갯수 확인
 select count(*)

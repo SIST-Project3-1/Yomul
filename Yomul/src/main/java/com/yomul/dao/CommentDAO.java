@@ -20,5 +20,14 @@ public class CommentDAO extends DAO {
 		List<CommentVO> list = sqlSession.selectList(nameSpace + ".selectCommentList", params);
 		return (ArrayList<CommentVO>) list;
 	}
+	
+	// 댓글 갯수 조회
+	public int getCommentCount(String no) {
+		try {
+			return sqlSession.selectOne(nameSpace + ".selectCommentCount", no);
+		} catch (NullPointerException e) { // 댓글이 없을 경우 널포인터예외 발생
+			return 0;
+		}
+	}
 
 }
