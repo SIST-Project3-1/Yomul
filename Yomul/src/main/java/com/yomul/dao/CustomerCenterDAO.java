@@ -20,6 +20,26 @@ public class CustomerCenterDAO extends DAO {
 	private SqlSessionTemplate sqlSession;
 
 	/**
+	 * QnA 삭제하기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int deleteQna(QnaVO vo) {
+		return sqlSession.delete(nameSpace + ".deleteqna", vo);
+	}
+
+	/**
+	 * 삭제할 QnA의 HashSalt 가져오기
+	 * 
+	 * @param no
+	 * @return
+	 */
+	public String getQnaHashsalt(QnaVO vo) {
+		return sqlSession.selectOne(nameSpace + ".getqnahashsalt", vo);
+	}
+
+	/**
 	 * QnA 목록 가져오기
 	 * 
 	 * @return
@@ -28,9 +48,9 @@ public class CustomerCenterDAO extends DAO {
 		List<QnaVO> list = sqlSession.selectList(nameSpace + ".getqnalist");
 		return (ArrayList<QnaVO>) list;
 	}
-	
+
 	public QnaVO getQnaInfo(String no) {
-		return sqlSession.selectOne(nameSpace+".getqnainfo", no);
+		return sqlSession.selectOne(nameSpace + ".getqnainfo", no);
 	}
 
 	/**

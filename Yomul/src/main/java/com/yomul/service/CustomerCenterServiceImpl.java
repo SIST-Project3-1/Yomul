@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yomul.dao.CustomerCenterDAO;
+import com.yomul.util.Security;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.NoticeVO;
@@ -64,5 +65,20 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	@Override
 	public QnaVO getQnaInfo(String no) {
 		return customerCenterDAO.getQnaInfo(no);
+	}
+
+	@Override
+	public String getQnaHashsalt(QnaVO vo) {
+		return customerCenterDAO.getQnaHashsalt(vo);
+	}
+
+	/**
+	 * 해당 글의 HashSalt를 가져와서 비밀번호 확인 후 삭제
+	 */
+	@Override
+	public int deleteQna(QnaVO vo) {
+		vo.setPw(Security.pwHashing(vo.getPw(), getQnaHashsalt(vo)));
+		System.out.println(vo.toStringDefault());
+		return customerCenterDAO.deleteQna(vo) == 1 ? 1 : 0;
 	}
 }
