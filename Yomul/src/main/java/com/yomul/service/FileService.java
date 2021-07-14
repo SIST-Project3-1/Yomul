@@ -8,4 +8,6 @@ public interface FileService {
 	int uploadFile(FileVO vo);
 
 	public ArrayList<String> getNoticeFiles(int no);
+
+	ArrayList<FileVO> getFileList(String no);
 }
