@@ -39,6 +39,9 @@
 	<!--  BODY  -->
 	<section id="check_pw">
 		<form id="form_check_pw">
+			<c:forEach var="data" items="${formData}">
+				<input type="hidden" name="${data.key}" value="${data.value}">
+			</c:forEach>
 			<div class="container mt-4" style="width: 800px;">
 				<h2 class="mb-3 text-center">
 					<strong>${bodyMsg}</strong>
