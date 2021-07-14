@@ -23,7 +23,7 @@
 				success : function(result) {
 					if (result == 1) {
 						alert("문의 작성에 성공했습니다.");
-						location.href="/yomul/customer_qna"
+						location.href="/yomul/customer_center"
 					} else {
 						alert("문의 작성에 실패했습니다.");
 					}
