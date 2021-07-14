@@ -37,7 +37,6 @@
 	<beans:bean id="customerCenterDAO" class="com.yomul.dao.CustomerCenterDAO"></beans:bean>
 	<beans:bean id="vendorDAO" class="com.yomul.dao.VendorDAO"></beans:bean>
 	<beans:bean id="fileDAO" class="com.yomul.dao.FileDAO"></beans:bean>
-	<beans:bean id="commentDAO" class="com.yomul.dao.CommentDAO"></beans:bean>
 
 	<!-- Service Object -->
 	<beans:bean id="nearService" class="com.yomul.service.NearServiceImplement"></beans:bean>
@@ -45,7 +44,6 @@
 	<beans:bean id="customerCenterService" class="com.yomul.service.CustomerCenterServiceImpl"></beans:bean>
 	<beans:bean id="vendorService" class="com.yomul.service.VendorServiceImpl"></beans:bean>
 	<beans:bean id="fileService" class="com.yomul.service.FileServiceImpl"></beans:bean>
-	<beans:bean id="commentService" class="com.yomul.service.CommentServiceImpl"></beans:bean>
 
 	<!-- Utility Object -->
 	<beans:bean id="fileUtils" class="com.yomul.util.FileUtils"></beans:bean>

@@ -1,6 +1,5 @@
 package com.yomul.yomul;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.dao.NearDAO;
-import com.yomul.service.CommentService;
 import com.yomul.service.NearService;
 import com.yomul.util.FileUtils;
-import com.yomul.vo.CommentVO;
 import com.yomul.vo.NearVO;
 
 @Controller
@@ -26,9 +23,6 @@ public class NearController {
 
 	@Autowired
 	private NearService nearService;
-	
-	@Autowired
-	private CommentService commentService;
 
 	@Autowired
 	private NearDAO nearDAO;
@@ -88,12 +82,12 @@ public class NearController {
 		// 조회수 갱신 겸 게시글 유무 확인
 		if (nearService.updateNearHits(no)) {
 			NearVO vo = nearService.getNearInfo(no);
-			ArrayList<CommentVO> comments = commentService.getCommentList("N" + no, 1);
+			// ArrayList<CommentVO> comments = nearService.getNearCommentList(no);
 
 			mv.setViewName("user/near/near_info");
+			// mv.addObject("comments", comments);
 			mv.addObject("vo", vo);
-			mv.addObject("comments", comments);
-		} else { // 게시글이 없을 경우 에러페이지 이동
+		} else {
 			mv.setViewName("redirect:/user/error");
 		}
 
