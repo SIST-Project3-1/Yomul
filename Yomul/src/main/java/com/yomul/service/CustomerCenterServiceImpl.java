@@ -63,8 +63,8 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	}
 
 	@Override
-	public QnaVO getQnaInfo(String no) {
-		return customerCenterDAO.getQnaInfo(no);
+	public QnaVO getQnaInfo(QnaVO vo) {
+		return customerCenterDAO.getQnaInfo(vo);
 	}
 
 	@Override

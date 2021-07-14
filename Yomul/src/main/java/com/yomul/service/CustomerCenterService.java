@@ -26,7 +26,7 @@ public interface CustomerCenterService {
 
 	ArrayList<QnaVO> getQnaList();
 
-	QnaVO getQnaInfo(String no);
+	QnaVO getQnaInfo(QnaVO vo);
 
 	String getQnaHashsalt(QnaVO vo);
 

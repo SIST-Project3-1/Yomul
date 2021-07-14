@@ -94,9 +94,76 @@ public class CustomerCenterController {
 	@RequestMapping(value = "customer_qna/{no}", method = RequestMethod.GET)
 	public ModelAndView qnaInfo(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_info");
-		mv.addObject("qna", customerCenterService.getQnaInfo(no));
+		QnaVO vo = new QnaVO();
+		vo.setNo(no);
+		QnaVO qna = customerCenterService.getQnaInfo(vo);
+		if (qna.getSecret().equals("on")) {
+			mv.setViewName("redirect:/customer_qna_check/" + no);
+			return mv;
+		}
+		mv.addObject("qna", qna);
 		mv.addObject("images", fileService.getFileList(no));
 		return mv;
+	}
+
+	/**
+	 * QnA 비밀글 보기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/customer_qna", method = RequestMethod.POST)
+	public ModelAndView qnaInfo(QnaVO vo) {
+		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_info");
+		if (vo.getPw() == null) { // 비밀번호 확인
+			mv.setViewName("redirect:/customer_qna_check/" + vo.getNo());
+			return mv;
+		}
+		QnaVO qna = customerCenterService.getQnaInfo(vo);
+		System.out.println("뷰 명: " + mv.getViewName());
+		System.out.println(qna.toStringDefault());
+		mv.addObject("qna", qna);
+		mv.addObject("images", fileService.getFileList(vo.getNo()));
+		return mv;
+	}
+
+	/**
+	 * 문의내역 비밀 글 비밀번호 확인 페이지
+	 * 
+	 * @param no
+	 * @return
+	 */
+	@RequestMapping(value = "/customer_qna_check/{no}", method = RequestMethod.GET)
+	public ModelAndView customer_qna_check(@PathVariable("no") String no) {
+		ModelAndView mv = new ModelAndView("user/check_pw");
+
+		Map<String, Object> formData = new HashMap<String, Object>();
+		formData.put("no", no);
+
+		mv.addObject("title", "요물 비밀 글 확인");
+		mv.addObject("useAjax", false);
+		mv.addObject("url", "/yomul/customer_qna");
+		mv.addObject("method", "POST");
+		mv.addObject("successMsg", "비밀번호가 일치합니다.");
+		mv.addObject("successLink", "/yomul/customer_qna");
+		mv.addObject("failMsg", "비밀번호가 일치하지 않습니다.");
+		mv.addObject("formData", formData);
+		mv.addObject("bodyMsg", "문의내역을 확인하려면 비밀번호를 입력해주세요.");
+		mv.addObject("btnName", "확인");
+		mv.addObject("cancleLink", "/yomul/customer_qna");
+		return mv;
+	}
+
+	/**
+	 * 문의내역 비밀 글 비밀번호 확인 처리
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/customer_qna_check_proc", method = RequestMethod.POST)
+	public String customer_qna_check_proc(QnaVO vo) {
+
+		return "0";
 	}
 
 	// 문의 작성 페이지
@@ -157,6 +224,7 @@ public class CustomerCenterController {
 
 		mv.addObject("title", "요물 문의내역 삭제");
 		mv.addObject("ajaxLink", "/yomul/qna_delete_proc");
+		mv.addObject("ajaxMethod", "POST");
 		mv.addObject("successMsg", "문의내역 삭제에 성공했습니다.");
 		mv.addObject("successLink", "/yomul/customer_qna");
 		mv.addObject("failMsg", "문의내역 삭제에 실패했습니다.");

@@ -95,10 +95,14 @@
 			, TO_CHAR(RDATE, 'YYYY-MM-DD') RDATE
 			, RWRITER
 			, RCONTENT
+			, SECRET
 		FROM
 			YOMUL_QNA_ARTICLES
 		WHERE
-			NO = #{no}
+				NO = #{no}
+			<if test="pw != null">
+			AND PW = #{pw}
+			</if>
 	</select>
 	
 	<!-- faq 카테고리 목록 조회 -->

@@ -49,8 +49,8 @@ public class CustomerCenterDAO extends DAO {
 		return (ArrayList<QnaVO>) list;
 	}
 
-	public QnaVO getQnaInfo(String no) {
-		return sqlSession.selectOne(nameSpace + ".getqnainfo", no);
+	public QnaVO getQnaInfo(QnaVO vo) {
+		return sqlSession.selectOne(nameSpace + ".getqnainfo", vo);
 	}
 
 	/**
