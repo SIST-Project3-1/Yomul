@@ -167,6 +167,7 @@ public class CustomerCenterController {
 		mv.addObject("failMsg", "문의내역 삭제에 실패했습니다.");
 		mv.addObject("formData", formData);
 		mv.addObject("bodyMsg", "문의 내역을 삭제하시려면 비밀번호를 입력해주세요.");
+		mv.addObject("btnName", "삭제");
 		mv.addObject("cancleLink", "/yomul/customer_qna/" + no);
 		return mv;
 	}

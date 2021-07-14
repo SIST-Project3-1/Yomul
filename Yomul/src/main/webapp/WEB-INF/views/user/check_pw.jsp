@@ -51,7 +51,7 @@
 					<input type="password" class="form-control" id="pw" name="pw" placeholder="비밀번호" required>
 				</div>
 				<div class="text-center mt-5 row">
-					<button type="submit" class="btn btn-lg btn-yomul col-lg mr-lg-3" onclick>삭제</button>
+					<button type="submit" class="btn btn-lg btn-yomul col-lg mr-lg-3">${btnName}</button>
 					<a href="${cancleLink}" class="btn btn-lg btn-outline-yomul col-lg ml-lg-3">취소</a>
 				</div>
 			</div>
