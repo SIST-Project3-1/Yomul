@@ -94,25 +94,25 @@ $(document).ready(function(){
 					</div>
 				</div>
 				<div class="near-info-chat-content">
-				<% for(int i=0;i<2;i++){ %>
-					<div>
-						<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+					<c:forEach var="cvo" items="${comments }">
 						<div>
+							<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 							<div>
-								<label>댓글 작성자 닉네임</label>
-								<span>댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다
-								댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다</span>
-							</div>
-							<div>
-								<label>1시간 전</label>
-								<label class="near-info-point">·</label>
-								<button type="button" class="near-info-chat-like">좋아요 22</button>
-								<label class="near-info-point">·</label>
-								<button type="button" class="near-info-chat-report">신고</button>
+								<div>
+									<label>${cvo.writer }</label>
+									<span>${cvo.content }</span>
+								</div>
+								<div>
+									<!-- <label>1시간 전</label> -->
+									<label>${cvo.wdate }</label>
+									<label class="near-info-point">·</label>
+									<button type="button" class="near-info-chat-like">좋아요 ${cvo.likes }</button>
+									<label class="near-info-point">·</label>
+									<button type="button" class="near-info-chat-report">신고</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				<% } %>
+					</c:forEach>
 				</div>
 			</div>
 			
