@@ -1,5 +1,6 @@
 package com.yomul.yomul;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +11,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.yomul.dao.NearDAO;
+import com.yomul.service.CommentService;
 import com.yomul.service.NearService;
 import com.yomul.util.FileUtils;
+import com.yomul.vo.CommentVO;
 import com.yomul.vo.NearVO;
 
 @Controller
@@ -23,7 +29,10 @@ public class NearController {
 
 	@Autowired
 	private NearService nearService;
-
+	
+	@Autowired
+	private CommentService	commentService;
+	
 	@Autowired
 	private NearDAO nearDAO;
 
@@ -82,16 +91,32 @@ public class NearController {
 		// 조회수 갱신 겸 게시글 유무 확인
 		if (nearService.updateNearHits(no)) {
 			NearVO vo = nearService.getNearInfo(no);
-			// ArrayList<CommentVO> comments = nearService.getNearCommentList(no);
-
+			ArrayList<CommentVO> comments = commentService.getCommentList("N" + no, 1);
+			int commentCount = commentService.getCommentCount("N" + no);
+			
 			mv.setViewName("user/near/near_info");
-			// mv.addObject("comments", comments);
+			mv.addObject("comments", comments);
+			mv.addObject("commentCount", commentCount);
 			mv.addObject("vo", vo);
-		} else {
+		} else { // 게시글이 없을 경우 에러페이지 이동
 			mv.setViewName("redirect:/user/error");
 		}
-
+		
 		return mv;
+	}
+	
+	// 댓글 페이지 이동
+	@ResponseBody
+	@RequestMapping(value = "/near_info/comments", method = RequestMethod.GET, produces = "text/plain; charset=utf8")
+	public String near_info_comment(int no, int page) {
+		Gson gson = new GsonBuilder().create();
+		ArrayList<CommentVO> comments = commentService.getCommentList("N" + no, page);
+		
+		for(CommentVO vo : comments) {
+			System.out.println(vo.toStringJson());
+		}
+		
+		return gson.toJson(comments);
 	}
 
 	@RequestMapping(value = "/near_news_form", method = RequestMethod.GET)
