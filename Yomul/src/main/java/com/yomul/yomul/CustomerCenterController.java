@@ -3,6 +3,8 @@ package com.yomul.yomul;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -144,5 +146,40 @@ public class CustomerCenterController {
 			}
 		}
 		return String.valueOf(result);
+	}
+
+	/**
+	 * 문의 내역 삭제 페이지
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/qna_delete/{no}", method = RequestMethod.GET)
+	public ModelAndView qna_delete(@PathVariable("no") String no) {
+		ModelAndView mv = new ModelAndView("user/check_pw");
+
+		Map<String, Object> formData = new HashMap<String, Object>();
+		formData.put("no", no);
+
+		mv.addObject("title", "요물 문의내역 삭제");
+		mv.addObject("ajaxLink", "/yomul/qna_delete_proc");
+		mv.addObject("successMsg", "문의내역 삭제에 성공했습니다.");
+		mv.addObject("successLink", "/yomul/customer_qna");
+		mv.addObject("failMsg", "문의내역 삭제에 실패했습니다.");
+		mv.addObject("formData", formData);
+		mv.addObject("bodyMsg", "문의 내역을 삭제하시려면 비밀번호를 입력해주세요.");
+		mv.addObject("btnName", "삭제");
+		mv.addObject("cancleLink", "/yomul/customer_qna/" + no);
+		return mv;
+	}
+
+	/**
+	 * 문의 내역 삭제 처리
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/qna_delete_proc", method = RequestMethod.POST)
+	public String qna_delete_proc(QnaVO vo) {
+		return String.valueOf(customerCenterService.deleteQna(vo));
 	}
 }

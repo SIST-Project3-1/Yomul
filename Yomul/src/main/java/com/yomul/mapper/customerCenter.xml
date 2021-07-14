@@ -6,6 +6,25 @@
 
 <mapper namespace="mapper.customerCenter">
 
+	<!-- QnA 삭제하기 -->
+	<delete id="deleteqna" parameterType="com.yomul.vo.QnaVO">
+		DELETE FROM
+			YOMUL_QNA_ARTICLES
+		WHERE
+				NO = #{no}
+			AND PW = #{pw}
+	</delete>
+	
+	<!-- 삭제할 QnA의 HashSalt 가져오기 -->
+	<select id="getqnahashsalt" parameterType="com.yomul.vo.QnaVO" resultType="string">
+		SELECT
+			HASHSALT
+		FROM
+			YOMUL_QNA_ARTICLES
+		WHERE
+			NO = #{no}
+	</select>
+	
 	<!-- 다음 QNA 글 번호 가져오기 -->
 	<select id="getnextqnano" resultType="String">
 		SELECT
