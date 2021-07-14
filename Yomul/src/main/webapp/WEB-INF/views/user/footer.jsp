@@ -26,6 +26,14 @@
 				<h5>고객센터</h5>
 			</a>
 			<div class="vertical_line mr-1"></div>
+			<a href="/yomul/customer_notices/" class="d-inline text-muted">
+				<h5>공지사항</h5>
+			</a>
+			<div class="vertical_line mr-1"></div>
+			<a href="/yomul/customer_qna/" class="d-inline text-muted">
+				<h5>문의하기</h5>
+			</a>
+			<div class="vertical_line mr-1"></div>
 			<a href="/yomul/vendor_signup" class="d-inline text-muted">
 				<h5>업체등록</h5>
 			</a>

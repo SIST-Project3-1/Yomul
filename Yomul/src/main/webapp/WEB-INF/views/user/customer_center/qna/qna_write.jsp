@@ -4,85 +4,81 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의하기</title>
+<title>요물 문의하기</title>
 <!-- HEAD -->
-<jsp:include page="../../../head.jsp"></jsp:include>
-<style>
-	#qna_write {
-		width: 600px;
-	}
-	
-	#qna_write .textarea {
-		height: 200px;
-	}
-</style>
+<%@ include file="../../../head.jsp"%>
 <script>
 	$(document).ready(function() {
-		
-		// 파일 첨부 버튼 클릭
-		$("#btn_file").click(function() {
-			
-		});
-		
 		// 보내기 버튼 클릭
-		$("#btn_send").click(function() {
-			//$.ajax();
+		$("#form_qna_write").on('submit',function(e) {
+			e.preventDefault();
+
+			$.ajax({
+				url : "/yomul/customer_qna/write_proc",
+				method : "POST",
+				data : new FormData(this), // 필수
+				async : false,
+				processData : false, // 필수 
+				contentType : false, // 필수
+				success : function(result) {
+					if (result == 1) {
+						alert("문의 작성에 성공했습니다.");
+						location.href="/yomul/customer_qna"
+					} else {
+						alert("문의 작성에 실패했습니다.");
+					}
+				}
+			});
+			return false;
 		});
 	});
 </script>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../../header.jsp"></jsp:include>
-	
+	<%@ include file="../../header.jsp"%>
+
 	<!--  BODY 참고 페이지: https://ohou.se/contacts/new -->
-	<section id="qna_write" class="mx-auto m-5">
+	<section id="qna_write" class="container mt-3">
 		<h4 class="font-weight-bold">문의하기</h4>
-		<form class="container my-5 mx-0" action="#" method="post" enctype="multipart/form-data">
+		<form id="form_qna_write" class="container my-5 mx-0" 
+				action="/yomul/customer_qna/write_proc" method="post" enctype="multipart/form-data">
 			<div class="row mt-3">
-				<select name="category" class="form-control col-6 p-2 text-secondary">
-					<option value="0">유형</option>
-					<option value="1">거래 환불/분쟁 및 사기 신고</option>
-					<option value="2">계정 문의</option>
-					<option value="3">판매 금지/거래 품목 문의</option>
-					<option value="4">매너평가, 매너온도, 거래후기 관련 문의</option>
-					<option value="5">게시글 노출, 미노출 문의</option>
-					<option value="6">채팅, 알림 문의</option>
-					<option value="7">앱 사용/거래 방법 문의</option>
-					<option value="8">동네 생활(커뮤니티) 문의</option>
-					<option value="9">지역 광고 문의</option>
-					<option value="10">비즈프로필(등록, 이용) 문의</option>
-					<option value="11">검색 문의</option>
-					<option value="12">기타 문의</option>
-					<option value="13">오류 제보</option>
-					<option value="14">개선/제안</option>
+				<select name="category" class="form-control p-2 text-dark" required>
+					<option value="">유형</option>
+					<c:forEach var="category" items="${categories}">
+						<option value="${category.no}">${category.content}</option>
+					</c:forEach>
 				</select>
 			</div>
 			<div class="row mt-3">
-				<input type="text" name="name" class="form-control col-6" placeholder="이름">
+				<input type="text" name="name" class="form-control" placeholder="이름" required>
 			</div>
 			<div class="row mt-3">
-				<input type="text" name="email" class="form-control col-6" placeholder="이메일">
+				<input type="email" name="email" class="form-control" placeholder="이메일" required>
 			</div>
 			<div class="row mt-3">
-				<input type="text" name="title" class="form-control" placeholder="제목">
+				<input type="password" name="pw" class="form-control " placeholder="비밀번호" required>
 			</div>
 			<div class="row mt-3">
-				<textarea name="content" class="textarea form-control" placeholder="내용"></textarea>
+				<input type="text" name="title" class="form-control" placeholder="제목" required>
 			</div>
 			<div class="row mt-3">
-				<div class="custom-file col-8">
-					<input type="file" class="custom-file-input" id="validatedCustomFile" lang="kor" required>
+				<textarea name="content" rows="10" class="textarea form-control" placeholder="내용" required></textarea>
+			</div>
+			<div class="row mt-3">
+				<div class="custom-file">
+					<input type="file" class="custom-file-input" id="validatedCustomFile" lang="kor" name="file">
 					<label class="custom-file-label" for="validatedCustomFile">파일 선택</label>
 				</div>
 			</div>
-			<div class="row mt-3">
-				<button type="button" id="btn_send" class="btn btn-yomul px-4">보내기</button>
+			<div class="mt-3 text-right">
+				<button type="submit" id="btn_submit" class="btn btn-yomul px-4">보내기</button>
 			</div>
 		</form>
 	</section>
-	
+
 	<!-- FOOTER -->
-	<jsp:include page="../../footer.jsp"></jsp:include>
+	<%@ include file="../../footer.jsp"%>
 </body>
 </html>

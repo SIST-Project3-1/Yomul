@@ -6,11 +6,11 @@
 <meta charset="UTF-8">
 <title>요물 프로필 보기</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 </head>
 <body style="height: 100vh;">
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!-- MYPAGE HEADER -->
 	<%@include file="mypage_header.jsp"%>
@@ -24,7 +24,7 @@
 		<div class="container border mt-3 p-3">
 			<div class="row">
 				<div class="col-md-4 text-center">
-					<img class="rounded-circle mb-3" src='/yomul/upload/${member.profileImg!=null?member.profileImg: "default.jpg" }' style="width: 300px; height: 300px;">
+					<img class="rounded-circle mb-3" src='/yomul/upload/${file.filename!=null?file.getSavedFilename(): "default.jpg" }' style="width: 300px; height: 300px;">
 				</div>
 				<div class="col-md my-auto">
 					<div class="mb-3 d-flex justify-content-between">
@@ -67,6 +67,6 @@
 	</section>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

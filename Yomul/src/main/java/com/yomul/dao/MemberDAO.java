@@ -4,7 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.yomul.util.Security;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 
 //반환형이 int인 경우 성공하면 1, 성공 못하면 0, SQL 에러나면 -1, 자바에서 에러나면 -2
@@ -27,6 +27,16 @@ public class MemberDAO extends DAO {
 	}
 
 	/**
+	 * 프로필 사진 가져오기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public FileVO getMyProfileImg(MemberVO vo) {
+		return sqlSession.selectOne(namespace + ".getmyprofileimg", vo);
+	}
+
+	/**
 	 * 프로필 정보 업데이트
 	 * 
 	 * @param vo
@@ -34,16 +44,6 @@ public class MemberDAO extends DAO {
 	 */
 	public int setMyProfileInfo(MemberVO vo) {
 		return sqlSession.insert(namespace + ".setmyprofileinfo", vo);
-	}
-
-	/**
-	 * 프로필 사진 업데이트
-	 * 
-	 * @param vo
-	 * @return
-	 */
-	public int setMyProfileImg(MemberVO vo) {
-		return sqlSession.insert(namespace + ".setmyprofileimg", vo);
 	}
 
 	/**

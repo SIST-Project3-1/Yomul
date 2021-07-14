@@ -5,7 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 상세</title>
-<jsp:include page="../../../head.jsp"></jsp:include>
+<!-- HEAD -->
+<%@ include file="../../../head.jsp"%>
 <style>
 	#notice_info {
 		width: 750px;
@@ -28,12 +29,12 @@
 </script>
 </head>
 <body>
-	<jsp:include page="../../header.jsp"></jsp:include>
+	<%@ include file="../../header.jsp"%>
 	
 	<section id="notice_info">
 		<div>
 			<h4 class="font-weight-bold">${vo.getTitle() }</h4>
-			<p class="font-weight-bold text-secondary">${vo.getDate() }</p>
+			<p class="font-weight-bold text-secondary">${vo.getNdate() }</p>
 		</div>
 		<hr>
 		<div class="my-5 mx-0">
@@ -50,6 +51,6 @@
 		</div>
 	</section>
 	
-	<jsp:include page="../../footer.jsp"></jsp:include>
+	<%@ include file="../../footer.jsp"%>
 </body>
 </html>

@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>요물 프로필 수정</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 <script>
 	function fileUpload(fis) {
 		var str = fis.value;
@@ -19,11 +19,16 @@
 	}
 
 	$(document).ready(function() {
-		$("#form_myprofile_update").on("submit", function() {
+		$("#form_myprofile_update").on("submit", function(e) {
+			e.preventDefault();
+			
 			$.ajax({
 				url : "/yomul/myprofile_update_proc",
 				method : "POST",
-				data : $("#form_myprofile_update").serialize(),
+				data : new FormData(this), // 필수
+				async : false,
+				processData : false, // 필수 
+				contentType : false, // 필수
 				success : function(result) {
 					if (result == 1) {
 						alert("프로필 수정 성공했습니다.");
@@ -39,7 +44,7 @@
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../header.jsp"></jsp:include>
+	<%@ include file="../header.jsp"%>
 
 	<!-- MYPAGE HEADER -->
 	<%@include file="mypage_header.jsp"%>
@@ -56,7 +61,7 @@
 				<small>탈퇴하기</small>
 			</a>
 		</div>
-		<form id="form_myprofile_update">
+		<form id="form_myprofile_update" enctype="multipart/form-data">
 			<div class="form-group row">
 				<label for="email" class="col-md-3 col-form-label">이메일</label>
 				<div class="col-md-9">
@@ -100,10 +105,10 @@
 					<div class="input-group mb-3">
 						<div class="custom-file">
 							<input type="file" class="custom-file-input" id="profile_img" name="profile_img" aria-describedby="profile_img" onchange="fileUpload(this)" value='${member.profileImg !=null ? member.profileImg: "defalut.jpg" }'>
-							<label class="custom-file-label" for="profile_img" data-browse="업로드">${member.profileImg !=null ? member.profileImg: "이미지를 업로드해주세요" }</label>
+							<label class="custom-file-label" for="profile_img" data-browse="업로드">${file.filename!=null ? file.filename: "이미지를 업로드해주세요" }</label>
 						</div>
 					</div>
-					<img id="profile_img_img" class="rounded-circle mb-3" src='/yomul/upload/${member.profileImg !=null ? member.profileImg: "defalut.jpg" }' style="width: 300px; height: 300px;">
+					<img id="profile_img_img" class="rounded-circle mb-3" src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }' style="width: 300px; height: 300px;">
 				</div>
 			</div>
 
@@ -112,6 +117,6 @@
 	</section>
 
 	<!-- FOOTER -->
-	<jsp:include page="../footer.jsp"></jsp:include>
+	<%@ include file="../footer.jsp"%>
 </body>
 </html>

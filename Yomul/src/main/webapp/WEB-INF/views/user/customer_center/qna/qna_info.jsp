@@ -4,67 +4,57 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>${qna.title }</title>
 <!-- HEAD -->
-<jsp:include page="../../../head.jsp"></jsp:include>
+<%@ include file="../../../head.jsp"%>
 <style>
-	#qna_info {
-		width: 750px;
-		margin: 50px auto;
-	}
-	
-	#qna_info hr {
-		border-width: 1px 0 0 0;
-		border-color: lightgray;
-		margin: 25px 0;
-	}
+#qna_info {
+	width: 750px;
+	margin: 50px auto;
+}
+
+#qna_info hr {
+	border-width: 1px 0 0 0;
+	border-color: lightgray;
+	margin: 25px 0;
+}
 </style>
-<script>
-	$(document).ready(function() {
-		// 목록 버튼 클릭
-		$("#btn_list").click(function() {
-			location.href = "../customer_qna";
-		});
-	});
-</script>
 </head>
 <body>
 	<!-- HEADER -->
-	<jsp:include page="../../header.jsp"></jsp:include>
-	
+	<%@ include file="../../header.jsp"%>
+
 	<!--  BODY  -->
 	<section id="qna_info">
 		<div>
-			<h4 class="d-inline-block font-weight-bold">제모옥~~~</h4>
-			<p class="font-weight-bold text-secondary">2021.07.02</p>
+			<h4 class="d-inline-block font-weight-bold">${qna.title}</h4>
+			<p class="font-weight-bold text-secondary">${qna.wdate}</p>
 		</div>
 		<hr>
 		<div class="my-5 mx-0">
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
+			<c:forEach var="img" items="${images}">
+				<div>
+					<img alt="" src="/yomul/upload/${img.getSavedFilename() }">
+				</div>
+			</c:forEach>
+			${qna.content}
 		</div>
 		<hr>
-		<div class="my-5 mx-0">
-			<h4 class="d-inline-block font-weight-bold">답변드립니다~</h4>
-			<p class="d-inline-block font-weight-bold text-secondary">2021.07.04</p>
-			<div>
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
+		<c:if test="${qna.rdate !=null }">
+			<div class="my-5 mx-0">
+				<h4 class="font-weight-bold">답변</h4>
+				<p class="font-weight-bold text-secondary">${qna.rdate}</p>
+				<div>${qna.rcontent}</div>
 			</div>
-		</div>
-		<hr>
+			<hr>
+		</c:if>
 		<div class="text-center">
-			<button type="button" id="btn_list" class="btn btn-yomul d-inline-block px-3 font-weight-bold">목록으로 돌아가기</button>
+			<a class="btn btn-yomul px-3 font-weight-bold" href="/yomul/qna_delete/${qna.no}">삭제</a>
+			<a class="btn btn-yomul px-3 font-weight-bold" href="/yomul/customer_qna">목록</a>
 		</div>
 	</section>
-	
+
 	<!-- FOOTER -->
-	<jsp:include page="../../footer.jsp"></jsp:include>
+	<%@ include file="../../footer.jsp"%>
 </body>
 </html>

@@ -1,8 +1,12 @@
 package com.yomul.vo;
 
 public class NoticeVO extends VO {
-	private int no, hits; // 글 번호, 조회수
-	private String wrtier, title, content, date; // 작성자, 제목, 내용, 작성일시
+	private int hits; // 조회수
+	private int no; // 글 번호
+	private String wrtier; // 작성자
+	private String title; // 제목
+	private String content; // 내용
+	private String ndate; // 작성일시
 	
 	public int getNo() {
 		return no;
@@ -34,11 +38,11 @@ public class NoticeVO extends VO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getDate() {
-		return date;
+	public String getNdate() {
+		return ndate;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setNdate(String ndate) {
+		this.ndate = ndate;
 	}
 	
 }

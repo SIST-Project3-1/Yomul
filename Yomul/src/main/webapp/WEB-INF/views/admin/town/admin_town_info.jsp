@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>동네생활 상세보기</title>
 <!-- HEAD -->
-<jsp:include page="../../head.jsp"></jsp:include>
+<%@ include file="../../head.jsp"%>
 <style>
 div.user_town_info {
 	width: 50%;
@@ -80,7 +80,7 @@ div.user_town_info .form-control {
 <body>
 	<!--  http://localhost:9000/yomul/town_info  -->
 	<!-- HEADER -->
-	<jsp:include page="../admin_header.jsp"></jsp:include>
+	<%@ include file="../admin_header.jsp"%>
 
 	<!--  BODY  -->
 	<section id="sample">
