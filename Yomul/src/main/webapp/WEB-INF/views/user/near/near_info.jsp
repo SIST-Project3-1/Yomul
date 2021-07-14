@@ -9,9 +9,57 @@
 <%@ include file="../../head.jsp"%>
 <script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
 $(document).ready(function(){
+	// 게시글 번호 구하기
+	var no = $(location).attr("pathname").split("/").pop();
+	
 	$( "#btn_regular" ).on( "click", function() {
-		  $("#btn_regular").css('color','white').css('background-color','rgb(255, 99, 95)');
+		$("#btn_regular").css('color','white').css('background-color','rgb(255, 99, 95)');
+	});
+	
+	// 댓글 페이지 이동
+	$(".btn_pagination").click(function() {
+		var page = $(this).val();
+		var pageInfo;
+		
+		$.ajax({
+			url : "/yomul/near_info/comments?no=" + no + "&page=" + page,
+			method : "GET",
+			dataType : "json",
+			contentType: "application/json; charset=UTF-8",
+			success : function(result) {
+				if (result != null) {
+					var commentsHtml = "";
+					var cinfo = "";
+					
+					// 페이지 태그 변경~
+					for(var i=0;i<result.length;i++) {
+						cinfo = result[i];
+
+						commentsHtml += "<div>";
+						commentsHtml += "	<img src=" + "/yomul/upload/" + cinfo.img + ">";
+						commentsHtml += "	<div>";
+						commentsHtml += "		<label>" + cinfo.writer + "</label>";
+						commentsHtml += "		<span>" + cinfo.content + "</span>";
+						commentsHtml += "	</div>";
+						commentsHtml += "	<div>";
+						commentsHtml += "		<label>" + cinfo.wdate + "</label>";
+						commentsHtml += "		<label class='near-info-point'>·</label>";
+						commentsHtml += "		<button type='button' class='near-info-chat-like'>";
+						commentsHtml += 			"좋아요 " + cinfo.likes;
+						commentsHtml += "		</button>";
+						commentsHtml += "		<label class='near-info-point'>·</label>";
+						commentsHtml += "		<button type='button' class='near-info-chat-report'>신고</button>";
+						commentsHtml += "	</div>";
+						commentsHtml += "</div>";
+					}
+					$("#comments").html(commentsHtml).trigger("pagecreate");
+				} else {
+					alert("댓글 페이지 이동 에러");
+				}
+			}
+		});
 	});
 });
 </script>
@@ -76,7 +124,7 @@ $(document).ready(function(){
 			<!--  댓글  -->
 			<div class="near-info-chat">
 				<div class="near-info-chat-title">
-					<h3>댓글</h3><h3>1</h3>
+					<h3>댓글</h3><h3>${commentCount }</h3>
 				</div>
 				<div class="near-info-chat-writer">
 					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
@@ -93,31 +141,33 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
-				<div class="near-info-chat-content">
-				<% for(int i=0;i<2;i++){ %>
-					<div>
-						<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+				<div id="comments" class="near-info-chat-content">
+					<c:forEach var="cvo" items="${comments }">
 						<div>
+							<img src="/yomul/upload/${cvo.img }">
 							<div>
-								<label>댓글 작성자 닉네임</label>
-								<span>댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다
-								댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다</span>
-							</div>
-							<div>
-								<label>1시간 전</label>
-								<label class="near-info-point">·</label>
-								<button type="button" class="near-info-chat-like">좋아요 22</button>
-								<label class="near-info-point">·</label>
-								<button type="button" class="near-info-chat-report">신고</button>
+								<div>
+									<label>${cvo.writer }</label>
+									<span>${cvo.content }</span>
+								</div>
+								<div>
+									<!-- <label>1시간 전</label> -->
+									<label>${cvo.wdate }</label>
+									<label class="near-info-point">·</label>
+									<button type="button" class="near-info-chat-like">좋아요 ${cvo.likes }</button>
+									<label class="near-info-point">·</label>
+									<button type="button" class="near-info-chat-report">신고</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				<% } %>
+					</c:forEach>
 				</div>
 			</div>
 			
 			<!-- 페이징  -->
 			<div class="near-info-page">
+				<button type="button" class="btn_pagination" value="1" class="">1</button>
+				<button type="button" class="btn_pagination" value="2" class="">2</button>
 				<p>1 2 3 4</p>
 			</div>
 		</div>

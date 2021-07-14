@@ -6,7 +6,7 @@
 
 <mapper namespace="mapper.vendor">
 	<insert id="insertVendor" parameterType="com.yomul.vo.VendorVO">
-		insert into yomul_vendors(no, name, category, info, tel, addr)
-		values(#{no}, #{name}, #{category}, #{info}, #{tel}, #{addr})
+		insert into yomul_vendors(no, owner, name, category, info, tel, addr)
+		values(#{no}, #{owner}, #{name}, #{category}, #{info}, #{tel}, #{addr})
 	</insert>
 </mapper>

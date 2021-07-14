@@ -1,7 +1,8 @@
 package com.yomul.vo;
 
 public class VendorVO extends VO {
-	private String no; // 유저 번호
+	private String no; // 업체 번호
+	private String owner; // 소유자 유저 번호
 	private String name; // 업체명
 	private String category; // 카테고리
 	private String info; // 상세정보
@@ -13,6 +14,12 @@ public class VendorVO extends VO {
 	}
 	public void setNo(String no) {
 		this.no = no;
+	}
+	public String getOwner() {
+		return owner;
+	}
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 	public String getName() {
 		return name;

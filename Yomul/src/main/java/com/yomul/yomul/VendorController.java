@@ -24,6 +24,8 @@ public class VendorController {
 	private VendorService vendorService;
 	@Autowired
 	private FileService fileService;
+	@Autowired
+	private FileUtils fileUtils;
 	
 	//업체 등록
 	@RequestMapping(value="/vendor_signup", method=RequestMethod.GET)
@@ -39,7 +41,7 @@ public class VendorController {
 		FileVO fvo = null;
 		
 		String uno = "M3"; // 임시 테스트용
-		vo.setNo(uno);
+		vo.setOwner(uno);
 //		HttpSession session = request.getSession();
 //		vo.setNo((String)session.getAttribute("id"));
 		
@@ -49,9 +51,9 @@ public class VendorController {
 		if(result == 1 && !file.isEmpty()) {
 			fvo = new FileVO();
 			
-			String path = FileUtils.getUploadPath(request);
-			String fileName = FileUtils.getFileName(uno, file);
-			
+			String path = fileUtils.getUploadPath(request);
+			String fileName = fileUtils.getFileName(uno, file);
+
 			File savedFile = new File(path, fileName);
 			
 			try {
