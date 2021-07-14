@@ -145,4 +145,23 @@ public class CustomerCenterController {
 		}
 		return String.valueOf(result);
 	}
+
+	/**
+	 * 문의 내역 삭제 페이지
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/qna_delete/{no}", method = RequestMethod.GET)
+	public ModelAndView qna_delete(@PathVariable("no") String no) {
+		ModelAndView mv = new ModelAndView("user/check_pw");
+
+		mv.addObject("title", "요물 문의내역 삭제");
+		mv.addObject("ajaxLink", "/yomul/qna_delete_proc/"+no);
+		mv.addObject("successMsg", "문의내역 삭제에 성공했습니다.");
+		mv.addObject("successLink", "/yomul/customer_qna");
+		mv.addObject("failMsg", "문의내역 삭제에 실패했습니다.");
+		mv.addObject("bodyMsg", "문의 내역을 삭제하시려면 비밀번호를 입력해주세요.");
+		mv.addObject("cancleLink", "/yomul/customer_qna/" + no);
+		return mv;
+	}
 }
