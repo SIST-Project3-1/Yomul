@@ -27,15 +27,27 @@ public class FileDAO {
 		return sqlSession.insert(namespace + ".uploadfile", vo);
 	}
 
+	/**
+	 * 작성된 글의 파일 목록을 받아서 ArrayList로 반환
+	 * 
+	 * @param no
+	 * @return
+	 */
+	public ArrayList<FileVO> getFileList(String no) {
+		List<FileVO> list = sqlSession.selectList(namespace + ".getfilelist", no);
+		return (ArrayList<FileVO>) list;
+	}
+
 	/** 게시글 파일 조회 **/
 	public ArrayList<String> getArticleFiles(String board, int no) {
 		List<String> list = sqlSession.selectList("mapper.file.selectArticleFiles", board + no);
 		return (ArrayList<String>) list;
 	}
-	
+
 	/** 게시글 파일 조회 **/
 	public ArrayList<String> getArticleFiles(String no) {
 		List<String> list = sqlSession.selectList("mapper.file.selectArticleFiles", no);
 		return (ArrayList<String>) list;
 	}
+
 }

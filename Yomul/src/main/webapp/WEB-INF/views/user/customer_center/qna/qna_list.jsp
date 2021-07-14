@@ -34,7 +34,10 @@
 
 	<!--  BODY  -->
 	<section id="qna_list">
-		<h3 class="my-5 mx-0 font-weight-bold">문의 내역</h3>
+		<h3 class="mt-3 font-weight-bold">문의 내역</h3>
+		<div class="text-right">
+			<a class="btn btn-yomul" href="/yomul/customer_qna/write">문의하기</a>
+		</div>
 		<ul class="list p-0">
 			<c:forEach var="qna" items="${qnaList}">
 				<li>

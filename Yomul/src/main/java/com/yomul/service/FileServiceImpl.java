@@ -23,4 +23,9 @@ public class FileServiceImpl implements FileService {
 	public ArrayList<String> getNoticeFiles(int no) {
 		return fileDAO.getArticleFiles("N", no);
 	}
+
+	@Override
+	public ArrayList<FileVO> getFileList(String no) {
+		return fileDAO.getFileList(no);
+	}
 }
