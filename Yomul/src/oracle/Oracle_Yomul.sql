@@ -131,14 +131,15 @@ CREATE TABLE YOMUL_NEAR_ARTICLES(
 
 -- 업체정보
 CREATE TABLE YOMUL_VENDORS(
-    NO VARCHAR2(10) CONSTRAINT NN_Y_V_NO NOT NULL CONSTRAINT U_Y_V_NO UNIQUE, --회원번호
-    NAME VARCHAR2(50), --업체명
+	NO VARCHAR2(10), -- 업체 번호
+    OWNER VARCHAR2(10) CONSTRAINT NN_Y_V_OWNER NOT NULL CONSTRAINT U_Y_V_OWNER UNIQUE, --회원번호
+    NAME VARCHAR2(50) CONSTRAINT NN_Y_V_NAME NOT NULL CONSTRAINT U_Y_V_NAME UNIQUE, --업체명
     CATEGORY VARCHAR2(20) CONSTRAINT NN_Y_V_CATEGORY NOT NULL, --카테고리 
     INFO VARCHAR2(200) CONSTRAINT NN_Y_V_INFO NOT NULL, --정보 
     TEL VARCHAR2(30) CONSTRAINT NN_Y_V_TEL NOT NULL, --전화번호 
     ADDR VARCHAR2(50) CONSTRAINT NN_Y_V_ADDR NOT NULL, --주소
-    CONSTRAINT PK_Y_V_NAME PRIMARY KEY (NAME),
-    CONSTRAINT FK_Y_V_NO FOREIGN KEY (NO) REFERENCES YOMUL_MEMBERS(NO)
+    CONSTRAINT PK_Y_V_NO PRIMARY KEY (NO),
+    CONSTRAINT FK_Y_V_OWNER FOREIGN KEY (OWNER) REFERENCES YOMUL_MEMBERS(NO)
 );
 
 -- 업체 소식 (업체명 이용하여 업체 프필이미지 가져오기)
@@ -246,13 +247,13 @@ CREATE TABLE YOMUL_FILES(
 CREATE TABLE YOMUL_COMMENTS(
   NO NUMBER(10), -- 댓글 번호 
   ARTICLE_NO VARCHAR2(10) CONSTRAINT NN_Y_CO_ARTICLE_NO NOT NULL, -- 작성된 게시글 번호
-  WRITER VARCHAR2(10) CONSTRAINT NN_Y_CO_EMAIL NOT NULL, -- 작성자 회원번호
+  WRITER VARCHAR2(10) CONSTRAINT NN_Y_CO_WRITER NOT NULL, -- 작성자 회원번호
   CONTENT VARCHAR2(1000) CONSTRAINT NN_Y_CO_CONTENT NOT NULL, -- 작성 내용
   WDATE DATE DEFAULT SYSDATE CONSTRAINT NN_Y_CO_WDATE NOT NULL, -- 작성일자
   LIKES NUMBER(10) DEFAULT 0 CONSTRAINT NN_Y_CO_LIKES NOT NULL CONSTRAINT C_Y_CO_LIKES CHECK (LIKES >= 0), -- 좋아요 수 
   REPORTS NUMBER(10) DEFAULT 0 CONSTRAINT NN_Y_CO_REPORTS NOT NULL CONSTRAINT C_Y_CO_REPORTS CHECK (REPORTS >= 0), -- 신고 수
   CONSTRAINT PK_Y_CO_NO PRIMARY KEY (NO),
-  CONSTRAINT FK_Y_CO_M_EMAIL FOREIGN KEY(WRITER) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
+  CONSTRAINT FK_Y_CO_M_WRITER FOREIGN KEY(WRITER) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
 );
 
 -- 게시글, 댓글 좋아요 테이블
@@ -429,11 +430,11 @@ INSERT INTO YOMUL_FILES(ARTICLE_NO, NO, FILENAME) VALUES('N1', 1, '이미지준�
 UPDATE YOMUL_NOTICES SET HITS = HITS + 1 WHERE NO = 'N2';
 
 -- 업체 데이터 생성
-INSERT INTO yomul_vendors(NO, NAME, CATEGORY, info, tel, addr, img)
-		VALUES('M1', '요물학원', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~', NULL);
-INSERT INTO yomul_vendors(NO, NAME, CATEGORY, info, tel, addr, img)
-		VALUES('M2', '요물학원2', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~', NULL);
-
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+		VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M1', '요물학원', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+		VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M2', '요물학원2', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+SELECT * FROM YOMUL_VENDORS;
 -- 내 근처 게시글 생성
 INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, NDATE, CHATCHECK, HITS)
 VALUES(CONCAT('N', YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL), 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', SYSDATE, 1, 0);
@@ -442,6 +443,53 @@ VALUES(CONCAT('N', YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL), 'M1', '제목입니다~'
 SELECT N.NO, M.NICKNAME AS WRITER, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS
 FROM YOMUL_NEAR_ARTICLES N, YOMUL_MEMBERS M
 WHERE N.WRITER = M.NO AND N.NO = 'N1';
+		
+-- 댓글 생성
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+values(yomul_comments_no_seq.nextval,  'N1', 'M2', '댓글입니다~', sysdate, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+VALUES(yomul_comments_no_seq.nextval,  'N1', 'M3', '댓글입니다~', SYSDATE, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+values(yomul_comments_no_seq.nextval,  'N1', 'M4', '댓글입니다~', sysdate, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+values(yomul_comments_no_seq.nextval,  'N1', 'M5', '댓글입니다~', sysdate, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+VALUES(yomul_comments_no_seq.nextval,  'N1', 'M6', '댓글입니다~', SYSDATE, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+VALUES(yomul_comments_no_seq.nextval,  'N1', 'M7', '댓글입니다~', SYSDATE, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+values(yomul_comments_no_seq.nextval,  'N1', 'M8', '댓글입니다~', sysdate, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+values(yomul_comments_no_seq.nextval,  'N1', 'M9', '댓글입니다~', sysdate, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+values(yomul_comments_no_seq.nextval,  'N1', 'M10', '댓글입니다~', sysdate, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+VALUES(yomul_comments_no_seq.nextval,  'N1', 'M11', '댓글입니다~', SYSDATE, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
+values(yomul_comments_no_seq.nextval,  'N1', 'M12', '댓글입니다~', sysdate, 0, 0);
+
+select * from yomul_comments;
+
+-- 댓글 목록 조회
+SELECT writer, content, wdate, likes
+FROM (SELECT rownum as rno, writer, content, wdate, likes
+	FROM (SELECT m.nickname AS writer, c.CONTENT, c.wdate, c.likes
+		FROM yomul_comments c, yomul_members m
+		ORDER BY c.NO)
+	WHERE ROWNUM <= 10 * 2)
+WHERE rno > 10 * (2 - 1);
+
+-- 댓글 갯수 확인
+select count(*)
+FROM yomul_comments
+WHERE article_no = 'N1'
+GROUP BY article_no;
+
+
+SELECT count(*)
+FROM yomul_vendor_customers
+WHERE NAME = '요물학원'
+group by no;
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 
 COMMIT;
