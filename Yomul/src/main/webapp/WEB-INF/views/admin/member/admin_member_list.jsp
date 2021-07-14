@@ -9,6 +9,8 @@
 <%@ include file="../../head.jsp"%>
 <script>
 	$(document).ready(function() {
+		getMemberList();
+
 		// 하단 버튼 클릭
 		$("button.btn-outline-yomul").on("click", function() {
 			var no = $("input[name='no']:checked").val();
@@ -17,23 +19,49 @@
 		});
 	});
 
+	// 회원 목록 로드
+	function getMemberList() {
+		$.ajax({
+			url : "/yomul/admin_member_list_ajax",
+			method : "GET",
+			dataType : "json",
+			contentType : "application/json; charset=UTF-8",
+			success : function(result) {
+				var html = "";
+				for (var i = 0; i < result.length; i++) {
+					var member = result[i];
+					html += '<tr>';
+					html += '	<td class="align-middle">';
+					html += '		<input type="radio" name="no" value="'+member.no+'"></input>';
+					html += '	</td>';
+					html += '	<td class="align-middle">' + member.email + '</td>';
+					html += '	<td class="align-middle">' + member.nickname + '</td>';
+					html += '	<td class="align-middle">' + member.phone + '</td>';
+					html += '	<td class="align-middle">' + member.mdate + '</td>';
+					html += '	<td class="align-middle">';
+					html += '		<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="'+member.no+'">탈퇴</button>';
+					html += '	</td>';
+					html += '</tr>';
+				}
+				$("tbody").html(html);
+			}
+		});
+	}
+
+	// 회원 삭제
 	function deleteMember() {
-		var no = $("#modal-no").text();
-		alert(no);
 
 		$.ajax({
-			url : "/yomul/admin/delete_member",
+			url : "/yomul/admin_delete_member",
 			method : "POST",
 			data : {
-				"no" : no
+				no : $("#modal-no").text()
 			},
-			async : false,
-			processData : false, // 필수 
-			contentType : false, // 필수
 			success : function(result) {
 				var json = JSON.parse(result);
 				if (json.result == 1) {
 					alert("회원 삭제 성공");
+					location.reload();
 				} else {
 					alert("회원 삭제 실패");
 				}
@@ -48,62 +76,67 @@
 
 	<!--  BODY  -->
 	<section id="admin_member_list">
-		<div class="list">
-			<div class="article">
-				<div class="container">
+		<div class="container">
+			<h2 class="my-3 mx-0">회원 관리</h2>
 
-					<!-- 검색창 -->
-					<form action="/yomul/admin_member_list" method="get">
-						<div class="input-group mt-3">
-							<div class="input-group-prepend">
-								<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 20; left: 23px; top: 8px;"></label>
-							</div>
-							<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search">
-						</div>
-					</form>
-
-					<h2 class="my-5 mx-0">회원 관리</h2>
-
-					<table class="table table-hover text-center">
-						<thead>
-							<tr>
-								<th scope="col" class="align-middle"></th>
-								<th scope="col" class="align-middle">E-mail</th>
-								<th scope="col" class="align-middle">닉네임</th>
-								<th scope="col" class="align-middle">이름</th>
-								<th scope="col" class="align-middle">전화번호</th>
-								<th scope="col" class="align-middle">가입일</th>
-								<th scope="col" class="align-middle">탈퇴</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="align-middle">
-									<input type="radio" name="no" value="Q1"></input>
-								</td>
-								<td class="align-middle">123@naver.com</td>
-								<td class="align-middle">정글차이</td>
-								<td class="align-middle">정글러</td>
-								<td class="align-middle">010-0000-0000</td>
-								<td class="align-middle">1972.11.21</td>
-								<td class="align-middle">
-									<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="Q1">탈퇴</button>
-
-								</td>
-							</tr>
-						</tbody>
-					</table>
-
-					<div class="text-right">
-						<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_member_list">물건보기</button>
-						<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_town_list">동네생활 글 보기</button>
-						<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_near_home">내근처 글 보기</button>
+			<!-- 검색창 -->
+			<form action="/yomul/admin_member_list" method="get">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 20; left: 23px; top: 8px;"></label>
 					</div>
+					<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search">
 				</div>
-			</div>
-		</div>
+			</form>
 
+
+			<table class="table table-hover text-center">
+				<thead>
+					<tr>
+						<th scope="col" class="align-middle"></th>
+						<th scope="col" class="align-middle">E-mail</th>
+						<th scope="col" class="align-middle">닉네임</th>
+						<th scope="col" class="align-middle">전화번호</th>
+						<th scope="col" class="align-middle">가입일</th>
+						<th scope="col" class="align-middle">탈퇴</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="align-middle">
+							<input type="radio" name="no" value="Q1"></input>
+						</td>
+						<td class="align-middle">123@naver.com</td>
+						<td class="align-middle">정글차이</td>
+						<td class="align-middle">정글러</td>
+						<td class="align-middle">010-0000-0000</td>
+						<td class="align-middle">1972.11.21</td>
+						<td class="align-middle">
+							<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="Q1">탈퇴</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
 	</section>
+
+	<br>
+	<br>
+	<nav class="navbar navbar-expand-sm bg-white fixed-bottom bg-white border-top">
+		<div class="collapse navbar-collapse" id="navbarText"></div>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_product_list">물건보기</button>
+			</li>
+			<li class="nav-item">
+				<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_town_list">동네생활 글 보기</button>
+			</li>
+			<li class="nav-item">
+				<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_near_home">내근처 글 보기</button>
+			</li>
+		</ul>
+	</nav>
 
 	<!-- Modal -->
 	<div class="modal fade" id="deleteModal" tabindex="-1">

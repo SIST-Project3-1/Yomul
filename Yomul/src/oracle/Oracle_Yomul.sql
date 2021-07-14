@@ -525,5 +525,11 @@ group by no;
 
 -- 관리자 페이지 시작----------------------------------------------------------------------------------------------------------------------------------
 
+-- 회원 목록 불러오기
+SELECT TO_NUMBER(SUBSTR(NO, 2)) AS RNO, NO, EMAIL, NICKNAME, NVL(PHONE, ' ') AS PHONE, MDATE FROM YOMUL_MEMBERS WHERE AUTHORITY = 'USER' ORDER BY RNO DESC;
+
+-- 회원 삭제
+DELETE FROM YOMUL_MEMBERS WHERE NO = 'M24';
+
 -- 관리자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
 COMMIT;

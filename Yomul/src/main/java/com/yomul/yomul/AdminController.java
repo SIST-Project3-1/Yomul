@@ -1,12 +1,27 @@
 package com.yomul.yomul;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.yomul.service.MemberService;
+import com.yomul.util.Commons;
+import com.yomul.vo.MemberVO;
 
 @Controller
 public class AdminController {
+
+	@Autowired
+	private MemberService memberService;
 
 	@RequestMapping(value = "admin_faq_list", method = RequestMethod.GET)
 	public String adminFaqList() {
@@ -53,9 +68,49 @@ public class AdminController {
 		return "admin/customer_center/qna/admin_qna_info";
 	}
 
+	/**
+	 * 회원 관리 페이지
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "admin_member_list", method = RequestMethod.GET)
 	public String adminMemberList() {
 		return "admin/member/admin_member_list";
+	}
+
+	/**
+	 * 회원 목록 JSON 형태
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "admin_member_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String admin_member_list_ajax(HttpServletRequest request) {
+//		HttpSession session = request.getSession();
+//		MemberVO member = (MemberVO) session.getAttribute("member");
+//		String authority = member.getAuthority();
+//		if(!authority.equals("ADMIN")) {
+//			return null;
+//		}
+		return Commons.parseJson(memberService.getMemberList());
+	}
+
+	/**
+	 * 회원 삭제 처리 결과 AJAX
+	 * 
+	 * @param no
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_delete_member", method = RequestMethod.POST)
+	public String admin_delete_member(MemberVO vo) {
+		System.out.println(vo.toStringJson());
+		int result = memberService.deleteMember(vo);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+
+		return Commons.parseJson(map);
 	}
 
 	@RequestMapping(value = "admin_near_home", method = RequestMethod.GET)

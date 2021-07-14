@@ -1,5 +1,8 @@
 package com.yomul.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,6 +18,27 @@ public class MemberDAO extends DAO {
 	private SqlSessionTemplate sqlSession;
 
 	private static String namespace = "mapper.member";
+
+	/**
+	 * 회원 삭제
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int deleteMember(MemberVO vo) {
+		System.out.println(vo.toStringJson());
+		return sqlSession.delete(namespace + ".deletemember", vo);
+	}
+
+	/**
+	 * 회원 목록 가져오기
+	 * 
+	 * @return
+	 */
+	public ArrayList<MemberVO> getMemberList() {
+		List<MemberVO> list = sqlSession.selectList(namespace + ".getmemberlist");
+		return (ArrayList<MemberVO>) list;
+	}
 
 	/**
 	 * 프로필 정보 가져오기
