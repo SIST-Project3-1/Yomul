@@ -31,4 +31,6 @@ public interface CustomerCenterService {
 	String getQnaHashsalt(QnaVO vo);
 
 	int deleteQna(QnaVO vo);
+	
+	int checkPw(QnaVO vo);
 }

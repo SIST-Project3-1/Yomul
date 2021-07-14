@@ -30,13 +30,23 @@ public class CustomerCenterDAO extends DAO {
 	}
 
 	/**
-	 * 삭제할 QnA의 HashSalt 가져오기
+	 * QnA 글의 HashSalt 가져오기
 	 * 
 	 * @param no
 	 * @return
 	 */
 	public String getQnaHashsalt(QnaVO vo) {
 		return sqlSession.selectOne(nameSpace + ".getqnahashsalt", vo);
+	}
+
+	/**
+	 * QnA 글 비밀번호 확인
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int checkPw(QnaVO vo) {
+		return sqlSession.selectOne(nameSpace + ".checkpw", vo);
 	}
 
 	/**

@@ -20,7 +20,8 @@
 					processData : false, // 필수 
 					contentType : false, // 필수
 					success : function(result) {
-						if (result == 1) {
+						var json = JSON.parse(result);
+						if (json.result == 1) {
 							alert("${successMsg}");
 							location.href = "${successLink}";
 						} else {

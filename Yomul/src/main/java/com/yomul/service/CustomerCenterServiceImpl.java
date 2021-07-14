@@ -78,7 +78,11 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	@Override
 	public int deleteQna(QnaVO vo) {
 		vo.setPw(Security.pwHashing(vo.getPw(), getQnaHashsalt(vo)));
-		System.out.println(vo.toStringDefault());
 		return customerCenterDAO.deleteQna(vo) == 1 ? 1 : 0;
+	}
+
+	@Override
+	public int checkPw(QnaVO vo) {
+		return customerCenterDAO.checkPw(vo) == 1 ? 1 : 0;
 	}
 }
