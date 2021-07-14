@@ -7,15 +7,24 @@
 <title>내 근처</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
-<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
 $(document).ready(function(){
 	// 게시글 번호 구하기
 	var no = $(location).attr("pathname").split("/").pop();
 	
+	// 단골일 경우 단골 버튼 색상 변경
 	$( "#btn_regular" ).on( "click", function() {
-		$("#btn_regular").css('color','white').css('background-color','rgb(255, 99, 95)');
+		// 로그인 기능 완성되면 ajax로 로그인한 유저를 해당 업체의 단골로 등록/해제하는 코드 넣어야 됨
+		
+		if($(this).val() == 'false') {
+			$(this).css('color','white').css('background-color','rgb(255, 99, 95)');
+			$(this).val("true")
+		}else {
+			$(this).css('color','gray').css('background-color','rgb(240, 244, 245)');
+			$(this).val("false")
+		}
+		
 	});
 	
 	// 댓글 페이지 이동
@@ -37,8 +46,9 @@ $(document).ready(function(){
 					for(var i=0;i<result.length;i++) {
 						cinfo = result[i];
 
+						//commentsHtml += "<div class='near-info-chat-content'>";
 						commentsHtml += "<div>";
-						commentsHtml += "	<img src=" + "/yomul/upload/" + cinfo.img + ">";
+						commentsHtml += "	<img src='/yomul/upload/" + cinfo.img + "'>";
 						commentsHtml += "	<div>";
 						commentsHtml += "		<label>" + cinfo.writer + "</label>";
 						commentsHtml += "		<span>" + cinfo.content + "</span>";
@@ -53,8 +63,10 @@ $(document).ready(function(){
 						commentsHtml += "		<button type='button' class='near-info-chat-report'>신고</button>";
 						commentsHtml += "	</div>";
 						commentsHtml += "</div>";
+						//commentsHtml += "</div>";
 					}
-					$("#comments").html(commentsHtml).trigger("pagecreate");
+					console.log(commentsHtml);
+					$("#comment_content_box").html(commentsHtml).trigger("pagecreate");
 				} else {
 					alert("댓글 페이지 이동 에러");
 				}
@@ -141,7 +153,7 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
-				<div id="comments" class="near-info-chat-content">
+				<div id="comment_content_box" class="near-info-chat-content">
 					<c:forEach var="cvo" items="${comments }">
 						<div>
 							<img src="/yomul/upload/${cvo.img }">
@@ -151,7 +163,6 @@ $(document).ready(function(){
 									<span>${cvo.content }</span>
 								</div>
 								<div>
-									<!-- <label>1시간 전</label> -->
 									<label>${cvo.wdate }</label>
 									<label class="near-info-point">·</label>
 									<button type="button" class="near-info-chat-like">좋아요 ${cvo.likes }</button>
@@ -177,7 +188,7 @@ $(document).ready(function(){
 			<div class="near-info-right-writer">
 				<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 				<label>${vo.writer }</label>
-				<button type="button" id="btn_regular"><p>+</p>단골<p>22</p></button>
+				<button type="button" id="btn_regular" value="false"><p>+</p>단골<p id="vcCount">${vendorCustomerCount }</p></button>
 			</div>
 			<div class="near-info-right-price">
 				<label>가격</label>

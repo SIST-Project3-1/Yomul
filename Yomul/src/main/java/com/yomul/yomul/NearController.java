@@ -20,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import com.yomul.dao.NearDAO;
 import com.yomul.service.CommentService;
 import com.yomul.service.NearService;
+import com.yomul.service.VendorService;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.CommentVO;
 import com.yomul.vo.NearVO;
@@ -32,6 +33,9 @@ public class NearController {
 	
 	@Autowired
 	private CommentService	commentService;
+	
+	@Autowired
+	private VendorService	vendorService;
 	
 	@Autowired
 	private NearDAO nearDAO;
@@ -93,10 +97,12 @@ public class NearController {
 			NearVO vo = nearService.getNearInfo(no);
 			ArrayList<CommentVO> comments = commentService.getCommentList("N" + no, 1);
 			int commentCount = commentService.getCommentCount("N" + no);
+			int vendorCustomerCount = vendorService.getVendorCustomerCount(vo.getVno());
 			
 			mv.setViewName("user/near/near_info");
 			mv.addObject("comments", comments);
 			mv.addObject("commentCount", commentCount);
+			mv.addObject("vendorCustomerCount", vendorCustomerCount);
 			mv.addObject("vo", vo);
 		} else { // 게시글이 없을 경우 에러페이지 이동
 			mv.setViewName("redirect:/user/error");
@@ -105,18 +111,33 @@ public class NearController {
 		return mv;
 	}
 	
-	// 댓글 페이지 이동
+	// 댓글 페이지 이동 ajax
 	@ResponseBody
 	@RequestMapping(value = "/near_info/comments", method = RequestMethod.GET, produces = "text/plain; charset=utf8")
 	public String near_info_comment(int no, int page) {
 		Gson gson = new GsonBuilder().create();
 		ArrayList<CommentVO> comments = commentService.getCommentList("N" + no, page);
 		
-		for(CommentVO vo : comments) {
-			System.out.println(vo.toStringJson());
+		// 댓글 정보를 json으로 변환한 뒤 반환
+		return gson.toJson(comments);
+	}
+	
+	// 아직 미완 로그인 기능 구현되면 구현한 예정
+	// 단골 등록 ajax
+	@ResponseBody
+	@RequestMapping(value = "/near_info/addVendorCustomer", method = RequestMethod.GET)
+	public String near_info_comment(String no, HttpServletRequest request) {
+		String vno = "";
+		String cno = "";
+		
+		int result = vendorService.addVendorCustomer(vno, cno);
+		
+		// 0일 경우 에러
+		if(result == 0) {
+			return "0";
 		}
 		
-		return gson.toJson(comments);
+		return String.valueOf(vendorService.getVendorCustomerCount(vno));
 	}
 
 	@RequestMapping(value = "/near_news_form", method = RequestMethod.GET)
