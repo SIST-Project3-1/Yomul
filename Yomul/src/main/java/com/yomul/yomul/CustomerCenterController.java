@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FileService;
+import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.util.Security;
 import com.yomul.vo.CategoryVO;
@@ -86,9 +87,7 @@ public class CustomerCenterController {
 	@RequestMapping(value = "customer_qna", method = RequestMethod.GET)
 	public ModelAndView qnaList() {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_list");
-
 		mv.addObject("qnaList", customerCenterService.getQnaList());
-
 		return mv;
 	}
 
@@ -96,17 +95,87 @@ public class CustomerCenterController {
 	@RequestMapping(value = "customer_qna/{no}", method = RequestMethod.GET)
 	public ModelAndView qnaInfo(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_info");
-
-		mv.addObject("qna", customerCenterService.getQnaInfo(no));
+		QnaVO vo = new QnaVO();
+		vo.setNo(no);
+		QnaVO qna = customerCenterService.getQnaInfo(vo);
+		if (qna.getSecret().equals("on")) {
+			mv.setViewName("forward:/customer_qna_check/" + no);
+			return mv;
+		}
+		mv.addObject("qna", qna);
 		mv.addObject("images", fileService.getFileList(no));
 		return mv;
+	}
+
+	/**
+	 * QnA 비밀글 보기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/customer_qna/{no}/{pw}", method = RequestMethod.GET)
+	public ModelAndView qnaInfo(@PathVariable("no") String no, @PathVariable("pw") String pw) {
+		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_info");
+		QnaVO vo = new QnaVO();
+		vo.setNo(no);
+		vo.setPw(pw);
+
+		if (customerCenterService.checkPw(vo) != 1) { // 비밀번호 확인
+			mv.setViewName("redirect:/customer_qna_check/" + vo.getNo());
+			return mv;
+		}
+		QnaVO qna = customerCenterService.getQnaInfo(vo);
+		mv.addObject("qna", qna);
+		mv.addObject("images", fileService.getFileList(vo.getNo()));
+		return mv;
+	}
+
+	/**
+	 * 문의내역 비밀 글 비밀번호 확인 페이지
+	 * 
+	 * @param no
+	 * @return
+	 */
+	@RequestMapping(value = "/customer_qna_check/{no}", method = RequestMethod.GET)
+	public ModelAndView customer_qna_check(@PathVariable("no") String no) {
+		ModelAndView mv = new ModelAndView("user/check_pw");
+
+		Map<String, Object> formData = new HashMap<String, Object>();
+		formData.put("no", no);
+
+		mv.addObject("title", "요물 비밀 글 확인");
+		mv.addObject("useAjax", true);
+		mv.addObject("url", "/yomul/customer_qna_check_proc");
+		mv.addObject("method", "POST");
+		mv.addObject("successMsg", "비밀번호가 일치합니다.");
+		mv.addObject("successLink", "/yomul/customer_qna/\"+json.vo.no+\"/\"+json.vo.pw+\"");
+		mv.addObject("failMsg", "비밀번호가 일치하지 않습니다.");
+		mv.addObject("formData", formData);
+		mv.addObject("bodyMsg", "문의내역을 확인하려면 비밀번호를 입력해주세요.");
+		mv.addObject("btnName", "확인");
+		mv.addObject("cancleLink", "/yomul/customer_qna");
+		return mv;
+	}
+
+	/**
+	 * 문의내역 비밀 글 비밀번호 확인 처리
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/customer_qna_check_proc", method = RequestMethod.POST)
+	public String customer_qna_check_proc(QnaVO vo) {
+		vo.setPw(Security.pwHashing(vo.getPw(), customerCenterService.getQnaHashsalt(vo)));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("vo", vo);
+		map.put("result", customerCenterService.checkPw(vo));
+		return Commons.parseJson(map);
 	}
 
 	// 문의 작성 페이지
 	@RequestMapping(value = "customer_qna/write", method = RequestMethod.GET)
 	public ModelAndView qnaWrite() {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_write");
-
 		mv.addObject("categories", customerCenterService.getQnaCategories());
 		return mv;
 	}
@@ -127,7 +196,6 @@ public class CustomerCenterController {
 
 		// 작성될 글 번호 가져오기
 		vo.setNo(customerCenterService.getNextQnaNo());
-		System.out.println("컨트롤라ㅣ :" + vo.toStringDefault());
 		int result = customerCenterService.writeQna(vo);
 
 		if (result == 1 && vo.getFile().getSize() != 0) { // 글 작성에 성공하면 파일 업로드
@@ -161,7 +229,9 @@ public class CustomerCenterController {
 		formData.put("no", no);
 
 		mv.addObject("title", "요물 문의내역 삭제");
-		mv.addObject("ajaxLink", "/yomul/qna_delete_proc");
+		mv.addObject("useAjax", true);
+		mv.addObject("url", "/yomul/qna_delete_proc");
+		mv.addObject("method", "POST");
 		mv.addObject("successMsg", "문의내역 삭제에 성공했습니다.");
 		mv.addObject("successLink", "/yomul/customer_qna");
 		mv.addObject("failMsg", "문의내역 삭제에 실패했습니다.");
@@ -169,6 +239,7 @@ public class CustomerCenterController {
 		mv.addObject("bodyMsg", "문의 내역을 삭제하시려면 비밀번호를 입력해주세요.");
 		mv.addObject("btnName", "삭제");
 		mv.addObject("cancleLink", "/yomul/customer_qna/" + no);
+
 		return mv;
 	}
 
@@ -180,6 +251,9 @@ public class CustomerCenterController {
 	@ResponseBody
 	@RequestMapping(value = "/qna_delete_proc", method = RequestMethod.POST)
 	public String qna_delete_proc(QnaVO vo) {
-		return String.valueOf(customerCenterService.deleteQna(vo));
+		int result = customerCenterService.deleteQna(vo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+		return Commons.parseJson(map);
 	}
 }

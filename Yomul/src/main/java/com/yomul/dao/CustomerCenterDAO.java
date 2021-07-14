@@ -30,13 +30,23 @@ public class CustomerCenterDAO extends DAO {
 	}
 
 	/**
-	 * 삭제할 QnA의 HashSalt 가져오기
+	 * QnA 글의 HashSalt 가져오기
 	 * 
 	 * @param no
 	 * @return
 	 */
 	public String getQnaHashsalt(QnaVO vo) {
 		return sqlSession.selectOne(nameSpace + ".getqnahashsalt", vo);
+	}
+
+	/**
+	 * QnA 글 비밀번호 확인
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int checkPw(QnaVO vo) {
+		return sqlSession.selectOne(nameSpace + ".checkpw", vo);
 	}
 
 	/**
@@ -49,8 +59,8 @@ public class CustomerCenterDAO extends DAO {
 		return (ArrayList<QnaVO>) list;
 	}
 
-	public QnaVO getQnaInfo(String no) {
-		return sqlSession.selectOne(nameSpace + ".getqnainfo", no);
+	public QnaVO getQnaInfo(QnaVO vo) {
+		return sqlSession.selectOne(nameSpace + ".getqnainfo", vo);
 	}
 
 	/**
@@ -69,8 +79,6 @@ public class CustomerCenterDAO extends DAO {
 	 * @return
 	 */
 	public int writeQna(QnaVO vo) {
-		System.out.println(vo.toStringDefault());
-		System.out.println("file: " + vo.getFile().getOriginalFilename());
 		return sqlSession.insert(nameSpace + ".writeqna", vo);
 	}
 
