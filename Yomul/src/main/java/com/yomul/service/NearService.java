@@ -9,7 +9,7 @@ public interface NearService {
 	public int getNearWrite(NearVO vo);
 	
 	//내 근처 홈 화면 보기
-	public List<NearVO> selectNearList();
+	public List<NearVO> selectNearList(NearVO vo);
 	
 	// 내 근처 게시글 상세보기
 	public NearVO getNearInfo(int no);

@@ -20,7 +20,7 @@ public class NearDAO extends DAO{
 		int result = -2;
 		
 		try {
-			String sql = "INSERT INTO NEARS(NO,TITLE,CATEGORY,PRICE,HP,CONTENT,NDATE,CHATCHECK) VALUES(NEAR_NO_SEQ.NEXTVAL,?,?,?,?,?,SYSDATE,?) ";
+			String sql = "INSERT INTO YOMUL_NEAR_ARTICLES(NO,WRITER,TITLE,CATEGORY,PRICE,HP,CONTENT,NDATE,CHATCHECK,HITS) VALUES(YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL,'M1',?,?,?,?,?,SYSDATE,?,0) ";
 			getPreparedStatement(sql);
 			
 			pstmt.setString(1, vo.getTitle());
@@ -31,6 +31,7 @@ public class NearDAO extends DAO{
 			pstmt.setInt(6, vo.getChatCheck());
 			
 			result = pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,7 +40,7 @@ public class NearDAO extends DAO{
 	}
 	
 	//내 근처 홈 글 보기
-	public List<NearVO> getList(){
+	public List<NearVO> getList(NearVO vo){
 		return sqlSession.selectList(nameSpace + ".selectNearList");
 	}
 	
@@ -59,7 +60,7 @@ public class NearDAO extends DAO{
 		int result = -2;
 		
 		try {
-			String sql = "INSERT INTO YOMUL_FILES(ARTICLE_NO,NO,FILENAME) VALUES(?,YOMUL_FILES_NO_SEQ.NEXTVAL,?) ";
+			String sql = "INSERT INTO YOMUL_FILES(ARTICLE_NO,NO,FILENAME) VALUES(?,YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL,?) ";
 			getPreparedStatement(sql);
 			
 			

@@ -40,13 +40,13 @@ public class NearController {
 	private FileUtils fileUploadService;
 
 	@RequestMapping(value = "/near_home", method = RequestMethod.GET)
-	public ModelAndView near_home() {
+	public ModelAndView near_home(NearVO vo) {
 		ModelAndView mv = new ModelAndView();
-
+		List<NearVO> list = nearService.selectNearList(vo);
 		String keyword[] = { "부동산", "카페", "요가", "휴대폰", "마사지", "미용실", "왁싱" };
 
 		mv.addObject("keyword", keyword);
-		mv.addObject("list", nearService.selectNearList());
+		mv.addObject("list", list);
 		mv.setViewName("user/near/near_home");
 
 		return mv;
@@ -63,8 +63,10 @@ public class NearController {
 
 		ModelAndView mv = new ModelAndView();
 		int fileCount = fileUploadService.getUploadedCount(files);
-		String url = fileUploadService.restore(files, nearDAO, request);
-		mv.addObject("url", url);
+		if(fileCount !=0) {
+			String url = fileUploadService.restore(files, nearDAO, request);			
+			mv.addObject("url", url);
+		}
 		mv.addObject("fileCount", fileCount);
 		int result = nearDAO.getNearWrite(vo);
 

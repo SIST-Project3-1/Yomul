@@ -6,11 +6,13 @@
 
 <mapper namespace="mapper.near">
 
-	<!-- 내 근처 홈 화면 글 보기 -->
-		<select id="selectNearList">
-			select no, title, content, writer, ndate from yomul_near_articles order by ndate desc;
-		</select>
-
+		<!-- 내 근처 홈 화면 글 보기 -->
+	<select id="selectNearList" resultType="com.yomul.vo.NearVO">
+		select * from (select no, title, content, writer, ndate from yomul_near_articles order by ndate desc) 
+		<!-- 부등호 인식 -->
+		<![CDATA[where rownum <= 3]]>
+	</select>
+	
 	
 	<!-- 내 근처 게시글 상세보기 -->
 	<select id="selectNearInfo" resultType="com.yomul.vo.NearVO" parameterType="java.lang.String">
