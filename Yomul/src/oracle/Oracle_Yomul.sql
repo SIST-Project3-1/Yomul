@@ -2,6 +2,10 @@
 -- '제약조건 축약어'_Y_'자기테이블 축약어'_['상대테이블 축약어']_속성명
 
 -- DB 초기화
+-- 뷰 삭제
+DROP VIEW V_Y_COMMENTS_LIKE_COUNT;
+DROP VIEW V_Y_COMMENTS_REPORT_COUNT;
+DROP VIEW V_Y_COMMENTS;
 -- 테이블 삭제----------------------------------------------------------------------------------------------------------------------------------
 DROP TABLE YOMUL_MEMBERS CASCADE CONSTRAINTS;
 DROP TABLE YOMUL_PRODUCTS CASCADE CONSTRAINTS;
@@ -252,7 +256,7 @@ CREATE TABLE YOMUL_FILES(
 
 -- 댓글
 CREATE TABLE YOMUL_COMMENTS(
-  NO NUMBER(10), -- 댓글 번호 
+  NO VARCHAR2(10), -- 댓글 번호
   ARTICLE_NO VARCHAR2(10) CONSTRAINT NN_Y_CO_ARTICLE_NO NOT NULL, -- 작성된 게시글 번호
   WRITER VARCHAR2(10) CONSTRAINT NN_Y_CO_WRITER NOT NULL, -- 작성자 회원번호
   CONTENT VARCHAR2(1000) CONSTRAINT NN_Y_CO_CONTENT NOT NULL, -- 작성 내용
@@ -279,6 +283,34 @@ CREATE TABLE YOMUL_REPORTS(
     CONSTRAINT FK_Y_R_M_MEMBER_NO FOREIGN KEY (MEMBER_NO) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
 );
 -- 테이블 생성 끝----------------------------------------------------------------------------------------------------------------------------------
+
+-- 뷰 생성 ---------------------------------------------------------------------------------------------------------------------------------------
+-- 댓글 좋아요 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_COMMENTS_LIKE_COUNT
+AS
+SELECT C.NO, COUNT(L.ARTICLE_NO) LIKES
+FROM YOMUL_COMMENTS C, YOMUL_LIKES L
+WHERE C.NO = L.ARTICLE_NO(+)
+GROUP BY C.NO, L.ARTICLE_NO
+WITH READ ONLY;
+
+-- 댓글 신고 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_COMMENTS_REPORT_COUNT
+AS
+SELECT C.NO, COUNT(R.ARTICLE_NO) REPORTS
+FROM YOMUL_COMMENTS C, YOMUL_REPORTS R
+WHERE C.NO = R.ARTICLE_NO(+)
+GROUP BY C.NO, R.ARTICLE_NO
+WITH READ ONLY;
+
+-- 댓글 정보 뷰 생성
+CREATE NOFORCE VIEW V_Y_COMMENTS
+AS
+SELECT C.NO, C.ARTICLE_NO, C.WRITER, C.CONTENT, C.WDATE, L.LIKES, R.REPORTS
+FROM YOMUL_COMMENTS C, V_Y_COMMENTS_LIKE_COUNT L, V_Y_COMMENTS_REPORT_COUNT R
+WHERE C.NO = L.NO AND C.NO = R.NO;
+
+-- 뷰 생성 끝 ---------------------------------------------------------------------------------------------------------------------------------------
 
 -- 시퀀스 생성----------------------------------------------------------------------------------------------------------------------------------
 -- 회원 번호 시퀀스 생성, 1부터 시작, 1씩 증가, 메모리에 미리 올려 놓을 인덱스 개수 2
@@ -482,27 +514,27 @@ WHERE N.WRITER = V.OWNER AND N.NO = 'N1';
 
 -- 댓글 생성
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M2', '댓글입니다~', sysdate, 0, 0);
+values('C'||yomul_comments_no_seq.nextval,  'N1', 'M2', '댓글입니다~', sysdate, 0, 0);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-VALUES(yomul_comments_no_seq.nextval,  'N1', 'M3', '댓글입니다~', SYSDATE, 0, 0);
+VALUES('C'||yomul_comments_no_seq.nextval,  'N1', 'M3', '댓글입니다~', SYSDATE, 0, 0);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M4', '댓글입니다~', sysdate, 0, 0);
+VALUES('C'||yomul_comments_no_seq.nextval,  'N1', 'M4', '댓글입니다~', SYSDATE, 0, 0);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M5', '댓글입니다~', sysdate, 0, 0);
+values('C'||yomul_comments_no_seq.nextval,  'N1', 'M5', '댓글입니다~', sysdate, 0, 0);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-VALUES(yomul_comments_no_seq.nextval,  'N1', 'M6', '댓글입니다~', SYSDATE, 0, 0);
+VALUES('C'||yomul_comments_no_seq.nextval,  'N1', 'M6', '댓글입니다~', SYSDATE, 0, 0);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-VALUES(yomul_comments_no_seq.nextval,  'N1', 'M7', '댓글입니다~', SYSDATE, 0, 0);
+VALUES('C'||yomul_comments_no_seq.nextval,  'N1', 'M7', '댓글입니다~', SYSDATE, 0, 0);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M8', '댓글입니다~', sysdate, 0, 0);
+values('C'||yomul_comments_no_seq.nextval,  'N1', 'M8', '댓글입니다~', sysdate, 0, 0);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M9', '댓글입니다~', sysdate, 0, 0);
+values('C'||yomul_comments_no_seq.nextval,  'N1', 'M9', '댓글입니다~', sysdate, 0, 0);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M10', '댓글입니다~', sysdate, 0, 0);
+VALUES('C'||yomul_comments_no_seq.nextval,  'N1', 'M10', '댓글입니다~', SYSDATE, 0, 0);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-VALUES(yomul_comments_no_seq.nextval,  'N1', 'M11', '댓글입니다~', SYSDATE, 0, 0);
+VALUES('C'||yomul_comments_no_seq.nextval,  'N1', 'M11', '댓글입니다~', SYSDATE, 0, 0);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M12', '댓글입니다~', sysdate, 0, 0);
+values('C'||yomul_comments_no_seq.nextval,  'N1', 'M12', '댓글입니다~', sysdate, 0, 0);
 
 -- 댓글 목록 조회
 SELECT writer, CONTENT, wdate, likes, img
@@ -539,6 +571,8 @@ group by vendor_no;
 -- 좋아요 추가
 INSERT into yomul_likes(article_no, member_no)
 values('V1', 'M2');
+INSERT INTO yomul_likes(article_no, member_no)
+values('C1', 'M2');
 
 -- 좋아요 취소
 DELETE FROM yomul_likes
@@ -547,8 +581,24 @@ WHERE article_no = 'V1' AND member_no = 'M2';
 -- 좋아요 수 확인
 select count(*)
 FROM yomul_likes
-WHERE article_no = 'V1'
-group by article_no;
+WHERE article_no = 'C1'
+GROUP BY article_no;
+
+-- 신고 추가
+INSERT INTO yomul_reports(article_no, MEMBER_NO)
+values('C1', 'M3');
+INSERT INTO yomul_reports(article_no, MEMBER_NO)
+values('C1', 'M4');
+INSERT INTO yomul_reports(article_no, MEMBER_NO)
+values('C1', 'M5');
+INSERT INTO yomul_reports(article_no, MEMBER_NO)
+values('C2', 'M3');
+
+-- 특정 게시글의 댓글의 좋아요 수 구하기
+SELECT c.NO, count(l.article_no) likes, count(r.ARTICLE_NO) reports
+FROM yomul_comments c, yomul_likes l, yomul_reports r
+WHERE c.article_no = 'N1' AND c.NO = l.article_no(+) AND c.NO = r.ARTICLE_NO(+)
+GROUP BY c.NO, l.article_no, r.ARTICLE_NO;
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 

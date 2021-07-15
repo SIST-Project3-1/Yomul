@@ -48,7 +48,7 @@ function clickLike(btn) {
 	var likeCount = btn.html();
 	
 	$.ajax({
-		url : "/yomul/near_info/like?no=" + no,
+		url : "/yomul/near_info/insert_like?no=" + no,
 		method : "GET",
 		success : function(result) {
 			if (result == -1) { // 추천 실패
@@ -68,7 +68,7 @@ function clickReport(btn) {
 	var no = btn.val();
 	
 	$.ajax({
-		url : "/yomul/near_info/report?no=" + no,
+		url : "/yomul/near_info/insert_report?no=" + no,
 		method : "GET",
 		success : function(result) {
 			if (result == -1) { // 신고 실패
@@ -327,7 +327,7 @@ function parseCommentPage(pageInfo) {
 		<!--  작성자 정보  -->
 		<div class="near-info-right" id="near_info_right">
 			<div class="near-info-right-writer">
-				<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+				<img src="http://localhost:9000/yomul/upload/default.jpg">
 				<label>${vo.writer }</label>
 				<button type="button" id="btn_regular" value="false"><p>+</p>단골<p id="vcCount">${vendorCustomerCount }</p></button>
 			</div>
