@@ -2,7 +2,7 @@ package com.yomul.vo;
 
 public class TownVO extends VO {
 
-	private String no, category, title, content, tdate, name; // 게시글 번호, 카테고리, 제목, 내용, 작성일자, 작성자
+	private String no, category, title, content, tdate, writer; // 게시글 번호, 카테고리, 제목, 내용, 작성일자, 작성자
 	private int hits; // 조회수
 
 	public String getNo() {
@@ -45,12 +45,12 @@ public class TownVO extends VO {
 		this.tdate = tdate;
 	}
 
-	public String getName() {
-		return name;
+	public String getWriter() {
+		return writer;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 
 	public int getHits() {
