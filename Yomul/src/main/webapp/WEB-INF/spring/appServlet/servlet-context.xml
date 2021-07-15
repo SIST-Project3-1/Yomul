@@ -18,7 +18,6 @@
 	<resources mapping="/upload/**" location="/resources/upload/" />
 	<resources mapping="/texteditor/**" location="/resources/texteditor/" />
 
-
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
@@ -28,16 +27,6 @@
 	<!-- multipartResolver -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	</beans:bean>
-
-
-
-	<!-- DAO Object -->
-	<beans:bean id="nearDAO" class="com.yomul.dao.NearDAO"></beans:bean>
-	<beans:bean id="memberDAO" class="com.yomul.dao.MemberDAO"></beans:bean>
-	<beans:bean id="customerCenterDAO" class="com.yomul.dao.CustomerCenterDAO"></beans:bean>
-	<beans:bean id="vendorDAO" class="com.yomul.dao.VendorDAO"></beans:bean>
-	<beans:bean id="fileDAO" class="com.yomul.dao.FileDAO"></beans:bean>
-	<beans:bean id="commentDAO" class="com.yomul.dao.CommentDAO"></beans:bean>
 
 	<!-- Service Object -->
 	<beans:bean id="nearService" class="com.yomul.service.NearServiceImplement"></beans:bean>
