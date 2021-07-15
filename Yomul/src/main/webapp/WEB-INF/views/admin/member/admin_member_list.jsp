@@ -9,7 +9,8 @@
 <%@ include file="../../head.jsp"%>
 <script>
 	$(document).ready(function() {
-		getMemberList();
+		loadMemberList(${page});
+		loadPagination(${page});
 
 		// 하단 버튼 클릭
 		$("button.btn-outline-yomul").on("click", function() {
@@ -19,11 +20,29 @@
 		});
 	});
 
+	function loadPagination(page) {
+		var total = ${totalPage};
+		var start = (page % 10 == 0) ? (Math.floor(page / 10) - 1) * 10 + 1 : Math.floor(page / 10) * 10 + 1;
+		var end = (start + 9 > total) ? total : page + 9;
+		var html = "";
+		for (var i = start; i <= end && i <= total; i++) {
+			html += '<li id="' + i + '" class="page-item">';
+			html += '<a class="page-link" href="/yomul/admin_member_list?page=' + i + '">' + i + '</a>';
+			html += '</li>';
+		}
+		$("#page-prev").after(html);
+
+		$("li#" + page + ".page-item").addClass("active");
+	}
+
 	// 회원 목록 로드
-	function getMemberList() {
+	function loadMemberList(page) {
 		$.ajax({
 			url : "/yomul/admin_member_list_ajax",
 			method : "GET",
+			data : {
+				"page" : page
+			},
 			dataType : "json",
 			contentType : "application/json; charset=UTF-8",
 			success : function(result) {
@@ -34,6 +53,7 @@
 					html += '	<td class="align-middle">';
 					html += '		<input type="radio" name="no" value="'+member.no+'"></input>';
 					html += '	</td>';
+					html += '	<td class="align-middle">' + member.no + '</td>';
 					html += '	<td class="align-middle">' + member.email + '</td>';
 					html += '	<td class="align-middle">' + member.nickname + '</td>';
 					html += '	<td class="align-middle">' + member.phone + '</td>';
@@ -94,6 +114,7 @@
 				<thead>
 					<tr>
 						<th scope="col" class="align-middle"></th>
+						<th scope="col" class="align-middle">번호</th>
 						<th scope="col" class="align-middle">E-mail</th>
 						<th scope="col" class="align-middle">닉네임</th>
 						<th scope="col" class="align-middle">전화번호</th>
@@ -102,24 +123,28 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td class="align-middle">
-							<input type="radio" name="no" value="Q1"></input>
-						</td>
-						<td class="align-middle">123@naver.com</td>
-						<td class="align-middle">정글차이</td>
-						<td class="align-middle">정글러</td>
-						<td class="align-middle">010-0000-0000</td>
-						<td class="align-middle">1972.11.21</td>
-						<td class="align-middle">
-							<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="Q1">탈퇴</button>
-						</td>
-					</tr>
+					<!-- 데이터 들어갈 자리 -->
 				</tbody>
 			</table>
 
 		</div>
 	</section>
+
+	<!-- 페이지네이션 -->
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			<li id="page-prev" class="page-item">
+				<a class="page-link" href="#" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			<li class="page-item">
+				<a class="page-link" href="#" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
 
 	<br>
 	<br>
@@ -127,13 +152,13 @@
 		<div class="collapse navbar-collapse" id="navbarText"></div>
 		<ul class="navbar-nav">
 			<li class="nav-item">
-				<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_product_list">물건보기</button>
+				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_product_list">물건보기</button>
 			</li>
 			<li class="nav-item">
-				<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_town_list">동네생활 글 보기</button>
+				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_town_list">동네생활 글 보기</button>
 			</li>
 			<li class="nav-item">
-				<button type="button" class="btn btn-outline-yomul" data-link="/yomul/admin_near_home">내근처 글 보기</button>
+				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_near_home">내근처 글 보기</button>
 			</li>
 		</ul>
 	</nav>

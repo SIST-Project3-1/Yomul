@@ -15,20 +15,47 @@
 	</delete>
 
 	<!-- 회원 목록 가져오기 -->
-	<select id="getmemberlist" resultType="com.yomul.vo.MemberVO">
-		SELECT 
-			  TO_NUMBER(SUBSTR(NO, 2)) AS RNO
+	<select id="getmemberlist" parameterType="_int" resultType="com.yomul.vo.MemberVO">
+		SELECT
+			  RNO
 			, NO
 			, EMAIL
 			, NICKNAME
-			, NVL(PHONE, ' ') AS PHONE
-			, MDATE 
+			, PHONE
+			, MDATE
 		FROM
-			YOMUL_MEMBERS 
+		(
+			SELECT
+				ROWNUM AS RNO
+				, M.*
+			FROM
+			(
+				SELECT
+					  TO_NUMBER(SUBSTR(NO, 2)) AS NO_NUM
+					, NO
+					, EMAIL
+					, NICKNAME
+					, NVL(PHONE, ' ') AS PHONE
+					, MDATE 
+				FROM
+					YOMUL_MEMBERS 
+				WHERE
+					AUTHORITY = 'USER' 
+				ORDER BY
+					NO_NUM DESC
+			) M
+		)
 		WHERE
-			AUTHORITY = 'USER' 
-		ORDER BY
-			RNO DESC
+				RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
+	</select>
+	
+	<!-- 회원 목록 페이지 수 가져오기 -->
+	<select id="gettotalpagecount" resultType="_int">
+		SELECT
+			CEIL(COUNT(*)/10) TOTAL_PAGE
+		FROM
+			YOMUL_MEMBERS
 	</select>
 	
 	<!-- 회원가입 -->
