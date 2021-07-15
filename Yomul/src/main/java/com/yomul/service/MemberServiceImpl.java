@@ -62,7 +62,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public ArrayList<MemberVO> getMemberList(int page) {
-		return memberDAO.getMemberList(page);
+	public ArrayList<MemberVO> getMemberList(int page, String search) {
+		return memberDAO.getMemberList(page, search);
 	}
 
 	@Override
@@ -71,8 +72,9 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int getTotalPageCount() {
-		return memberDAO.getTotalPageCount();
+	public int getTotalPageCount(String search) {
+		return memberDAO.getTotalPageCount(search);
 	}
+
 
 }

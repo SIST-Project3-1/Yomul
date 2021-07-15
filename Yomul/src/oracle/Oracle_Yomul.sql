@@ -528,8 +528,18 @@ group by vendor_no;
 
 -- 관리자 페이지 시작----------------------------------------------------------------------------------------------------------------------------------
 
--- 회원 목록 불러오기
-SELECT TO_NUMBER(SUBSTR(NO, 2)) AS RNO, NO, EMAIL, NICKNAME, NVL(PHONE, ' ') AS PHONE, MDATE FROM YOMUL_MEMBERS WHERE AUTHORITY = 'USER' ORDER BY RNO DESC;
+
+-- 회원 검색 페이지당 10개씩
+SELECT RNO, NO, EMAIL, NICKNAME, PHONE, MDATE
+FROM ( SELECT ROWNUM AS RNO, M.*
+            FROM ( SELECT TO_NUMBER(SUBSTR(NO, 2)) AS NO_NUM, NO, EMAIL, NICKNAME, NVL(PHONE, ' ') AS PHONE, MDATE 
+                        FROM YOMUL_MEMBERS 
+                        WHERE LOWER(NICKNAME) LIKE(LOWER('%hwisaek%')) OR LOWER(EMAIL) LIKE(LOWER('%HWISAEK%'))
+                        ORDER BY NO_NUM DESC) M)
+WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
+
+-- 검색된 회원 총 페이지 수 구하기
+SELECT CEIL(COUNT(*)/10) TOTAL_PAGE FROM YOMUL_MEMBERS WHERE NICKNAME LIKE('%' || 'hwisaek' || '%') OR EMAIL LIKE('%' || 'hwisaek' || '%');
 
 -- 회원 삭제
 DELETE FROM YOMUL_MEMBERS WHERE NO = 'M24';
