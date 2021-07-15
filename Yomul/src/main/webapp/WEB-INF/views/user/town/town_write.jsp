@@ -43,16 +43,17 @@
 	border:1px lightgray solid;
 }
 .town-write-img {
-	border:1px red solid;
+	/*border:1px red solid;*/
 	margin-top:20px;
 	display:flex;
 	align-items: center;
     flex-direction: column;
 }
-.town-write-img button{
-	width:400px; height:400px;
+.town-write-img div{
+	width:100%; height:150px;
 	border:1px lightgray dashed;
 	border-radius:10px;
+	background-color: lightgrey;
 	display:flex;
     flex-direction:column;
     justify-content:center;
@@ -60,13 +61,15 @@
 }
 .town-write-img svg{
 	color:gray;
+	width:30px; height:30px;
 }
-.town-write-img span:nth-child(2){
+.town-write-img label:nth-child(2){
 	color:gray;
 	font-weight:bold;
 	font-size:15px;
+	cursor: pointer;
 }
-.town-write-img span:last-child{
+.town-write-img label:last-child{
 	color:gray;
 	font-size:13px;
 }
@@ -89,6 +92,11 @@
 .town-write-btn button:first-child{
 	margin-right:25px;
 }
+.town-write-img-view {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 </style>
 <script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -106,7 +114,8 @@ function fileUpload(fis) {
 	// 이미지를 변경한다.
 	var reader = new FileReader();
 	reader.onload = function(e) {
-		$('#profile_img_img').attr('src', e.target.result);
+		$('#file_img').attr('src', e.target.result);
+		$('#img_file').css('display','none');
 	}
 	reader.readAsDataURL(fis.files[0]);
 }
@@ -121,7 +130,7 @@ function fileUpload(fis) {
 
 	<!--  BODY  -->
 	<div id="town_write" class="town-write-content">
-		<form id="town_write_form" name="town_write_form" action="town_write_proc" method="post">
+		<form id="town_write_form" name="town_write_form" action="town_write_proc" method="get">
 			<!-- 카테고리 & 제목 -->
 			<div class="town-write-top">
 				<select name="category" id="category" class="town-write-category" required>
@@ -141,23 +150,23 @@ function fileUpload(fis) {
 			
 			<!-- 본문 -->
 			<div class="town-write-text">
-				<textarea placeholder="우리 동네 관련된 질문이나 이야기를 해보세요" required></textarea>
+				<textarea name="content" placeholder="우리 동네 관련된 질문이나 이야기를 해보세요" required></textarea>
 			</div>
 			
 			<!-- 사진 -->
 			<div class="town-write-img">
-				<button type="button" onclick="document.getElementById('file').click();">
+				<div id="img_file" for="file">
 					<svg  class="" width="48" height="48" viewBox="0 0 48 48" fill="currentColor" preserveAspectRatio="xMidYMid meet">
 					<path d="M11.952 9.778l2.397-5.994A1.778 1.778 0 0 1 16 2.667h16c.727 0 1.38.442 1.65 1.117l2.398 5.994h10.174c.982 0 1.778.796 1.778 1.778v32c0 .981-.796 1.777-1.778 1.777H1.778A1.778 1.778 0 0 1 0 43.556v-32c0-.982.796-1.778 1.778-1.778h10.174zM24 38c6.075 0 11-4.925 11-11s-4.925-11-11-11-11 4.925-11 11 4.925 11 11 11z"></path>
 					</svg>
-					<span>사진 올리기</span>
-					<span>(*최대 5장까지)</span>
-				</button>
-				<input type="file" id="file" style="display:none" onchange="fileUpload(this)" >
+					<label for="file">사진 올리기</label>
+					<label>(*최대 5장까지)</label>
+				</div>
+				<input type="file" id="file" name="file" style="display:none" onchange="fileUpload(this)">
 			</div>
-			
-			<label class="input-file-button" for="input-file" style="white-space: nowrap;"> 사진 </label>
-			<input type="file" id="input-file" style="display: none" onchange="fileUpload(this)">
+			<div class="town-write-img-view">
+				<img src="" id="file_img">
+			</div>
 			
 			<!-- 버튼 -->
 			<div class="town-write-btn">
