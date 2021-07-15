@@ -15,7 +15,7 @@
 	</delete>
 
 	<!-- 회원 목록 가져오기 -->
-	<select id="getmemberlist" parameterType="_int" resultType="com.yomul.vo.MemberVO">
+	<select id="getmemberlist" parameterType="map" resultType="com.yomul.vo.MemberVO">
 		SELECT
 			  RNO
 			, NO
@@ -40,7 +40,8 @@
 				FROM
 					YOMUL_MEMBERS 
 				WHERE
-					AUTHORITY = 'USER' 
+						LOWER(NICKNAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+					OR  LOWER(EMAIL) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
 				ORDER BY
 					NO_NUM DESC
 			) M
@@ -51,11 +52,14 @@
 	</select>
 	
 	<!-- 회원 목록 페이지 수 가져오기 -->
-	<select id="gettotalpagecount" resultType="_int">
+	<select id="gettotalpagecount" parameterType="string" resultType="_int">
 		SELECT
 			CEIL(COUNT(*)/10) TOTAL_PAGE
 		FROM
 			YOMUL_MEMBERS
+		WHERE
+				LOWER(NICKNAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+			OR  LOWER(EMAIL) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
 	</select>
 	
 	<!-- 회원가입 -->

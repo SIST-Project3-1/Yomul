@@ -3,6 +3,7 @@ package com.yomul.vo;
 public class NearVO extends VO {
 
 	private String no; // 게시글 번호
+	private String vno; // 작성 업체 번호
 	private int price; // 게시글 등록 가격
 	private int chatCheck; // 채팅 여부
 	private int hits; // 조회수
@@ -11,7 +12,7 @@ public class NearVO extends VO {
 	private String hp; // 게시글 전화번호
 	private String content; // 게시글 내용
 	private String ndate; // 게시글 등록 일자
-	private String writer; // 작성자
+	private String writer; // 작성 업체
 
 	public String getNo() {
 		return no;
@@ -19,6 +20,14 @@ public class NearVO extends VO {
 
 	public void setNo(String no) {
 		this.no = no;
+	}
+	
+	public String getVno() {
+		return vno;
+	}
+
+	public void setVno(String vno) {
+		this.vno = vno;
 	}
 
 	public int getPrice() {
