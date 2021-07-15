@@ -35,9 +35,18 @@ public class MemberDAO extends DAO {
 	 * 
 	 * @return
 	 */
-	public ArrayList<MemberVO> getMemberList() {
-		List<MemberVO> list = sqlSession.selectList(namespace + ".getmemberlist");
+	public ArrayList<MemberVO> getMemberList(int page) {
+		List<MemberVO> list = sqlSession.selectList(namespace + ".getmemberlist", page);
 		return (ArrayList<MemberVO>) list;
+	}
+
+	/**
+	 * 총 페이지 수 가져오기
+	 * 
+	 * @return
+	 */
+	public int getTotalPageCount() {
+		return sqlSession.selectOne(namespace + ".gettotalpagecount");
 	}
 
 	/**

@@ -74,8 +74,12 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value = "admin_member_list", method = RequestMethod.GET)
-	public String adminMemberList() {
-		return "admin/member/admin_member_list";
+	public ModelAndView adminMemberList(String page) {
+		ModelAndView mv = new ModelAndView("admin/member/admin_member_list");
+		page = page == null ? "1" : page;
+		mv.addObject("page", page);
+		mv.addObject("totalPage", memberService.getTotalPageCount());
+		return mv;
 	}
 
 	/**
@@ -85,14 +89,8 @@ public class AdminController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "admin_member_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public String admin_member_list_ajax(HttpServletRequest request) {
-//		HttpSession session = request.getSession();
-//		MemberVO member = (MemberVO) session.getAttribute("member");
-//		String authority = member.getAuthority();
-//		if(!authority.equals("ADMIN")) {
-//			return null;
-//		}
-		return Commons.parseJson(memberService.getMemberList());
+	public String admin_member_list_ajax(int page, HttpServletRequest request) {
+		return Commons.parseJson(memberService.getMemberList(page));
 	}
 
 	/**

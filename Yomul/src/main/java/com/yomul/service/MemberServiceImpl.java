@@ -61,13 +61,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<MemberVO> getMemberList() {
-		return memberDAO.getMemberList();
+	public ArrayList<MemberVO> getMemberList(int page) {
+		return memberDAO.getMemberList(page);
 	}
 
 	@Override
 	public int deleteMember(MemberVO vo) {
 		return memberDAO.deleteMember(vo) == 1 ? 1 : 0;
+	}
+
+	@Override
+	public int getTotalPageCount() {
+		return memberDAO.getTotalPageCount();
 	}
 
 }

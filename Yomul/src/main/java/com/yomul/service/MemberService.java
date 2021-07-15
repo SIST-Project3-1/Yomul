@@ -23,8 +23,10 @@ public interface MemberService {
 	int getFavoriteCount(MemberVO vo);
 
 	FileVO getMyProfileImg(MemberVO vo);
-	
-	ArrayList<MemberVO> getMemberList();
-	
+
+	ArrayList<MemberVO> getMemberList(int page);
+
 	int deleteMember(MemberVO vo);
+
+	int getTotalPageCount();
 }
