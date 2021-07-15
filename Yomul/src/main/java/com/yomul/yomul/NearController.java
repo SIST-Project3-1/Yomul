@@ -1,8 +1,11 @@
 package com.yomul.yomul;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,12 +13,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.dao.NearDAO;
+import com.yomul.service.CommentService;
+import com.yomul.service.FileService;
 import com.yomul.service.NearService;
+import com.yomul.service.VendorService;
+import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
+import com.yomul.vo.CommentVO;
+import com.yomul.vo.FileVO;
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 
 @Controller
@@ -23,7 +34,16 @@ public class NearController {
 
 	@Autowired
 	private NearService nearService;
-
+	
+	@Autowired
+	private FileService fileService;
+	
+	@Autowired
+	private CommentService	commentService;
+	
+	@Autowired
+	private VendorService	vendorService;
+	
 	@Autowired
 	private NearDAO nearDAO;
 
@@ -76,22 +96,74 @@ public class NearController {
 
 	// 내 근처 상세보기
 	@RequestMapping(value = "/near_info/{no}", method = RequestMethod.GET)
-	public ModelAndView near_info(@PathVariable("no") int no) {
+	public ModelAndView near_info(@PathVariable("no") int no, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 
 		// 조회수 갱신 겸 게시글 유무 확인
 		if (nearService.updateNearHits(no)) {
-			NearVO vo = nearService.getNearInfo(no);
-			// ArrayList<CommentVO> comments = nearService.getNearCommentList(no);
-
 			mv.setViewName("user/near/near_info");
-			// mv.addObject("comments", comments);
+			
+			// 게시글 정보 불러오기
+			NearVO vo = nearService.getNearInfo(no);
 			mv.addObject("vo", vo);
-		} else {
+			
+			// 게시글 파일 불러오기
+			ArrayList<FileVO> files = fileService.getFileList("N" + no);
+			mv.addObject("articleImages", files);
+			
+			// 댓글 정보 불러오기
+			int commentCount = commentService.getCommentCount("N" + no);
+			ArrayList<CommentVO> comments = commentService.getCommentList("N" + no, 1);
+			mv.addObject("comments", comments);
+			
+			// 댓글 페이지 정보 불러오기
+			HashMap<String, Integer> commentPageInfo = Commons.getPageInfo(commentCount, 10);
+			mv.addObject("commentPageInfo", commentPageInfo);
+			
+			// 단골 정보 불러오기
+			int vendorCustomerCount = vendorService.getVendorCustomerCount(vo.getVno());
+			mv.addObject("vendorCustomerCount", vendorCustomerCount);
+			
+		} else { // 게시글이 없을 경우 에러페이지 이동
 			mv.setViewName("redirect:/user/error");
 		}
-
+		
 		return mv;
+	}
+	
+	// 댓글 페이지 이동 ajax
+	@ResponseBody
+	@RequestMapping(value = "/near_info/comments", method = RequestMethod.GET, produces = "text/plain; charset=utf8")
+	public String near_info_comment(int no, int page) {
+		int commentCount = commentService.getCommentCount("N" + no);
+		ArrayList<CommentVO> comments = commentService.getCommentList("N" + no, page);
+		HashMap<String, Integer> commentPageInfo = Commons.getPageInfo(page, commentCount, 10);
+		
+		// json으로 변환
+		String commentsJson = Commons.parseJson(comments);
+		String pageInfoJson = Commons.parseJson(commentPageInfo);
+		
+		// 두 json 객체를 배열에 담아 반환
+		return "[" + commentsJson + "," + pageInfoJson + "]";
+	}
+	
+	// 아직 미완 로그인 기능 구현되면 구현한 예정
+	// 단골 등록 ajax
+	@ResponseBody
+	@RequestMapping(value = "/near_info/addVendorCustomer", method = RequestMethod.GET)
+	public String near_info_comment(String no, HttpSession session) {
+		MemberVO mvo = (MemberVO)session.getAttribute("mvo");
+		String vno = "";
+		String cno = mvo.getNo();
+		
+		int result = vendorService.addVendorCustomer(vno, cno);
+		
+		// 0일 경우 에러
+		if(result == 0) {
+			return "0";
+		}
+		
+		return String.valueOf(vendorService.getVendorCustomerCount(vno));
 	}
 
 	@RequestMapping(value = "/near_news_form", method = RequestMethod.GET)

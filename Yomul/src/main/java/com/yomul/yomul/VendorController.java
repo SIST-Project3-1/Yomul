@@ -24,6 +24,8 @@ public class VendorController {
 	private VendorService vendorService;
 	@Autowired
 	private FileService fileService;
+	@Autowired
+	private FileUtils fileUtils;
 	
 	//업체 등록
 	@RequestMapping(value="/vendor_signup", method=RequestMethod.GET)
@@ -35,36 +37,25 @@ public class VendorController {
 	@ResponseBody
 	@RequestMapping(value="/vendor_signup_proc", method=RequestMethod.POST)
 	public String vendor_signup_proc(VendorVO vo, MultipartFile file, HttpServletRequest request) {
-		int result = 0;
+		String result = "";
 		FileVO fvo = null;
 		
 		String uno = "M3"; // 임시 테스트용
-		vo.setNo(uno);
+		vo.setOwner(uno);
 //		HttpSession session = request.getSession();
 //		vo.setNo((String)session.getAttribute("id"));
 		
+		// DB에 업체 정보 저장 / 반환 값은 저장된 업체 번호
 		result = vendorService.vendorSignUp(vo);
 		
 		// 업체 등록에 성공하고 입력된 파일이 있을 경우 파일 저장 및 업로드
-		if(result == 1 && !file.isEmpty()) {
+		if(!result.equals("0") && !file.isEmpty()) {
 			fvo = new FileVO();
-			
-			String path = FileUtils.getUploadPath(request);
-			String fileName = FileUtils.getFileName(uno, file);
-			
-			File savedFile = new File(path, fileName);
-			
-			try {
-				file.transferTo(savedFile);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			fvo.setArticle_no(uno);
+			fvo.setArticle_no(result);
 			fvo.setNo(1);
-			fvo.setFilename(fileName);
+			fvo.setFilename(fileUtils.genSaveFileName(file.getOriginalFilename()));
 			
-			fileService.uploadFile(fvo);
+			fileUtils.uploadFile(fvo, file, request);
 		}
 		
 		return String.valueOf(result);

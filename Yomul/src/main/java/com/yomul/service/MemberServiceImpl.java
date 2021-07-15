@@ -1,5 +1,7 @@
 package com.yomul.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yomul.dao.MemberDAO;
@@ -57,5 +59,21 @@ public class MemberServiceImpl implements MemberService {
 	public FileVO getMyProfileImg(MemberVO vo) {
 		return memberDAO.getMyProfileImg(vo);
 	}
+
+	@Override
+	public ArrayList<MemberVO> getMemberList(int page, String search) {
+		return memberDAO.getMemberList(page, search);
+	}
+
+	@Override
+	public int deleteMember(MemberVO vo) {
+		return memberDAO.deleteMember(vo) == 1 ? 1 : 0;
+	}
+
+	@Override
+	public int getTotalPageCount(String search) {
+		return memberDAO.getTotalPageCount(search);
+	}
+
 
 }

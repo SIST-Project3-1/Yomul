@@ -5,6 +5,64 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.member">
+
+	<!-- 회원 삭제 -->
+	<delete id="deletemember" parameterType="com.yomul.vo.MemberVO">
+		DELETE
+			FROM YOMUL_MEMBERS 
+		WHERE
+			NO = #{no}
+	</delete>
+
+	<!-- 회원 목록 가져오기 -->
+	<select id="getmemberlist" parameterType="map" resultType="com.yomul.vo.MemberVO">
+		SELECT
+			  RNO
+			, NO
+			, EMAIL
+			, NICKNAME
+			, PHONE
+			, MDATE
+		FROM
+		(
+			SELECT
+				ROWNUM AS RNO
+				, M.*
+			FROM
+			(
+				SELECT
+					  TO_NUMBER(SUBSTR(NO, 2)) AS NO_NUM
+					, NO
+					, EMAIL
+					, NICKNAME
+					, NVL(PHONE, ' ') AS PHONE
+					, MDATE 
+				FROM
+					YOMUL_MEMBERS 
+				WHERE
+						LOWER(NICKNAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+					OR  LOWER(EMAIL) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				ORDER BY
+					NO_NUM DESC
+			) M
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
+	</select>
+	
+	<!-- 회원 목록 페이지 수 가져오기 -->
+	<select id="gettotalpagecount" parameterType="string" resultType="_int">
+		SELECT
+			CEIL(COUNT(*)/10) TOTAL_PAGE
+		FROM
+			YOMUL_MEMBERS
+		WHERE
+				LOWER(NICKNAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+			OR  LOWER(EMAIL) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+	</select>
+	
+	<!-- 회원가입 -->
 	<insert id="join" parameterType="com.yomul.vo.MemberVO">
 		INSERT INTO YOMUL_MEMBERS
 		(
@@ -53,34 +111,40 @@
 			ARTICLE_NO = #{no}
 	</select>
 	
+	<!-- 프로필 정보 수정 -->
 	<insert id="setmyprofileinfo" parameterType="com.yomul.vo.MemberVO">
 		UPDATE YOMUL_MEMBERS SET NICKNAME = #{nickname}, PHONE = #{phone}, GENDER = #{gender}, INTRO = #{intro} WHERE NO = #{no}
 	</insert>
 	
+	<!-- 구매내역 수 가져오기 -->
 	<select id="getbuycount" parameterType="com.yomul.vo.MemberVO" resultType="int">
 		SELECT COUNT(*) 
 		FROM YOMUL_TRADE_HISTORY 
 		WHERE BUYER = #{no}
 	</select>
 	
+	<!-- 판매내역 수 가져오기 -->
 	<select id="getsellcount" parameterType="com.yomul.vo.MemberVO" resultType="int">
 		SELECT COUNT(*) 
 		FROM YOMUL_TRADE_HISTORY
 		 WHERE SELLER = #{no}
 	</select>
 	
+	<!-- 찜 목록 수 가져오기 -->
 	<select id="getfavoritecount" parameterType="com.yomul.vo.MemberVO" resultType="int">
 		SELECT COUNT(*) 
 		FROM YOMUL_FAVORITE_LISTS 
 		WHERE MEMBER_NO = #{no}
 	</select>
 	
+	<!-- 이메일 중복 확인 -->
 	<select id="emailcheck" parameterType="string" resultType="int">
 		SELECT COUNT(EMAIL) 
 		FROM YOMUL_MEMBERS 
 		WHERE LOWER(EMAIL) = LOWER(#{email})
 	</select>
 	
+	<!-- 닉네임 중복 확인 -->
 	<select id="nicknamecheck" parameterType="string" resultType="int">
 		SELECT COUNT(NICKNAME) 
 		FROM YOMUL_MEMBERS 

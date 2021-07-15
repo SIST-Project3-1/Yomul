@@ -43,6 +43,9 @@
 				<li>
 					<a class="m-0 text-decoration-none" href="/yomul/customer_qna/${qna.no}">
 						<p class="d-inline-block p-0 mb-1 mr-1 text-body">${qna.title}</p>
+						<c:if test='${qna.secret.equals("on") }'>
+							<i class="bi bi-lock-fill text-dark"></i>
+						</c:if>
 						<kbd class="bg-yomul">${qna.rdate==null?"답변대기":"답변완료"}</kbd>
 						<p class="text-secondary">${qna.wdate}</p>
 						<hr>

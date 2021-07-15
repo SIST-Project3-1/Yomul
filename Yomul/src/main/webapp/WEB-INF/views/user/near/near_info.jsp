@@ -7,14 +7,144 @@
 <title>내 근처</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
-<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+// 게시글 번호 구하기
+var no = $(location).attr("pathname").split("/").pop();
+
 $(document).ready(function(){
+	
+	// 단골일 경우 단골 버튼 색상 변경
 	$( "#btn_regular" ).on( "click", function() {
-		  $("#btn_regular").css('color','white').css('background-color','rgb(255, 99, 95)');
+		// 로그인 기능 완성되면 ajax로 로그인한 유저를 해당 업체의 단골로 등록/해제하는 코드 넣어야 됨
+		
+		if($(this).val() == 'false') {
+			$(this).css('color','white').css('background-color','rgb(255, 99, 95)');
+			$(this).val("true")
+		}else {
+			$(this).css('color','gray').css('background-color','rgb(240, 244, 245)');
+			$(this).val("false")
+		}
+		
+	});
+	
+	// 댓글 페이지 이동
+	$(".page").click(function() {
+		clickCommentPage($(this).attr("value"));
 	});
 });
+
+function clickCommentPage(page) {
+	var pageInfo;
+	
+	$.ajax({
+		url : "/yomul/near_info/comments?no=" + no + "&page=" + page,
+		method : "GET",
+		dataType : "json",
+		contentType: "application/json; charset=UTF-8",
+		success : function(result) {
+			if (result != null) {
+				var commentsHtml = parseComments(result[0]);
+				var pageHtml = parseCommentPage(result[1]);
+				
+				$("#comment_count").html(result[1].count);
+				$("#comment_content_box").html(commentsHtml).trigger("pagecreate");
+				$("#comment_page_box").html(pageHtml).trigger("create");
+			} else {
+				alert("댓글 페이지 이동 에러");
+			}
+		}
+	});
+}
+
+function parseComments(commentInfo) {
+	var commentsHtml = "";
+	var cinfo = "";
+	
+	for(var i=0;i<commentInfo.length;i++) {
+		cinfo = commentInfo[i];
+
+		commentsHtml += "<div>";
+		commentsHtml += "	<img src='/yomul/upload/" + cinfo.img + "'>";
+		commentsHtml += "	<div>";
+		commentsHtml += "		<div>";
+		commentsHtml += "			<label>" + cinfo.writer + "</label>";
+		commentsHtml += "			<span>" + cinfo.content + "</span>";
+		commentsHtml += "		</div>";
+		commentsHtml += "		<div>";
+		commentsHtml += "			<label>" + cinfo.wdate + "</label>";
+		commentsHtml += "			<label class='near-info-point'>·</label>";
+		commentsHtml += "			<button type='button' class='near-info-chat-like'>";
+		commentsHtml += 				"좋아요 " + cinfo.likes;
+		commentsHtml += "			</button>";
+		commentsHtml += "			<label class='near-info-point'>·</label>";
+		commentsHtml += "			<button type='button' class='near-info-chat-report'>신고</button>";
+		commentsHtml += "		</div>";
+		commentsHtml += "	</div>";
+		commentsHtml += "</div>";
+	}
+	
+	return commentsHtml;
+}
+
+function parseCommentPage(pageInfo) {
+	var pageHtml = "";
+	
+	if(pageInfo.first) {
+		pageHtml += "<div class='page' value='1'>처음</div>";
+	}
+	if(pageInfo.prev) {
+		pageHtml += "<div class='page' value="+ pageInfo.prev +">이전</div>";
+	}
+	for(var i=pageInfo.start;i<=pageInfo.end;i++) {
+		pageHtml += "<div class='page";
+		if(i == pageInfo.nowPage) {
+			pageHtml += "-now";
+		}
+		pageHtml += "' value=" + i + ">" + i + "</div>";
+	}
+	if(pageInfo.next) {
+		pageHtml += "<div class='page' value="+ pageInfo.next +">다음</div>";
+	}
+	if(pageInfo.last) {
+		pageHtml += "<div class='page' value="+ pageInfo.totalPage +">맨뒤</div>";
+	}
+	
+	pageHtml += "<script>";
+	pageHtml += "$('.page').click(function() {";
+	pageHtml += "	clickCommentPage($(this).attr('value'));";
+	pageHtml += "});";
+	pageHtml += "</" + "script>";
+	
+	return pageHtml;
+}
 </script>
+<style>
+	#near_info .page {
+		display: inline;
+		background: none;
+		border: none;
+		color: gray;
+		border: 1px solid transparent;
+		text-decoration: none;
+		padding: 2px 7px;
+		margin: 0;
+		cursor: pointer;
+	}
+	
+	#near_info .page:hover {
+		color: rgb(255, 99, 95);
+		border: 1px solid lightgray;
+	}
+	
+	#near_info .page-now {
+		display: inline;
+		color: rgb(255, 99, 95);
+		border: 1px solid lightgray;
+		padding: 2px 7px;
+		margin: 0;
+		font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<!-- HEADER -->
@@ -76,7 +206,7 @@ $(document).ready(function(){
 			<!--  댓글  -->
 			<div class="near-info-chat">
 				<div class="near-info-chat-title">
-					<h3>댓글</h3><h3>1</h3>
+					<h3>댓글</h3><h3 id="comment_count">${commentPageInfo.count }</h3>
 				</div>
 				<div class="near-info-chat-writer">
 					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
@@ -93,32 +223,50 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
-				<div class="near-info-chat-content">
-				<% for(int i=0;i<2;i++){ %>
-					<div>
-						<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+				<div id="comment_content_box" class="near-info-chat-content">
+					<c:forEach var="cvo" items="${comments }">
 						<div>
+							<img src="/yomul/upload/${cvo.img }">
 							<div>
-								<label>댓글 작성자 닉네임</label>
-								<span>댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다
-								댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다댓글입니다</span>
-							</div>
-							<div>
-								<label>1시간 전</label>
-								<label class="near-info-point">·</label>
-								<button type="button" class="near-info-chat-like">좋아요 22</button>
-								<label class="near-info-point">·</label>
-								<button type="button" class="near-info-chat-report">신고</button>
+								<div>
+									<label>${cvo.writer }</label>
+									<span>${cvo.content }</span>
+								</div>
+								<div>
+									<label>${cvo.wdate }</label>
+									<label class="near-info-point">·</label>
+									<button type="button" class="near-info-chat-like">좋아요 ${cvo.likes }</button>
+									<label class="near-info-point">·</label>
+									<button type="button" class="near-info-chat-report">신고</button>
+								</div>
 							</div>
 						</div>
-					</div>
-				<% } %>
+					</c:forEach>
 				</div>
 			</div>
 			
 			<!-- 페이징  -->
-			<div class="near-info-page">
-				<p>1 2 3 4</p>
+			<div class="near-info-page" id="comment_page_box">
+				<!-- 첫 페이지 버튼 -->
+				<c:if test="${commentPageInfo.first != 0 }">
+					<div class="page" value="1">처음</div>
+				</c:if>
+				<!-- 이전 페이지 버튼 -->
+				<c:if test="${commentPageInfo.prev != 0 }">
+					<div class="page" value="${commentPageInfo.prev }">이전</div>
+				</c:if>
+				<!-- 페이지 숫자 이동 버튼 -->
+				<c:forEach var="pno" begin="${commentPageInfo.start }" end="${commentPageInfo.end }" step="1">
+					<div class="page<c:if test="${pno == commentPageInfo.nowPage }">-now</c:if>" value="${pno }">${pno }</div>
+				</c:forEach>
+				<!-- 다음 페이지 버튼 -->
+				<c:if test="${commentPageInfo.next != 0 }">
+					<div class="page" value="${commentPageInfo.next }">다음</div>
+				</c:if>
+				<!-- 맨뒤 페이지 버튼 -->
+				<c:if test="${commentPageInfo.last != 0}">
+					<div class="page" value="${commentPageInfo.totalPage }">맨뒤</div>
+				</c:if>
 			</div>
 		</div>
 		
@@ -127,7 +275,7 @@ $(document).ready(function(){
 			<div class="near-info-right-writer">
 				<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 				<label>${vo.writer }</label>
-				<button type="button" id="btn_regular"><p>+</p>단골<p>22</p></button>
+				<button type="button" id="btn_regular" value="false"><p>+</p>단골<p id="vcCount">${vendorCustomerCount }</p></button>
 			</div>
 			<div class="near-info-right-price">
 				<label>가격</label>
