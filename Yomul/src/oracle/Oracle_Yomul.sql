@@ -594,11 +594,9 @@ values('C1', 'M5');
 INSERT INTO yomul_reports(article_no, MEMBER_NO)
 values('C2', 'M3');
 
--- 특정 게시글의 댓글의 좋아요 수 구하기
-SELECT c.NO, count(l.article_no) likes, count(r.ARTICLE_NO) reports
-FROM yomul_comments c, yomul_likes l, yomul_reports r
-WHERE c.article_no = 'N1' AND c.NO = l.article_no(+) AND c.NO = r.ARTICLE_NO(+)
-GROUP BY c.NO, l.article_no, r.ARTICLE_NO;
+-- 뷰로 댓글 정보 확인
+select * from yomul_comments;
+select * from V_Y_COMMENTS;
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 
