@@ -19,11 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.dao.NearDAO;
 import com.yomul.service.CommentService;
+import com.yomul.service.FileService;
 import com.yomul.service.NearService;
 import com.yomul.service.VendorService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.CommentVO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 
@@ -32,6 +34,9 @@ public class NearController {
 
 	@Autowired
 	private NearService nearService;
+	
+	@Autowired
+	private FileService fileService;
 	
 	@Autowired
 	private CommentService	commentService;
@@ -96,9 +101,15 @@ public class NearController {
 
 		// 조회수 갱신 겸 게시글 유무 확인
 		if (nearService.updateNearHits(no)) {
+			mv.setViewName("user/near/near_info");
+			
 			// 게시글 정보 불러오기
 			NearVO vo = nearService.getNearInfo(no);
 			mv.addObject("vo", vo);
+			
+			// 게시글 파일 불러오기
+			ArrayList<FileVO> files = fileService.getFileList("N" + no);
+			mv.addObject("articleImages", files);
 			
 			// 댓글 정보 불러오기
 			int commentCount = commentService.getCommentCount("N" + no);
@@ -113,10 +124,6 @@ public class NearController {
 			int vendorCustomerCount = vendorService.getVendorCustomerCount(vo.getVno());
 			mv.addObject("vendorCustomerCount", vendorCustomerCount);
 			
-			
-			
-			
-			mv.setViewName("user/near/near_info");
 		} else { // 게시글이 없을 경우 에러페이지 이동
 			mv.setViewName("redirect:/user/error");
 		}

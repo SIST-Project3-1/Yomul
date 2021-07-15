@@ -1,5 +1,6 @@
 package com.yomul.service;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class VendorServiceImpl implements VendorService {
 	private VendorDAO vendorDAO;
 	
 	// 업체 등록
-	public int vendorSignUp(VendorVO vo) {
+	public String vendorSignUp(VendorVO vo) {
 		return vendorDAO.vendorSingUp(vo);
 	}
 

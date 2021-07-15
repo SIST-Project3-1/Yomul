@@ -32,10 +32,24 @@
 		where vendor_no = #{vno} and customer_no = #{cno}
 	</delete>
 	
+	<!-- 업체 번호로 검색 -->
+	<select id="selectVendorByNo" resultType="com.yomul.vo.VendorVO" parameterType="java.lang.String">
+		select no, owner, name, category, info, tel, addr 
+		from yomul_vendors v
+		where no = #{no}
+	</select>
+	
+	<!-- 사용자 번호로 검색 -->
+	<select id="selectVendorByOwner" resultType="com.yomul.vo.VendorVO" parameterType="java.lang.String">
+		select no, owner, name, category, info, tel, addr 
+		from yomul_vendors v
+		where owner = #{owner}
+	</select>
+	
 	<!-- 업체 이름으로 검색 -->
 	<select id="selectVendorByName" resultType="com.yomul.vo.VendorVO" parameterType="java.lang.String">
 		select no, owner, name, category, info, tel, addr 
-		from yomul_vendors v, yomul_files f
+		from yomul_vendors v
 		where name = #{name}
 	</select>
 </mapper>

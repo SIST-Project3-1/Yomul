@@ -39,12 +39,6 @@ public class FileDAO {
 	}
 
 	/** 게시글 파일 조회 **/
-	public ArrayList<String> getArticleFiles(String board, int no) {
-		List<String> list = sqlSession.selectList("mapper.file.selectArticleFiles", board + no);
-		return (ArrayList<String>) list;
-	}
-
-	/** 게시글 파일 조회 **/
 	public ArrayList<String> getArticleFiles(String no) {
 		List<String> list = sqlSession.selectList("mapper.file.selectArticleFiles", no);
 		return (ArrayList<String>) list;

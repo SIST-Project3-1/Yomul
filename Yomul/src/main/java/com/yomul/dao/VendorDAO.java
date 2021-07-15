@@ -1,6 +1,7 @@
 package com.yomul.dao;
 
 import java.util.HashMap;
+
 import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.VendorVO;
@@ -11,8 +12,10 @@ public class VendorDAO extends DAO{
 	private static String nameSpace = "mapper.vendor";
 	
 	// 업체 등록
-	public int vendorSingUp(VendorVO vo) {
-		return sqlSession.insert(nameSpace + ".insertVendor", vo);
+	public String vendorSingUp(VendorVO vo) {
+		sqlSession.insert(nameSpace + ".insertVendor", vo);
+			
+		return sqlSession.selectOne(nameSpace + ".selectVendorByOwner", vo.getOwner());
 	}
 	
 	// 업체 단골 수 확인
