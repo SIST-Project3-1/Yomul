@@ -8,6 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
+import com.yomul.dao.MemberDAO;
+import com.yomul.vo.MemberVO;
 
 @Controller
 public class LoginController {
@@ -42,6 +44,32 @@ public class LoginController {
 		return mv;
 	}
 
+	/**
+	 * login_check.do : 로그인 처리 여기 이 맵핑에서 비즈니스 로직을 처하게 된
+	 */
+	
+	@RequestMapping(value="login_check.do", method=RequestMethod.POST)
+	public String login_check(MemberVO vo) {
+		String result_page = "";
+		MemberDAO dao = new MemberDAO();
+	//	SessionVO svo = dao.getLoginResult(vo);
+		String svo = dao.getLoginResult(vo);
+		
+		if(svo.getResult() == 1) {
+			
+		//svo.setID(vo.getID());
+		//session.setAttribute("svo",svo);
+		//response.sendReditrect("../index.jsp");		
+		result_page = "index";
+	}else {
+		// response.sendRedirect("loginFail.jsp");
+		result_page = "loginFail";
+	}
+		return result_page;
+	
+}
+	
+	
 	/**
 	 * 패스워드 초기화 페이지
 	 * 
