@@ -24,48 +24,48 @@ public class MyPageController {
 	@Autowired
 	private FileUtils fileUtils;
 
-	@RequestMapping(value = "/withdrawal_cancle", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage//withdrawal_cancle", method = RequestMethod.GET)
 	public ModelAndView withdrawal_cancle() {
 		ModelAndView mv = new ModelAndView("user/mypage/withdrawal_cancle");
 		return mv;
 	}
 
 	// 회원 탈퇴 페이지
-	@RequestMapping(value = "/withdrawal", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage//withdrawal", method = RequestMethod.GET)
 	public ModelAndView withdrawal() {
 		ModelAndView mv = new ModelAndView("user/mypage/withdrawal");
 		return mv;
 	}
 
-	@RequestMapping(value = "/myarticle_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage//myarticle_list", method = RequestMethod.GET)
 	public ModelAndView myacticle_list() {
 		ModelAndView mv = new ModelAndView("user/mypage/myarticle_list");
 		mv.addObject("headerType", "myarticle");
 		return mv;
 	}
 
-	@RequestMapping(value = "/mycomment_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage//mycomment_list", method = RequestMethod.GET)
 	public ModelAndView mycomment_list() {
 		ModelAndView mv = new ModelAndView("user/mypage/mycomment_list");
 		mv.addObject("headerType", "myarticle");
 		return mv;
 	}
 
-	@RequestMapping(value = "/buy_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage//buy_list", method = RequestMethod.GET)
 	public ModelAndView buy_list() {
 		ModelAndView mv = new ModelAndView("user/mypage/buy_list");
 		mv.addObject("headerType", "buy_list");
 		return mv;
 	}
 
-	@RequestMapping(value = "/sell_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage//sell_list", method = RequestMethod.GET)
 	public ModelAndView sell_list() {
 		ModelAndView mv = new ModelAndView("user/mypage/sell_list");
 		mv.addObject("headerType", "buy_list");
 		return mv;
 	}
 
-	@RequestMapping(value = "/favorite_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage//favorite_list", method = RequestMethod.GET)
 	public ModelAndView favorite_list() {
 		ModelAndView mv = new ModelAndView("user/mypage/favorite_list");
 		mv.addObject("headerType", "buy_list");
@@ -78,21 +78,14 @@ public class MyPageController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "myprofile_update", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/myprofile_update", method = RequestMethod.GET)
 	public ModelAndView myprofile_update(HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv = new ModelAndView("user/mypage/myprofile_update");
 
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("member");
+		MemberVO vo = memberService.getMyProfileInfo(member);
 
-		if (member != null) {// 로그인 되어 있으면 접속 허용
-			mv = new ModelAndView("user/mypage/myprofile_update");
-		} else { // 로그인이 되어 있지 않으면 로그인 페이지로 이동
-			return new ModelAndView("redirect:/login");
-		}
-
-		MemberVO vo =  memberService.getMyProfileInfo(member);
-		
 		mv.addObject("headerType", "myprofile");
 		mv.addObject("member", vo);
 		mv.addObject("file", memberService.getMyProfileImg(vo));
@@ -106,7 +99,7 @@ public class MyPageController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "myprofile_update_proc", method = RequestMethod.POST)
+	@RequestMapping(value = "/mypage/myprofile_update_proc", method = RequestMethod.POST)
 	public String myprofile_update_proc(MemberVO vo, MultipartFile profile_img, HttpServletRequest request) {
 		int result = 0; // service 결과를 저장하는 변수
 
@@ -124,8 +117,9 @@ public class MyPageController {
 			FileVO fileVO = new FileVO();
 			fileVO.setArticle_no(member.getNo());
 			fileVO.setNo(0);
-			fileVO.setFilename(profile_img.getOriginalFilename());;
-			
+			fileVO.setFilename(profile_img.getOriginalFilename());
+			;
+
 			// 파일을 서버와 DB에 업로드
 			result = fileUtils.uploadFile(fileVO, profile_img, request);
 		}
@@ -138,21 +132,14 @@ public class MyPageController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "myprofile_info", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/myprofile_info", method = RequestMethod.GET)
 	public ModelAndView myprofile_info(HttpServletRequest request) {
-		ModelAndView mv;
+		ModelAndView mv = new ModelAndView("user/mypage/myprofile_info");
 
 		HttpSession session = request.getSession();
 		MemberVO member = (MemberVO) session.getAttribute("member");
+		MemberVO vo = memberService.getMyProfileInfo(member);
 
-		if (member != null) {// 로그인 되어 있으면 접속 허용
-			mv = new ModelAndView("user/mypage/myprofile_info");
-		} else { // 로그인이 되어 있지 않으면 로그인 페이지로 이동
-			return new ModelAndView("redirect:/login");
-		}
-
-		MemberVO vo =  memberService.getMyProfileInfo(member);
-		
 		mv.addObject("headerType", "myprofile");
 		mv.addObject("member", vo);
 		mv.addObject("file", memberService.getMyProfileImg(vo));
