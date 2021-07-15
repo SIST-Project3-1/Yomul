@@ -42,7 +42,7 @@ public class TownController {
 	public ModelAndView town_write_proc(TownVO town, FileVO file) {
 		ModelAndView mv = new ModelAndView();
 		System.out.println(town.toStringJson());
-		town.setWriter(); //세션에서 회원번호 받아오기
+		town.setWriter("M2"); //세션에서 회원번호 받아오기
 		boolean result = townService.getTownWrite(town,file);
 		
 		if(result) {
