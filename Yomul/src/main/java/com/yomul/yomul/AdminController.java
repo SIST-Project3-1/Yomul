@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -74,11 +73,12 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value = "admin_member_list", method = RequestMethod.GET)
-	public ModelAndView adminMemberList(String page) {
+	public ModelAndView adminMemberList(String page, String search) {
 		ModelAndView mv = new ModelAndView("admin/member/admin_member_list");
 		page = page == null ? "1" : page;
 		mv.addObject("page", page);
-		mv.addObject("totalPage", memberService.getTotalPageCount());
+		mv.addObject("search", search);
+		mv.addObject("totalPage", memberService.getTotalPageCount(search));
 		return mv;
 	}
 
@@ -89,8 +89,8 @@ public class AdminController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "admin_member_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public String admin_member_list_ajax(int page, HttpServletRequest request) {
-		return Commons.parseJson(memberService.getMemberList(page));
+	public String admin_member_list_ajax(int page, String search, HttpServletRequest request) {
+		return Commons.parseJson(memberService.getMemberList(page, search));
 	}
 
 	/**
