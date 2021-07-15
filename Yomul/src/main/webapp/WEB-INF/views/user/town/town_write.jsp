@@ -130,7 +130,7 @@ function fileUpload(fis) {
 
 	<!--  BODY  -->
 	<div id="town_write" class="town-write-content">
-		<form id="town_write_form" name="town_write_form" action="town_write_proc" method="get">
+		<form id="town_write_form" name="town_write_form" action="town_write_proc" method="post">
 			<!-- 카테고리 & 제목 -->
 			<div class="town-write-top">
 				<select name="category" id="category" class="town-write-category" required>
@@ -162,7 +162,7 @@ function fileUpload(fis) {
 					<label for="file">사진 올리기</label>
 					<label>(*최대 5장까지)</label>
 				</div>
-				<input type="file" id="file" name="file" style="display:none" onchange="fileUpload(this)">
+				<input type="file" id="file" name="filename" style="display:none" onchange="fileUpload(this)">
 			</div>
 			<div class="town-write-img-view">
 				<img src="" id="file_img">
