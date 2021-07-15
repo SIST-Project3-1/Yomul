@@ -1,5 +1,7 @@
 package com.yomul.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +33,11 @@ public class NearServiceImplement implements NearService{
 		}
 		
 		return result;
+	}
+
+	@Override
+	public List<NearVO> selectNearList(NearVO vo) {
+		
+		return dao.getList(vo);
 	}
 }
