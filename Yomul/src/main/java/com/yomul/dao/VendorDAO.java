@@ -1,9 +1,11 @@
 package com.yomul.dao;
 
 import java.util.HashMap;
+import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.VendorVO;
 
+@Repository
 public class VendorDAO extends DAO{
 
 	private static String nameSpace = "mapper.vendor";
