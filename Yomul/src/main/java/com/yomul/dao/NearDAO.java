@@ -20,7 +20,7 @@ public class NearDAO extends DAO{
 		int result = -2;
 		
 		try {
-			String sql = "INSERT INTO YOMUL_NEAR_ARTICLES(NO,WRITER,TITLE,CATEGORY,PRICE,HP,CONTENT,NDATE,CHATCHECK,HITS) VALUES(YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL,'M1',?,?,?,?,?,SYSDATE,?,0) ";
+			String sql = "INSERT INTO YOMUL_NEAR_ARTICLES(NO,WRITER,TITLE,CATEGORY,PRICE,HP,CONTENT,NDATE,CHATCHECK,HITS) VALUES('N'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL,'M1',?,?,?,?,?,SYSDATE,?,0) ";
 			getPreparedStatement(sql);
 			
 			pstmt.setString(1, vo.getTitle());
@@ -39,23 +39,6 @@ public class NearDAO extends DAO{
 		return result;
 	}
 	
-	//내 근처 홈 글 보기
-	public List<NearVO> getList(NearVO vo){
-		return sqlSession.selectList(nameSpace + ".selectNearList");
-	}
-	
-	
-	
-	// 내 근처 게시글 상세 보기
-	public NearVO getNearInfo(String no) {
-		return sqlSession.selectOne(nameSpace + ".selectNearInfo", no);
-	}
-	
-	// 내 근처 게시글 조회수 업데이트
-	public int updateNearHits(String no) {
-		return sqlSession.update(nameSpace + ".updateNearHits", no);
-	}
- 
 	public int getNearFile(String saveFileName, String originFilename) {
 		int result = -2;
 		
@@ -74,4 +57,41 @@ public class NearDAO extends DAO{
 		
 		return result;
 	}
+	
+	//내 근처 글쓰기 글번호 가져오기
+	public String getWriteNumber() {
+		String result = "";
+		
+		try {
+			String sql = "SELECT MAX(NO) FROM YOMUL_NEAR_ARTICLES";
+			getPreparedStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				result = rs.getString(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	//내 근처 홈 글 보기
+	public List<NearVO> getList(NearVO vo){
+		return sqlSession.selectList(nameSpace + ".selectNearList");
+	}
+	
+	
+	
+	// 내 근처 게시글 상세 보기
+	public NearVO getNearInfo(String no) {
+		return sqlSession.selectOne(nameSpace + ".selectNearInfo", no);
+	}
+	
+	// 내 근처 게시글 조회수 업데이트
+	public int updateNearHits(String no) {
+		return sqlSession.update(nameSpace + ".updateNearHits", no);
+	}
+ 
 }

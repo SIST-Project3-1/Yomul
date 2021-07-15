@@ -25,6 +25,8 @@ public class FileUtils {
 
 	@Autowired
 	private FileService fileService;
+	private static long SEQUENCE = 0L;
+	
 	// 저장하는 파일 이름을 구하는 함수
 	public static String getFileName(String articleNo, MultipartFile file) {
 		return articleNo + "_1_" + file.getOriginalFilename();
@@ -70,7 +72,7 @@ public class FileUtils {
 		}
 		return count;
 	}
-	public String restore(List<MultipartFile> multipartFile,NearDAO dao, HttpServletRequest request) {
+	public String restore(List<MultipartFile> multipartFile,NearDAO dao, HttpServletRequest request,String articleNo) {
 		String url = null;
 		final String PREFIX_URL = "resources/upload/";
 		try {
@@ -84,7 +86,7 @@ public class FileUtils {
 				Long size = mf.getSize();
 				
 				// 서버에서 저장 할 파일 이름
-				String saveFileName = genSaveFileName(extName);
+				String saveFileName = genSaveFileName(articleNo,extName);
 				//db에 저장
 				dao.getNearFile(saveFileName,originFilename);
 				
@@ -106,19 +108,9 @@ public class FileUtils {
 		return url;
 	}
 	// 중복되지 않게 현재 시간 붙여서 파일 이름 생성
-	public String genSaveFileName(String extName) {
-	
-		String fileName = "near";
-		Calendar calendar = Calendar.getInstance();
-		fileName += calendar.get(Calendar.YEAR);
-		fileName += calendar.get(Calendar.MONTH);
-		fileName += calendar.get(Calendar.DATE);
-		fileName += calendar.get(Calendar.HOUR);
-		fileName += calendar.get(Calendar.MINUTE);
-		fileName += calendar.get(Calendar.SECOND);
-		fileName += calendar.get(Calendar.MILLISECOND);
-		fileName += extName;
-
+	public String genSaveFileName(String articleNo,String extName) {
+		String fileName = articleNo+"_"+SEQUENCE+"_"+extName;
+		
 		return fileName;
 	}
 
