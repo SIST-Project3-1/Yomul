@@ -31,23 +31,52 @@ $(document).ready(function(){
 	$(".page").click(function() {
 		clickCommentPage($(this).attr("value"));
 	});
+	
+	// 좋아요 버튼 클릭
+	$(".btn_like").click(function() {
+		clickCommentLike($(this))
+	});
+	
+	// 좋아요 버튼 클릭
+	$(".btn_report").click(function() {
+		clickCommentReport($(this))
+	});
 });
 
-function clickCommentLike(btn) {
-	var cno = btn.val();
+function clickLike(btn) {
+	var no = btn.val();
 	var likeCount = btn.html();
 	
 	$.ajax({
-		url : "/yomul/near_info/comment_like?no=" + cno,
+		url : "/yomul/near_info/like?no=" + no,
 		method : "GET",
 		success : function(result) {
 			if (result == -1) { // 추천 실패
-				alert("댓글 추천 에러");
+				alert("로그인이 필요합니다.");
 			}else if(result == 0) { // 이미 추천한 경우
 				alert("이미 추천하셨습니다.");
 			}else { // 추천 성공
-				btn.html(++likeCount);
+				btn.html(result);
 				//btn.addClass("color-yomul");
+			}
+		}
+	});
+}
+
+// 신고 버튼 클릭
+function clickReport(btn) {
+	var no = btn.val();
+	
+	$.ajax({
+		url : "/yomul/near_info/report?no=" + no,
+		method : "GET",
+		success : function(result) {
+			if (result == -1) { // 신고 실패
+				alert("로그인이 필요합니다.");
+			}else if(result == 0) { // 이미 추천한 경우
+				alert("이미 신고하셨습니다.");
+			}else { // 추천 성공
+				alert("신고가 완료되었습니다.");
 			}
 		}
 	});
@@ -223,7 +252,7 @@ function parseCommentPage(pageInfo) {
 					<label class="near-info-point">·</label>
 					<label>조회 ${vo.hits }</label>
 					<label class="near-info-point">·</label>
-					<button type="button" class="near-info-report">신고</button>
+					<button type="button" class="btn_report near-info-report" value="${vo.no }">신고</button>
 				</div>
 			</div>
 			<div class="near-info-line"></div>
@@ -260,9 +289,9 @@ function parseCommentPage(pageInfo) {
 								<div>
 									<label>${cvo.wdate }</label>
 									<label class="near-info-point">·</label>
-									<button type="button" class="near-info-chat-like" value="${cvo.no }">좋아요 ${cvo.likes }</button>
+									<button type="button" class="btn_like near-info-chat-like" value="${cvo.no }">좋아요 ${cvo.likes }</button>
 									<label class="near-info-point">·</label>
-									<button type="button" class="near-info-chat-report" value="${cvo.no }">신고</button>
+									<button type="button" class="btn_report near-info-chat-report" value="${cvo.no }">신고</button>
 								</div>
 							</div>
 						</div>
