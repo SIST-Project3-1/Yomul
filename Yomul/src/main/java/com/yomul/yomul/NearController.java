@@ -45,8 +45,9 @@ public class NearController {
 
 		String keyword[] = { "부동산", "카페", "요가", "휴대폰", "마사지", "미용실", "왁싱" };
 
-		mv.setViewName("user/near/near_home");
 		mv.addObject("keyword", keyword);
+		mv.addObject("list", nearService.selectNearList());
+		mv.setViewName("user/near/near_home");
 
 		return mv;
 	}

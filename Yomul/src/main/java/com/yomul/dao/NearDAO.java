@@ -1,5 +1,7 @@
 package com.yomul.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -32,6 +34,13 @@ public class NearDAO extends DAO{
 		
 		return result;
 	}
+	
+	//내 근처 홈 글 보기
+	public List<NearVO> getList(){
+		return sqlSession.selectList(nameSpace + ".selectNearList");
+	}
+	
+	
 	
 	// 내 근처 게시글 상세 보기
 	public NearVO getNearInfo(String no) {
