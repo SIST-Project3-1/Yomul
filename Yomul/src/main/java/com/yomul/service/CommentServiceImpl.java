@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.yomul.dao.CommentDAO;
 import com.yomul.vo.CommentVO;
 
+@Service("commentService")
 public class CommentServiceImpl implements CommentService {
+
 	@Autowired
 	private CommentDAO commentDAO;
 	

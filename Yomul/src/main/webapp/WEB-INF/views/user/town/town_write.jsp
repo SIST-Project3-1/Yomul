@@ -6,119 +6,175 @@
 <head>
 <meta charset="UTF-8">
 <title>동네생활 글쓰기</title>
-<!-- HEAD -->
-<%@ include file="../../head.jsp"%>
 <style>
-div.user_town_write {
-	width: 50%;
-	margin: auto;
+.town-write-content {
+	/*border:1px red solid;*/
+    width:60%;
+    margin:auto;
+    padding:50px 0;
 }
-
-div.user_town_write .head {
-	margin-top: 50px;
+.town-write-top {
+	/*border:1px red solid;*/
+	display:flex;
+	margin-bottom:20px;
+	width:100%;
 }
-
-div.user_town_write .head input {
-	display: block;
-	width: 900px;
-	height: 50px;
-	border: 2px solid lightgray;
-	border-radius: 10px;
-	text-align: left;
+.town-write-top input{
+	border:1px lightgray solid;
+	width:85%;
+	height:35px;
 }
-div.user_town_write .head .form-select{
-	padding:5px 20px;
-	border:2px solid lightgray;
-	border-radius:20px;
+.town-write-category {
+    border:none;
+    width: 14%;
+	height:30px;
+	color:gray;
+	margin-top:3px;
+	margin-right:15px;
 }
-
-div.user_town_write .body textarea {
-	width: 900px;
-	height: 400px;
-	border: 2px solid lightgray;
-	margin-top: 5px;
-	text-align: left;
+.town-write-text {
+	/*border:1px red solid;*/
+	display:flex;
+	justify-content: center;
 }
-
-div.user_town_write .head .input-file-button {
-	padding: 10px 30px;
-	margin-top: 5px;
-	
-	border-radius: 20px;
-	color: white;
+.town-write-text textarea{
+	width:100%;
+	height:400px;
+	border:1px lightgray solid;
+}
+.town-write-img {
+	/*border:1px red solid;*/
+	margin-top:20px;
+	display:flex;
+	align-items: center;
+    flex-direction: column;
+}
+.town-write-img div{
+	width:100%; height:150px;
+	border:1px lightgray dashed;
+	border-radius:10px;
+	background-color: lightgrey;
+	display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.town-write-img svg{
+	color:gray;
+	width:30px; height:30px;
+}
+.town-write-img label:nth-child(2){
+	color:gray;
+	font-weight:bold;
+	font-size:15px;
 	cursor: pointer;
-	background-color: rgb(255, 99, 95);
 }
-
-div.user_town_write div.town_write_btn {
-	text-align: center;
-	margin-left: 300px;
+.town-write-img label:last-child{
+	color:gray;
+	font-size:13px;
 }
-
-div.user_town_write div.town_write_btn .townWrite {
-	padding: 25px 80px;
-	background-color: rgb(255, 99, 95);
-	color: white;
-	border-radius: 20px;
-	border: 2px solid white;
-	display: block;
+.town-write-btn {
+	/*border:1px red solid;*/
+	height:50px;
+	margin-top:40px;
+    display: flex;
+    justify-content: center;
+}
+.town-write-btn button{
+	text-align:center;
+	height:30px;
+    width:100px;
+    border:none;
+    background-color:rgb(255, 99, 95);
+    border-radius:5px;
+    color:white;
+}
+.town-write-btn button:first-child{
+	margin-right:25px;
+}
+.town-write-img-view {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>
-
+<script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-	function fileUpload(fis) {
-		var str = fis.value;
-		// 이미지를 변경한다.
-		var reader = new FileReader();
-		reader.onload = function(e) {
-			$('#profile_img_img').attr('src', e.target.result);
-		}
-		reader.readAsDataURL(fis.files[0]);
-	}
-
+$(document).ready(function(){
+	$('#category').change(function(){
+		$('#category').css('color','black');
+	});
+	$('#tag').change(function(){
+		$('#tag').css('color','black');
+	});
 	
+});
+function fileUpload(fis) {
+	var str = fis.value;
+	// 이미지를 변경한다.
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		$('#file_img').attr('src', e.target.result);
+		$('#img_file').css('display','none');
+	}
+	reader.readAsDataURL(fis.files[0]);
+}
 </script>
+
+<!-- HEAD -->
+<%@ include file="../../head.jsp"%>
 </head>
 <body>
-	<!-- http://localhost:9000/yomul/town_write -->
 	<!-- HEADER -->
 	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
-	<section id="sample">
-		<form name="townWrite" method="POST" action="#">
-			<div class="user_town_write">
-				<div class="head">
-					<h1>동네생활 글쓰기</h1>
-					<h4>
-						글을 작성해주세요 궁금한 것이 있으면<a href="#">문의하기</a>
-					</h4>
-					<hr>
-					<select class="form-select" aria-label="Default select example">
-						<option selected>카테고리</option>
-						<option value="동네생활">동네생활</option>
-						<option value="용품인증">용품인증</option>
-					</select> <input type="text" name="title" id="title" class="title"
-						placeholder="제목을 입력해주세요" required>
-					<div id="title_alert"></div>
-					<label class="input-file-button" for="input-file"
-						style="white-space: nowrap;"> 사진 </label> <input type="file"
-						id="input-file" style="display: none" onchange="fileUpload(this)">
+	<div id="town_write" class="town-write-content">
+		<form id="town_write_form" name="town_write_form" action="town_write_proc" method="post">
+			<!-- 카테고리 & 제목 -->
+			<div class="town-write-top">
+				<select name="category" id="category" class="town-write-category" required>
+					<option value="" disabled selected hidden>카테고리</option>
+					<option value="우리동네질문">우리동네질문</option>
+					<option value="분실/실종센터">분실/실종센터</option>
+					<option value="동네사건사고">동네사건사고</option>
+					<option value="같이해요">같이해요</option>
+					<option value="동네맛집">동네맛집</option>
+					<option value="일상">일상</option>
+					<option value="취미">취미</option>
+					<option value="살림">살림</option>
+					<option value="기타">기타</option>
+				</select>
+				<input type="text" id="title" name="title" placeholder="제목을 입력해 주세요" required>
+			</div>
+			
+			<!-- 본문 -->
+			<div class="town-write-text">
+				<textarea name="content" placeholder="우리 동네 관련된 질문이나 이야기를 해보세요" required></textarea>
+			</div>
+			
+			<!-- 사진 -->
+			<div class="town-write-img">
+				<div id="img_file" for="file">
+					<svg  class="" width="48" height="48" viewBox="0 0 48 48" fill="currentColor" preserveAspectRatio="xMidYMid meet">
+					<path d="M11.952 9.778l2.397-5.994A1.778 1.778 0 0 1 16 2.667h16c.727 0 1.38.442 1.65 1.117l2.398 5.994h10.174c.982 0 1.778.796 1.778 1.778v32c0 .981-.796 1.777-1.778 1.777H1.778A1.778 1.778 0 0 1 0 43.556v-32c0-.982.796-1.778 1.778-1.778h10.174zM24 38c6.075 0 11-4.925 11-11s-4.925-11-11-11-11 4.925-11 11 4.925 11 11 11z"></path>
+					</svg>
+					<label for="file">사진 올리기</label>
+					<label>(*최대 5장까지)</label>
 				</div>
-				<div class="body">
-					<textarea name="content" id="content" class="content"
-						placeholder="내용을 적어주세요!!" required></textarea>
-					<img id="profile_img_img" class="rounded-circle mb-3"
-						src="/yomul/image/이미지준비중.jpg"
-						style="width: 200px; height: 200px; display: block;">
-				</div>
-				<div class="town_write_btn">
-					<button type="submit" name="townWrite" id="townWrite"
-						class="townWrite">글쓰기 저장하기</button>
-				</div>
+				<input type="file" id="file" name="filename" style="display:none" onchange="fileUpload(this)">
+			</div>
+			<div class="town-write-img-view">
+				<img src="" id="file_img">
+			</div>
+			
+			<!-- 버튼 -->
+			<div class="town-write-btn">
+				<button type="submit" >완료</button>
+				<button type="reset" >취소</button>
 			</div>
 		</form>
-	</section>
+	</div>
 
 	<!-- FOOTER -->
 	<%@ include file="../footer.jsp"%>

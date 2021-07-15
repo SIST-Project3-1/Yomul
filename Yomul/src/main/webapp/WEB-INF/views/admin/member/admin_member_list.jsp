@@ -9,8 +9,11 @@
 <%@ include file="../../head.jsp"%>
 <script>
 	$(document).ready(function() {
-		loadMemberList(${page});
-		loadPagination(${page});
+		var page = ${page};
+		var search = '${search!=null?search:""}';
+		
+		loadMemberList(page, search);
+		loadPagination(page, search);
 
 		// 하단 버튼 클릭
 		$("button.btn-outline-yomul").on("click", function() {
@@ -20,28 +23,33 @@
 		});
 	});
 
-	function loadPagination(page) {
+	function loadPagination(page, search) {
 		var total = ${totalPage};
 		var start = (page % 10 == 0) ? (Math.floor(page / 10) - 1) * 10 + 1 : Math.floor(page / 10) * 10 + 1;
 		var end = (start + 9 > total) ? total : page + 9;
 		var html = "";
 		for (var i = start; i <= end && i <= total; i++) {
 			html += '<li id="' + i + '" class="page-item">';
-			html += '<a class="page-link" href="/yomul/admin_member_list?page=' + i + '">' + i + '</a>';
+			html += '<a class="page-link" href="/yomul/admin_member_list?page=' + i + '&search=' + search + '">' + i + '</a>';
 			html += '</li>';
 		}
 		$("#page-prev").after(html);
 
 		$("li#" + page + ".page-item").addClass("active");
+		$("#page-prev a").attr("href", "?page=" + ((start - 10 <= 0) ? 1 : start - 10));
+		$("#page-next a").attr("href", "?page=" + ((start + 10 > total) ? total : (start + 10)));
 	}
 
 	// 회원 목록 로드
-	function loadMemberList(page) {
+	function loadMemberList(page, search) {
 		$.ajax({
 			url : "/yomul/admin_member_list_ajax",
 			method : "GET",
 			data : {
 				"page" : page
+				<c:if test="${search != null}">
+				, "search" : search
+				</c:if>
 			},
 			dataType : "json",
 			contentType : "application/json; charset=UTF-8",
@@ -134,12 +142,12 @@
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			<li id="page-prev" class="page-item">
-				<a class="page-link" href="#" aria-label="Previous">
+				<a class="page-link" aria-label="Previous">
 					<span aria-hidden="true">&laquo;</span>
 				</a>
 			</li>
-			<li class="page-item">
-				<a class="page-link" href="#" aria-label="Next">
+			<li id="page-next" class="page-item">
+				<a class="page-link" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 				</a>
 			</li>
