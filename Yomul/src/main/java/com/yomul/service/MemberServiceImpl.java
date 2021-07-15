@@ -61,7 +61,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<MemberVO> getMemberList(int page) {
 	public ArrayList<MemberVO> getMemberList(int page, String search) {
 		return memberDAO.getMemberList(page, search);
 	}

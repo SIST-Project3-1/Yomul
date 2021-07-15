@@ -23,7 +23,7 @@
 			e.preventDefault();
 			
 			$.ajax({
-				url : "/yomul/myprofile_update_proc",
+				url : "/yomul/mypage/myprofile_update_proc",
 				method : "POST",
 				data : new FormData(this), // 필수
 				async : false,
@@ -32,7 +32,7 @@
 				success : function(result) {
 					if (result == 1) {
 						alert("프로필 수정 성공했습니다.");
-						location.href = "/yomul/myprofile_info";
+						location.href = "/yomul/mypage/myprofile_info";
 					} else {
 						alert("프로필 수정에 실패했습니다.");
 					}

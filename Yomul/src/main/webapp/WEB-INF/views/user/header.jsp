@@ -76,7 +76,7 @@
 
 		<!-- 내 프로필 -->
 		<li class="nav-item">
-			<a class="nav-link" href="/yomul/myprofile_info">
+			<a class="nav-link" href="/yomul/mypage/myprofile_info">
 				<h5 class="bi bi-person-circle my-0"></h5>
 			</a>
 		</li>
