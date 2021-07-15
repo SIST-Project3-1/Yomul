@@ -26,18 +26,27 @@
 	</form>
 
 	<ul class="navbar-nav">
-		<li class="nav-item">
-			<a class="nav-link" href="/yomul/login">로그인</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="/yomul/logout">로그아웃</a>
-		</li>
+		<c:choose>
+			<c:when test="${sessionScope.member == null }">
+				<li class="nav-item">
+					<a class="nav-link" href="/yomul/login">로그인</a>
+				</li>
+			</c:when>
+			<c:otherwise>
+				<li class="nav-item">
+					<a class="nav-link" href="/yomul/logout">로그아웃</a>
+				</li>
+			</c:otherwise>
+		</c:choose>
 		<li class="nav-item">
 			<a class="nav-link" href="/yomul/join">회원가입</a>
 		</li>
-		<li class="nav-item">
-			<a class="nav-link" href="/yomul/admin">ADMIN</a>
-		</li>
+
+		<c:if test="${session.member.authority == 'ADMIN' }">
+			<li class="nav-item">
+				<a class="nav-link" href="/yomul/admin">ADMIN</a>
+			</li>
+		</c:if>
 	</ul>
 
 	<ul class="navbar-nav">

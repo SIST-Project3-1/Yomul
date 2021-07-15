@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.yomul.dao.MemberDAO;
+import com.yomul.util.Security;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 
@@ -76,8 +77,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public boolean getLoginResult(MemberVO vo) {
-		return memberDAO.getLoginResult(vo) == 1 ? true : false;
+	public MemberVO getLoginResult(MemberVO vo) {
+		String pw = vo.getPw();
+		String hashsalt =getHashsalt(vo);
+		vo.setPw(Security.pwHashing(pw, hashsalt));
+		return memberDAO.getLoginResult(vo);
+		
 	}
+	
+	@Override
+	public String getHashsalt(MemberVO vo) {
+		return memberDAO.getHashsalt(vo);
+	}
+	
 
 }

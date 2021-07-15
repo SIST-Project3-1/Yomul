@@ -125,10 +125,29 @@ public class MemberDAO extends DAO {
 	}
 	
 	//로그인 처리
-	public int getLoginResult(MemberVO vo){		
+	public MemberVO getLoginResult(MemberVO vo){		
 		return sqlSession.selectOne(namespace + ".getLoginResult", vo);
 	
 	}
 
+	/**
+	 * HashSalt 가져오기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public String getHashsalt(MemberVO vo) {
+		return sqlSession.selectOne(namespace + ".getHashsalt",vo);
+	}
 }
 	
+
+
+
+
+
+
+
+
+
+

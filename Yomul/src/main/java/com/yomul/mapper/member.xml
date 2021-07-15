@@ -5,14 +5,21 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.member">
-	<!-- 로그인 기능 -->
-	<select id="getLoginResult" parameterType="com.yomul.vo.MemberVO" resultType="_int">
-		select count(*) 
-		from mycgv_member 
-		where email= #{email} and pw=#{pw}
-		
+
+	<!-- Hastsalt 가져오기 -->
+	<select id="getHashsalt" parameterType="com.yomul.vo.MemberVO" resultType="string">
+		SELECT HASHSALT
+		FROM YOMUL_MEMBERS
+		WHERE EMAIL = #{email}
 	</select>
 	
+	<!-- 로그인 -->
+	<select id="getLoginResult" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
+		SELECT NO, NICKNAME, AUTHORITY
+		from YOMUL_MEMBERS
+		where email = #{email} and pw = #{pw}
+	</select>
+
 	<!-- 회원 삭제 -->
 	<delete id="deletemember" parameterType="com.yomul.vo.MemberVO">
 		DELETE
@@ -153,5 +160,4 @@
 		FROM YOMUL_MEMBERS 
 		WHERE LOWER(NICKNAME) = LOWER(#{nickname})
 	</select>
-	
 </mapper>

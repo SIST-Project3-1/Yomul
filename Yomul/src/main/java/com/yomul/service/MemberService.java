@@ -30,5 +30,7 @@ public interface MemberService {
 
 	int getTotalPageCount();
 	
-	boolean getLoginResult(MemberVO vo);
+	MemberVO getLoginResult(MemberVO vo);
+	
+	String getHashsalt(MemberVO vo);
 }
