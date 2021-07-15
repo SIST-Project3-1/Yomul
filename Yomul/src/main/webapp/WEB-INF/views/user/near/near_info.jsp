@@ -8,10 +8,10 @@
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
 <script>
+// 게시글 번호 구하기
+var no = $(location).attr("pathname").split("/").pop();
 
 $(document).ready(function(){
-	// 게시글 번호 구하기
-	var no = $(location).attr("pathname").split("/").pop();
 	
 	// 단골일 경우 단골 버튼 색상 변경
 	$( "#btn_regular" ).on( "click", function() {
@@ -28,55 +28,123 @@ $(document).ready(function(){
 	});
 	
 	// 댓글 페이지 이동
-	$(".btn_pagination").click(function() {
-		var page = $(this).val();
-		var pageInfo;
-		
-		$.ajax({
-			url : "/yomul/near_info/comments?no=" + no + "&page=" + page,
-			method : "GET",
-			dataType : "json",
-			contentType: "application/json; charset=UTF-8",
-			success : function(result) {
-				if (result != null) {
-					var commentsHtml = "";
-					var cinfo = "";
-					
-					// 페이지 태그 변경~
-					for(var i=0;i<result.length;i++) {
-						cinfo = result[i];
-
-						//commentsHtml += "<div class='near-info-chat-content'>";
-						commentsHtml += "<div>";
-						commentsHtml += "	<img src='/yomul/upload/" + cinfo.img + "'>";
-						commentsHtml += "	<div>";
-						commentsHtml += "		<div>";
-						commentsHtml += "			<label>" + cinfo.writer + "</label>";
-						commentsHtml += "			<span>" + cinfo.content + "</span>";
-						commentsHtml += "		</div>";
-						commentsHtml += "		<div>";
-						commentsHtml += "			<label>" + cinfo.wdate + "</label>";
-						commentsHtml += "			<label class='near-info-point'>·</label>";
-						commentsHtml += "			<button type='button' class='near-info-chat-like'>";
-						commentsHtml += 				"좋아요 " + cinfo.likes;
-						commentsHtml += "			</button>";
-						commentsHtml += "			<label class='near-info-point'>·</label>";
-						commentsHtml += "			<button type='button' class='near-info-chat-report'>신고</button>";
-						commentsHtml += "		</div>";
-						commentsHtml += "	</div>";
-						commentsHtml += "</div>";
-						//commentsHtml += "</div>";
-					}
-					console.log(commentsHtml);
-					$("#comment_content_box").html(commentsHtml).trigger("pagecreate");
-				} else {
-					alert("댓글 페이지 이동 에러");
-				}
-			}
-		});
+	$(".page").click(function() {
+		clickCommentPage($(this).attr("value"));
 	});
 });
+
+function clickCommentPage(page) {
+	var pageInfo;
+	
+	$.ajax({
+		url : "/yomul/near_info/comments?no=" + no + "&page=" + page,
+		method : "GET",
+		dataType : "json",
+		contentType: "application/json; charset=UTF-8",
+		success : function(result) {
+			if (result != null) {
+				var commentsHtml = parseComments(result[0]);
+				var pageHtml = parseCommentPage(result[1]);
+				
+				$("#comment_count").html(result[1].count);
+				$("#comment_content_box").html(commentsHtml).trigger("pagecreate");
+				$("#comment_page_box").html(pageHtml).trigger("create");
+			} else {
+				alert("댓글 페이지 이동 에러");
+			}
+		}
+	});
+}
+
+function parseComments(commentInfo) {
+	var commentsHtml = "";
+	var cinfo = "";
+	
+	for(var i=0;i<commentInfo.length;i++) {
+		cinfo = commentInfo[i];
+
+		commentsHtml += "<div>";
+		commentsHtml += "	<img src='/yomul/upload/" + cinfo.img + "'>";
+		commentsHtml += "	<div>";
+		commentsHtml += "		<div>";
+		commentsHtml += "			<label>" + cinfo.writer + "</label>";
+		commentsHtml += "			<span>" + cinfo.content + "</span>";
+		commentsHtml += "		</div>";
+		commentsHtml += "		<div>";
+		commentsHtml += "			<label>" + cinfo.wdate + "</label>";
+		commentsHtml += "			<label class='near-info-point'>·</label>";
+		commentsHtml += "			<button type='button' class='near-info-chat-like'>";
+		commentsHtml += 				"좋아요 " + cinfo.likes;
+		commentsHtml += "			</button>";
+		commentsHtml += "			<label class='near-info-point'>·</label>";
+		commentsHtml += "			<button type='button' class='near-info-chat-report'>신고</button>";
+		commentsHtml += "		</div>";
+		commentsHtml += "	</div>";
+		commentsHtml += "</div>";
+	}
+	
+	return commentsHtml;
+}
+
+function parseCommentPage(pageInfo) {
+	var pageHtml = "";
+	
+	if(pageInfo.first) {
+		pageHtml += "<div class='page' value='1'>처음</div>";
+	}
+	if(pageInfo.prev) {
+		pageHtml += "<div class='page' value="+ pageInfo.prev +">이전</div>";
+	}
+	for(var i=pageInfo.start;i<=pageInfo.end;i++) {
+		pageHtml += "<div class='page";
+		if(i == pageInfo.nowPage) {
+			pageHtml += "-now";
+		}
+		pageHtml += "' value=" + i + ">" + i + "</div>";
+	}
+	if(pageInfo.next) {
+		pageHtml += "<div class='page' value="+ pageInfo.next +">다음</div>";
+	}
+	if(pageInfo.last) {
+		pageHtml += "<div class='page' value="+ pageInfo.totalPage +">맨뒤</div>";
+	}
+	
+	pageHtml += "<script>";
+	pageHtml += "$('.page').click(function() {";
+	pageHtml += "	clickCommentPage($(this).attr('value'));";
+	pageHtml += "});";
+	pageHtml += "</" + "script>";
+	
+	return pageHtml;
+}
 </script>
+<style>
+	#near_info .page {
+		display: inline;
+		background: none;
+		border: none;
+		color: gray;
+		border: 1px solid transparent;
+		text-decoration: none;
+		padding: 2px 7px;
+		margin: 0;
+		cursor: pointer;
+	}
+	
+	#near_info .page:hover {
+		color: rgb(255, 99, 95);
+		border: 1px solid lightgray;
+	}
+	
+	#near_info .page-now {
+		display: inline;
+		color: rgb(255, 99, 95);
+		border: 1px solid lightgray;
+		padding: 2px 7px;
+		margin: 0;
+		font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<!-- HEADER -->
@@ -138,7 +206,7 @@ $(document).ready(function(){
 			<!--  댓글  -->
 			<div class="near-info-chat">
 				<div class="near-info-chat-title">
-					<h3>댓글</h3><h3>${commentCount }</h3>
+					<h3>댓글</h3><h3 id="comment_count">${commentPageInfo.count }</h3>
 				</div>
 				<div class="near-info-chat-writer">
 					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
@@ -178,10 +246,27 @@ $(document).ready(function(){
 			</div>
 			
 			<!-- 페이징  -->
-			<div class="near-info-page">
-				<button type="button" class="btn_pagination" value="1" class="">1</button>
-				<button type="button" class="btn_pagination" value="2" class="">2</button>
-				<p>1 2 3 4</p>
+			<div class="near-info-page" id="comment_page_box">
+				<!-- 첫 페이지 버튼 -->
+				<c:if test="${commentPageInfo.first != 0 }">
+					<div class="page" value="1">처음</div>
+				</c:if>
+				<!-- 이전 페이지 버튼 -->
+				<c:if test="${commentPageInfo.prev != 0 }">
+					<div class="page" value="${commentPageInfo.prev }">이전</div>
+				</c:if>
+				<!-- 페이지 숫자 이동 버튼 -->
+				<c:forEach var="pno" begin="${commentPageInfo.start }" end="${commentPageInfo.end }" step="1">
+					<div class="page<c:if test="${pno == commentPageInfo.nowPage }">-now</c:if>" value="${pno }">${pno }</div>
+				</c:forEach>
+				<!-- 다음 페이지 버튼 -->
+				<c:if test="${commentPageInfo.next != 0 }">
+					<div class="page" value="${commentPageInfo.next }">다음</div>
+				</c:if>
+				<!-- 맨뒤 페이지 버튼 -->
+				<c:if test="${commentPageInfo.last != 0}">
+					<div class="page" value="${commentPageInfo.totalPage }">맨뒤</div>
+				</c:if>
 			</div>
 		</div>
 		

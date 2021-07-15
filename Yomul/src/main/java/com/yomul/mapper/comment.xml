@@ -25,4 +25,10 @@
 		where article_no = #{no}
 		group by article_no
 	</select>
+	
+	<!-- 댓글 등록 -->
+	<insert id="insertComment" parameterType="com.yomul.vo.CommentVO">
+		insert into yomul_comments()
+		values()
+	</insert>
 </mapper>

@@ -15,7 +15,11 @@ public class VendorDAO extends DAO{
 	
 	// 업체 단골 수 확인
 	public int getVendorCustomerCount(String no) {
-		return sqlSession.selectOne(nameSpace + ".selectVendorCustomerCount", no);
+		try {
+			return sqlSession.selectOne(nameSpace + ".selectVendorCustomerCount", no);
+		} catch (NullPointerException e) { // 0명일 시 널 포인터 예외 발생 
+			return 0;
+		}
 	}
 	
 	// 업체 단골 등록
