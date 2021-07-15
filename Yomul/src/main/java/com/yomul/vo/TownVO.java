@@ -1,8 +1,8 @@
 package com.yomul.vo;
 
-public class TownVO {
+public class TownVO extends VO {
 
-	private String no, category, title, content, tdate; // 게시글 번호, 카테고리, 제목, 내용, 작성일자
+	private String no, category, title, content, tdate, name; // 게시글 번호, 카테고리, 제목, 내용, 작성일자, 작성자
 	private int hits; // 조회수
 
 	public String getNo() {
@@ -43,6 +43,14 @@ public class TownVO {
 
 	public void setTdate(String tdate) {
 		this.tdate = tdate;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getHits() {
