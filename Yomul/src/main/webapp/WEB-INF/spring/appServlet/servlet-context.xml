@@ -50,8 +50,17 @@
 	<!-- Utility Object -->
 	<beans:bean id="fileUtils" class="com.yomul.util.FileUtils"></beans:bean>
 
+	<!-- Inteceptor Object -->
+	<beans:bean id="authInterceptor" class="com.yomul.interceptor.AuthInterceptor"></beans:bean>
+
+	<interceptors>
+		<interceptor>
+			<mapping path="/admin*" />
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
+	</interceptors>
+
 	<context:component-scan base-package="com.yomul.yomul" />
-
-
+	<context:component-scan base-package="com.yomul.dao" />
 
 </beans:beans>
