@@ -125,62 +125,10 @@ public class MemberDAO extends DAO {
 	}
 	
 	//로그인 처리
-	public boolean getLoginResult(MemberVO vo){
-		boolean result = false;
-		String sql = "select count(*) from mycgv_member where email=? and pw=?";
-		getPreparedStatement(sql);
-		
-		try {
-			pstmt.setString(1, vo.getEmail());
-			pstmt.setString(2, vo.getPw());
-			
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				if(rs.getInt(1) == 1) {
-				result=true; 
-				}
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-			
-		return result;
+	public int getLoginResult(MemberVO vo){		
+		return sqlSession.selectOne(namespace + ".getLoginResult", vo);
+	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }
+	

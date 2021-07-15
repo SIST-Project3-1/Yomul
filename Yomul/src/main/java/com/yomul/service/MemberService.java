@@ -29,4 +29,6 @@ public interface MemberService {
 	int deleteMember(MemberVO vo);
 
 	int getTotalPageCount();
+	
+	boolean getLoginResult(MemberVO vo);
 }

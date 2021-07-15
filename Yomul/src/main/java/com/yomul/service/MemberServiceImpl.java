@@ -75,4 +75,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.getTotalPageCount();
 	}
 
+	@Override
+	public boolean getLoginResult(MemberVO vo) {
+		return memberDAO.getLoginResult(vo) == 1 ? true : false;
+	}
+
 }

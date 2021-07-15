@@ -1,5 +1,6 @@
 package com.yomul.yomul;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,12 +9,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
-import com.yomul.dao.MemberDAO;
+import com.yomul.service.MemberService;
 import com.yomul.vo.MemberVO;
 
 @Controller
 public class LoginController {
-
+	
+	@Autowired
+	private MemberService memberService;
 	/**
 	 * 카카오 로그인 페이지
 	 * 
@@ -51,16 +54,12 @@ public class LoginController {
 	@RequestMapping(value="login_check.do", method=RequestMethod.POST)
 	public String login_check(MemberVO vo) {
 		String result_page = "";
-		MemberDAO dao = new MemberDAO();
-	//	SessionVO svo = dao.getLoginResult(vo);
-		String svo = dao.getLoginResult(vo);
+		boolean result = memberService.getLoginResult(vo);
+
 		
-		if(svo.getResult() == 1) {
-			
-		//svo.setID(vo.getID());
-		//session.setAttribute("svo",svo);
-		//response.sendReditrect("../index.jsp");		
-		result_page = "index";
+		
+		if(result) {		
+			result_page = "index";
 	}else {
 		// response.sendRedirect("loginFail.jsp");
 		result_page = "loginFail";
