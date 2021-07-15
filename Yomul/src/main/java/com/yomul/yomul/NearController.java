@@ -143,24 +143,53 @@ public class NearController {
 		return mv;
 	}
 	
-	// 내 근처 상세페이지 댓글 좋아요 추가 ajax
+	// 내 근처 상세페이지 댓글 작성 ajax
+	@ResponseBody
+	@RequestMapping(value = "/near_info/write_comment", method = RequestMethod.GET)
+	public String write_comment(String ano, String content, HttpSession session) {
+		// 로그인 정보 불러오기
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String mno = member.getNo();
+		
+		// 댓글 정보 세팅
+		CommentVO vo = new CommentVO();
+		vo.setArticleNo(ano);
+		vo.setWriter(mno);
+		vo.setContent(content);
+		
+		// DB에 댓글 저장
+		int result = commentService.addComment(vo);
+		
+		// 성공 시 1, 실패 시 0 반환
+		return String.valueOf(result);
+	}
+	
+	// 내 근처 상세페이지 댓글 좋아요 ajax
 	@ResponseBody
 	@RequestMapping(value = "/near_info/insert_like", method = RequestMethod.GET)
 	public String insert_like(String ano, HttpSession session) {
-		String mno = (String)session.getAttribute(""); // 여기에 로그인 정보 구하는 코드 넣기~~
+		// 로그인 정보 불러오기
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String mno = member.getNo();
 		
-		if(mno.equals("")) { // 로그인 안한 경우
+		if(mno.equals("")) { // 로그인 안한 경우 -1 반환
 			return "-1";
 		}
 		
-		return String.valueOf(likeService.insertLike(ano, mno));
+		// DB에 좋아요 데이터 저장
+		int result = likeService.insertLike(ano, mno);
+		
+		// 성공 시 1, 실패 시 0 반환
+		return String.valueOf(result);
 	}
 	
 	// 내 근처 상세페이지 댓글 신고 추가 ajax
 	@ResponseBody
 	@RequestMapping(value = "/near_info/insert_report", method = RequestMethod.GET)
 	public String insert_report(String ano, HttpSession session) {
-		String mno = (String)session.getAttribute(""); // 여기에 로그인 정보 구하는 코드 넣기~~
+		// 로그인 정보 불러오기
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String mno = member.getNo();
 
 		if(mno.equals("")) { // 로그인 안한 경우
 			return "-1";

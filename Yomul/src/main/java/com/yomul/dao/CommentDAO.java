@@ -33,4 +33,12 @@ public class CommentDAO extends DAO {
 		}
 	}
 
+	// 댓글 작성
+	public int addComment(CommentVO vo) {
+		try {
+			return sqlSession.insert(nameSpace + ".insertComment", vo);
+		} catch (Exception e) { // 작성 실패 시 0 반환
+			return 0;
+		}
+	}
 }

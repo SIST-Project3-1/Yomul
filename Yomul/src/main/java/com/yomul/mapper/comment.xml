@@ -28,7 +28,7 @@
 	
 	<!-- 댓글 등록 -->
 	<insert id="insertComment" parameterType="com.yomul.vo.CommentVO">
-		insert into yomul_comments()
-		values()
+		insert into yomul_comments(no, article_no, writer, content, wdate)
+		values('C'||yomul_comment_no_seq.nextval, ${articleNo}, ${writer}, ${content}, sysdate)
 	</insert>
 </mapper>
