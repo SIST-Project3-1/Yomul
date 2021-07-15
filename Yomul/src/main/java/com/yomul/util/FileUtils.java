@@ -25,6 +25,7 @@ public class FileUtils {
 
 	@Autowired
 	private FileService fileService;
+	
 	private static long SEQUENCE = 0L;
 	
 	// 저장하는 파일 이름을 구하는 함수
@@ -109,7 +110,7 @@ public class FileUtils {
 	}
 	// 중복되지 않게 현재 시간 붙여서 파일 이름 생성
 	public String genSaveFileName(String articleNo,String extName) {
-		String fileName = articleNo+"_"+SEQUENCE+"_"+extName;
+		String fileName = articleNo+"_"+(++SEQUENCE)+"_"+extName;
 		
 		return fileName;
 	}
