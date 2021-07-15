@@ -48,6 +48,9 @@
 		$("#btn_update").click(function() {
 			location.href = "admin_notice_update";
 		});
+		$("#btn_delete").click(function() {
+			location.href = "admin_notice_delete";
+		});
 	});
 </script>
 </head>
@@ -56,16 +59,15 @@
 	
 	<section id="notice_info">
 		<div>
-			<h4 class="font-weight-bold">제모옥~~~</h4>
-			<p class="font-weight-bold text-secondary">2021.07.02</p>
+			<h4 class="font-weight-bold">${vo.getTitle() }</h4>
+			<p class="font-weight-bold text-secondary">${vo.getNdate() }</p>
 		</div>
 		<hr>
 		<div class="my-5 mx-0">
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
-			내요옹~~~<br>
+		<c:forEach var="fname" items="${files }">
+				<img src="/yomul/image/${fname }" class="img-fluid">
+			</c:forEach>
+				${vo.getContent() }
 		</div>
 		<hr>
 		<div class="button">
