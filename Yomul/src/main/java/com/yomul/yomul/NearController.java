@@ -20,12 +20,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.yomul.dao.NearDAO;
 import com.yomul.service.CommentService;
 import com.yomul.service.FileService;
+import com.yomul.service.LikeService;
 import com.yomul.service.NearService;
+import com.yomul.service.ReportService;
 import com.yomul.service.VendorService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.CommentVO;
-import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 
@@ -39,10 +40,16 @@ public class NearController {
 	private FileService fileService;
 	
 	@Autowired
-	private CommentService	commentService;
+	private CommentService commentService;
 	
 	@Autowired
-	private VendorService	vendorService;
+	private VendorService vendorService;
+	
+	@Autowired
+	private LikeService likeService;
+	
+	@Autowired
+	private ReportService reportService;
 	
 	@Autowired
 	private NearDAO nearDAO;
@@ -108,7 +115,7 @@ public class NearController {
 			mv.addObject("vo", vo);
 			
 			// 게시글 파일 불러오기
-			ArrayList<FileVO> files = fileService.getFileList("N" + no);
+			ArrayList<String> files = fileService.getArticleFiles("N" + no);
 			mv.addObject("articleImages", files);
 			
 			// 댓글 정보 불러오기
@@ -129,6 +136,32 @@ public class NearController {
 		}
 		
 		return mv;
+	}
+	
+	// 내 근처 상세페이지 댓글 좋아요 추가 ajax
+	@ResponseBody
+	@RequestMapping(value = "/near_info/insert_like", method = RequestMethod.GET)
+	public String insert_like(String ano, HttpSession session) {
+		String mno = (String)session.getAttribute(""); // 여기에 로그인 정보 구하는 코드 넣기~~
+		
+		if(mno.equals("")) { // 로그인 안한 경우
+			return "-1";
+		}
+		
+		return String.valueOf(likeService.insertLike(ano, mno));
+	}
+	
+	// 내 근처 상세페이지 댓글 신고 추가 ajax
+	@ResponseBody
+	@RequestMapping(value = "/near_info/insert_report", method = RequestMethod.GET)
+	public String insert_report(String ano, HttpSession session) {
+		String mno = (String)session.getAttribute(""); // 여기에 로그인 정보 구하는 코드 넣기~~
+
+		if(mno.equals("")) { // 로그인 안한 경우
+			return "-1";
+		}
+		
+		return String.valueOf(reportService.insertReport(ano, mno));
 	}
 	
 	// 댓글 페이지 이동 ajax

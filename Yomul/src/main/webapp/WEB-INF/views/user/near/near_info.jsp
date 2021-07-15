@@ -33,6 +33,26 @@ $(document).ready(function(){
 	});
 });
 
+function clickCommentLike(btn) {
+	var cno = btn.val();
+	var likeCount = btn.html();
+	
+	$.ajax({
+		url : "/yomul/near_info/comment_like?no=" + cno,
+		method : "GET",
+		success : function(result) {
+			if (result == -1) { // 추천 실패
+				alert("댓글 추천 에러");
+			}else if(result == 0) { // 이미 추천한 경우
+				alert("이미 추천하셨습니다.");
+			}else { // 추천 성공
+				btn.html(++likeCount);
+				//btn.addClass("color-yomul");
+			}
+		}
+	});
+}
+
 function clickCommentPage(page) {
 	var pageInfo;
 	
@@ -144,6 +164,10 @@ function parseCommentPage(pageInfo) {
 		margin: 0;
 		font-weight: bold;
 	}
+	
+	#near_info .color-yomul {
+		color: rgb(255, 99, 95);
+	}
 </style>
 </head>
 <body>
@@ -160,34 +184,35 @@ function parseCommentPage(pageInfo) {
 			</div>
 			
 			<!--  이미지  -->
-			<div class="near-info-left-img">
-				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-				  <ol class="carousel-indicators">
-				    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-				   <% for(int i=0;i<5;i++){ %>
-				    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-				   <% } %>
-				  </ol>
-				  <div class="carousel-inner" style="width:500px; height:500px;">
-				 	 <div class="carousel-item active">
-				      <img src="http://localhost:9000/yomul/image/이미지준비중.jpg" class="d-block w-100" style="width:500px; height:500px;">
-				     </div>
-				  <% for(int i=0;i<5;i++){ %>
-				 	 <div class="carousel-item">
-				      <img src="http://localhost:9000/yomul/image/이미지준비중.jpg" class="d-block w-100" style="width:500px; height:500px;">
-				     </div>
-		 		  <% } %>
-				  </div>
-				  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				    <span class="sr-only">Previous</span>
-				  </a>
-				  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-				    <span class="sr-only">Next</span>
-				  </a>
+			<c:if test="${articleImages.size() != 0 }">
+				<div class="near-info-left-img">
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<c:forEach begin="1" end="${articleImages.size() }" varStatus="status">
+								<li data-target="#carouselExampleIndicators" 
+									data-slide-to="<c:choose><c:when test="${status.first }">0</c:when><c:otherwise>1</c:otherwise></c:choose>" 
+									class="<c:if test="${status.first }">active</c:if>">
+								</li>
+							</c:forEach>
+						</ol>
+						<div class="carousel-inner" style="width:500px; height:500px;">
+					  		<c:forEach var="articleImg" items="${articleImages }" varStatus="status">
+						 		<div class="carousel-item <c:if test="${status.first }">active</c:if>">
+						    		<img src="/yomul/upload/${articleImg }" class="d-block w-100" style="width:500px; height:500px;">
+						    	</div>
+					    	</c:forEach>
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+						    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						    <span class="sr-only">Next</span>
+						</a>
+					</div>
 				</div>
-			</div>
+			</c:if>
 			
 			<!--  내용  -->
 			<div class="near-info-left-content">
@@ -235,9 +260,9 @@ function parseCommentPage(pageInfo) {
 								<div>
 									<label>${cvo.wdate }</label>
 									<label class="near-info-point">·</label>
-									<button type="button" class="near-info-chat-like">좋아요 ${cvo.likes }</button>
+									<button type="button" class="near-info-chat-like" value="${cvo.no }">좋아요 ${cvo.likes }</button>
 									<label class="near-info-point">·</label>
-									<button type="button" class="near-info-chat-report">신고</button>
+									<button type="button" class="near-info-chat-report" value="${cvo.no }">신고</button>
 								</div>
 							</div>
 						</div>

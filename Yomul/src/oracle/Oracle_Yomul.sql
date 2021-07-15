@@ -262,14 +262,16 @@ CREATE TABLE YOMUL_COMMENTS(
 CREATE TABLE YOMUL_LIKES(
     ARTICLE_NO VARCHAR2(10), -- 좋아요 눌린 게시글 번호
     MEMBER_NO VARCHAR2(10),  -- 좋아요 누른 사람
-    CONSTRAINT PK_Y_L PRIMARY KEY (ARTICLE_NO, MEMBER_NO)
+    CONSTRAINT PK_Y_L PRIMARY KEY (ARTICLE_NO, MEMBER_NO),
+	CONSTRAINT FK_Y_L_MEMBER_NO FOREIGN KEY(MEMBER_NO) REFERENCES YOMUL_MEMBERS(NO)
 );
 
 -- 신고
 CREATE TABLE YOMUL_REPORTS(
     ARTICLE_NO VARCHAR2(10), -- 신고 눌린 게시글 번호
     MEMBER_NO VARCHAR2(10), -- 신고 누른 사람
-    CONSTRAINT PK_Y_R PRIMARY KEY (ARTICLE_NO, MEMBER_NO)
+    CONSTRAINT PK_Y_R PRIMARY KEY (ARTICLE_NO, MEMBER_NO),
+	CONSTRAINT FK_Y_R_MEMBER_NO FOREIGN KEY(MEMBER_NO) REFERENCES YOMUL_MEMBERS(NO)
 );
 -- 테이블 생성 끝----------------------------------------------------------------------------------------------------------------------------------
 
@@ -446,7 +448,8 @@ INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT, NDATE) VALUES(CONCAT('N', 
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT, NDATE) VALUES(CONCAT('N', YOMUL_NOTICES_NO_SEQ.NEXTVAL), 'M1', '제목5', '내용5', SYSDATE);
 
 -- 테스트용 공지사항 파일 추가
-INSERT INTO YOMUL_FILES(ARTICLE_NO, NO, FILENAME) VALUES('N1', 1, '이미지준비중.jpg');
+INSERT INTO YOMUL_FILES(ARTICLE_NO, NO, FILENAME) VALUES('N1', 1, 'default.jpg');
+INSERT INTO YOMUL_FILES(ARTICLE_NO, NO, FILENAME) VALUES('N1', 1, '신발사진1.jpg');
 
 -- 공지사항 조회수 업데이트
 UPDATE YOMUL_NOTICES SET HITS = HITS + 1 WHERE NO = 'N2';
@@ -521,6 +524,20 @@ SELECT count(*)
 FROM yomul_vendor_customers
 WHERE vendor_no = 'V1'
 group by vendor_no;
+
+-- 좋아요 추가
+INSERT into yomul_likes(article_no, member_no)
+values('V1', 'M2');
+
+-- 좋아요 취소
+DELETE FROM yomul_likes
+WHERE article_no = 'V1' AND member_no = 'M2';
+
+-- 좋아요 수 확인
+select count(*)
+FROM yomul_likes
+WHERE article_no = 'V1'
+group by article_no;
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 
