@@ -9,7 +9,7 @@
 	<!-- 업체 등록 -->
 	<insert id="insertVendor" parameterType="com.yomul.vo.VendorVO">
 		insert into yomul_vendors(no, owner, name, category, info, tel, addr)
-		values(#{no}, #{owner}, #{name}, #{category}, #{info}, #{tel}, #{addr})
+		values('V'||yomul_vendors_no_seq.nextval, #{owner}, #{name}, #{category}, #{info}, #{tel}, #{addr})
 	</insert>
 	
 	<!-- 업체 단골 수 확인 -->
@@ -43,6 +43,13 @@
 	<select id="selectVendorByOwner" resultType="com.yomul.vo.VendorVO" parameterType="java.lang.String">
 		select no, owner, name, category, info, tel, addr 
 		from yomul_vendors v
+		where owner = #{owner}
+	</select>
+	
+	<!-- 사용자 번호로 업체 번호 검색 -->
+	<select id="selectVendorNoByOwner" resultType="java.lang.String" parameterType="java.lang.String">
+		select no
+		from yomul_vendors
 		where owner = #{owner}
 	</select>
 	

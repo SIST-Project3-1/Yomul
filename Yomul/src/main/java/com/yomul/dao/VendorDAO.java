@@ -13,9 +13,13 @@ public class VendorDAO extends DAO{
 	
 	// 업체 등록
 	public String vendorSingUp(VendorVO vo) {
-		sqlSession.insert(nameSpace + ".insertVendor", vo);
+		try {
+			sqlSession.insert(nameSpace + ".insertVendor", vo);
+		} catch (Exception e) { // 중복되는 값이 있을 시 예외 발생.
+			return "0";
+		}
 			
-		return sqlSession.selectOne(nameSpace + ".selectVendorByOwner", vo.getOwner());
+		return sqlSession.selectOne(nameSpace + ".selectVendorNoByOwner", vo.getOwner());
 	}
 	
 	// 업체 단골 수 확인
