@@ -8,7 +8,7 @@
 
 	<!-- 파일 조회 -->
 	<select id="selectArticleFiles" resultType="java.lang.String" parameterType="java.lang.String">
-		select filename
+		select article_no||'_'||no||'_'||filename
 		from yomul_files
 		where article_no = #{no}
 		order by no asc

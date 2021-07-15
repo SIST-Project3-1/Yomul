@@ -159,10 +159,11 @@ CREATE TABLE YOMUL_VENDOR_NEWS(
 
 -- 업체 단골 (회원번호 이용하여 단골 프필이미지, 닉네임 가져오기)
 CREATE TABLE YOMUL_VENDOR_CUSTOMERS(
-    NAME VARCHAR2(50), --업체명
-    NO VARCHAR2(10), --회원번호
-    CONSTRAINT FK_Y_VC_NAME FOREIGN KEY (NAME) REFERENCES YOMUL_VENDORS(NAME),
-    CONSTRAINT FK_Y_VC_NO FOREIGN KEY (NO) REFERENCES YOMUL_MEMBERS(NO)
+    VENDOR_NO VARCHAR2(50), --업체번호
+    CUSTOMER_NO VARCHAR2(10), --회원번호
+    CONSTRAINT FK_Y_VC_VNO FOREIGN KEY (VENDOR_NO) REFERENCES YOMUL_VENDORS(NO),
+    CONSTRAINT FK_Y_VC_CNO FOREIGN KEY (CUSTOMER_NO) REFERENCES YOMUL_MEMBERS(NO),
+	CONSTRAINT PK_Y_VC PRIMARY KEY(VENDOR_NO, CUSTOMER_NO)
 );
 
 -- 업체 후기 (회원번호 이용하여 단골 프필이미지, 닉네임 가져오기)
@@ -314,7 +315,7 @@ CREATE SEQUENCE YOMUL_COMMENTS_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
 -- 시퀀스 생성 끝----------------------------------------------------------------------------------------------------------------------------------
 
 
--- 사용자 페이지 시작----------------------------------------------------------------------------------------------------------------------------------
+-- 데이터 입력 시작----------------------------------------------------------------------------------------------------------------------------------
 -- 회원 목록 조회
 SELECT * FROM YOMUL_MEMBERS;
 
@@ -461,10 +462,10 @@ INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT,
 VALUES(CONCAT('N', YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL), 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', SYSDATE, 1, 0);
 
 -- 내 근처 게시글 상세보기
-SELECT N.NO, M.NICKNAME AS WRITER, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS
-FROM YOMUL_NEAR_ARTICLES N, YOMUL_MEMBERS M
-WHERE N.WRITER = M.NO AND N.NO = 'N1';
-		
+SELECT N.NO, V.NO AS VNO, V.NAME AS WRITER, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS
+FROM YOMUL_NEAR_ARTICLES N, YOMUL_VENDORS V
+WHERE N.WRITER = V.OWNER AND N.NO = 'N1';
+
 -- 댓글 생성
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
 values(yomul_comments_no_seq.nextval,  'N1', 'M2', '댓글입니다~', sysdate, 0, 0);
@@ -499,26 +500,30 @@ FROM (SELECT ROWNUM AS rno, writer, CONTENT, wdate, likes, img
 	WHERE ROWNUM <= 10 * 1)
 WHERE rno > 10 * (1 - 1);
 
-SELECT writer, CONTENT, wdate, likes, img
-	FROM (SELECT ROWNUM as rno, writer, CONTENT, wdate, likes, img
-		from (select m.nickname as writer, c.content, c.wdate, c.likes, f.article_no||'_'||f.no||'_'||f.filename as img
-			FROM yomul_comments c, yomul_members m, yomul_files f
-			where c.article_no = 'N1' and c.writer = m.no and m.no = f.article_no(+)
-			ORDER BY c.NO DESC)
-		WHERE rownum <= 10 * 2)
-	where rno > 10 * (2 - 1);
-
 -- 댓글 갯수 확인
 select count(*)
 FROM yomul_comments
 WHERE article_no = 'N1'
 GROUP BY article_no;
 
+-- 업체 단골 등록
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no)
+values('V1', 'M1');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no)
+VALUES('V1', 'M2');
 
+-- 업체 단골 해제
+DELETE FROM yomul_vendor_customers
+WHERE vendor_no = 'V1' AND customer_no = 'M2';
+
+-- 업체 단골 수 확인
 SELECT count(*)
 FROM yomul_vendor_customers
-WHERE NAME = '요물학원'
-group by no;
+WHERE vendor_no = 'V1'
+group by vendor_no;
+
+-- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
+
 -- 사용자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
 
 -- 관리자 페이지 시작----------------------------------------------------------------------------------------------------------------------------------
