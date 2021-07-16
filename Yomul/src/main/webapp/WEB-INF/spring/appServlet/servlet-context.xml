@@ -38,6 +38,7 @@
 	<beans:bean id="reportService" class="com.yomul.service.ReportServiceImpl"></beans:bean>
 	<beans:bean id="townService" class="com.yomul.service.TownServiceImpl"></beans:bean>
 	<beans:bean id="noticeService" class="com.yomul.service.NoticeServiceImpl"></beans:bean>
+	<beans:bean id="faqService" class="com.yomul.service.FaqServiceImpl"></beans:bean>
 
 	<!-- Utility Object -->
 	<beans:bean id="fileUtils" class="com.yomul.util.FileUtils"></beans:bean>
