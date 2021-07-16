@@ -40,7 +40,7 @@
 				<h3>내 근처 소식</h3>
 				<a href="/yomul/near_card_form">전체보기 ></a>
 			</div>
-			<% for(int i=0;i<3;i++){ %>
+			<c:forEach var="vo" items="${list }">
 			<div class="near-home-news-content">
 				<table>
 					<tr>
@@ -49,21 +49,20 @@
 						</td>
 						<td>
 							<div class="near-home-news-title">
-								<a href="near_info">
-									<h5>타이틀입니다</h5>
-									<p>내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다
-									내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내내용입니다용입니다...</p>
+								<a href="near_info?no=${vo.no }">
+									<h5>${vo.title }</h5>
+									<p>${vo.content }</p>
 								</a>
 								<div class="near-home-news-writer">
 									<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
-									<label>작성자</label>
+									<label>${vo.writer }</label>
 								</div>
 							</div>
 						</td>
 					</tr>
 				</table>
 			</div>
-			<% } %>
+			</c:forEach>
 		</div>
 
 		<!-- 이웃들의 추천가게 -->
