@@ -24,7 +24,7 @@ abstract public class DAO {
 
 	// Constructor
 	public DAO() {
-		
+		create();
 	}
 
 	public void create() {
@@ -40,6 +40,7 @@ abstract public class DAO {
 			}
 
 			conn = DriverManager.getConnection(url, user, pass);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
