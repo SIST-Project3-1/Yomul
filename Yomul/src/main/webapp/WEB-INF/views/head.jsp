@@ -16,8 +16,8 @@
 </script>
 
 <%-- Kakao API --%>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<%=APIKey.KAKAO_API_JAVASCRIPT_KEY%>"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=<%=APIKey.KAKAO_API_JAVASCRIPT_KEY%>&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${APIKey.KAKAO_API_JAVASCRIPT_KEY}"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${APIKey.KAKAO_API_JAVASCRIPT_KEY}&libraries=services,clusterer,drawing"></script>
 
 <%--JS --%>
 <script src="/yomul/js/commons.js"></script>
