@@ -6,7 +6,57 @@
 
 <mapper namespace="mapper.near">
 
-		<!-- 내 근처 홈 화면 글 보기 -->
+	<!-- 내 근처 글쓰기 -->
+	<insert id="getNearWrite" parameterType="com.yomul.vo.NearVO">
+		INSERT INTO YOMUL_NEAR_ARTICLES
+		(
+			  NO
+			, WRITER
+			, TITLE
+			, CATEGORY
+			, PRICE
+			, HP
+			, CONTENT
+			, CHATCHECK
+		)
+		VALUES
+		(
+			  'N'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL
+			, #{writer}
+			, #{title}
+			, #{category}
+			, #{price}
+			, #{hp}
+			, #{content}
+			, #{chatCheck}
+		)
+	</insert>
+	
+	<!-- 내 근처 글 번호 가져오기 -->
+	<select id="getWriteNumber" resultType="string">
+		SELECT
+			MAX(NO) 
+		FROM
+			YOMUL_NEAR_ARTICLES
+	</select>
+	
+	<!-- 내 근처 글쓰기 시 파일 등록 -->
+	<insert id="getNearFile" parameterType="map">
+		INSERT INTO YOMUL_FILES
+		(
+			  ARTICLE_NO
+			, NO
+			, FILENAME
+		)
+		VALUES
+		(
+			  #{saveFileName}
+			, YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL
+			, #{originFilename}
+		)
+	</insert>
+	
+	<!-- 내 근처 홈 화면 글 보기 -->
 	<select id="selectNearList" resultType="com.yomul.vo.NearVO">
 		select * from (select no, title, content, writer, ndate from yomul_near_articles order by ndate desc) 
 		<!-- 부등호 인식 -->
