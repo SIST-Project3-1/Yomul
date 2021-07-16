@@ -10,9 +10,9 @@
 	<select id="selectCommentList" resultType="com.yomul.vo.CommentVO" parameterType="java.util.HashMap">
 		select writer, content, wdate, likes, img
 		from (select rownum as rno, writer, content, wdate, likes, img
-			from (select m.nickname as writer, c.content, c.wdate, c.likes, f.article_no||'_'||f.no||'_'||f.filename as img
-				from yomul_comments c, yomul_members m, yomul_files f
-				where c.article_no = #{no} and c.writer = m.no and m.no = f.article_no(+)
+			from (select m.nickname as writer, c.content, c.wdate, c.likes, c.img
+				from v_y_comments c, yomul_members m
+				where c.article_no = #{no} and c.writer = m.no
 				order by c.no desc)
 			where <![CDATA[rownum <= #{perPage} * #{page}]]>)
 		where <![CDATA[rno > #{perPage} * (#{page} - 1)]]>
@@ -28,7 +28,7 @@
 	
 	<!-- 댓글 등록 -->
 	<insert id="insertComment" parameterType="com.yomul.vo.CommentVO">
-		insert into yomul_comments()
-		values()
+		insert into yomul_comments(no, article_no, writer, content, wdate)
+		values('C'||yomul_comment_no_seq.nextval, ${articleNo}, ${writer}, ${content}, sysdate)
 	</insert>
 </mapper>

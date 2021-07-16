@@ -40,4 +40,15 @@ public class VendorDAO extends DAO{
 	public int removeVendorCustomer(HashMap<String, String> params) {
 		return sqlSession.delete(nameSpace + ".deleteVendorCustomer", params);
 	}
+	
+	// 업체 단골 등록/해제
+	public int switchVendorCustomer(HashMap<String, String> params) {
+		try { // 단골 등록이 되면 업체의 단골 수 반환
+			sqlSession.insert(nameSpace + ".insertVendorCustomer", params);
+			return getVendorCustomerCount(params.get("ano"));
+		} catch (Exception e) { // 등록에 실패하면(이미 등록되어 있으면) 등록 취소하고 0 반환
+			sqlSession.delete(nameSpace + ".deleteVendorCustomer", params);
+			return 0;
+		}
+	}
 }
