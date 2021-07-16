@@ -1,9 +1,12 @@
 package com.yomul.yomul;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
 import com.yomul.service.MemberService;
+import com.yomul.util.Cookies;
+import com.yomul.util.Security;
 import com.yomul.vo.MemberVO;
 
 @Controller
@@ -56,12 +61,31 @@ public class LoginController {
 
 	@ResponseBody
 	@RequestMapping(value = "login_proc", method = RequestMethod.POST)
-	public String login_proc(MemberVO vo, String idStore, String autoLogin, HttpSession session) {
+	public String login_proc(MemberVO vo, String idStore, String autoLogin, HttpSession session, HttpServletResponse response) {
+		String pw = vo.getPw();
+		// 로그인 처리
 		MemberVO member = memberService.getLoginResult(vo);
+
+		// 로그인 성공 시
 		if (member != null) {
 			session.setAttribute("member", member);
+			// 아이디 저장
+			if (idStore != null) { // 아이디 저장을 체크 했으면 쿠키에 아이디 저장
+				response.addCookie(Cookies.createCookie("idStore", vo.getEmail(), 60 * 60 * 24 * 30)); // 만든 쿠키를 브라우저에 전달함
+			} else { // 아이디 저장을 체크하지 않았으면 쿠키에 저장된 아이디 삭제
+				response.addCookie(Cookies.createCookie("idStore", vo.getEmail(), 0)); // 만든 쿠키를 브라우저에 전달함
+			}
+
+			// 자동 로그인
+			if (autoLogin != null) { // 자동로그인 설정했으면 적용
+				response.addCookie(Cookies.createCookie("autoLogin", pw, 60 * 60 * 24 * 30)); // 만든 쿠키를 브라우저에 전달함
+			} else { // 자동 로그인을 해제했으면 해당 쿠키 삭제
+				response.addCookie(Cookies.createCookie("autoLogin", pw, 0)); // 만든 쿠키를 브라우저에 전달함
+			}
+
 		}
 		return member != null ? "1" : "0";
+
 	}
 
 	/**
@@ -92,8 +116,18 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "login", method = RequestMethod.GET)
-	public String login() {
-		return "user/login/login";
+	public ModelAndView login(@CookieValue(value = "idStore", required = false) Cookie idStore,
+			@CookieValue(value = "autoLogin", required = false) Cookie autoLogin) {
+		ModelAndView mv = new ModelAndView("user/login/login");
+		if (idStore != null) {
+			mv.addObject("idStore", idStore.getValue());
+		}
+
+		if (autoLogin != null) {
+			mv.addObject("autoLogin", autoLogin.getValue());
+		}
+
+		return mv;
 	}
 
 	/**

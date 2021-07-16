@@ -128,11 +128,11 @@ public class MemberDAO extends DAO {
 	public int nicknameCheck(String nickname) {
 		return sqlSession.selectOne(namespace + ".nicknamecheck", nickname);
 	}
-	
-	//로그인 처리
-	public MemberVO getLoginResult(MemberVO vo){		
+
+	// 로그인 처리
+	public MemberVO getLoginResult(MemberVO vo) {
 		return sqlSession.selectOne(namespace + ".getLoginResult", vo);
-	
+
 	}
 
 	/**
@@ -142,17 +142,6 @@ public class MemberDAO extends DAO {
 	 * @return
 	 */
 	public String getHashsalt(MemberVO vo) {
-		return sqlSession.selectOne(namespace + ".getHashsalt",vo);
+		return sqlSession.selectOne(namespace + ".getHashsalt", vo);
 	}
 }
-	
-
-
-
-
-
-
-
-
-
-
