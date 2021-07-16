@@ -30,6 +30,10 @@
 			});
 			return false;
 		});
+
+		if ($("#autoLogin").is(":checked")) {
+			$("#form_login").submit();
+		}
 	});
 </script>
 </head>
@@ -45,18 +49,18 @@
 			</h1>
 			<form id="form_login" action="login_proc" method="post">
 				<div class="form-group h-100 align-middle">
-					<input class="w-100 form-control rounded-0" style="border-radius: .25rem .25rem 0 0 !important;" type="email" id="email" name="email" placeholder="이메일">
-					<input class="w-100 form-control rounded-0 border-top-0" style="border-radius: 0 0 .25rem .25rem !important;" type="password" id="pw" name="pw" placeholder="비밀번호">
+					<input class="w-100 form-control rounded-0" style="border-radius: .25rem .25rem 0 0 !important;" type="email" id="email" name="email" placeholder="이메일" value="${idStore}">
+					<input class="w-100 form-control rounded-0 border-top-0" style="border-radius: 0 0 .25rem .25rem !important;" type="password" id="pw" name="pw" placeholder="비밀번호" value="${autoLogin}">
 				</div>
 				<button class="btn btn-block btn-yomul mb-2" type="submit">로그인</button>
 				<a class="btn btn-outline-yomul btn-block rounded-pill text-dark bg-white border-dark mb-2" href="/yomul/join">계정이 없으신가요? 간편하게 가입하기</a>
 				<div class="d-flex text-muted mb-2">
 					<label>
-						<input type="checkbox" name="id_store" id="idStore">
+						<input type="checkbox" name="idStore" id="idStore" ${idStore != null ? "checked" : ""}>
 						<small> 아이디 저장 </small>
 					</label>
 					<label class="ml-2">
-						<input type="checkbox" name="auto_login" id="autoLogin">
+						<input type="checkbox" name="autoLogin" id="autoLogin" ${autoLogin != null ? "checked" : ""}>
 						<small> 자동 로그인 </small>
 					</label>
 					<small class="ml-auto"> <a href="/yomul/reset_password" class="text-decoration-none text-muted">비밀번호 재설정</a>
