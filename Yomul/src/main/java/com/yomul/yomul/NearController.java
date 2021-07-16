@@ -145,7 +145,6 @@ public class NearController {
 		return mv;
 	}
 	
-	// 아직 미완 로그인 기능 구현되면 구현한 예정
 	// 단골 등록 ajax
 	@ResponseBody
 	@RequestMapping(value = "/near_info/add_vendor_customer_proc", method = RequestMethod.GET)
