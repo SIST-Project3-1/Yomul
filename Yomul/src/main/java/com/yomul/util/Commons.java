@@ -27,7 +27,7 @@ public class Commons {
 		if(member == null) {
 			return "";
 		}
-		System.out.println(member.toStringMultiline());
+		
 		return member.getNo();
 	}
 	

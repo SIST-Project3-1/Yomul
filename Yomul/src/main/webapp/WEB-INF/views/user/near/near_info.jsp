@@ -22,9 +22,17 @@ $(document).ready(function(){
 	});
 	
 	// 댓글 작성
-	$("#write_comment_form").submit(function() {
-		writeComment($(this));
+	$("#btn_write_comment").click(function() {
+		writeComment();
 	});
+	
+	// 댓글 입력란에서 엔터키 눌러도 잘 작성되도록 함
+	$("input[type='text']").keydown(function() {
+		if(event.keyCode == 13) {
+			event.preventDefault();
+			writeComment();
+		}
+	})
 	
 	// 댓글 페이지 이동
 	$(".page").click(function() {
@@ -33,12 +41,12 @@ $(document).ready(function(){
 	
 	// 좋아요 버튼 클릭
 	$(".btn_like").click(function() {
-		clickLike($(this))
+		clickLike(this)
 	});
 	
 	// 신고 버튼 클릭
 	$(".btn_report").click(function() {
-		clickReport($(this))
+		clickReport(this)
 	});
 });
 
@@ -61,8 +69,8 @@ function clickCustomer() {
 }
 
 // 댓글 작성
-function writeComment(form) {
-	var formData = new FormData($(this)[0]);
+function writeComment() {
+	var formData = new FormData($("#write_comment_form")[0]);
 	formData.append("ano", no);
 	
 	$.ajax({
@@ -73,13 +81,13 @@ function writeComment(form) {
 		contentType : false,
 		processData : false,
 		success : function(result) {
-			if (result == 1) { // 작성 성공
-				location.href = "/yomul/vendor_profile_info";
-			} else if(result == 0) { // 작성 실패
-				alert("댓글 작성에 실패했습니다.");
-			}else if(result == -1) { // 로그인 필요
+			if(result == -1) { // 로그인 필요
 				alert("로그인이 필요합니다.");
 				location.href = "/yomul/login";
+			}else if(result == 0) { // 작성 실패
+				alert("댓글 작성에 실패했습니다.");
+			}else { // 작성 성공
+				location.reload();
 			}
 		}
 	});
@@ -99,7 +107,7 @@ function clickLike(btn) {
 			}else if(result == 0) { // 이미 추천한 경우
 				alert("이미 추천하셨습니다.");
 			}else { // 추천 성공
-				btn.html(result);
+				btn.html("좋아요 " + result);
 				//btn.addClass("color-yomul");
 			}
 		}
@@ -149,6 +157,7 @@ function clickCommentPage(page) {
 	});
 }
 
+// ajax로 받은 댓글 정보로 댓글 출력
 function parseComments(commentInfo) {
 	var commentsHtml = "";
 	var cinfo = "";
@@ -179,6 +188,7 @@ function parseComments(commentInfo) {
 	return commentsHtml;
 }
 
+// ajax로 받은 페이지네이션 정보로 페이지네이션 출력
 function parseCommentPage(pageInfo) {
 	var pageHtml = "";
 	
@@ -209,6 +219,12 @@ function parseCommentPage(pageInfo) {
 	pageHtml += "</" + "script>";
 	
 	return pageHtml;
+}
+
+// 이미지 확장자 확인
+function checkFile(input) {
+	var ext = $(input).val().split(".").pop().toLowerCase();
+	return $.inArray(ext, ["jpg", "jpeg", "png", "gif"]) != -1;
 }
 </script>
 <style>
@@ -244,6 +260,11 @@ function parseCommentPage(pageInfo) {
 	
 	#near_info .bg-gray {
 		background-color: rgb(240, 244, 245);
+	}
+	
+	#near_info .vendor_info>label {
+		color: black;
+		cursor: pointer;
 	}
 </style>
 </head>
@@ -310,18 +331,18 @@ function parseCommentPage(pageInfo) {
 				<div class="near-info-chat-title">
 					<h3>댓글</h3><h3 id="comment_count">${commentPageInfo.count }</h3>
 				</div>
-				<form id="write_comment_form" class="near-info-chat-writer">
+				<form id="write_comment_form" class="near-info-chat-writer" novalidate>
 					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 					<div>
-						<input type="text" id="comment_text" name="content" placeholder="댓글을 남겨 보세요.">
+						<input type="text" id="comment_text" name="content" placeholder="댓글을 남겨 보세요." required>
 						<div class="near-info-chat-button">
-							<button class="comment-feed__form__photo" type="button" onclick="document.getElementById('file').click();">
+							<button class="comment-feed__form__photo" type="button" onclick="document.getElementById('comment_file').click();">
 								<svg width="24" height="20" viewBox="0 0 24 20" preserveAspectRatio="xMidYMid meet">
 									<path fill="#292929" fill-rule="nonzero" d="M3.22 20C1.446 20 0 18.547 0 16.765V6.176c0-1.782 1.446-3.235 3.22-3.235h3.118L7.363.377A.586.586 0 0 1 7.903 0h8.195c.24.003.453.152.54.377l1.024 2.564h3.118c1.774 0 3.22 1.453 3.22 3.235v10.589C24 18.547 22.554 20 20.78 20H3.22zm0-1.176h17.56a2.037 2.037 0 0 0 2.05-2.06V6.177c0-1.15-.904-2.058-2.05-2.058h-3.512a.585.585 0 0 1-.54-.368l-1.024-2.574H8.296L7.27 3.75a.585.585 0 0 1-.54.368H3.22a2.037 2.037 0 0 0-2.05 2.058v10.589c0 1.15.904 2.059 2.05 2.059zM12 17.059c-3.064 0-5.561-2.51-5.561-5.588 0-3.08 2.497-5.589 5.561-5.589s5.561 2.51 5.561 5.589c0 3.079-2.497 5.588-5.561 5.588zm0-1.177a4.392 4.392 0 0 0 4.39-4.411A4.392 4.392 0 0 0 12 7.059a4.392 4.392 0 0 0-4.39 4.412A4.392 4.392 0 0 0 12 15.882z"></path>
 								</svg>
 							</button>
-							<input type="file" id="comment_file" name="file" style="display:none" >
-							<button type="submit" id="btn_write_comment" class="comment-feed__form__submit">등록</button>
+							<input type="file" id="comment_file" name="file" class="d-none" accept=".gif, .jpg, .jpeg, .png">
+							<button type="button" id="btn_write_comment" class="comment-feed__form__submit">등록</button>
 						</div>
 					</div>
 				</form>
@@ -339,7 +360,7 @@ function parseCommentPage(pageInfo) {
 									<label class="near-info-point">·</label>
 									<button type="button" class="btn_like near-info-chat-like" value="${cvo.no }">좋아요 ${cvo.likes }</button>
 									<label class="near-info-point">·</label>
-									<button type="button" class="btn_report near-info-chat-report" value="${cvo.articleNo }">신고</button>
+									<button type="button" class="btn_report near-info-chat-report" value="${cvo.no }">신고</button>
 								</div>
 							</div>
 						</div>
@@ -376,8 +397,10 @@ function parseCommentPage(pageInfo) {
 		<div class="near-info-right" id="near_info_right">
 			<input type="hidden" id="vendor_no" value="${vo.vno }">
 			<div class="near-info-right-writer">
-				<img src="http://localhost:9000/yomul/upload/default.jpg">
-				<label>${vo.writer }</label>
+				<a href="/yomul/vendor_profile_info/${vo.vno }" class="vendor_info">
+					<img src="http://localhost:9000/yomul/upload/default.jpg">
+					<label>${vo.writer }</label>
+				</a>
 				<button type="button" id="btn_regular" value="false"><p>+</p>단골<p id="vcCount">${vendorCustomerCount }</p></button>
 			</div>
 			<div class="near-info-right-price">

@@ -1,11 +1,10 @@
 package com.yomul.yomul;
 
-import java.io.File;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,6 +63,13 @@ public class VendorController {
 	//업체 프로필 보기
 	@RequestMapping(value = "/vendor_profile_info", method = RequestMethod.GET)
 	public ModelAndView vendor_profile_info() {
+		ModelAndView mv = new ModelAndView("user/near/vendor_profile_info");
+		mv.addObject("headerType", "profile");
+		return mv;
+	}
+	//업체 프로필 보기
+	@RequestMapping(value = "/vendor_profile_info/{no}", method = RequestMethod.GET)
+	public ModelAndView vendor_profile_info(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_profile_info");
 		mv.addObject("headerType", "profile");
 		return mv;
