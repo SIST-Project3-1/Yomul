@@ -14,20 +14,20 @@ public class CommentServiceImpl implements CommentService {
 
 	@Autowired
 	private CommentDAO commentDAO;
-	
+
 	public ArrayList<CommentVO> getCommentList(String no, int page) {
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("no", no);
 		params.put("page", page);
 		params.put("perPage", 10);
-		
+
 		return commentDAO.getComments(params);
 	}
-	
+
 	public int getCommentCount(String no) {
 		return commentDAO.getCommentCount(no);
 	}
-	
+
 	public int addComment(CommentVO vo) {
 		return commentDAO.addComment(vo);
 	}

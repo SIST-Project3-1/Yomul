@@ -37,16 +37,30 @@
 	<beans:bean id="likeService" class="com.yomul.service.LikeServiceImpl"></beans:bean>
 	<beans:bean id="reportService" class="com.yomul.service.ReportServiceImpl"></beans:bean>
 	<beans:bean id="townService" class="com.yomul.service.TownServiceImpl"></beans:bean>
+	<beans:bean id="noticeService" class="com.yomul.service.NoticeServiceImpl"></beans:bean>
 
 	<!-- Utility Object -->
 	<beans:bean id="fileUtils" class="com.yomul.util.FileUtils"></beans:bean>
 
 	<!-- Inteceptor Object -->
 	<beans:bean id="authInterceptor" class="com.yomul.interceptor.AuthInterceptor"></beans:bean>
+	<beans:bean id="adminInterceptor" class="com.yomul.interceptor.AdminInterceptor"></beans:bean>
 
 	<interceptors>
 		<interceptor>
 			<mapping path="/mypage/*" />
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
+		<interceptor>
+			<mapping path="/admin*" />
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
+		<interceptor>
+			<mapping path="/chat*" />
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
+		<interceptor>
+			<mapping path="/*_write" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 	</interceptors>
