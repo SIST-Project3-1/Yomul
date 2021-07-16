@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -27,10 +26,10 @@ div.admin_notice_write .head input {
 	text-align: left;
 }
 
-div.admin_notice_write .head .form-select{
-	padding:5px 20px;
-	border:2px solid lightgray;
-	border-radius:20px;
+div.admin_notice_write .head .form-select {
+	padding: 5px 20px;
+	border: 2px solid lightgray;
+	border-radius: 20px;
 }
 
 div.admin_notice_write .body textarea {
@@ -72,27 +71,22 @@ div.admin_notice_write div.notice_write_btn .noticeWrite {
 	<%@ include file="../../admin_header.jsp"%>
 
 	<!--  BODY  -->
-	<section id="sample">
-		<form name="noticeWrite" method="get" action="#">
+	<section id="admin_notice_wrtie">
+		<form name="noticeWrite" method="post" action="admin_notice_write_proc">
 			<div class="admin_notice_write">
 				<div class="head">
 					<h1>공지사항 작성</h1>
-					<h4>
-						공지사항을 작성해주세요
-					</h4>
+					<h4>공지사항을 작성해주세요</h4>
 					<hr>
-					<input type="text" name="title" id="title" class="title"
-						placeholder="제목을 입력해주세요" required>
+					<input type="text" name="title" id="title" class="title" placeholder="제목을 입력해주세요" required>
 					<div id="title_alert"></div>
 
 				</div>
 				<div class="body">
-					<textarea name="content" id="content" class="content"
-						placeholder="내용을 적어주세요" required></textarea>
+					<textarea name="content" id="content" class="content" placeholder="내용을 적어주세요" required></textarea>
 				</div>
 				<div class="notice_write_btn">
-					<button type="submit" name="noticeWrite" id="noticeWrite"
-						class="noticeWrite">저장하기</button>
+					<button type="submit" name="noticeWrite" id="noticeWrite" class="noticeWrite">저장하기</button>
 				</div>
 			</div>
 		</form>

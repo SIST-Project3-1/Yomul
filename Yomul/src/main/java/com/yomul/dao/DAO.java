@@ -24,10 +24,9 @@ abstract public class DAO {
 
 	// Constructor
 	public DAO() {
-		
 	}
-
-	public void create() {
+	
+	public void create(){
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
@@ -44,7 +43,7 @@ abstract public class DAO {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/** PreparedStatement 생성 **/
 	public void getPreparedStatement(String sql) {
 		try {

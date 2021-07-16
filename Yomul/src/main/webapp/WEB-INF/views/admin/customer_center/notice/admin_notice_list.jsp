@@ -46,12 +46,20 @@ div.list #btn-yomul {
 }
 </style>
 <%@ include file="../../../head.jsp"%>
+<script>
+	$(document).ready(function() {
+		// 문의하기 버튼 클릭
+		$("#btn-yomul").click(function() {
+			location.href = "admin_notice_write";
+		});
+	});
+</script>
 </head>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../../admin_header.jsp"%>
 	<!--  BODY  -->
-	<section id="admin_product_list">
+	<section id="admin_notice_list">
 		<div class="list">
 			<div class="article">
 				<div class="container">
@@ -72,10 +80,23 @@ div.list #btn-yomul {
 									</tr>
 								</thead>
 								<tr>
+									<c:forEach var="vo" items="${list }">
+										<li class="p-0 m-0">
+										<td>${vo.getNo() }</td>
+										<td class="p-0 m-0 text-body"><a
+											href="admin_notice/${vo.getNo() }">${vo.getTitle() }</a></td>
+										<td class="text-secondary">${vo.getNdate() }</td>
+										<hr>
+										</li>
+									</c:forEach>
+								</tr>
+								<!-- 원본							
+<tr>
 									<td>1</td>
 									<td><a href="admin_notice_info">정글러</td>
 									<td>1972.11.21</td>
 								</tr>
+								 -->
 								</tbody>
 							</table>
 						</div>

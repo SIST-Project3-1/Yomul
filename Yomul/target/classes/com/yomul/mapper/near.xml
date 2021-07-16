@@ -5,19 +5,11 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.near">
-
-		<!-- 내 근처 홈 화면 글 보기 -->
-	<select id="selectNearList" resultType="com.yomul.vo.NearVO">
-		select * from (select no, title, content, writer, ndate from yomul_near_articles order by ndate desc) 
-		<!-- 부등호 인식 -->
-		<![CDATA[where rownum <= 3]]>
-	</select>
-	
 	
 	<!-- 내 근처 게시글 상세보기 -->
 	<select id="selectNearInfo" resultType="com.yomul.vo.NearVO" parameterType="java.lang.String">
-		select n.no, v.no as vno, v.name as writer, n.title, n.category, n.price, n.hp, n.content, n.ndate, n.chatcheck, n.hits, n.files
-		from v_y_near_articles n, yomul_vendors v
+		select n.no, v.no as vno, v.name as writer, n.title, n.category, n.price, n.hp, n.content, n.ndate, n.chatcheck, n.hits
+		from yomul_near_articles n, yomul_vendors v
 		where n.writer = v.owner and n.no = #{no}
 	</select>
 	
