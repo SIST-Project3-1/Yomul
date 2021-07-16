@@ -78,7 +78,7 @@ function vendor_signup_submit() {
 							<span class="d-flex">사진 추가</span>
 						</div>
 					</button>
-					<input type="file" name="file" id="file" style="display:none" onchange="changeFile(this)">
+					<input type="file" name="file" id="file" style="display:none" onchange="changeFile(this)" accept=".gif, .jpg, .jpeg, .png">
 				</div>
 				<div class="vendor-signup-write">
 					<div>
