@@ -45,23 +45,33 @@
 	<!-- Inteceptor Object -->
 	<beans:bean id="authInterceptor" class="com.yomul.interceptor.AuthInterceptor"></beans:bean>
 	<beans:bean id="adminInterceptor" class="com.yomul.interceptor.AdminInterceptor"></beans:bean>
+	<beans:bean id="loginInterceptor" class="com.yomul.interceptor.LoginInterceptor"></beans:bean>
 
 	<interceptors>
+		<!-- 마이페이지 로그인 필요 -->
 		<interceptor>
 			<mapping path="/mypage/*" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
+		<!-- 관리자페이지 관리자 계정 필요 -->
 		<interceptor>
 			<mapping path="/admin*" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
+		<!-- 채팅페이지 로그인 필요 -->
 		<interceptor>
 			<mapping path="/chat*" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
+		<!-- 글쓰기 로그인 필요 -->
 		<interceptor>
 			<mapping path="/*_write" />
 			<beans:ref bean="authInterceptor" />
+		</interceptor>
+		<!-- 로그인 시 로그인 페이지 입장 불가 -->
+		<interceptor>
+			<mapping path="/login*" />
+			<beans:ref bean="loginInterceptor" />
 		</interceptor>
 	</interceptors>
 
