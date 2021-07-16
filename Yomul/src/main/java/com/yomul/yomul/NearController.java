@@ -78,7 +78,7 @@ public class NearController {
 	}
 
 	@RequestMapping(value = "/near_write_proc", method = RequestMethod.POST)
-	public ModelAndView near_write_proc(NearVO vo, @RequestParam("uploadFile") List<MultipartFile> files, HttpServletRequest request) {
+	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request) {
 
 		ModelAndView mv = new ModelAndView();
 		int fileCount = fileUploadService.getUploadedCount(files);
