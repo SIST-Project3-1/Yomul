@@ -44,6 +44,7 @@
 
 	<!-- Inteceptor Object -->
 	<beans:bean id="authInterceptor" class="com.yomul.interceptor.AuthInterceptor"></beans:bean>
+	<beans:bean id="adminInterceptor" class="com.yomul.interceptor.AdminInterceptor"></beans:bean>
 
 	<interceptors>
 		<interceptor>
