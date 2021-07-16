@@ -8,7 +8,7 @@ import com.yomul.dao.ReportDAO;
 
 public class ReportServiceImpl implements ReportService {
 	@Autowired
-	ReportDAO reportDAO;
+	private ReportDAO reportDAO;
 	
 	// 신고 추가
 	public int insertReport(String ano, String mno) {
