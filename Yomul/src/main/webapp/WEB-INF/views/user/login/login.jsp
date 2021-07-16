@@ -18,7 +18,7 @@
 			<h1 class="mb-3 text-center text-decoration-none text-dark">
 				<i class="bi bi-bank mr-2"></i>요물
 			</h1>
-			<form name="login_form">
+			<form name="login_form" action="login_check.do" method="post">
 				<div class="form-group h-100 align-middle">
 					<input class="w-100 form-control rounded-0" style="border-radius: .25rem .25rem 0 0 !important;" type="email" id="email" name="email" placeholder="이메일"> <input class="w-100 form-control rounded-0 border-top-0" style="border-radius: 0 0 .25rem .25rem !important;" type="password" id="pw" name="pw" placeholder="비밀번호">
 				</div>
