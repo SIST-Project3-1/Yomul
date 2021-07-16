@@ -8,9 +8,9 @@
 	
 	<!-- 댓글 목록 조회 -->
 	<select id="selectCommentList" resultType="com.yomul.vo.CommentVO" parameterType="java.util.HashMap">
-		select writer, content, wdate, likes, img
-		from (select rownum as rno, writer, content, wdate, likes, img
-			from (select m.nickname as writer, c.content, c.wdate, c.likes, c.img
+		select no, writer, content, wdate, likes, img
+		from (select rownum as rno, no, writer, content, wdate, likes, img
+			from (select c.no, m.nickname as writer, c.content, c.wdate, c.likes, c.img
 				from v_y_comments c, yomul_members m
 				where c.article_no = #{no} and c.writer = m.no
 				order by c.no desc)

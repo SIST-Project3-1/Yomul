@@ -44,6 +44,7 @@ public class CommonsController {
 	public String write_comment(String ano, String content, MultipartFile file, HttpSession session) {
 		// 로그인한 계정 번호 불러오기
 		String mno = Commons.getMno(session);
+		
 		if(mno.equals("")) { // 로그인이 안되어 있을 경우 -1 반환
 			return "-1";
 		}
@@ -67,6 +68,7 @@ public class CommonsController {
 	public String insert_like(String ano, HttpSession session) {
 		// 로그인한 계정 번호 불러오기
 		String mno = Commons.getMno(session);
+		
 		if(mno.equals("")) { // 로그인이 안되어 있을 경우 -1 반환
 			return "-1";
 		}
