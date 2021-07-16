@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>요물 로그인1</title>
+<title>요물 로그인</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
 </head>
