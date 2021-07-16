@@ -92,7 +92,7 @@
 				</li>
 				<hr>
 				<c:forEach var="fvo" items="${faqlist }" varStatus="status">
-				<li class="faq_info" category="${fvo.getCategory() }">
+				<li class="faq_info" category="${fvo.getCategoryNo() }">
 					<a class="text-decoration-none text-reset" data-toggle="collapse" href="#faq${status.index }" aria-expanded="false" aria-controls="#faq${status.index }">${fvo.getTitle() }</a>
 					<p class="collapse mt-2" id="faq${status.index }">${fvo.getContent() }</p>
 					<hr>

@@ -1,6 +1,5 @@
 package com.yomul.service;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +39,13 @@ public class VendorServiceImpl implements VendorService {
 		params.put("cno", cno);
 		
 		return vendorDAO.removeVendorCustomer(params);
+	}
+	
+	public int switchVendorCustomer(String vno, String cno) {
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("vno", vno);
+		params.put("cno", cno);
+		
+		return vendorDAO.switchVendorCustomer(params);
 	}
 }

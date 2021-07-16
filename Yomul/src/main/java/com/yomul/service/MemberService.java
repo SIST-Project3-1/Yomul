@@ -28,10 +28,11 @@ public interface MemberService {
 
 	int deleteMember(MemberVO vo);
 
-	int getTotalPageCount();
-	
 	MemberVO getLoginResult(MemberVO vo);
 	
 	String getHashsalt(MemberVO vo);
+  
+	int getTotalPageCount(String search);
+  
 
 }

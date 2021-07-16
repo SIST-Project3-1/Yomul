@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <nav class="border-bottom navbar navbar-expand-md bg-white navbar-light sticky-top">
-	<a class="navbar-brand" href="/yomul/admin_product_list"> 요물 </a>
+	<a class="navbar-brand" href="/yomul/admin"> 요물 </a>
 
 	<div class="collapse navbar-collapse" id="navbarText">
 		<ul class="navbar-nav">
