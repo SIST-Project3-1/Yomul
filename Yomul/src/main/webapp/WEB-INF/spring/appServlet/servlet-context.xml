@@ -51,6 +51,18 @@
 			<mapping path="/mypage/*" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
+		<interceptor>
+			<mapping path="/admin*" />
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
+		<interceptor>
+			<mapping path="/chat*" />
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
+		<interceptor>
+			<mapping path="/*_write" />
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
 	</interceptors>
 
 	<context:component-scan base-package="com.yomul.yomul" />
