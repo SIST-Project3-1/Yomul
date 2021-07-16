@@ -42,7 +42,7 @@
 			<a class="nav-link" href="/yomul/join">회원가입</a>
 		</li>
 
-		<c:if test="${session.member.authority == 'ADMIN' }">
+		<c:if test="${sessionScope.member.authority == 'ADMIN' }">
 			<li class="nav-item">
 				<a class="nav-link" href="/yomul/admin">ADMIN</a>
 			</li>

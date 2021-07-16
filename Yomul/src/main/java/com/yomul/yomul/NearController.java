@@ -78,7 +78,7 @@ public class NearController {
 	}
 
 	@RequestMapping(value = "/near_write_proc", method = RequestMethod.POST)
-	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request) {
+	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request,HttpSession session){
 
 		ModelAndView mv = new ModelAndView();
 		int fileCount = fileUploadService.getUploadedCount(files);
@@ -88,6 +88,7 @@ public class NearController {
 			mv.addObject("url", url);
 		}
 		mv.addObject("fileCount", fileCount);
+		vo.setWriter(((MemberVO)session.getAttribute("member")).getNo());
 		int result = nearDAO.getNearWrite(vo);
 
 		if (result == 1) {
@@ -145,7 +146,6 @@ public class NearController {
 		return mv;
 	}
 	
-	// 아직 미완 로그인 기능 구현되면 구현한 예정
 	// 단골 등록 ajax
 	@ResponseBody
 	@RequestMapping(value = "/near_info/add_vendor_customer_proc", method = RequestMethod.GET)
