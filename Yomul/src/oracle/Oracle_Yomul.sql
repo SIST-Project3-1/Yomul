@@ -2,6 +2,21 @@
 -- '제약조건 축약어'_Y_'자기테이블 축약어'_['상대테이블 축약어']_속성명
 
 -- DB 초기화
+-- 뷰 삭제
+DROP VIEW V_Y_COMMENTS;
+DROP VIEW V_Y_COMMENTS_LIKE_COUNT;
+DROP VIEW V_Y_COMMENTS_REPORT_COUNT;
+DROP VIEW V_Y_VENDORS;
+DROP VIEW V_Y_VENDORS_NEWS;
+DROP VIEW V_Y_VENDORS_CUSTOMERS;
+DROP VIEW V_Y_VENDORS_REVIEWS;
+DROP VIEW V_Y_FAQ_ARTICLES;
+DROP VIEW V_Y_QNA_ARTICLES;
+DROP VIEW V_Y_QNA_FILES;
+DROP VIEW V_Y_NEAR_ARTICLES;
+DROP VIEW V_Y_NEAR_FILES;
+DROP VIEW V_Y_NOTICES;
+DROP VIEW V_Y_NOTICE_FILES;
 -- 테이블 삭제----------------------------------------------------------------------------------------------------------------------------------
 DROP TABLE YOMUL_MEMBERS CASCADE CONSTRAINTS;
 DROP TABLE YOMUL_PRODUCTS CASCADE CONSTRAINTS;
@@ -148,7 +163,7 @@ CREATE TABLE YOMUL_VENDORS(
 -- 업체 소식 (업체명 이용하여 업체 프필이미지 가져오기)
 CREATE TABLE YOMUL_VENDOR_NEWS(
     NO NUMBER(10), --소식 번호
-    NAME VARCHAR2(50) CONSTRAINT NN_Y_VN_NAME NOT NULL,  --업체명
+    VENDOR_NO VARCHAR2(10) CONSTRAINT NN_Y_VN_VENDOR_NO NOT NULL,  --업체 번호
     CATEGORY VARCHAR2(20) CONSTRAINT NN_Y_VN_CATEGORY NOT NULL, --카테고리
     TITLE VARCHAR2(50) CONSTRAINT NN_Y_VN_TITLE NOT NULL,  --소식 타이틀
     CONTENT VARCHAR2(500) CONSTRAINT NN_Y_VN_CONTENT NOT NULL, --소식 내용
@@ -157,12 +172,12 @@ CREATE TABLE YOMUL_VENDOR_NEWS(
     HITS NUMBER(10) DEFAULT 0 CONSTRAINT NN_Y_VN_HITS NOT NULL CONSTRAINT C_Y_VN_HITS CHECK (HITS >= 0), --조회수
     VDATE DATE DEFAULT SYSDATE CONSTRAINT NN_Y_VN_VDATE NOT NULL, --날짜
     CONSTRAINT PK_Y_VN_NO PRIMARY KEY (NO),
-    CONSTRAINT FK_Y_VN_NAME FOREIGN KEY (NAME) REFERENCES YOMUL_VENDORS(NAME)
+    CONSTRAINT FK_Y_VN_VENDOR_NO FOREIGN KEY (VENDOR_NO) REFERENCES YOMUL_VENDORS(NO)
 );
 
 -- 업체 단골 (회원번호 이용하여 단골 프필이미지, 닉네임 가져오기)
 CREATE TABLE YOMUL_VENDOR_CUSTOMERS(
-    VENDOR_NO VARCHAR2(50), --업체번호
+    VENDOR_NO VARCHAR2(10), --업체번호
     CUSTOMER_NO VARCHAR2(10), --회원번호
     CONSTRAINT PK_Y_VC PRIMARY KEY(VENDOR_NO, CUSTOMER_NO),
     CONSTRAINT FK_Y_VC_VNO FOREIGN KEY (VENDOR_NO) REFERENCES YOMUL_VENDORS(NO),
@@ -172,13 +187,13 @@ CREATE TABLE YOMUL_VENDOR_CUSTOMERS(
 -- 업체 후기 (회원번호 이용하여 단골 프필이미지, 닉네임 가져오기)
 CREATE TABLE YOMUL_VENDOR_REVIEWS(
     NO NUMBER(10), --후기 번호
-    NAME VARCHAR2(50) CONSTRAINT NN_Y_VR_NAME NOT NULL,  --업체명
+    VENDOR_NO VARCHAR2(10) CONSTRAINT NN_Y_VR_VENDOR_NO NOT NULL,  --업체 번호
     MEMBER_NO VARCHAR2(10)CONSTRAINT NN_Y_VR_MEMBER_NO NOT NULL, --회원번호
     CONTENT VARCHAR2(500) CONSTRAINT NN_Y_VR_CONTENT NOT NULL, --후기 내용
     HITS NUMBER(10) DEFAULT 0 CONSTRAINT NN_Y_VR_HITS NOT NULL CONSTRAINT C_Y_VR_HITS CHECK (HITS >= 0), --조회수
     VDATE DATE DEFAULT SYSDATE CONSTRAINT NN_Y_VR_VDATE NOT NULL, --날짜
     CONSTRAINT PK_Y_VR_NO PRIMARY KEY (NO),
-    CONSTRAINT FK_Y_VR_NAME FOREIGN KEY (NAME) REFERENCES YOMUL_VENDORS(NAME),
+    CONSTRAINT FK_Y_VR_VENDOR_NO FOREIGN KEY (VENDOR_NO) REFERENCES YOMUL_VENDORS(NO),
     CONSTRAINT FK_Y_VR_MEMBER_NO FOREIGN KEY (MEMBER_NO) REFERENCES YOMUL_MEMBERS(NO)
 );
 
@@ -252,13 +267,11 @@ CREATE TABLE YOMUL_FILES(
 
 -- 댓글
 CREATE TABLE YOMUL_COMMENTS(
-  NO NUMBER(10), -- 댓글 번호 
+  NO VARCHAR2(10), -- 댓글 번호
   ARTICLE_NO VARCHAR2(10) CONSTRAINT NN_Y_CO_ARTICLE_NO NOT NULL, -- 작성된 게시글 번호
   WRITER VARCHAR2(10) CONSTRAINT NN_Y_CO_WRITER NOT NULL, -- 작성자 회원번호
   CONTENT VARCHAR2(1000) CONSTRAINT NN_Y_CO_CONTENT NOT NULL, -- 작성 내용
   WDATE DATE DEFAULT SYSDATE CONSTRAINT NN_Y_CO_WDATE NOT NULL, -- 작성일자
-  LIKES NUMBER(10) DEFAULT 0 CONSTRAINT NN_Y_CO_LIKES NOT NULL CONSTRAINT C_Y_CO_LIKES CHECK (LIKES >= 0), -- 좋아요 수 
-  REPORTS NUMBER(10) DEFAULT 0 CONSTRAINT NN_Y_CO_REPORTS NOT NULL CONSTRAINT C_Y_CO_REPORTS CHECK (REPORTS >= 0), -- 신고 수
   CONSTRAINT PK_Y_CO_NO PRIMARY KEY (NO),
   CONSTRAINT FK_Y_CO_M_WRITER FOREIGN KEY(WRITER) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
 );
@@ -279,6 +292,125 @@ CREATE TABLE YOMUL_REPORTS(
     CONSTRAINT FK_Y_R_M_MEMBER_NO FOREIGN KEY (MEMBER_NO) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
 );
 -- 테이블 생성 끝----------------------------------------------------------------------------------------------------------------------------------
+
+-- 뷰 생성 ---------------------------------------------------------------------------------------------------------------------------------------
+-- 댓글 좋아요 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_COMMENTS_LIKE_COUNT
+AS
+SELECT C.NO, COUNT(L.ARTICLE_NO) LIKES
+FROM YOMUL_COMMENTS C, YOMUL_LIKES L
+WHERE C.NO = L.ARTICLE_NO(+)
+GROUP BY C.NO, L.ARTICLE_NO
+WITH READ ONLY;
+
+-- 댓글 신고 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_COMMENTS_REPORT_COUNT
+AS
+SELECT C.NO, COUNT(R.ARTICLE_NO) REPORTS
+FROM YOMUL_COMMENTS C, YOMUL_REPORTS R
+WHERE C.NO = R.ARTICLE_NO(+)
+GROUP BY C.NO, R.ARTICLE_NO
+WITH READ ONLY;
+
+-- 댓글 정보 뷰 생성(댓글 + 좋아요 수 + 신고 수 + 이미지 + 이미지)
+CREATE NOFORCE VIEW V_Y_COMMENTS
+AS
+SELECT C.NO, C.ARTICLE_NO, C.WRITER, C.CONTENT, C.WDATE, L.LIKES, R.REPORTS, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME IMG
+FROM YOMUL_COMMENTS C, V_Y_COMMENTS_LIKE_COUNT L, V_Y_COMMENTS_REPORT_COUNT R, YOMUL_FILES F
+WHERE C.NO = L.NO AND C.NO = R.NO AND C.NO = F.ARTICLE_NO(+);
+
+-- 업체 소식 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_VENDORS_NEWS
+AS
+SELECT V.NO, COUNT(N.VENDOR_NO) NEWS
+FROM YOMUL_VENDORS V, YOMUL_VENDOR_NEWS N
+WHERE V.NO = N.VENDOR_NO(+)
+GROUP BY V.NO, N.VENDOR_NO
+WITH READ ONLY;
+
+-- 업체 단골 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_VENDORS_CUSTOMERS
+AS
+SELECT V.NO, COUNT(C.VENDOR_NO) CUSTOMERS
+FROM YOMUL_VENDORS V, YOMUL_VENDOR_CUSTOMERS C
+WHERE V.NO = C.VENDOR_NO(+)
+GROUP BY V.NO, C.VENDOR_NO
+WITH READ ONLY;
+
+-- 업체 후기 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_VENDORS_REVIEWS
+AS
+SELECT V.NO, COUNT(R.VENDOR_NO) REVIEWS
+FROM YOMUL_VENDORS V, YOMUL_VENDOR_REVIEWS R
+WHERE V.NO = R.VENDOR_NO(+)
+GROUP BY V.NO, R.VENDOR_NO
+WITH READ ONLY;
+
+-- 업체 정보 뷰 생성(업체 정보 + 소식 수 + 단골 수 + 후기 수)
+CREATE NOFORCE VIEW V_Y_VENDORS
+AS
+SELECT V.NO, V.OWNER, V.NAME, V.CATEGORY, V.INFO, V.TEL, V.ADDR, N.NEWS, C.CUSTOMERS, R.REVIEWS
+FROM YOMUL_VENDORS V, V_Y_VENDORS_NEWS N, V_Y_VENDORS_CUSTOMERS C, V_Y_VENDORS_REVIEWS R
+WHERE V.NO = N.NO AND V.NO = C.NO AND V.NO = R.NO;
+
+-- FAQ 뷰 생성(faq + 카테고리)
+CREATE NOFORCE VIEW V_Y_FAQ_ARTICLES
+AS
+SELECT F.NO, F.WRITER, F.CATEGORY CATEGORY_NO, C.CONTENT AS CATEGORY, F.TITLE, F.CONTENT
+FROM YOMUL_FAQ_ARTICLES F, YOMUL_FAQ_CATEGORIES C
+WHERE F.CATEGORY = C.NO;
+
+-- QNA 파일 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_QNA_FILES
+AS
+SELECT Q.NO, COUNT(F.ARTICLE_NO) FILES
+FROM YOMUL_QNA_ARTICLES Q, YOMUL_FILES F
+WHERE Q.NO = F.ARTICLE_NO(+)
+GROUP BY Q.NO, F.ARTICLE_NO
+WITH READ ONLY;
+
+-- QNA 뷰 생성(qna + 카테고리 + 이미지 수)
+CREATE NOFORCE VIEW V_Y_QNA_ARTICLES
+AS
+SELECT Q.NO, Q.NAME, Q.EMAIL, Q.PW, Q.HASHSALT, Q.WDATE, Q.CATEGORY CATEGORY_NO, C.CONTENT CATEGORY, Q.TITLE, Q.CONTENT, Q.HITS, 
+	Q.RDATE, Q.RWRITER, Q.RCONTENT, Q.SECRET, F.FILES
+FROM YOMUL_QNA_ARTICLES Q, YOMUL_QNA_CATEGORIES C, V_Y_QNA_FILES F
+WHERE Q.CATEGORY = C.NO AND Q.NO = F.NO;
+
+-- 내 근처 게시글 이미지 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_NEAR_FILES
+AS
+SELECT N.NO, COUNT(F.ARTICLE_NO) AS FILES
+FROM YOMUL_NEAR_ARTICLES N, YOMUL_FILES F
+WHERE N.NO = F.ARTICLE_NO(+)
+GROUP BY N.NO, F.ARTICLE_NO
+WITH READ ONLY;
+
+-- 내 근처 게시글 뷰 생성(내 근처 게시글 + 이미지 수)
+CREATE NOFORCE VIEW V_Y_NEAR_ARTICLES
+AS
+SELECT N.NO, N.WRITER, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS, F.FILES
+FROM YOMUL_NEAR_ARTICLES N, V_Y_NEAR_FILES F
+WHERE N.NO = F.NO;
+
+-- 공지사항 이미지 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_NOTICE_FILES
+AS
+SELECT N.NO, COUNT(F.ARTICLE_NO) AS FILES
+FROM YOMUL_NOTICES N, YOMUL_FILES F
+WHERE N.NO = F.ARTICLE_NO(+)
+GROUP BY N.NO, F.ARTICLE_NO
+WITH READ ONLY;
+DROP VIEW V_Y_NOTICE_FILES;
+
+-- 공지사항 뷰 생성(공지사항 + 이미지 수)
+CREATE NOFORCE VIEW V_Y_NOTICES
+AS
+SELECT N.NO, N.WRITER, N.TITLE, N.CONTENT, N.NDATE, N.HITS, F.FILES
+FROM YOMUL_NOTICES N, V_Y_NOTICE_FILES F
+WHERE N.NO = F.NO;
+
+-- 뷰 생성 끝 ---------------------------------------------------------------------------------------------------------------------------------------
 
 -- 시퀀스 생성----------------------------------------------------------------------------------------------------------------------------------
 -- 회원 번호 시퀀스 생성, 1부터 시작, 1씩 증가, 메모리에 미리 올려 놓을 인덱스 개수 2
@@ -453,7 +585,8 @@ INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT, NDATE) VALUES(CONCAT('N', 
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT, NDATE) VALUES(CONCAT('N', YOMUL_NOTICES_NO_SEQ.NEXTVAL), 'M1', '제목5', '내용5', SYSDATE);
 
 -- 테스트용 공지사항 파일 추가
-INSERT INTO YOMUL_FILES(ARTICLE_NO, NO, FILENAME) VALUES('N1', 1, '이미지준비중.jpg');
+INSERT INTO YOMUL_FILES(ARTICLE_NO, NO, FILENAME) VALUES('N1', 1, 'default.jpg');
+INSERT INTO YOMUL_FILES(ARTICLE_NO, NO, FILENAME) VALUES('N1', 1, '신발사진1.jpg');
 
 -- 공지사항 조회수 업데이트
 UPDATE YOMUL_NOTICES SET HITS = HITS + 1 WHERE NO = 'N2';
@@ -472,43 +605,43 @@ INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
 SELECT * FROM YOMUL_VENDORS;
 -- 내 근처 게시글 생성
 INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, NDATE, CHATCHECK, HITS)
-VALUES(CONCAT('N', YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL), 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', SYSDATE, 1, 0);
+VALUES(CONCAT('n', YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL), 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', SYSDATE, 1, 0);
 
 -- 내 근처 게시글 상세보기
 SELECT N.NO, V.NO AS VNO, V.NAME AS WRITER, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS
 FROM YOMUL_NEAR_ARTICLES N, YOMUL_VENDORS V
-WHERE N.WRITER = V.OWNER AND N.NO = 'N1';
+WHERE N.WRITER = V.OWNER AND N.NO = 'n1';
 
 -- 댓글 생성
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M2', '댓글입니다~', sysdate, 0, 0);
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-VALUES(yomul_comments_no_seq.nextval,  'N1', 'M3', '댓글입니다~', SYSDATE, 0, 0);
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M4', '댓글입니다~', sysdate, 0, 0);
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M5', '댓글입니다~', sysdate, 0, 0);
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-VALUES(yomul_comments_no_seq.nextval,  'N1', 'M6', '댓글입니다~', SYSDATE, 0, 0);
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-VALUES(yomul_comments_no_seq.nextval,  'N1', 'M7', '댓글입니다~', SYSDATE, 0, 0);
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M8', '댓글입니다~', sysdate, 0, 0);
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M9', '댓글입니다~', sysdate, 0, 0);
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M10', '댓글입니다~', sysdate, 0, 0);
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-VALUES(yomul_comments_no_seq.nextval,  'N1', 'M11', '댓글입니다~', SYSDATE, 0, 0);
-INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate, likes, reports)
-values(yomul_comments_no_seq.nextval,  'N1', 'M12', '댓글입니다~', sysdate, 0, 0);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+values('C'||yomul_comments_no_seq.nextval,  'n1', 'M2', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+VALUES('C'||yomul_comments_no_seq.nextval,  'n1', 'M3', '댓글입니다~', SYSDATE);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+VALUES('C'||yomul_comments_no_seq.nextval,  'n1', 'M4', '댓글입니다~', SYSDATE);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+values('C'||yomul_comments_no_seq.nextval,  'n1', 'M5', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+VALUES('C'||yomul_comments_no_seq.nextval,  'n1', 'M6', '댓글입니다~', SYSDATE);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+VALUES('C'||yomul_comments_no_seq.nextval,  'n1', 'M7', '댓글입니다~', SYSDATE);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+values('C'||yomul_comments_no_seq.nextval,  'n1', 'M8', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+values('C'||yomul_comments_no_seq.nextval,  'n1', 'M9', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+VALUES('C'||yomul_comments_no_seq.nextval,  'n1', 'M10', '댓글입니다~', SYSDATE);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+VALUES('C'||yomul_comments_no_seq.nextval,  'n1', 'M11', '댓글입니다~', SYSDATE);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
+values('C'||yomul_comments_no_seq.nextval,  'n1', 'M12', '댓글입니다~', sysdate);
 
 -- 댓글 목록 조회
-SELECT writer, CONTENT, wdate, likes, img
-FROM (SELECT ROWNUM AS rno, writer, CONTENT, wdate, likes, img
-	FROM (SELECT m.nickname AS writer, c.CONTENT, c.wdate, c.likes, f.ARTICLE_NO||'_'||f.NO||'_'||f.FILENAME as img
-		FROM yomul_comments c, yomul_members m, yomul_files f
-		where c.article_no = 'N1' and c.writer = m.no and m.no = f.ARTICLE_NO(+)
+SELECT writer, CONTENT, wdate, img
+FROM (SELECT ROWNUM AS rno, writer, CONTENT, wdate, img
+	FROM (SELECT m.nickname AS writer, c.CONTENT, c.wdate, img
+		FROM v_y_comments c, yomul_members m
+		where c.article_no = 'n1' and c.writer = m.no
 		ORDER BY c.NO)
 	WHERE ROWNUM <= 10 * 1)
 WHERE rno > 10 * (1 - 1);
@@ -534,6 +667,30 @@ SELECT count(*)
 FROM yomul_vendor_customers
 WHERE vendor_no = 'V1'
 group by vendor_no;
+
+-- 좋아요 추가
+INSERT into yomul_likes(article_no, member_no)
+values('V1', 'M2');
+INSERT INTO yomul_likes(article_no, member_no)
+values('C1', 'M2');
+
+-- 좋아요 취소
+DELETE FROM yomul_likes
+WHERE article_no = 'V1' AND member_no = 'M2';
+
+-- 신고 추가
+INSERT INTO yomul_reports(article_no, MEMBER_NO)
+values('C1', 'M3');
+INSERT INTO yomul_reports(article_no, MEMBER_NO)
+values('C1', 'M4');
+INSERT INTO yomul_reports(article_no, MEMBER_NO)
+values('C1', 'M5');
+INSERT INTO yomul_reports(article_no, MEMBER_NO)
+values('C2', 'M3');
+
+-- 뷰로 댓글 정보 확인
+select * from yomul_comments;
+select * from V_Y_COMMENTS;
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 

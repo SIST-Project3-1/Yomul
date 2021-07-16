@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.like">
+
+	<!-- 좋아요 추가 -->
+	<insert id="insertLike" parameterType="java.util.HashMap">
+		insert into yomul_likes(article_no, member_no)
+		values(#{ano}, #{mno})
+	</insert>
+	
+	<!-- 좋아요 취소 -->
+	<delete id="deleteLike" parameterType="java.util.HashMap">
+		delete from yomul_likes
+		where article_no = #{ano} and member_no = #{mno}
+	</delete>
+	
+	<!-- 좋아요 수 확인 -->
+	<select id="selectLikeCount" parameterType="java.lang.String">
+		select count(*)
+		from yomul_likes
+		where article_no = #{ano}
+		group by article_no
+	</select>
+</mapper>

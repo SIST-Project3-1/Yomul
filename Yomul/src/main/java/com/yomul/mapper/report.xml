@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.report">
+	
+	<!-- 신고 추가 -->
+	<insert id="insertReport" parameterType="java.util.HashMap">
+		insert into yomul_reports(article_no, member_no)
+		values(#{ano}, #{mno})
+	</insert>
+</mapper>

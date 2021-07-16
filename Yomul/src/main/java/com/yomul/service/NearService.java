@@ -12,8 +12,8 @@ public interface NearService {
 	public List<NearVO> selectNearList(NearVO vo);
 	
 	// 내 근처 게시글 상세보기
-	public NearVO getNearInfo(int no);
+	public NearVO getNearInfo(String no);
 	
 	// 내 근처 게시글 조회수 업데이트
-	public boolean updateNearHits(int no);
+	public int updateNearHits(String no);
 }

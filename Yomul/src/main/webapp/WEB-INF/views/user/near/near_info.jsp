@@ -8,36 +8,129 @@
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
 <script>
-// 게시글 번호 구하기
+// 게시글 번호
 var no = $(location).attr("pathname").split("/").pop();
+// 작성 업체 번호
+var vno;
 
 $(document).ready(function(){
+	vno = $("#vendor_no").val();
 	
 	// 단골일 경우 단골 버튼 색상 변경
 	$( "#btn_regular" ).on( "click", function() {
-		// 로그인 기능 완성되면 ajax로 로그인한 유저를 해당 업체의 단골로 등록/해제하는 코드 넣어야 됨
-		
-		if($(this).val() == 'false') {
-			$(this).css('color','white').css('background-color','rgb(255, 99, 95)');
-			$(this).val("true")
-		}else {
-			$(this).css('color','gray').css('background-color','rgb(240, 244, 245)');
-			$(this).val("false")
-		}
-		
+		clickCustomer();
+	});
+	
+	// 댓글 작성
+	$("#write_comment_form").submit(function() {
+		writeComment($(this));
 	});
 	
 	// 댓글 페이지 이동
 	$(".page").click(function() {
 		clickCommentPage($(this).attr("value"));
 	});
+	
+	// 좋아요 버튼 클릭
+	$(".btn_like").click(function() {
+		clickLike($(this))
+	});
+	
+	// 신고 버튼 클릭
+	$(".btn_report").click(function() {
+		clickReport($(this))
+	});
 });
 
+// 단골 추가/취소
+function clickCustomer() {
+	$.ajax({
+		url : "/yomul/near_info/add_vendor_customer_proc?no=" + vno,
+		method : "GET",
+		success : function(result) {
+			if (result == -1) { // 로그인 필요
+				alert("로그인이 필요합니다.");
+			}else if(result == 0) { // 이미 단골인 경우 취소
+				$(this).css('color','gray').css('background-color','rgb(240, 244, 245)');
+			}else { // 단골 추가 완료
+				$(this).css('color','white').css('background-color','rgb(255, 99, 95)');
+				$("#vcCount").html(result);
+			}
+		}
+	});
+}
+
+// 댓글 작성
+function writeComment(form) {
+	var formData = new FormData($(this)[0]);
+	formData.append("ano", no);
+	
+	$.ajax({
+		url : "/yomul/write_comment_proc",
+		method : "POST",
+		data : formData,
+		enctype : "multipart/form-data",
+		contentType : false,
+		processData : false,
+		success : function(result) {
+			if (result == 1) { // 작성 성공
+				location.href = "/yomul/vendor_profile_info";
+			} else if(result == 0) { // 작성 실패
+				alert("댓글 작성에 실패했습니다.");
+			}else if(result == -1) { // 로그인 필요
+				alert("로그인이 필요합니다.");
+				location.href = "/yomul/login";
+			}
+		}
+	});
+}
+
+// 좋아요 버튼 클릭
+function clickLike(btn) {
+	var no = btn.val();
+	var likeCount = btn.html();
+	
+	$.ajax({
+		url : "/yomul/like_proc?no=" + no,
+		method : "GET",
+		success : function(result) {
+			if (result == -1) { // 로그인 필요
+				alert("로그인이 필요합니다.");
+			}else if(result == 0) { // 이미 추천한 경우
+				alert("이미 추천하셨습니다.");
+			}else { // 추천 성공
+				btn.html(result);
+				//btn.addClass("color-yomul");
+			}
+		}
+	});
+}
+
+// 신고 버튼 클릭
+function clickReport(btn) {
+	var no = btn.val();
+	
+	$.ajax({
+		url : "/yomul/report_proc?no=" + no,
+		method : "GET",
+		success : function(result) {
+			if (result == -1) { // 로그인 필요
+				alert("로그인이 필요합니다.");
+			}else if(result == 0) { // 이미 추천한 경우
+				alert("이미 신고하셨습니다.");
+			}else { // 추천 성공
+				alert("신고가 완료되었습니다.");
+			}
+		}
+	});
+}
+
+// 댓글 페이지 이동
 function clickCommentPage(page) {
 	var pageInfo;
 	
 	$.ajax({
-		url : "/yomul/near_info/comments?no=" + no + "&page=" + page,
+		url : "/yomul/comment_pagination_proc?ano=" + no + "&page=" + page,
 		method : "GET",
 		dataType : "json",
 		contentType: "application/json; charset=UTF-8",
@@ -144,6 +237,14 @@ function parseCommentPage(pageInfo) {
 		margin: 0;
 		font-weight: bold;
 	}
+	
+	#near_info .color-yomul {
+		color: rgb(255, 99, 95);
+	}
+	
+	#near_info .bg-gray {
+		background-color: rgb(240, 244, 245);
+	}
 </style>
 </head>
 <body>
@@ -160,34 +261,35 @@ function parseCommentPage(pageInfo) {
 			</div>
 			
 			<!--  이미지  -->
-			<div class="near-info-left-img">
-				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-				  <ol class="carousel-indicators">
-				    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-				   <% for(int i=0;i<5;i++){ %>
-				    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-				   <% } %>
-				  </ol>
-				  <div class="carousel-inner" style="width:500px; height:500px;">
-				 	 <div class="carousel-item active">
-				      <img src="http://localhost:9000/yomul/image/이미지준비중.jpg" class="d-block w-100" style="width:500px; height:500px;">
-				     </div>
-				  <% for(int i=0;i<5;i++){ %>
-				 	 <div class="carousel-item">
-				      <img src="http://localhost:9000/yomul/image/이미지준비중.jpg" class="d-block w-100" style="width:500px; height:500px;">
-				     </div>
-		 		  <% } %>
-				  </div>
-				  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				    <span class="sr-only">Previous</span>
-				  </a>
-				  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-				    <span class="sr-only">Next</span>
-				  </a>
+			<c:if test="${vo.files != 0 }">
+				<div class="near-info-left-img">
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<c:forEach begin="1" end="${articleImages.size() }" varStatus="status">
+								<li data-target="#carouselExampleIndicators" 
+									data-slide-to="<c:choose><c:when test="${status.first }">0</c:when><c:otherwise>1</c:otherwise></c:choose>" 
+									class="<c:if test="${status.first }">active</c:if>">
+								</li>
+							</c:forEach>
+						</ol>
+						<div class="carousel-inner" style="width:500px; height:500px;">
+					  		<c:forEach var="articleImg" items="${articleImages }" varStatus="status">
+						 		<div class="carousel-item <c:if test="${status.first }">active</c:if>">
+						    		<img src="/yomul/upload/${articleImg }" class="d-block w-100" style="width:500px; height:500px;">
+						    	</div>
+					    	</c:forEach>
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+						    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						    <span class="sr-only">Next</span>
+						</a>
+					</div>
 				</div>
-			</div>
+			</c:if>
 			
 			<!--  내용  -->
 			<div class="near-info-left-content">
@@ -198,7 +300,7 @@ function parseCommentPage(pageInfo) {
 					<label class="near-info-point">·</label>
 					<label>조회 ${vo.hits }</label>
 					<label class="near-info-point">·</label>
-					<button type="button" class="near-info-report">신고</button>
+					<button type="button" class="btn_report near-info-report" value="${vo.no }">신고</button>
 				</div>
 			</div>
 			<div class="near-info-line"></div>
@@ -208,21 +310,21 @@ function parseCommentPage(pageInfo) {
 				<div class="near-info-chat-title">
 					<h3>댓글</h3><h3 id="comment_count">${commentPageInfo.count }</h3>
 				</div>
-				<div class="near-info-chat-writer">
+				<form id="write_comment_form" class="near-info-chat-writer">
 					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 					<div>
-						<input type="text" placeholder="댓글을 남겨 보세요.">
+						<input type="text" id="comment_text" name="content" placeholder="댓글을 남겨 보세요.">
 						<div class="near-info-chat-button">
 							<button class="comment-feed__form__photo" type="button" onclick="document.getElementById('file').click();">
 								<svg width="24" height="20" viewBox="0 0 24 20" preserveAspectRatio="xMidYMid meet">
 									<path fill="#292929" fill-rule="nonzero" d="M3.22 20C1.446 20 0 18.547 0 16.765V6.176c0-1.782 1.446-3.235 3.22-3.235h3.118L7.363.377A.586.586 0 0 1 7.903 0h8.195c.24.003.453.152.54.377l1.024 2.564h3.118c1.774 0 3.22 1.453 3.22 3.235v10.589C24 18.547 22.554 20 20.78 20H3.22zm0-1.176h17.56a2.037 2.037 0 0 0 2.05-2.06V6.177c0-1.15-.904-2.058-2.05-2.058h-3.512a.585.585 0 0 1-.54-.368l-1.024-2.574H8.296L7.27 3.75a.585.585 0 0 1-.54.368H3.22a2.037 2.037 0 0 0-2.05 2.058v10.589c0 1.15.904 2.059 2.05 2.059zM12 17.059c-3.064 0-5.561-2.51-5.561-5.588 0-3.08 2.497-5.589 5.561-5.589s5.561 2.51 5.561 5.589c0 3.079-2.497 5.588-5.561 5.588zm0-1.177a4.392 4.392 0 0 0 4.39-4.411A4.392 4.392 0 0 0 12 7.059a4.392 4.392 0 0 0-4.39 4.412A4.392 4.392 0 0 0 12 15.882z"></path>
 								</svg>
 							</button>
-							<input type="file" id="file" style="display:none" >
-							<button class="comment-feed__form__submit" type="submit" disabled="">등록</button>
+							<input type="file" id="comment_file" name="file" style="display:none" >
+							<button type="submit" id="btn_write_comment" class="comment-feed__form__submit">등록</button>
 						</div>
 					</div>
-				</div>
+				</form>
 				<div id="comment_content_box" class="near-info-chat-content">
 					<c:forEach var="cvo" items="${comments }">
 						<div>
@@ -235,9 +337,9 @@ function parseCommentPage(pageInfo) {
 								<div>
 									<label>${cvo.wdate }</label>
 									<label class="near-info-point">·</label>
-									<button type="button" class="near-info-chat-like">좋아요 ${cvo.likes }</button>
+									<button type="button" class="btn_like near-info-chat-like" value="${cvo.no }">좋아요 ${cvo.likes }</button>
 									<label class="near-info-point">·</label>
-									<button type="button" class="near-info-chat-report">신고</button>
+									<button type="button" class="btn_report near-info-chat-report" value="${cvo.no }">신고</button>
 								</div>
 							</div>
 						</div>
@@ -272,8 +374,9 @@ function parseCommentPage(pageInfo) {
 		
 		<!--  작성자 정보  -->
 		<div class="near-info-right" id="near_info_right">
+			<input type="hidden" id="vendor_no" value="${vo.vno }">
 			<div class="near-info-right-writer">
-				<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+				<img src="http://localhost:9000/yomul/upload/${vo.vimg }">
 				<label>${vo.writer }</label>
 				<button type="button" id="btn_regular" value="false"><p>+</p>단골<p id="vcCount">${vendorCustomerCount }</p></button>
 			</div>
