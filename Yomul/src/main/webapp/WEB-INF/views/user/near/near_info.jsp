@@ -23,8 +23,16 @@ $(document).ready(function(){
 	
 	// 댓글 작성
 	$("#btn_write_comment").click(function() {
-		writeComment(this);
+		writeComment();
 	});
+	
+	// 댓글 입력란에서 엔터키 눌러도 잘 작성되도록 함
+	$("input[type='text']").keydown(function() {
+		if(event.keyCode == 13) {
+			event.preventDefault();
+			writeComment();
+		}
+	})
 	
 	// 댓글 페이지 이동
 	$(".page").click(function() {
@@ -61,7 +69,7 @@ function clickCustomer() {
 }
 
 // 댓글 작성
-function writeComment(form) {
+function writeComment() {
 	var formData = new FormData($("#write_comment_form")[0]);
 	formData.append("ano", no);
 	
