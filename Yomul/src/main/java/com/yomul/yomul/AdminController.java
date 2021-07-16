@@ -169,7 +169,7 @@ public class AdminController {
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public ModelAndView index() {
-		ModelAndView mv = new ModelAndView("/admin/member/admin_member_list");
+		ModelAndView mv = new ModelAndView("redirect:/admin_member_list");
 		return mv;
 	}
 }
