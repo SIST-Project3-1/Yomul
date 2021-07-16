@@ -24,4 +24,8 @@ public class CommentServiceImpl implements CommentService {
 	public int getCommentCount(String no) {
 		return commentDAO.getCommentCount(no);
 	}
+	
+	public int addComment(CommentVO vo) {
+		return commentDAO.addComment(vo);
+	}
 }

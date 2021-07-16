@@ -128,5 +128,31 @@ public class MemberDAO extends DAO {
 	public int nicknameCheck(String nickname) {
 		return sqlSession.selectOne(namespace + ".nicknamecheck", nickname);
 	}
+	
+	//로그인 처리
+	public MemberVO getLoginResult(MemberVO vo){		
+		return sqlSession.selectOne(namespace + ".getLoginResult", vo);
+	
+	}
 
+	/**
+	 * HashSalt 가져오기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public String getHashsalt(MemberVO vo) {
+		return sqlSession.selectOne(namespace + ".getHashsalt",vo);
+	}
 }
+	
+
+
+
+
+
+
+
+
+
+

@@ -15,4 +15,7 @@ public interface VendorService {
 	
 	// 업체 단골 해제
 	public int removeVendorCustomer(String vno, String cno);
+	
+	// 업체 단골 등록/해제
+	public int switchVendorCustomer(String vno, String cno);
 }
