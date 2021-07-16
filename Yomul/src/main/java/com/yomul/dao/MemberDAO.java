@@ -1,7 +1,9 @@
 package com.yomul.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +37,11 @@ public class MemberDAO extends DAO {
 	 * 
 	 * @return
 	 */
-	public ArrayList<MemberVO> getMemberList(int page) {
-		List<MemberVO> list = sqlSession.selectList(namespace + ".getmemberlist", page);
+	public ArrayList<MemberVO> getMemberList(int page, String search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
+		map.put("search", search);
+		List<MemberVO> list = sqlSession.selectList(namespace + ".getmemberlist", map);
 		return (ArrayList<MemberVO>) list;
 	}
 
@@ -45,8 +50,8 @@ public class MemberDAO extends DAO {
 	 * 
 	 * @return
 	 */
-	public int getTotalPageCount() {
-		return sqlSession.selectOne(namespace + ".gettotalpagecount");
+	public int getTotalPageCount(String search) {
+		return sqlSession.selectOne(namespace + ".gettotalpagecount", search);
 	}
 
 	/**

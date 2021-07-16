@@ -24,7 +24,7 @@ public interface MemberService {
 
 	FileVO getMyProfileImg(MemberVO vo);
 
-	ArrayList<MemberVO> getMemberList(int page);
+	ArrayList<MemberVO> getMemberList(int page, String search);
 
 	int deleteMember(MemberVO vo);
 
@@ -33,4 +33,5 @@ public interface MemberService {
 	MemberVO getLoginResult(MemberVO vo);
 	
 	String getHashsalt(MemberVO vo);
+
 }
