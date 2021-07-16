@@ -99,7 +99,7 @@ function clickLike(btn) {
 			}else if(result == 0) { // 이미 추천한 경우
 				alert("이미 추천하셨습니다.");
 			}else { // 추천 성공
-				btn.html(result);
+				btn.html("좋아요 " + result);
 				//btn.addClass("color-yomul");
 			}
 		}
@@ -339,7 +339,7 @@ function parseCommentPage(pageInfo) {
 									<label class="near-info-point">·</label>
 									<button type="button" class="btn_like near-info-chat-like" value="${cvo.no }">좋아요 ${cvo.likes }</button>
 									<label class="near-info-point">·</label>
-									<button type="button" class="btn_report near-info-chat-report" value="${cvo.articleNo }">신고</button>
+									<button type="button" class="btn_report near-info-chat-report" value="${cvo.no }">신고</button>
 								</div>
 							</div>
 						</div>

@@ -89,10 +89,6 @@ public class CommonsController {
 		if(mno.equals("")) { // 로그인이 안되어 있을 경우 -1 반환
 			return "-1";
 		}
-
-		if(mno.equals("")) { // 로그인 안한 경우 -1 반환
-			return "-1";
-		}
 		
 		// 성공 시 1, 실패 시 0 반환
 		return String.valueOf(reportService.insertReport(ano, mno));
