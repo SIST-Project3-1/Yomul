@@ -100,7 +100,7 @@ public class CommonsController {
 	
 	// 댓글 페이지 이동 ajax
 	@ResponseBody
-	@RequestMapping(value = "/near_info/comments", method = RequestMethod.GET, produces = "text/plain; charset=utf8")
+	@RequestMapping(value = "/comment_pagination_proc", method = RequestMethod.GET, produces = "text/plain; charset=utf8")
 	public String near_info_comment(String ano, int page) {
 		int commentCount = commentService.getCommentCount(ano);
 		
