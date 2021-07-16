@@ -1,6 +1,6 @@
 package com.yomul.vo;
 
-public class TownVO extends VO {
+public class TownVO extends VO{
 
 	private String no, category, title, content, tdate, writer; // 게시글 번호, 카테고리, 제목, 내용, 작성일자, 작성자
 	private int hits; // 조회수

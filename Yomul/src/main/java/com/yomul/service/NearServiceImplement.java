@@ -9,14 +9,14 @@ import com.yomul.dao.NearDAO;
 import com.yomul.vo.NearVO;
 
 @Service("nearService")
-public class NearServiceImplement implements NearService{
+public class NearServiceImplement implements NearService {
 
 	@Autowired
 	private NearDAO dao;
-	
+
 	@Override
 	public int getNearWrite(NearVO vo) {
-		
+
 		return dao.getNearWrite(vo);
 	}
 
@@ -24,7 +24,7 @@ public class NearServiceImplement implements NearService{
 	public NearVO getNearInfo(String no) {
 		return dao.getNearInfo(no);
 	}
-	
+
 	@Override
 	public int updateNearHits(String no) {
 		return dao.updateNearHits(no);
@@ -32,7 +32,7 @@ public class NearServiceImplement implements NearService{
 
 	@Override
 	public List<NearVO> selectNearList(NearVO vo) {
-		
+
 		return dao.getList(vo);
 	}
 }

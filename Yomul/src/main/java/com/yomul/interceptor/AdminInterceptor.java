@@ -8,7 +8,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.yomul.vo.MemberVO;
 
-public class AuthInterceptor extends HandlerInterceptorAdapter {
+public class AdminInterceptor extends HandlerInterceptorAdapter {
 
 	/**
 	 * 로그인 확인
@@ -22,7 +22,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 		// 세션 체크 후 있으면 무 --> 로그인 페이지
 		if (vo == null) {
-			response.sendRedirect("/yomul/login");
+			response.sendRedirect("/yomul/");
+			return false;
+		} else if (!vo.getAuthority().equals("ADMIN")) {
+			response.sendRedirect("/yomul/");
 			return false;
 		}
 		return true;
