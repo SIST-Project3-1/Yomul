@@ -7,6 +7,31 @@
 <title>요물 로그인</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#form_login").on("submit", function(e) {
+			e.preventDefault();
+
+			$.ajax({
+				url : "/yomul/login_proc",
+				method : "POST",
+				data : new FormData(this), // 필수
+				async : false,
+				processData : false, // 필수 
+				contentType : false, // 필수
+				success : function(result) {
+					if (result == 1) {
+						alert("로그인 성공");
+						location.href = "/yomul/";
+					} else {
+						alert("아이디 또는 패스워드가 일치하지 않습니다.");
+					}
+				}
+			});
+			return false;
+		});
+	});
+</script>
 </head>
 <body style="height: 100vh;">
 	<!-- HEADER -->
@@ -18,18 +43,21 @@
 			<h1 class="mb-3 text-center text-decoration-none text-dark">
 				<i class="bi bi-bank mr-2"></i>요물
 			</h1>
-			<form name="login_form" action="login_check.do" method="post">
+			<form id="form_login" action="login_proc" method="post">
 				<div class="form-group h-100 align-middle">
-					<input class="w-100 form-control rounded-0" style="border-radius: .25rem .25rem 0 0 !important;" type="email" id="email" name="email" placeholder="이메일"> <input class="w-100 form-control rounded-0 border-top-0" style="border-radius: 0 0 .25rem .25rem !important;" type="password" id="pw" name="pw" placeholder="비밀번호">
+					<input class="w-100 form-control rounded-0" style="border-radius: .25rem .25rem 0 0 !important;" type="email" id="email" name="email" placeholder="이메일">
+					<input class="w-100 form-control rounded-0 border-top-0" style="border-radius: 0 0 .25rem .25rem !important;" type="password" id="pw" name="pw" placeholder="비밀번호">
 				</div>
 				<button class="btn btn-block btn-yomul mb-2" type="submit">로그인</button>
 				<a class="btn btn-outline-yomul btn-block rounded-pill text-dark bg-white border-dark mb-2" href="/yomul/join">계정이 없으신가요? 간편하게 가입하기</a>
 				<div class="d-flex text-muted mb-2">
 					<label>
-						<input type="checkbox" name="id_store" id="id_store"> <small> 아이디 저장 </small>
+						<input type="checkbox" name="id_store" id="idStore">
+						<small> 아이디 저장 </small>
 					</label>
 					<label class="ml-2">
-						<input type="checkbox" name="auto_login" id="auto_login"> <small> 자동 로그인 </small>
+						<input type="checkbox" name="auto_login" id="autoLogin">
+						<small> 자동 로그인 </small>
 					</label>
 					<small class="ml-auto"> <a href="/yomul/reset_password" class="text-decoration-none text-muted">비밀번호 재설정</a>
 					</small>

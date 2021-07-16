@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
-import com.yomul.dao.MemberDAO;
 import com.yomul.service.MemberService;
 import com.yomul.vo.MemberVO;
 
@@ -55,17 +54,14 @@ public class LoginController {
 	 * login_check.do : 로그인 처리 여기 이 맵핑에서 비즈니스 로직을 처하게 된
 	 */
 
-	@RequestMapping(value = "login_check.do", method = RequestMethod.POST)
-	public String login_check(MemberVO vo, HttpSession session) {
-		String result_page = "";
+	@ResponseBody
+	@RequestMapping(value = "login_proc", method = RequestMethod.POST)
+	public String login_proc(MemberVO vo, String idStore, String autoLogin, HttpSession session) {
 		MemberVO member = memberService.getLoginResult(vo);
 		if (member != null) {
 			session.setAttribute("member", member);
-			result_page = "redirect:/";
-		} else {
-			result_page = "redirect:/login";
 		}
-		return result_page;
+		return member != null ? "1" : "0";
 	}
 
 	/**
