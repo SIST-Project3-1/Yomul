@@ -8,23 +8,17 @@
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
 <script>
-// 게시글 번호 구하기
-var no = "N" + $(location).attr("pathname").split("/").pop();
+// 게시글 번호
+var no = $(location).attr("pathname").split("/").pop();
+// 작성 업체 번호
+var vno;
 
 $(document).ready(function(){
+	vno = $("#vendor_no").val();
 	
 	// 단골일 경우 단골 버튼 색상 변경
 	$( "#btn_regular" ).on( "click", function() {
-		// 로그인 기능 완성되면 ajax로 로그인한 유저를 해당 업체의 단골로 등록/해제하는 코드 넣어야 됨
-		
-		if($(this).val() == 'false') {
-			$(this).css('color','white').css('background-color','rgb(255, 99, 95)');
-			$(this).val("true")
-		}else {
-			$(this).css('color','gray').css('background-color','rgb(240, 244, 245)');
-			$(this).val("false")
-		}
-		
+		clickCustomer();
 	});
 	
 	// 댓글 작성
@@ -39,14 +33,32 @@ $(document).ready(function(){
 	
 	// 좋아요 버튼 클릭
 	$(".btn_like").click(function() {
-		clickCommentLike($(this))
+		clickLike($(this))
 	});
 	
-	// 좋아요 버튼 클릭
+	// 신고 버튼 클릭
 	$(".btn_report").click(function() {
-		clickCommentReport($(this))
+		clickReport($(this))
 	});
 });
+
+// 단골 추가/취소
+function clickCustomer() {
+	$.ajax({
+		url : "/yomul/near_info/add_vendor_customer_proc?no=" + vno,
+		method : "GET",
+		success : function(result) {
+			if (result == -1) { // 로그인 필요
+				alert("로그인이 필요합니다.");
+			}else if(result == 0) { // 이미 단골인 경우 취소
+				$(this).css('color','gray').css('background-color','rgb(240, 244, 245)');
+			}else { // 단골 추가 완료
+				$(this).css('color','white').css('background-color','rgb(255, 99, 95)');
+				$("#vcCount").html(result);
+			}
+		}
+	});
+}
 
 // 댓글 작성
 function writeComment(form) {
@@ -82,7 +94,7 @@ function clickLike(btn) {
 		url : "/yomul/like_proc?no=" + no,
 		method : "GET",
 		success : function(result) {
-			if (result == -1) { // 추천 실패
+			if (result == -1) { // 로그인 필요
 				alert("로그인이 필요합니다.");
 			}else if(result == 0) { // 이미 추천한 경우
 				alert("이미 추천하셨습니다.");
@@ -102,7 +114,7 @@ function clickReport(btn) {
 		url : "/yomul/report_proc?no=" + no,
 		method : "GET",
 		success : function(result) {
-			if (result == -1) { // 신고 실패
+			if (result == -1) { // 로그인 필요
 				alert("로그인이 필요합니다.");
 			}else if(result == 0) { // 이미 추천한 경우
 				alert("이미 신고하셨습니다.");
@@ -229,6 +241,10 @@ function parseCommentPage(pageInfo) {
 	#near_info .color-yomul {
 		color: rgb(255, 99, 95);
 	}
+	
+	#near_info .bg-gray {
+		background-color: rgb(240, 244, 245);
+	}
 </style>
 </head>
 <body>
@@ -245,7 +261,7 @@ function parseCommentPage(pageInfo) {
 			</div>
 			
 			<!--  이미지  -->
-			<c:if test="${articleImages.size() != 0 }">
+			<c:if test="${vo.files != 0 }">
 				<div class="near-info-left-img">
 					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
@@ -358,8 +374,9 @@ function parseCommentPage(pageInfo) {
 		
 		<!--  작성자 정보  -->
 		<div class="near-info-right" id="near_info_right">
+			<input type="hidden" id="vendor_no" value="${vo.vno }">
 			<div class="near-info-right-writer">
-				<img src="http://localhost:9000/yomul/upload/default.jpg">
+				<img src="http://localhost:9000/yomul/upload/${vo.vimg }">
 				<label>${vo.writer }</label>
 				<button type="button" id="btn_regular" value="false"><p>+</p>단골<p id="vcCount">${vendorCustomerCount }</p></button>
 			</div>

@@ -42,11 +42,9 @@ public class CommonsController {
 	@ResponseBody
 	@RequestMapping(value = "/write_comment_proc", method = RequestMethod.POST)
 	public String write_comment(String ano, String content, MultipartFile file, HttpSession session) {
-		// 로그인 정보 불러오기
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		String mno = member.getNo();
-		
-		if(mno.equals("")) { // 로그인 안한 경우 -1 반환
+		// 로그인한 계정 번호 불러오기
+		String mno = Commons.getMno(session);
+		if(mno.equals("")) { // 로그인이 안되어 있을 경우 -1 반환
 			return "-1";
 		}
 		
@@ -67,11 +65,9 @@ public class CommonsController {
 	@ResponseBody
 	@RequestMapping(value = "/like_proc", method = RequestMethod.GET)
 	public String insert_like(String ano, HttpSession session) {
-		// 로그인 정보 불러오기
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		String mno = member.getNo();
-		
-		if(mno.equals("")) { // 로그인 안한 경우 -1 반환
+		// 로그인한 계정 번호 불러오기
+		String mno = Commons.getMno(session);
+		if(mno.equals("")) { // 로그인이 안되어 있을 경우 -1 반환
 			return "-1";
 		}
 		
@@ -86,9 +82,11 @@ public class CommonsController {
 	@ResponseBody
 	@RequestMapping(value = "/report_proc", method = RequestMethod.GET)
 	public String insert_report(String ano, HttpSession session) {
-		// 로그인 정보 불러오기
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		String mno = member.getNo();
+		// 로그인한 계정 번호 불러오기
+		String mno = Commons.getMno(session);
+		if(mno.equals("")) { // 로그인이 안되어 있을 경우 -1 반환
+			return "-1";
+		}
 
 		if(mno.equals("")) { // 로그인 안한 경우 -1 반환
 			return "-1";

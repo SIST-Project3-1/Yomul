@@ -40,4 +40,12 @@ public class VendorServiceImpl implements VendorService {
 		
 		return vendorDAO.removeVendorCustomer(params);
 	}
+	
+	public int switchVendorCustomer(String vno, String cno) {
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("vno", vno);
+		params.put("cno", cno);
+		
+		return vendorDAO.switchVendorCustomer(params);
+	}
 }

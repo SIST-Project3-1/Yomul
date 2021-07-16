@@ -108,24 +108,26 @@ public class NearController {
 
 	// 내 근처 상세보기
 	@RequestMapping(value = "/near_info/{no}", method = RequestMethod.GET)
-	public ModelAndView near_info(@PathVariable("no") int no, HttpSession session) {
+	public ModelAndView near_info(@PathVariable("no") String no, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 
 		// 조회수 갱신 겸 게시글 유무 확인
-		if (nearService.updateNearHits(no)) {
+		if (nearService.updateNearHits(no) != 0) {
 			mv.setViewName("user/near/near_info");
 			
 			// 게시글 정보 불러오기
 			NearVO vo = nearService.getNearInfo(no);
 			mv.addObject("vo", vo);
 			
-			// 게시글 파일 불러오기
-			ArrayList<String> files = fileService.getArticleFiles("N" + no);
-			mv.addObject("articleImages", files);
+			// 게시글 파일이 있을 경우 불러오기
+			if(vo.getFiles() != 0) {
+				ArrayList<String> files = fileService.getArticleFiles(no);
+				mv.addObject("articleImages", files);
+			}
 			
 			// 댓글 정보 불러오기
-			int commentCount = commentService.getCommentCount("N" + no);
-			ArrayList<CommentVO> comments = commentService.getCommentList("N" + no, 1);
+			int commentCount = commentService.getCommentCount(no);
+			ArrayList<CommentVO> comments = commentService.getCommentList(no, 1);
 			mv.addObject("comments", comments);
 			
 			// 댓글 페이지 정보 불러오기
@@ -146,20 +148,17 @@ public class NearController {
 	// 아직 미완 로그인 기능 구현되면 구현한 예정
 	// 단골 등록 ajax
 	@ResponseBody
-	@RequestMapping(value = "/near_info/addVendorCustomer", method = RequestMethod.GET)
-	public String near_info_comment(String no, HttpSession session) {
-		MemberVO mvo = (MemberVO)session.getAttribute("mvo");
-		String vno = "";
-		String cno = mvo.getNo();
-		
-		int result = vendorService.addVendorCustomer(vno, cno);
-		
-		// 0일 경우 에러
-		if(result == 0) {
-			return "0";
+	@RequestMapping(value = "/near_info/add_vendor_customer_proc", method = RequestMethod.GET)
+	public String near_info_comment(String vno, HttpSession session) {
+		// 로그인한 계정 번호 불러오기
+		String mno = Commons.getMno(session);
+		if(mno.equals("")) { // 로그인이 안되어 있을 경우 -1 반환
+			return "-1";
 		}
 		
-		return String.valueOf(vendorService.getVendorCustomerCount(vno));
+		int result = vendorService.switchVendorCustomer(vno, mno);
+		
+		return String.valueOf(result);
 	}
 
 	@RequestMapping(value = "/near_news_form", method = RequestMethod.GET)

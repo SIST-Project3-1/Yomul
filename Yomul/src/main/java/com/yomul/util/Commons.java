@@ -2,7 +2,10 @@ package com.yomul.util;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpSession;
+
 import com.google.gson.Gson;
+import com.yomul.vo.MemberVO;
 
 public class Commons {
 
@@ -16,6 +19,16 @@ public class Commons {
 	 */
 	public static String parseJson(Object src) {
 		return gson.toJson(src);
+	}
+	
+	// 로그인한 계정의 번호 구하기
+	public static String getMno(HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		if(member == null) {
+			return "";
+		}
+		
+		return member.getNo();
 	}
 	
 	// 페이지네이션 정보를 출력하는 함수
@@ -47,7 +60,7 @@ public class Commons {
 		}
 		
 		// 맨 처음 버튼 유무
-		if(page == 1) {
+		if(page == 1 || count == 0) {
 			info.put("first", 0);
 		}else {
 			info.put("first", 1);

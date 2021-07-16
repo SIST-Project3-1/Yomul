@@ -16,8 +16,8 @@
 	
 	<!-- 내 근처 게시글 상세보기 -->
 	<select id="selectNearInfo" resultType="com.yomul.vo.NearVO" parameterType="java.lang.String">
-		select n.no, v.no as vno, v.name as writer, n.title, n.category, n.price, n.hp, n.content, n.ndate, n.chatcheck, n.hits
-		from yomul_near_articles n, yomul_vendors v
+		select n.no, v.no as vno, v.name as writer, n.title, n.category, n.price, n.hp, n.content, n.ndate, n.chatcheck, n.hits, n.files
+		from v_y_near_articles n, yomul_vendors v
 		where n.writer = v.owner and n.no = #{no}
 	</select>
 	
