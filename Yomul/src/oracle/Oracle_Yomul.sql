@@ -313,7 +313,7 @@ WHERE C.NO = R.ARTICLE_NO(+)
 GROUP BY C.NO, R.ARTICLE_NO
 WITH READ ONLY;
 
--- 댓글 정보 뷰 생성(댓글 + 좋아요 수 + 신고 수 + 이미지 + 이미지)
+-- 댓글 정보 뷰 생성(댓글 + 좋아요 수 + 신고 수 + 이미지)
 CREATE NOFORCE VIEW V_Y_COMMENTS
 AS
 SELECT C.NO, C.ARTICLE_NO, C.WRITER, C.CONTENT, C.WDATE, L.LIKES, R.REPORTS, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME IMG
