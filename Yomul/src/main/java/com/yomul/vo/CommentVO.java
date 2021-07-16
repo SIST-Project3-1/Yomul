@@ -1,7 +1,7 @@
 package com.yomul.vo;
 
 public class CommentVO extends VO {
-	private int no; // 댓글 번호
+	private String no; // 댓글 번호
 	private int likes; // 좋아요 수
 	private int reports; // 신고 수
 	private String articleNo; // 게시글 번호
@@ -11,10 +11,10 @@ public class CommentVO extends VO {
 	private String wdate; // 작성일시
 	private String img; // 작성자 프로필 이미지
 	
-	public int getNo() {
+	public String getNo() {
 		return no;
 	}
-	public void setNo(int no) {
+	public void setNo(String no) {
 		this.no = no;
 	}
 	public int getLikes() {

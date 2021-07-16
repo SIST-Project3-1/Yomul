@@ -87,11 +87,11 @@ function writeComment(form) {
 
 // 좋아요 버튼 클릭
 function clickLike(btn) {
-	var no = btn.val();
-	var likeCount = btn.html();
+	var no = $(btn).val();
+	var likeCount = $(btn).html();
 	
 	$.ajax({
-		url : "/yomul/like_proc?no=" + no,
+		url : "/yomul/like_proc?ano=" + no,
 		method : "GET",
 		success : function(result) {
 			if (result == -1) { // 로그인 필요
@@ -108,10 +108,10 @@ function clickLike(btn) {
 
 // 신고 버튼 클릭
 function clickReport(btn) {
-	var no = btn.val();
+	var no = $(btn).val();
 	
 	$.ajax({
-		url : "/yomul/report_proc?no=" + no,
+		url : "/yomul/report_proc?ano=" + no,
 		method : "GET",
 		success : function(result) {
 			if (result == -1) { // 로그인 필요
@@ -339,7 +339,7 @@ function parseCommentPage(pageInfo) {
 									<label class="near-info-point">·</label>
 									<button type="button" class="btn_like near-info-chat-like" value="${cvo.no }">좋아요 ${cvo.likes }</button>
 									<label class="near-info-point">·</label>
-									<button type="button" class="btn_report near-info-chat-report" value="${cvo.no }">신고</button>
+									<button type="button" class="btn_report near-info-chat-report" value="${cvo.articleNo }">신고</button>
 								</div>
 							</div>
 						</div>
@@ -376,7 +376,7 @@ function parseCommentPage(pageInfo) {
 		<div class="near-info-right" id="near_info_right">
 			<input type="hidden" id="vendor_no" value="${vo.vno }">
 			<div class="near-info-right-writer">
-				<img src="http://localhost:9000/yomul/upload/${vo.vimg }">
+				<img src="http://localhost:9000/yomul/upload/default.jpg">
 				<label>${vo.writer }</label>
 				<button type="button" id="btn_regular" value="false"><p>+</p>단골<p id="vcCount">${vendorCustomerCount }</p></button>
 			</div>
