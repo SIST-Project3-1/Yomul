@@ -36,6 +36,8 @@
 		$("#page-prev").after(html);
 
 		$("li#" + page + ".page-item").addClass("active");
+		$("#page-prev a").attr("href", "?page=" + ((start - 10 <= 0) ? 1 : start - 10));
+		$("#page-next a").attr("href", "?page=" + ((start + 10 > total) ? total : (start + 10)));
 	}
 
 	// 회원 목록 로드
@@ -140,12 +142,12 @@
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
 			<li id="page-prev" class="page-item">
-				<a class="page-link" href="#" aria-label="Previous">
+				<a class="page-link" aria-label="Previous">
 					<span aria-hidden="true">&laquo;</span>
 				</a>
 			</li>
-			<li class="page-item">
-				<a class="page-link" href="#" aria-label="Next">
+			<li id="page-next" class="page-item">
+				<a class="page-link" aria-label="Next">
 					<span aria-hidden="true">&raquo;</span>
 				</a>
 			</li>
