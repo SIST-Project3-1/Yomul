@@ -9,7 +9,7 @@
 <%@ include file="../../head.jsp"%>
 <script>
 // 게시글 번호 구하기
-var no = $(location).attr("pathname").split("/").pop();
+var no = "N" + $(location).attr("pathname").split("/").pop();
 
 $(document).ready(function(){
 	
@@ -25,6 +25,11 @@ $(document).ready(function(){
 			$(this).val("false")
 		}
 		
+	});
+	
+	// 댓글 작성
+	$("#write_comment_form").submit(function() {
+		writeComment($(this));
 	});
 	
 	// 댓글 페이지 이동
@@ -43,12 +48,38 @@ $(document).ready(function(){
 	});
 });
 
+// 댓글 작성
+function writeComment(form) {
+	var formData = new FormData($(this)[0]);
+	formData.append("ano", no);
+	
+	$.ajax({
+		url : "/yomul/write_comment_proc",
+		method : "POST",
+		data : formData,
+		enctype : "multipart/form-data",
+		contentType : false,
+		processData : false,
+		success : function(result) {
+			if (result == 1) { // 작성 성공
+				location.href = "/yomul/vendor_profile_info";
+			} else if(result == 0) { // 작성 실패
+				alert("댓글 작성에 실패했습니다.");
+			}else if(result == -1) { // 로그인 필요
+				alert("로그인이 필요합니다.");
+				location.href = "/yomul/login";
+			}
+		}
+	});
+}
+
+// 좋아요 버튼 클릭
 function clickLike(btn) {
 	var no = btn.val();
 	var likeCount = btn.html();
 	
 	$.ajax({
-		url : "/yomul/near_info/insert_like?no=" + no,
+		url : "/yomul/like_proc?no=" + no,
 		method : "GET",
 		success : function(result) {
 			if (result == -1) { // 추천 실패
@@ -68,7 +99,7 @@ function clickReport(btn) {
 	var no = btn.val();
 	
 	$.ajax({
-		url : "/yomul/near_info/insert_report?no=" + no,
+		url : "/yomul/report_proc?no=" + no,
 		method : "GET",
 		success : function(result) {
 			if (result == -1) { // 신고 실패
@@ -82,11 +113,12 @@ function clickReport(btn) {
 	});
 }
 
+// 댓글 페이지 이동
 function clickCommentPage(page) {
 	var pageInfo;
 	
 	$.ajax({
-		url : "/yomul/near_info/comments?no=" + no + "&page=" + page,
+		url : "/yomul/comment_pagination_proc?ano=" + no + "&page=" + page,
 		method : "GET",
 		dataType : "json",
 		contentType: "application/json; charset=UTF-8",
@@ -262,21 +294,21 @@ function parseCommentPage(pageInfo) {
 				<div class="near-info-chat-title">
 					<h3>댓글</h3><h3 id="comment_count">${commentPageInfo.count }</h3>
 				</div>
-				<div class="near-info-chat-writer">
+				<form id="write_comment_form" class="near-info-chat-writer">
 					<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
 					<div>
-						<input type="text" placeholder="댓글을 남겨 보세요.">
+						<input type="text" id="comment_text" name="content" placeholder="댓글을 남겨 보세요.">
 						<div class="near-info-chat-button">
 							<button class="comment-feed__form__photo" type="button" onclick="document.getElementById('file').click();">
 								<svg width="24" height="20" viewBox="0 0 24 20" preserveAspectRatio="xMidYMid meet">
 									<path fill="#292929" fill-rule="nonzero" d="M3.22 20C1.446 20 0 18.547 0 16.765V6.176c0-1.782 1.446-3.235 3.22-3.235h3.118L7.363.377A.586.586 0 0 1 7.903 0h8.195c.24.003.453.152.54.377l1.024 2.564h3.118c1.774 0 3.22 1.453 3.22 3.235v10.589C24 18.547 22.554 20 20.78 20H3.22zm0-1.176h17.56a2.037 2.037 0 0 0 2.05-2.06V6.177c0-1.15-.904-2.058-2.05-2.058h-3.512a.585.585 0 0 1-.54-.368l-1.024-2.574H8.296L7.27 3.75a.585.585 0 0 1-.54.368H3.22a2.037 2.037 0 0 0-2.05 2.058v10.589c0 1.15.904 2.059 2.05 2.059zM12 17.059c-3.064 0-5.561-2.51-5.561-5.588 0-3.08 2.497-5.589 5.561-5.589s5.561 2.51 5.561 5.589c0 3.079-2.497 5.588-5.561 5.588zm0-1.177a4.392 4.392 0 0 0 4.39-4.411A4.392 4.392 0 0 0 12 7.059a4.392 4.392 0 0 0-4.39 4.412A4.392 4.392 0 0 0 12 15.882z"></path>
 								</svg>
 							</button>
-							<input type="file" id="file" style="display:none" >
-							<button class="comment-feed__form__submit" type="submit" disabled="">등록</button>
+							<input type="file" id="comment_file" name="file" style="display:none" >
+							<button type="submit" id="btn_write_comment" class="comment-feed__form__submit">등록</button>
 						</div>
 					</div>
-				</div>
+				</form>
 				<div id="comment_content_box" class="near-info-chat-content">
 					<c:forEach var="cvo" items="${comments }">
 						<div>
