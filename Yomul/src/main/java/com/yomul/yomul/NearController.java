@@ -78,7 +78,7 @@ public class NearController {
 	}
 
 	@RequestMapping(value = "/near_write_proc", method = RequestMethod.POST)
-	public ModelAndView near_write_proc(NearVO vo, @RequestParam("uploadFile") List<MultipartFile> files, HttpServletRequest request) {
+	public ModelAndView near_write_proc(NearVO vo, @RequestParam("uploadFile") List<MultipartFile> files, HttpServletRequest request, HttpSession session) {
 
 		ModelAndView mv = new ModelAndView();
 		int fileCount = fileUploadService.getUploadedCount(files);
@@ -88,6 +88,7 @@ public class NearController {
 			mv.addObject("url", url);
 		}
 		mv.addObject("fileCount", fileCount);
+		vo.setWriter(((MemberVO)session.getAttribute("member")).getNo());
 		int result = nearDAO.getNearWrite(vo);
 
 		if (result == 1) {
