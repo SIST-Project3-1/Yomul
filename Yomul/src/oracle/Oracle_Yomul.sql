@@ -550,6 +550,10 @@ SELECT CEIL(COUNT(*)/10) TOTAL_PAGE FROM YOMUL_MEMBERS WHERE NICKNAME LIKE('%' |
 -- 회원 삭제
 DELETE FROM YOMUL_MEMBERS WHERE NO = 'M24';
 
+-- 공지사항 작성
+INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT) VALUES('N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL, 'M1', '테스트', '공지내용');
+
+
 -- 관리자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
 COMMIT;
 

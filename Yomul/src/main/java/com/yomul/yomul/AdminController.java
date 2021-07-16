@@ -13,14 +13,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.MemberService;
+import com.yomul.service.NoticeService;
 import com.yomul.util.Commons;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.NoticeVO;
 
 @Controller
 public class AdminController {
 
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private NoticeService noticeService;
 
 	@RequestMapping(value = "admin_faq_list", method = RequestMethod.GET)
 	public String adminFaqList() {
@@ -52,9 +57,30 @@ public class AdminController {
 		return "admin/customer_center/notice/admin_notice_update";
 	}
 
+	/**
+	 * 공지사항 페이지
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "admin_notice_write", method = RequestMethod.GET)
 	public String adminNoticeWrite() {
 		return "admin/customer_center/notice/admin_notice_write";
+	}
+
+	/**
+	 * 공지사항 작성 처리
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin_notice_write_proc", method = RequestMethod.POST)
+	public String adminNoticeWrite_proc(NoticeVO vo) {
+		vo.setWriter("M1");
+		int result = noticeService.writeNotice(vo);
+		if (result == 1) {
+			return "redirect:/admin_notice_list";
+		} else {
+			return "redirect:/admin_notice_write";
+		}
 	}
 
 	@RequestMapping(value = "admin_qna_list", method = RequestMethod.GET)

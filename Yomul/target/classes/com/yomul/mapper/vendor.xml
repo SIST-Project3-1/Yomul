@@ -24,8 +24,6 @@
 	<insert id="insertVendorCustomer" parameterType="java.util.HashMap">
 		insert into yomul_vendor_customers(vendor_no, customer_no)
 		values(#{vno}, #{cno})
-		insert into yomul_vendors(no, name, category, info, tel, addr)
-		values(#{no}, #{name}, #{category}, #{info}, #{tel}, #{addr})
 	</insert>
 	
 	<!-- 업체 단골 해제 -->
