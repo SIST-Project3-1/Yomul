@@ -8,7 +8,7 @@ import com.yomul.dao.LikeDAO;
 
 public class LikeServiceImpl implements LikeService {
 	@Autowired
-	LikeDAO likeDAO;
+	private LikeDAO likeDAO;
 	
 	
 	// 좋아요 추가
