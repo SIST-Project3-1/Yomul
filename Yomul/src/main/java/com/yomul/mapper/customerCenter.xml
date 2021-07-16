@@ -73,23 +73,33 @@
 	</insert>
 	
 	<!-- QNA 목록 가져오기 -->
-	<select id="getqnalist" resultType="com.yomul.vo.QnaVO">
+	<select id="getQnaList" parameterType="int" resultType="com.yomul.vo.QnaVO">
 		SELECT
-			  NO
+			  RNO
+			, NO
 			, TITLE
 			, CONTENT
 			, TO_CHAR(WDATE, 'YYYY-MM-DD') AS WDATE
-			, RDATE 
+			, RDATE
 			, SECRET
 		FROM
 		(
 			SELECT
-				*
-			FROM 
-				YOMUL_QNA_ARTICLES 
-			ORDER BY 
-				WDATE DESC
+				  ROWNUM AS RNO
+				, QA.*
+			FROM
+			(
+				SELECT
+					*
+				FROM
+					YOMUL_QNA_ARTICLES
+				ORDER BY
+					TO_NUMBER(SUBSTR(NO, 2, 10)) DESC
+			) QA
 		)
+		WHERE
+				RNO > 10 * (#{page} - 1)
+<![CDATA[		AND RNO <= 10 * #{page}]]>
 	</select>
 	
 	<!-- QnA 상세보기 -->
@@ -98,12 +108,12 @@
 			  NO
 			, NAME
 			, EMAIL
-			, TO_CHAR(WDATE, 'YYYY-MM-DD') WDATE
+			, TO_CHAR(WDATE, 'YYYY-MM-DD HH:MI') WDATE
 			, CATEGORY
 			, TITLE
 			, CONTENT
 			, HITS
-			, TO_CHAR(RDATE, 'YYYY-MM-DD') RDATE
+			, TO_CHAR(RDATE, 'YYYY-MM-DD HH:MI') RDATE
 			, RWRITER
 			, RCONTENT
 			, SECRET

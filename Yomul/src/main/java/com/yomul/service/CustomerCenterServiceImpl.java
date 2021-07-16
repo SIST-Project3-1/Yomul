@@ -58,8 +58,8 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	}
 
 	@Override
-	public ArrayList<QnaVO> getQnaList() {
-		return customerCenterDAO.getQnaList();
+	public ArrayList<QnaVO> getQnaList(int page) {
+		return customerCenterDAO.getQnaList(page);
 	}
 
 	@Override

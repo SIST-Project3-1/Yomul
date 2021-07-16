@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.yomul.util.Commons;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.NoticeVO;
@@ -54,8 +55,8 @@ public class CustomerCenterDAO extends DAO {
 	 * 
 	 * @return
 	 */
-	public ArrayList<QnaVO> getQnaList() {
-		List<QnaVO> list = sqlSession.selectList(nameSpace + ".getqnalist");
+	public ArrayList<QnaVO> getQnaList(int page) {
+		List<QnaVO> list = sqlSession.selectList(nameSpace + ".getQnaList", page);
 		return (ArrayList<QnaVO>) list;
 	}
 
