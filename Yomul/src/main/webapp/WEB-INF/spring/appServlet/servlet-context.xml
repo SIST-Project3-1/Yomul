@@ -16,7 +16,6 @@
 	<resources mapping="/js/**" location="/resources/js/" />
 	<resources mapping="/image/**" location="/resources/image/" />
 	<resources mapping="/upload/**" location="/resources/upload/" />
-	<resources mapping="/texteditor/**" location="/resources/texteditor/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -35,6 +34,9 @@
 	<beans:bean id="vendorService" class="com.yomul.service.VendorServiceImpl"></beans:bean>
 	<beans:bean id="fileService" class="com.yomul.service.FileServiceImpl"></beans:bean>
 	<beans:bean id="commentService" class="com.yomul.service.CommentServiceImpl"></beans:bean>
+	<beans:bean id="likeService" class="com.yomul.service.LikeServiceImpl"></beans:bean>
+	<beans:bean id="reportService" class="com.yomul.service.ReportServiceImpl"></beans:bean>
+	<beans:bean id="townService" class="com.yomul.service.TownServiceImpl"></beans:bean>
 
 	<!-- Utility Object -->
 	<beans:bean id="fileUtils" class="com.yomul.util.FileUtils"></beans:bean>
@@ -44,7 +46,7 @@
 
 	<interceptors>
 		<interceptor>
-			<mapping path="/admin*" />
+			<mapping path="/mypage/*" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 	</interceptors>

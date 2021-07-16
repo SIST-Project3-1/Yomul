@@ -3,12 +3,14 @@ package com.yomul.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.yomul.dao.MemberDAO;
 import com.yomul.util.Security;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 
+@Service("memberService")
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
@@ -62,8 +64,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public ArrayList<MemberVO> getMemberList(int page) {
-		return memberDAO.getMemberList(page);
+	public ArrayList<MemberVO> getMemberList(int page, String search) {
+		return memberDAO.getMemberList(page, search);
 	}
 
 	@Override
@@ -72,8 +74,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int getTotalPageCount() {
-		return memberDAO.getTotalPageCount();
+	public int getTotalPageCount(String search) {
+		return memberDAO.getTotalPageCount(search);
 	}
 
 	@Override

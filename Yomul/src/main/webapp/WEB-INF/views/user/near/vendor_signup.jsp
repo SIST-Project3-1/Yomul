@@ -41,7 +41,8 @@ function vendor_signup_submit() {
 		contentType : false,
 		processData : false,
 		success : function(result) {
-			if (result == 1) {
+			console.log(result);
+			if (result != 0) {
 				alert("업체 등록에 성공했습니다.");
 				location.href = "/yomul/vendor_profile_info";
 			} else {

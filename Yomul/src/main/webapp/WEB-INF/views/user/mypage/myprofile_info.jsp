@@ -33,27 +33,27 @@
 							<small>비즈 프로필</small>
 						</a>
 					</div>
-					<a class="btn btn-sm btn-outline-dark mb-3" href="/yomul/myprofile_update">수정</a>
+					<a class="btn btn-sm btn-outline-dark mb-3" href="/yomul/mypage/myprofile_update">수정</a>
 					<p class="mb-3">${member.intro }</p>
 				</div>
 			</div>
 			<hr>
 			<div class="d-flex justify-content-around">
-				<a class="btn" href="/yomul/buy_list">
+				<a class="btn" href="/yomul/mypage/buy_list">
 					<h2>
 						<i class="bi bi-basket"></i>
 					</h2>
 					<div class="font-weight-bold">구매 내역</div>
 					<div>${buyCount }</div>
 				</a>
-				<a class="btn" href="/yomul/sell_list">
+				<a class="btn" href="/yomul/mypage/sell_list">
 					<h2>
 						<i class="bi bi-cash-coin"></i>
 					</h2>
 					<div class="font-weight-bold">판매 내역</div>
 					<div>${sellCount }</div>
 				</a>
-				<a class="btn" href="/yomul/favorite_list">
+				<a class="btn" href="/yomul/mypage/favorite_list">
 					<div>
 						<h2>
 							<i class="bi bi-bookmark-star"></i>

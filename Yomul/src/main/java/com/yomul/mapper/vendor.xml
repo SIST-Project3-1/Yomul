@@ -5,8 +5,51 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.vendor">
+
+	<!-- 업체 등록 -->
 	<insert id="insertVendor" parameterType="com.yomul.vo.VendorVO">
 		insert into yomul_vendors(no, owner, name, category, info, tel, addr)
-		values(#{no}, #{owner}, #{name}, #{category}, #{info}, #{tel}, #{addr})
+		values('V'||yomul_vendors_no_seq.nextval, #{owner}, #{name}, #{category}, #{info}, #{tel}, #{addr})
 	</insert>
+	
+	<!-- 업체 단골 수 확인 -->
+	<select id="selectVendorCustomerCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+		select count(*)
+		from yomul_vendor_customers
+		where vendor_no = #{no}
+		group by vendor_no
+	</select>
+	
+	<!-- 업체 단골 등록 -->
+	<insert id="insertVendorCustomer" parameterType="java.util.HashMap">
+		insert into yomul_vendor_customers(vendor_no, customer_no)
+		values(#{vno}, #{cno})
+	</insert>
+	
+	<!-- 업체 단골 해제 -->
+	<delete id="deleteVendorCustomer" parameterType="java.util.HashMap">
+		delete from yomul_vendor_customers
+		where vendor_no = #{vno} and customer_no = #{cno}
+	</delete>
+	
+	<!-- 업체 번호로 조회 -->
+	<select id="selectVendorByNo" resultType="com.yomul.vo.VendorVO" parameterType="java.lang.String">
+		select no, owner, name, category, info, tel, addr, news, customers, reviews
+		from v_y_vendors
+		where no = #{no}
+	</select>
+	
+	<!-- 사용자 번호로 업체 번호 조회 -->
+	<select id="selectVendorNoByOwner" resultType="java.lang.String" parameterType="java.lang.String">
+		select no
+		from v_y_vendors
+		where owner = #{owner}
+	</select>
+	
+	<!-- 업체 이름으로 검색 -->
+	<select id="searchVendorByName" resultType="com.yomul.vo.VendorVO" parameterType="java.lang.String">
+		select no, owner, name, category, info, tel, addr, news, customers, reviews
+		from v_y_vendors
+		where name like('%' || #{name} || '%')
+	</select>
 </mapper>
