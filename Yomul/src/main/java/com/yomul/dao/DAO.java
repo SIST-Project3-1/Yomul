@@ -24,10 +24,9 @@ abstract public class DAO {
 
 	// Constructor
 	public DAO() {
-		
 	}
-
-	public void create() {
+	
+	public void create(){
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
@@ -40,11 +39,12 @@ abstract public class DAO {
 			}
 
 			conn = DriverManager.getConnection(url, user, pass);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/** PreparedStatement 생성 **/
 	public void getPreparedStatement(String sql) {
 		try {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.notice">
+
+	<!-- 공지사항 작성 -->
+	<insert id="writeNotice" parameterType="com.yomul.vo.NoticeVO">
+		INSERT INTO YOMUL_NOTICES
+		(
+			  NO
+			, WRITER
+			, TITLE
+			, CONTENT
+		)
+		VALUES
+		(
+			  'N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL
+			, #{writer}
+			, #{title}
+			, #{content}
+		)
+	</insert>
+</mapper>

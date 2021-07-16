@@ -11,6 +11,5 @@ Yomul/target/m2e-wtp/web-resources/META-INF/maven/com.yomul/yomul/pom.properties
 config.js
 *.MF
 *.properties
-Yomul/target/m2e-wtp/web-resources/META-INF/MANIFEST.MF
-Yomul/target/m2e-wtp/web-resources/META-INF/maven/com.yomul/yomul/pom.properties
 Yomul/target/*
+Yomul/target/*.xml
