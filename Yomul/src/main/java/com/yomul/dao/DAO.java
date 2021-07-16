@@ -24,6 +24,9 @@ abstract public class DAO {
 
 	// Constructor
 	public DAO() {
+	}
+	
+	public void create(){
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
