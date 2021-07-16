@@ -376,7 +376,7 @@ function parseCommentPage(pageInfo) {
 		<div class="near-info-right" id="near_info_right">
 			<input type="hidden" id="vendor_no" value="${vo.vno }">
 			<div class="near-info-right-writer">
-				<img src="http://localhost:9000/yomul/upload/${vo.vimg }">
+				<img src="http://localhost:9000/yomul/upload/default.jpg">
 				<label>${vo.writer }</label>
 				<button type="button" id="btn_regular" value="false"><p>+</p>단골<p id="vcCount">${vendorCustomerCount }</p></button>
 			</div>
