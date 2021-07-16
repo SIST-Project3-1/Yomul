@@ -18,7 +18,7 @@ public class TownController {
 	public String town_list() {
 		return "user/town/town_list";
 	}
-
+	
 	@RequestMapping(value = "/town_update", method = RequestMethod.GET)
 	public String town_update() {
 		return "user/town/town_update";
@@ -33,20 +33,25 @@ public class TownController {
 	public String town_write() {
 		return "user/town/town_write";
 	}
-
+	
 	@RequestMapping(value = "/town_write_proc", method = RequestMethod.GET)
 	public ModelAndView town_write_proc(String category, String title, String content, String file) {
 		ModelAndView mv = new ModelAndView();
-		System.out.println(town.toStringJson());
-		town.setWriter("M2"); // 세션에서 회원번호 받아오기
-		boolean result = townService.getTownWrite(town, file);
-
-		if (result) {
+		TownDAO dao = new TownDAO();
+		TownVO vo = new TownVO();
+		FileVO fvo = new FileVO();
+		vo.setCategory(category);
+		vo.setTitle(title);
+		vo.setContent(content);
+		fvo.setFilename(file);
+		boolean result = dao.getTownWrite(vo,fvo);
+		if(result) {
 			mv.setViewName("redirect:/town_list");
-		} else {
+		}else {
 			// mv.setViewName("error"); 에러페이지
 		}
 		return mv;
 	}
-
+	
+	
 }

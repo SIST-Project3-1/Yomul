@@ -2,7 +2,7 @@ package com.yomul.vo;
 
 public class TownVO {
 
-	private String no, category, title, content, tdate, writer; // 게시글 번호, 카테고리, 제목, 내용, 작성일자, 작성자
+	private String no, category, title, content, tdate; // 게시글 번호, 카테고리, 제목, 내용, 작성일자
 	private int hits; // 조회수
 
 	public String getNo() {
@@ -43,14 +43,6 @@ public class TownVO {
 
 	public void setTdate(String tdate) {
 		this.tdate = tdate;
-	}
-
-	public String getWriter() {
-		return writer;
-	}
-
-	public void setWriter(String writer) {
-		this.writer = writer;
 	}
 
 	public int getHits() {
