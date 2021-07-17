@@ -136,8 +136,10 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String logout(HttpSession session) {
+	public String logout(HttpSession session, HttpServletResponse response, @CookieValue(value = "autoLogin", required = false) Cookie autoLogin) {
+		Cookies.removeCookie(autoLogin);
 		session.invalidate();
+		response.addCookie(autoLogin);
 		return "redirect:/";
 	}
 }
