@@ -22,6 +22,11 @@ public class VendorDAO extends DAO{
 		return sqlSession.selectOne(nameSpace + ".selectVendorNoByOwner", vo.getOwner());
 	}
 	
+	// 업체 정수 수정
+	public int updateVendorInfo(VendorVO vo) {
+		return sqlSession.update(nameSpace + ".updateVendor", vo);
+	}
+	
 	// 업체 단골 수 확인
 	public int getVendorCustomerCount(String no) {
 		try {
@@ -34,7 +39,13 @@ public class VendorDAO extends DAO{
 	// 업체 정보 조회
 	public VendorVO getVendorInfo(String no) {
 		try {
-			return sqlSession.selectOne(nameSpace + ".selectVendorByNo", no);
+			if(no.startsWith("V")) { // 업체 번호일 경우 업체 번호로 조회
+				return sqlSession.selectOne(nameSpace + ".selectVendorByNo", no);
+			}else if(no.startsWith("M")) { // 회원 번호일 경우 회원 번호로 조회
+				return sqlSession.selectOne(nameSpace + ".selectVendorByOwner", no);
+			}else {
+				return null;
+			}
 		} catch (NullPointerException e) { // 해당 업체가 없을 경우 null 반환
 			return null;
 		}

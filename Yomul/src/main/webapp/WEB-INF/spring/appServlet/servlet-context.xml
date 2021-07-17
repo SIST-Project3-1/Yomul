@@ -69,6 +69,11 @@
 			<mapping path="/*_write" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
+		<!-- 글 수정 로그인 필요 -->
+		<interceptor>
+			<mapping path="/*_update" />
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
 		<!-- 로그인 시 로그인 페이지 입장 불가 -->
 		<interceptor>
 			<mapping path="/login*" />

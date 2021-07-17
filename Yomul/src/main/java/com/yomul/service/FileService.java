@@ -12,4 +12,6 @@ public interface FileService {
 	public ArrayList<String> getArticleFiles(String no);
 
 	ArrayList<FileVO> getFileList(String no);
+	
+	public int deleteArticleFiles(String articleNo);
 }

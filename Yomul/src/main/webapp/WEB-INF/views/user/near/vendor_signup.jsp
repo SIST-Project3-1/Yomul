@@ -21,10 +21,7 @@ function changeFile(fis) {
 	var reader = new FileReader();
 	
 	reader.onload = function(e) {
-		$(".vendor-signup-img").removeClass("vendor-signup-img");
-		$("#btn_img").css("border", "none");
-		$("#btn_img").css("background", "none");
-		$("#btn_img").html("<img src='" + e.target.result + "' class='img-fluid'>");
+		$("#btn_img").html("<img src='" + e.target.result + "' class='img-fluid rounded-circle' style='min-width:150px; min-height:150px'>");
 	}
 	
 	reader.readAsDataURL(fis.files[0]);

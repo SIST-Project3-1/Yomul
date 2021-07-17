@@ -1,6 +1,5 @@
 package com.yomul.service;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +14,25 @@ public class VendorServiceImpl implements VendorService {
 	private VendorDAO vendorDAO;
 	
 	// 업체 등록
+	@Override
 	public String vendorSignUp(VendorVO vo) {
 		return vendorDAO.vendorSingUp(vo);
 	}
 
+	// 업체 정보 수정
+	@Override
+	public int updateVendorInfo(VendorVO vo) {
+		return vendorDAO.updateVendorInfo(vo);
+	}
+	
 	// 업체 단골 수 확인
+	@Override
 	public int getVendorCustomerCount(String no) {
 		return vendorDAO.getVendorCustomerCount(no);
 	}
 	
 	// 업체 단골 등록
+	@Override
 	public int addVendorCustomer(String vno, String cno) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("vno", vno);
@@ -34,6 +42,7 @@ public class VendorServiceImpl implements VendorService {
 	}
 	
 	// 업체 단골 해제
+	@Override
 	public int removeVendorCustomer(String vno, String cno) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("vno", vno);
@@ -42,6 +51,8 @@ public class VendorServiceImpl implements VendorService {
 		return vendorDAO.removeVendorCustomer(params);
 	}
 	
+	// 업체 단골 등록/해제
+	@Override
 	public int switchVendorCustomer(String vno, String cno) {
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("vno", vno);
@@ -51,6 +62,7 @@ public class VendorServiceImpl implements VendorService {
 	}
 	
 	// 업체 번호로 업체 조회
+	@Override
 	public VendorVO getVendorInfo(String no) {
 		return vendorDAO.getVendorInfo(no);
 	}

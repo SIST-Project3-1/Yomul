@@ -7,6 +7,9 @@ public interface VendorService {
 	// 업체 등록, 저장에 성공한 경우 업체 번호 반환, 실패한 경우 "0" 반환
 	public String vendorSignUp(VendorVO vo);
 	
+	// 업체 정보 수정
+	public int updateVendorInfo(VendorVO vo);
+	
 	// 업체 단골 수 확인
 	public int getVendorCustomerCount(String no);
 	

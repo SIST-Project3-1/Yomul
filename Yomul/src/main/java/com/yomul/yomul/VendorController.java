@@ -1,6 +1,7 @@
 package com.yomul.yomul;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import com.yomul.service.FileService;
 import com.yomul.service.VendorService;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.FileVO;
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.VendorVO;
 
 @Controller
@@ -61,14 +63,6 @@ public class VendorController {
 	}
 	
 	//업체 프로필 보기
-	@RequestMapping(value = "/vendor_profile_info", method = RequestMethod.GET)
-	public ModelAndView vendor_profile_info() {
-		ModelAndView mv = new ModelAndView("user/near/vendor_profile_info");
-		mv.addObject("headerType", "profile");
-		return mv;
-	}
-	
-	//업체 프로필 보기
 	@RequestMapping(value = "/vendor_profile_info/{no}", method = RequestMethod.GET)
 	public ModelAndView vendor_profile_info(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_profile_info");
@@ -81,7 +75,6 @@ public class VendorController {
 			mv.setViewName("redirect:/error");
 		}
 		
-		mv.setViewName("/user/near/vendor_profile_info");
 		mv.addObject("headerType", "profile");
 		mv.addObject("vo", vo);
 		
@@ -90,10 +83,53 @@ public class VendorController {
 	
 	//업체 프로필 수정
 	@RequestMapping(value = "/vendor_profile_update", method = RequestMethod.GET)
-	public ModelAndView vendor_profile_update() {
+	public ModelAndView vendor_profile_update(HttpSession session) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_profile_update");
+		
+		// 로그인한 계정 구하기
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		String owner = member.getNo();
+		
+		// 업체 정보 조회
+		VendorVO vo = vendorService.getVendorInfo(owner);
+		
+		// 조회된 업체가 없을 경우 에러 페이지 이동
+		if(vo == null) {
+			mv.setViewName("redirect:/error");
+		}
+		
 		mv.addObject("headerType", "profile");
+		mv.addObject("vo", vo);
 		return mv;
+	}
+	
+	// 업체 프로필 수정 처리
+	@RequestMapping(value = "/vendor_profile_update_proc", method = RequestMethod.POST)
+	public String vendor_profile_update_proc(HttpSession session, VendorVO updateData, MultipartFile file) {
+		
+		// 로그인한 계정 구하기
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		String owner = member.getNo();
+		
+		// 업체 정보 조회
+		VendorVO vo = vendorService.getVendorInfo(owner);
+		
+		// 조회된 업체가 없을 경우 에러 페이지 이동
+		if(vo == null) {
+			return "redirect:/error";
+		}
+		
+		// db에서 정보 업데이트
+		updateData.setNo(vo.getNo());
+		int result = vendorService.updateVendorInfo(updateData);
+		
+		// 수정된 결과가 없을 경우 에러 페이지 이동
+		if(result == 0) {
+			return "redirect:/error";
+		}
+		
+		// 수정에 성공했을 경우 프로필 페이지 이동
+		return "redirect:vendor_profile_info/" + vo.getNo();
 	}
 	
 	//업체 단골

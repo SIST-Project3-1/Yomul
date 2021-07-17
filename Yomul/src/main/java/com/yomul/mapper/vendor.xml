@@ -12,6 +12,16 @@
 		values('V'||yomul_vendors_no_seq.nextval, #{owner}, #{name}, #{category}, #{info}, #{tel}, #{addr})
 	</insert>
 	
+	<!-- 업체 정보 수정 -->
+	<update id="updateVendor" parameterType="com.yomul.vo.VendorVO">
+		update yomul_vendors
+		set 
+		info = #{info},
+		tel = #{tel},
+		addr = #{addr}
+		where no = #{no}
+	</update>
+	
 	<!-- 업체 단골 수 확인 -->
 	<select id="selectVendorCustomerCount" resultType="java.lang.Integer" parameterType="java.lang.String">
 		select count(*)
@@ -43,7 +53,14 @@
 	<select id="selectVendorNoByOwner" resultType="java.lang.String" parameterType="java.lang.String">
 		select no
 		from v_y_vendors
-		where owner = #{owner}
+		where owner = #{no}
+	</select>
+	
+	<!-- 사용자 번호로 업체 조회 -->
+	<select id="selectVendorByOwner" resultType="com.yomul.vo.VendorVO" parameterType="java.lang.String">
+		select no, owner, name, category, info, tel, addr, news, customers, reviews, img
+		from v_y_vendors
+		where owner = #{no}
 	</select>
 	
 	<!-- 업체 이름으로 검색 -->
