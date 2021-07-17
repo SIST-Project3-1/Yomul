@@ -24,7 +24,7 @@
 		<div class="container border mt-3 p-3">
 			<div class="row">
 				<div class="col-md-4 text-center">
-					<img class="rounded-circle mb-3" src="/yomul/image/${vo.img }" style="width: 300px; height: 300px;">
+					<img class="rounded-circle mb-3" src="/yomul/upload/${vo.img }" style="width: 300px; height: 300px;">
 				</div>
 				<div class="col-md my-auto" id="vendor-profile-info">
 					<h3>${vo.name }</h3>

@@ -105,10 +105,10 @@ public class VendorController {
 	
 	// 업체 프로필 수정 처리
 	@RequestMapping(value = "/vendor_profile_update_proc", method = RequestMethod.POST)
-	public String vendor_profile_update_proc(HttpSession session, VendorVO updateData, MultipartFile file) {
+	public String vendor_profile_update_proc(HttpServletRequest request, VendorVO updateData, MultipartFile file) {
 		
 		// 로그인한 계정 구하기
-		MemberVO member = (MemberVO)session.getAttribute("member");
+		MemberVO member = (MemberVO)request.getSession().getAttribute("member");
 		String owner = member.getNo();
 		
 		// 업체 정보 조회
@@ -126,6 +126,17 @@ public class VendorController {
 		// 수정된 결과가 없을 경우 에러 페이지 이동
 		if(result == 0) {
 			return "redirect:/error";
+		}
+		
+		// 입력 받은 파일이 있을 경우 기존의 파일을 삭제하고 새 파일 저장
+		if(!file.isEmpty()) {
+			FileVO fvo = new FileVO();
+			fvo.setArticle_no(vo.getNo());
+			fvo.setNo(1);
+			fvo.setFilename(fileUtils.genSaveFileName(file.getOriginalFilename()));
+			
+			fileService.deleteArticleFiles(vo.getNo());
+			fileUtils.uploadFile(fvo, file, request);
 		}
 		
 		// 수정에 성공했을 경우 프로필 페이지 이동
