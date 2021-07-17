@@ -82,7 +82,7 @@ $(document).ready(function(){
 
 	<!--  BODY  -->
 	<section id="admin_fqa_write" class="admin-fqa-write-content">
-		<form name="admin_fqa_write" method="get" action="admin_fqa_write_proc">
+		<form name="admin_fqa_write" method="get" action="admin_faq_write_proc">
 			<div class="admin_faq_write">
 				<div class="head">
 					<h1>FAQ 글쓰기</h1>
