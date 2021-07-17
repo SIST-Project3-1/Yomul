@@ -1,9 +1,12 @@
 package com.yomul.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.VendorVO;
 
 @Repository
@@ -22,9 +25,15 @@ public class VendorDAO extends DAO{
 		return sqlSession.selectOne(nameSpace + ".selectVendorNoByOwner", vo.getOwner());
 	}
 	
-	// 업체 정수 수정
+	// 업체 정보 수정
 	public int updateVendorInfo(VendorVO vo) {
 		return sqlSession.update(nameSpace + ".updateVendor", vo);
+	}
+	
+	// 업체 단골 목록 조회
+	public ArrayList<MemberVO> getVendorCustomers(HashMap<String, Object> params) {
+		List<MemberVO> list = sqlSession.selectList(nameSpace + ".selectVendorCustomerList", params);
+		return (ArrayList<MemberVO>) list;
 	}
 	
 	// 업체 단골 수 확인

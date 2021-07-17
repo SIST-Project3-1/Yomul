@@ -1,5 +1,7 @@
 package com.yomul.yomul;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -76,6 +78,7 @@ public class VendorController {
 		}
 		
 		mv.addObject("headerType", "profile");
+		mv.addObject("no", no);
 		mv.addObject("vo", vo);
 		
 		return mv;
@@ -99,6 +102,7 @@ public class VendorController {
 		}
 		
 		mv.addObject("headerType", "profile");
+		mv.addObject("no", vo.getNo());
 		mv.addObject("vo", vo);
 		return mv;
 	}
@@ -143,11 +147,17 @@ public class VendorController {
 		return "redirect:vendor_profile_info/" + vo.getNo();
 	}
 	
-	//업체 단골
-	@RequestMapping(value = "/vendor_profile_follow", method = RequestMethod.GET)
-	public ModelAndView vendor_profile_follow() {
+	//업체 단골 목록
+	@RequestMapping(value = "/vendor_profile_follow/{no}", method = RequestMethod.GET)
+	public ModelAndView vendor_profile_follow(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_profile_follow");
+		
+		// 단골 목록 구하기
+		ArrayList<MemberVO> list = vendorService.getVendorCustomerList(no, 1);
+		
 		mv.addObject("headerType", "profile");
+		mv.addObject("no", no);
+		mv.addObject("list", list);
 		return mv;
 	}
 		

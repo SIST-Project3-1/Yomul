@@ -1,5 +1,8 @@
 package com.yomul.service;
 
+import java.util.ArrayList;
+
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.VendorVO;
 
 public interface VendorService {
@@ -9,6 +12,9 @@ public interface VendorService {
 	
 	// 업체 정보 수정
 	public int updateVendorInfo(VendorVO vo);
+	
+	// 업체 단골 목록 조회
+	public ArrayList<MemberVO> getVendorCustomerList(String no, int page);
 	
 	// 업체 단골 수 확인
 	public int getVendorCustomerCount(String no);

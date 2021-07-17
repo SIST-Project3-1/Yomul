@@ -21,14 +21,14 @@
 
 	<!--  BODY  -->
 	<div id="vendor_profile_follow" class="vendor-profile-follow-content">
-		<% for(int i=0;i<10;i++){ %>
-		<div class="media" id="vendor-profile-follow-img">
-			<img src="/yomul/image/이미지준비중.jpg" class="mr-3">
-			<div class="media-body">
-			 <h5 class="mt-0">단골 닉네임</h5>
+		<c:forEach var="vo" items="${list }">
+			<div class="media" id="vendor-profile-follow-img">
+				<img src="/yomul/upload/${vo.profileImg }" class="mr-3">
+				<div class="media-body">
+				 <h5 class="mt-0">${vo.nickname }</h5>
+				</div>
 			</div>
-		</div>
-		<% } %>
+		</c:forEach>
 	</div>
 	
 	<!-- FOOTER -->

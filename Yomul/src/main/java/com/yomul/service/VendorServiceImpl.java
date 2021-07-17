@@ -1,11 +1,13 @@
 package com.yomul.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yomul.dao.VendorDAO;
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.VendorVO;
 
 @Service("VendorService")
@@ -23,6 +25,16 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public int updateVendorInfo(VendorVO vo) {
 		return vendorDAO.updateVendorInfo(vo);
+	}
+	
+	// 업체 단골 목록 조회
+	@Override
+	public ArrayList<MemberVO> getVendorCustomerList(String no, int page) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("no", no);
+		params.put("page", page);
+		
+		return vendorDAO.getVendorCustomers(params);
 	}
 	
 	// 업체 단골 수 확인
