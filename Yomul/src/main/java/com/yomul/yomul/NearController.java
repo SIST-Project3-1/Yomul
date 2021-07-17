@@ -92,9 +92,6 @@ public class NearController {
 		System.out.println("articleNo--->" + articleNo);
 		if(fileCount !=0) {
 			String url = fileUploadService.restore(files, nearDAO, request, articleNo);	
-			FileVO fvo = new FileVO();
-			fvo.setFilename(url);
-			fvo.setArticle_no(articleNo);
 			System.out.println("url--->"+ url);
 			mv.addObject("url", url);
 		
