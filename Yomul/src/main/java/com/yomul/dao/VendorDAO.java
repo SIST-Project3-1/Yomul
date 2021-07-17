@@ -31,6 +31,16 @@ public class VendorDAO extends DAO{
 		}
 	}
 	
+	// 업체 정보 조회
+	public VendorVO getVendorInfo(String no) {
+		try {
+			return sqlSession.selectOne(nameSpace + ".selectVendorByNo", no);
+		} catch (NullPointerException e) { // 해당 업체가 없을 경우 null 반환
+			return null;
+		}
+	}
+	
+	
 	// 업체 단골 등록
 	public int addVendorCustomer(HashMap<String, String> params) {
 		return sqlSession.insert(nameSpace + ".insertVendorCustomer", params);

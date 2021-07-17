@@ -18,4 +18,7 @@ public interface VendorService {
 	
 	// 업체 단골 등록/해제
 	public int switchVendorCustomer(String vno, String cno);
+	
+	// 업체 번호로 업체 조회
+	public VendorVO getVendorInfo(String no);
 }

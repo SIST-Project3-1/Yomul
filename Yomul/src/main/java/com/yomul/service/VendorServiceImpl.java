@@ -49,4 +49,9 @@ public class VendorServiceImpl implements VendorService {
 		
 		return vendorDAO.switchVendorCustomer(params);
 	}
+	
+	// 업체 번호로 업체 조회
+	public VendorVO getVendorInfo(String no) {
+		return vendorDAO.getVendorInfo(no);
+	}
 }

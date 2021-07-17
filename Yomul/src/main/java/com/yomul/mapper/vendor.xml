@@ -34,7 +34,7 @@
 	
 	<!-- 업체 번호로 조회 -->
 	<select id="selectVendorByNo" resultType="com.yomul.vo.VendorVO" parameterType="java.lang.String">
-		select no, owner, name, category, info, tel, addr, news, customers, reviews
+		select no, owner, name, category, info, tel, addr, news, customers, reviews, img
 		from v_y_vendors
 		where no = #{no}
 	</select>

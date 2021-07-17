@@ -67,11 +67,24 @@ public class VendorController {
 		mv.addObject("headerType", "profile");
 		return mv;
 	}
+	
 	//업체 프로필 보기
 	@RequestMapping(value = "/vendor_profile_info/{no}", method = RequestMethod.GET)
 	public ModelAndView vendor_profile_info(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_profile_info");
+		
+		// 업체 정보 조회
+		VendorVO vo = vendorService.getVendorInfo(no);
+		
+		// 조회된 업체가 없을 경우 에러 페이지 이동
+		if(vo == null) {
+			mv.setViewName("redirect:/error");
+		}
+		
+		mv.setViewName("/user/near/vendor_profile_info");
 		mv.addObject("headerType", "profile");
+		mv.addObject("vo", vo);
+		
 		return mv;
 	}
 	
