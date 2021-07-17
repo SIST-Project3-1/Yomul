@@ -79,7 +79,7 @@
 					</div>
 					<div>
 						<label>가격</label> <input type="number" placeholder="가격 (선택사항)"
-							name="price">
+							name="price" value=0>
 					</div>
 					<div>
 						<label>전화번호</label> <input type="text" placeholder="전화번호 (선택사항)"

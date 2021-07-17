@@ -35,4 +35,10 @@ public class NearServiceImplement implements NearService {
 
 		return dao.getList(vo);
 	}
+
+	@Override
+	public int getNearFile(String saveFileName, String originFilename) {
+		
+		return dao.getNearFile(saveFileName, originFilename);
+	}
 }

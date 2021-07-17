@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.yomul.vo.FileVO;
 import com.yomul.vo.NearVO;
 
 @Repository

@@ -90,15 +90,15 @@ public class FileUtils {
 				// 서버에서 저장 할 파일 이름
 				String saveFileName = genSaveFileName(articleNo, extName);
 				// db에 저장
-				dao.getNearFile(saveFileName, originFilename);
-
+				//int result = dao.getNearFile(saveFileName, originFilename);
+				
 				System.out.println("originFilename : " + originFilename);
 				System.out.println("extensionName : " + extName);
 				System.out.println("size : " + size);
 				System.out.println("saveFileName : " + saveFileName);
 
 				writeFile(mf, saveFileName, request);
-				url = PREFIX_URL + saveFileName;
+				url = saveFileName;
 
 				System.out.println("url :" + url);
 			}

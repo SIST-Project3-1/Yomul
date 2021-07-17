@@ -45,7 +45,12 @@
 				<table>
 					<tr>
 						<td>
-							<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+							<c:if test="${fvo.getFilename() != null }">
+							<img src="/yomul/upload/${fvo.getFilename }">
+							</c:if>
+							<c:if test="${fvo.getFilename() == null }">
+							<img src="http://localhost:9000/yomul/upload/default.jpg">
+							</c:if>
 						</td>
 						<td>
 							<div class="near-home-news-title">

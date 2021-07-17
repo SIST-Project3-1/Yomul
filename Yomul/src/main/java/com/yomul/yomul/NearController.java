@@ -27,6 +27,7 @@ import com.yomul.service.VendorService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.CommentVO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 
@@ -58,7 +59,7 @@ public class NearController {
 	private FileUtils fileUploadService;
 
 	@RequestMapping(value = "/near_home", method = RequestMethod.GET)
-	public ModelAndView near_home(NearVO vo) {
+	public ModelAndView near_home(NearVO vo,FileVO fvo) {
 		
 		ModelAndView mv = new ModelAndView();
 		List<NearVO> list = nearService.selectNearList(vo);
@@ -66,6 +67,10 @@ public class NearController {
 
 		mv.addObject("keyword", keyword);
 		mv.addObject("list", list);
+		if(fvo != null) {
+			mv.addObject("fvo", fvo);		
+			System.out.println("fvo 파일 네임 "+fvo.getFilename()); //dao -> vo로 연결 시켜야함 파일 
+		}
 		mv.setViewName("user/near/near_home");
 
 		return mv;
@@ -79,16 +84,24 @@ public class NearController {
 
 	@RequestMapping(value = "/near_write_proc", method = RequestMethod.POST)
 	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request,HttpSession session){
-
+	
+		System.out.println("file-->" + files);
 		ModelAndView mv = new ModelAndView();
 		int fileCount = fileUploadService.getUploadedCount(files);
 		String articleNo = nearDAO.getWriteNumber();
+		System.out.println("articleNo--->" + articleNo);
 		if(fileCount !=0) {
-			String url = fileUploadService.restore(files, nearDAO, request, articleNo);			
+			String url = fileUploadService.restore(files, nearDAO, request, articleNo);	
+			FileVO fvo = new FileVO();
+			fvo.setFilename(url);
+			fvo.setArticle_no(articleNo);
+			System.out.println("url--->"+ url);
 			mv.addObject("url", url);
+		
 		}
 		mv.addObject("fileCount", fileCount);
 		vo.setWriter(((MemberVO)session.getAttribute("member")).getNo());
+		
 		int result = nearDAO.getNearWrite(vo);
 
 		if (result == 1) {

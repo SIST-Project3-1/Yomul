@@ -7,6 +7,9 @@ import com.yomul.vo.NearVO;
 public interface NearService {
 	// 내근처 글쓰기
 	int getNearWrite(NearVO vo);
+	
+	// 내근처 파일 등록
+	int getNearFile(String saveFileName, String originFilename);
 
 	// 내 근처 홈 화면 보기
 	List<NearVO> selectNearList(NearVO vo);
