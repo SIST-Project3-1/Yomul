@@ -8,15 +8,16 @@
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
 <script>
-	function fileUpload(fis) {
-		var str = fis.value;
-		// 이미지를 변경한다.
-		var reader = new FileReader();
-		reader.onload = function(e) {
-			$('#profile_img_img').attr('src', e.target.result);
-		}
-		reader.readAsDataURL(fis.files[0]);
+// 이미지 파일 선택시
+function fileUpload(fis) {
+	var str = fis.value;
+	// 이미지를 변경한다.
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		$('#profile_img_img').attr('src', e.target.result);
 	}
+	reader.readAsDataURL(fis.files[0]);
+}
 </script>
 </head>
 <body>
@@ -38,24 +39,24 @@
 				<small>탈퇴하기</small>
 			</a>
 		</div>
-		<form name="join_form">
+		<form name="vendor_profile_update_form" action="/yomul/vendor_profile_update_proc" method="post" enctype="multipart/form-data">
 			<div class="form-group row">
 				<label for="intro" class="col-md-3 col-form-label">정보</label>
 				<div class="col-md-9">
-					<textarea id="intro" name="intro" rows="10" class="form-control">이 자리는 업체 정보가 들어가는 자리로 프로필 페이지의 소개 부분인데 프로필 수정에서 소개 쪽을 수정해서 데이터를 입력할 수 있다는 매우 크면서도 작은 장점이 있습니다.
+					<textarea id="intro" name="info" rows="10" class="form-control">${vo.info }
 					</textarea>
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="phone" class="col-md-3 col-form-label">전화번호</label>
 				<div class="col-md-9">
-					<input type="tel" class="form-control" value="02-123-1234" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="phone" id="phone">
+					<input type="tel" name="tel" class="form-control" value="${vo.tel }" pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}" name="phone" id="phone">
 				</div>
 			</div>
 			<div class="form-group row">
 				<label for="phone" class="col-md-3 col-form-label">주소</label>
 				<div class="col-md-9">
-					<input type="tel" class="form-control" value="서울특별시 강남구 역삼동">
+					<input type="tel" name="addr" class="form-control" value="${vo.addr }">
 				</div>
 			</div>
 			<div class="form-group row">
@@ -63,11 +64,11 @@
 				<div class="col-md-9">
 					<div class="input-group mb-3">
 						<div class="custom-file">
-							<input type="file" class="custom-file-input" id="profile_img" name="profile_img" aria-describedby="profile_img" onchange="fileUpload(this)">
+							<input type="file" class="custom-file-input" id="profile_img" name="file" aria-describedby="profile_img" onchange="fileUpload(this)" accept=".gif, .jpg, .jpeg, .png">
 							<label class="custom-file-label" for="profile_img">Choose file</label>
 						</div>
 					</div>
-					<img id="profile_img_img" class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 300px; height: 300px;">
+					<img id="profile_img_img" class="rounded-circle mb-3" src="/yomul/upload/${vo.img }" style="width: 300px; height: 300px;">
 				</div>
 			</div>
 			<button class="vendor-profile-update-btn" type="submit">업체 정보 수정</button>

@@ -44,4 +44,8 @@ public class FileDAO {
 		return (ArrayList<String>) list;
 	}
 
+	// 게시글 파일들 삭제
+	public int deleteArticleFiles(String articleNo) {
+		return sqlSession.delete(namespace + ".deleteArticleFiles", articleNo);
+	}
 }

@@ -3,6 +3,7 @@
 
 -- DB 초기화
 -- 뷰 삭제
+DROP VIEW V_Y_MEMBERS;
 DROP VIEW V_Y_COMMENTS;
 DROP VIEW V_Y_COMMENTS_LIKE_COUNT;
 DROP VIEW V_Y_COMMENTS_REPORT_COUNT;
@@ -293,6 +294,14 @@ CREATE TABLE YOMUL_REPORTS(
 -- 테이블 생성 끝----------------------------------------------------------------------------------------------------------------------------------
 
 -- 뷰 생성 ---------------------------------------------------------------------------------------------------------------------------------------
+DROP VIEW V_Y_MEMBERS;
+-- 사용자 뷰 생성(사용자(비밀번호 제외) + 이미지)
+CREATE NOFORCE VIEW V_Y_MEMBERS
+AS
+SELECT M.NO, M.EMAIL, M.NICKNAME, M.PHONE, M.GENDER, M.INTRO, M.AUTHORITY, M.WITHDRAWAL, M.MDATE, M.SUBSCRIBE, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME PROFILEIMG
+FROM YOMUL_MEMBERS M, YOMUL_FILES F
+WHERE M.NO = F.ARTICLE_NO(+);
+
 -- 댓글 좋아요 수 뷰 생성
 CREATE NOFORCE VIEW V_Y_COMMENTS_LIKE_COUNT
 AS
@@ -345,12 +354,12 @@ WHERE V.NO = R.VENDOR_NO(+)
 GROUP BY V.NO, R.VENDOR_NO
 WITH READ ONLY;
 
--- 업체 정보 뷰 생성(업체 정보 + 소식 수 + 단골 수 + 후기 수)
+-- 업체 정보 뷰 생성(업체 정보 + 소식 수 + 단골 수 + 후기 수 + 이미지명)
 CREATE NOFORCE VIEW V_Y_VENDORS
 AS
-SELECT V.NO, V.OWNER, V.NAME, V.CATEGORY, V.INFO, V.TEL, V.ADDR, N.NEWS, C.CUSTOMERS, R.REVIEWS
-FROM YOMUL_VENDORS V, V_Y_VENDORS_NEWS N, V_Y_VENDORS_CUSTOMERS C, V_Y_VENDORS_REVIEWS R
-WHERE V.NO = N.NO AND V.NO = C.NO AND V.NO = R.NO;
+SELECT V.NO, V.OWNER, V.NAME, V.CATEGORY, V.INFO, V.TEL, V.ADDR, N.NEWS, C.CUSTOMERS, R.REVIEWS, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME IMG
+FROM YOMUL_VENDORS V, V_Y_VENDORS_NEWS N, V_Y_VENDORS_CUSTOMERS C, V_Y_VENDORS_REVIEWS R, YOMUL_FILES F
+WHERE V.NO = N.NO AND V.NO = C.NO AND V.NO = R.NO AND V.NO = F.ARTICLE_NO(+);
 
 -- FAQ 뷰 생성(faq + 카테고리)
 CREATE NOFORCE VIEW V_Y_FAQ_ARTICLES
@@ -720,6 +729,24 @@ values('C2', 'M3');
 -- 뷰로 댓글 정보 확인
 select * from yomul_comments;
 select * from V_Y_COMMENTS;
+
+-- 업체 정보 수정
+update yomul_vendors
+set 
+info = '정보 수정 테스트',
+tel = '010-1234-1234',
+addr = '주소 수정 테스트'
+WHERE NO = 'V1';
+
+-- 업체 단골 목록 조회
+select no, nickname, profileimg
+from 	(select rownum as rno, no, nickname, profileimg
+	FROM (SELECT m.NO, m.nickname, m.PROFILEimg
+		FROM yomul_vendor_customers c, v_y_members m
+		WHERE c.vendor_no = 'V1'
+		ORDER BY to_number(substr(m.NO, 2)))
+	WHERE ROWNUM <= 10 * 1)
+where rno > 10 * (1 - 1);
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 
