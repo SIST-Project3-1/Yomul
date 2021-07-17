@@ -36,7 +36,7 @@
 		from (select rownum as rno, no, nickname, profileimg
 			from (select m.no, m.nickname, m.profileimg
 				from yomul_vendor_customers c, v_y_members m
-				where c.vendor_no = #{no}
+				where c.vendor_no = #{no} and m.no = c.customer_no
 				order by to_number(substr(m.no, 2)))
 			where <![CDATA[rownum <= 10 * #{page}]]>)
 		where <![CDATA[rno > 10 * (#{page} - 1)]]>

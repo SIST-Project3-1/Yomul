@@ -691,10 +691,22 @@ WHERE article_no = 'N1'
 GROUP BY article_no;
 
 -- 업체 단골 등록
-INSERT INTO yomul_vendor_customers(vendor_no, customer_no)
-values('V1', 'M1');
-INSERT INTO yomul_vendor_customers(vendor_no, customer_no)
-VALUES('V1', 'M2');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M1');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M2');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M3');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M4');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M5');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M6');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M7');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M8');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M9');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M10');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M11');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M12');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M13');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M14');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M15');
+INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M16');
 
 -- 업체 단골 해제
 DELETE FROM yomul_vendor_customers
@@ -743,10 +755,10 @@ select no, nickname, profileimg
 from 	(select rownum as rno, no, nickname, profileimg
 	FROM (SELECT m.NO, m.nickname, m.PROFILEimg
 		FROM yomul_vendor_customers c, v_y_members m
-		WHERE c.vendor_no = 'V1'
+		WHERE c.vendor_no = 'V1' and m.no = c.CUSTOMER_NO
 		ORDER BY to_number(substr(m.NO, 2)))
 	WHERE ROWNUM <= 10 * 1)
-where rno > 10 * (1 - 1);
+WHERE rno > 10 * (1 - 1);
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 
