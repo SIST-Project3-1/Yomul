@@ -1,5 +1,6 @@
 package com.yomul.yomul;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yomul.service.CustomerCenterService;
+import com.yomul.service.FaqService;
 import com.yomul.service.MemberService;
 import com.yomul.service.NoticeService;
 import com.yomul.util.Commons;
+import com.yomul.vo.CategoryVO;
+import com.yomul.vo.FaqVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NoticeVO;
 
@@ -23,18 +28,46 @@ public class AdminController {
 
 	@Autowired
 	private MemberService memberService;
-
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private CustomerCenterService customerCenterService;
+	@Autowired
+	private FaqService faqService;
 
+	/*
+	 * FAQ
+	 */
 	@RequestMapping(value = "admin_faq_list", method = RequestMethod.GET)
 	public String adminFaqList() {
 		return "admin/customer_center/faq/admin_faq_list";
 	}
 
 	@RequestMapping(value = "admin_faq_write", method = RequestMethod.GET)
-	public String adminFaqWrite() {
-		return "admin/customer_center/faq/admin_faq_write";
+	public ModelAndView adminFaqWrite() {
+		ModelAndView mv = new ModelAndView();
+
+		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보
+
+		mv.setViewName("admin/customer_center/faq/admin_faq_write");
+		mv.addObject("categories", categories);
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
+	public ModelAndView adminFaqWriteProc(FaqVO faq, CategoryVO category) {
+		ModelAndView mv = new ModelAndView();
+		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보
+		
+		int result = faqService.getAdminFaqWrite(faq);
+
+		if (result == 1) {
+			mv.setViewName("redirect:/admin_faq_list");
+		} else {
+			// mv.setViewName("error"); 에러페이지
+		}
+		return mv;
 	}
 
 	@RequestMapping(value = "admin_faq_update", method = RequestMethod.GET)

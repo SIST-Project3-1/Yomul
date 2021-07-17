@@ -104,10 +104,6 @@ $(document).ready(function(){
 	$('#category').change(function(){
 		$('#category').css('color','black');
 	});
-	$('#tag').change(function(){
-		$('#tag').css('color','black');
-	});
-	
 });
 function fileUpload(fis) {
 	var str = fis.value;

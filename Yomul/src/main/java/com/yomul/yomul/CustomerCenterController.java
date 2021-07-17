@@ -87,8 +87,20 @@ public class CustomerCenterController {
 	@RequestMapping(value = "customer_qna", method = RequestMethod.GET)
 	public ModelAndView qnaList() {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_list");
-		mv.addObject("qnaList", customerCenterService.getQnaList());
+		mv.addObject("qnaList", customerCenterService.getQnaList(1));
 		return mv;
+	}
+
+	/**
+	 * 문의 목록 AJAX 로 받아옴
+	 * 
+	 * @param page
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "customer_qna_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String customer_qna_ajax(int page) {
+		return Commons.parseJson(customerCenterService.getQnaList(page));
 	}
 
 	// 문의 상세
