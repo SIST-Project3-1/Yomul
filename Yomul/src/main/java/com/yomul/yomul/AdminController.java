@@ -56,9 +56,8 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
-	public ModelAndView adminFaqWriteProc(FaqVO faq, CategoryVO category) {
+	public ModelAndView adminFaqWriteProc(FaqVO faq) {
 		ModelAndView mv = new ModelAndView();
-		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보
 		
 		int result = faqService.getAdminFaqWrite(faq);
 
