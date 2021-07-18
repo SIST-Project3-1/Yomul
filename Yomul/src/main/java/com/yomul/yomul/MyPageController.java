@@ -46,7 +46,7 @@ public class MyPageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/mypage/kakao_register_proc")
-	public ModelAndView kakao_register_proc(String code, String error, String error_description, HttpSession sessions) {
+	public ModelAndView kakao_register_proc(String code, String error, String error_description, HttpSession session) {
 		ModelAndView mv = new ModelAndView("redirect:/mypage/myprofile_info");
 
 		// 로그인 토큰으로 세션 처리 해야함
@@ -55,7 +55,7 @@ public class MyPageController {
 
 		String id = (String) map.get("id");
 
-		MemberVO vo = (MemberVO) sessions.getAttribute("member");
+		MemberVO vo = (MemberVO) session.getAttribute("member");
 		vo.setKakao_id(id);
 
 		memberService.kakaoRegister(vo);
@@ -67,9 +67,25 @@ public class MyPageController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/mypage//withdrawal_cancle", method = RequestMethod.GET)
-	public ModelAndView withdrawal_cancle() {
-		ModelAndView mv = new ModelAndView("user/mypage/withdrawal_cancle");
+	@RequestMapping(value = "/mypage/withdrawal_cancle", method = RequestMethod.GET)
+	public ModelAndView withdrawal_cancle(HttpSession session) {
+		ModelAndView mv = new ModelAndView("redirect:/mypage/myprofile_info");
+
+		MemberVO vo = (MemberVO) session.getAttribute("member");
+		memberService.cancleWithdrawal(vo);
+		return mv;
+	}
+
+	/**
+	 * 회원 탈퇴 처리
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/mypage/withdrawal_proc", method = RequestMethod.GET)
+	public ModelAndView withdrawal_proc(HttpSession session) {
+		ModelAndView mv = new ModelAndView("redirect:/logout");
+		MemberVO vo = (MemberVO) session.getAttribute("member");
+		memberService.withdrawal(vo);
 		return mv;
 	}
 

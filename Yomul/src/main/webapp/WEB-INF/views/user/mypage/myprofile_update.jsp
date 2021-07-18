@@ -21,7 +21,7 @@
 	$(document).ready(function() {
 		$("#form_myprofile_update").on("submit", function(e) {
 			e.preventDefault();
-			
+
 			$.ajax({
 				url : "/yomul/mypage/myprofile_update_proc",
 				method : "POST",
@@ -57,9 +57,18 @@
 	<section id="myprofile_update" class="container col-md-6 mt-3 border p-3">
 		<div class="d-flex justify-content-between mb-3">
 			<h1 class="d-inline">프로필 수정</h1>
-			<a href="/yomul/withdrawal" class="text-black-50 text-decoration-none" style="line-height: 56px;">
-				<small>탈퇴하기</small>
-			</a>
+			<c:choose>
+				<c:when test="${member.withdrawal == 0 }">
+					<a href="/yomul/mypage/withdrawal" class="text-black-50 text-decoration-none" style="line-height: 56px;">
+						<small>탈퇴하기</small>
+					</a>
+				</c:when>
+				<c:when test="${member.withdrawal == 1 }">
+					<a href="/yomul/mypage/withdrawal_cancle" class="text-black-50 text-decoration-none" style="line-height: 56px;">
+						<small>탈퇴취소</small>
+					</a>
+				</c:when>
+			</c:choose>
 		</div>
 		<form id="form_myprofile_update" enctype="multipart/form-data">
 			<div class="form-group row">

@@ -100,4 +100,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.kakaoLogin(vo);
 	}
 
+	@Override
+	public int withdrawal(MemberVO vo) {
+		return memberDAO.withdrawal(vo);
+	}
+
+	@Override
+	public int cancleWithdrawal(MemberVO vo) {
+		return memberDAO.cancleWithdrawal(vo);
+	}
+
 }
