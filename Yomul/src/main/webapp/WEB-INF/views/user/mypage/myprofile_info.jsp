@@ -20,7 +20,7 @@
 	</script>
 
 	<!--  BODY  -->
-	<section id="myprofile_info" style="height: 75%; display: flex; align-items: center;">
+	<section id="myprofile_info" style="height: 75%; align-items: center;">
 		<div class="container border mt-3 p-3">
 			<div class="row">
 				<div class="col-md-4 text-center">
@@ -63,6 +63,12 @@
 					<div>${favoriteCount }</div>
 				</a>
 			</div>
+		</div>
+		<br>
+		<div class="text-center mt-5">
+			<a href="/yomul/mypage/kakao_register">
+				<img src="/yomul/image/kakao_login_medium.png">
+			</a>
 		</div>
 	</section>
 

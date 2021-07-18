@@ -22,13 +22,32 @@ public class MemberDAO extends DAO {
 	private static String namespace = "mapper.member";
 
 	/**
+	 * 카카오톡 연동하기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int kakaoRegister(MemberVO vo) {
+		return sqlSession.update(namespace + ".kakaoRegister", vo);
+	}
+
+	/**
+	 * 카카오톡으로 로그인하기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public MemberVO kakaoLogin(MemberVO vo) {
+		return sqlSession.selectOne(namespace + ".kakaoLogin", vo);
+	}
+
+	/**
 	 * 회원 삭제
 	 * 
 	 * @param vo
 	 * @return
 	 */
 	public int deleteMember(MemberVO vo) {
-		System.out.println(vo.toStringJson());
 		return sqlSession.delete(namespace + ".deletemember", vo);
 	}
 

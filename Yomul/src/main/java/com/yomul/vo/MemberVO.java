@@ -12,7 +12,7 @@ public class MemberVO extends VO {
 	private String phone;
 	private String gender;
 	private String intro;
-	private String kakao_token;
+	private String kakao_id;
 	private String authority;
 	private int withdrawal = -1;
 	private String mdate;
@@ -75,14 +75,6 @@ public class MemberVO extends VO {
 		this.intro = intro;
 	}
 
-	public String getKakao_token() {
-		return kakao_token;
-	}
-
-	public void setKakao_token(String kakao_token) {
-		this.kakao_token = kakao_token;
-	}
-
 	public String getAuthority() {
 		return authority;
 	}
@@ -124,7 +116,7 @@ public class MemberVO extends VO {
 	}
 
 	public String getProfileImg() {
-		if(profileImg.equals("__")) { // 프로필 사진이 없을 경우 기본 이미지 출력
+		if ("__".equals(profileImg)) { // 프로필 사진이 없을 경우 기본 이미지 출력
 			return "default.jpg";
 		}
 		return profileImg;
@@ -132,6 +124,14 @@ public class MemberVO extends VO {
 
 	public void setProfileImg(String profileImg) {
 		this.profileImg = profileImg;
+	}
+
+	public String getKakao_id() {
+		return kakao_id;
+	}
+
+	public void setKakao_id(String kakao_id) {
+		this.kakao_id = kakao_id;
 	}
 
 }

@@ -6,6 +6,28 @@
 
 <mapper namespace="mapper.member">
 
+	<!-- 카카오톡 연동하기 -->
+	<update id="kakaoRegister" parameterType="com.yomul.vo.MemberVO">
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			KAKAO_ID = #{kakao_id}
+		WHERE
+			NO = #{no}
+	</update>
+	
+	<!-- 카카오톡으로 로그인하기 -->
+	<select id="kakaoLogin" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
+		SELECT
+			  NO
+			, NICKNAME
+			, AUTHORITY
+		FROM
+			YOMUL_MEMBERS
+		WHERE
+			KAKAO_ID = #{kakao_id}
+	</select>
+	
 	<!-- Hastsalt 가져오기 -->
 	<select id="getHashsalt" parameterType="com.yomul.vo.MemberVO" resultType="string">
 		SELECT HASHSALT

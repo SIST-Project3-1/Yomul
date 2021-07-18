@@ -90,4 +90,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.getHashsalt(vo);
 	}
 
+	@Override
+	public int kakaoRegister(MemberVO vo) {
+		return memberDAO.kakaoRegister(vo);
+	}
+
+	@Override
+	public MemberVO kakaoLogin(MemberVO vo) {
+		return memberDAO.kakaoLogin(vo);
+	}
+
 }

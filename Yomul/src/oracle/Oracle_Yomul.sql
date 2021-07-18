@@ -65,7 +65,7 @@ CREATE TABLE YOMUL_MEMBERS(
     PHONE VARCHAR2(30), -- 전화번호
     GENDER VARCHAR2(5) CONSTRAINT C_Y_M_GENDER CHECK (GENDER IN('F', 'M')), -- 성별
     INTRO VARCHAR2(500), -- 자기소개
-    KAKAO_TOKEN VARCHAR2(100) CONSTRAINT U_Y_M_KAKAO_TOKEN UNIQUE, -- 카카오 로그인 토큰
+    KAKAO_ID VARCHAR2(100) CONSTRAINT U_Y_M_KAKAO_ID UNIQUE, -- 카카오 로그인 토큰
     AUTHORITY VARCHAR2(10) DEFAULT 'USER' CONSTRAINT NN_Y_M_AUTHORITY NOT NULL CONSTRAINT C_Y_M_AUTHORITY CHECK (AUTHORITY IN('USER', 'ADMIN')), -- 권한
     WITHDRAWAL NUMBER(1) DEFAULT 0 CONSTRAINT C_Y_M_WITHDRAWAL CHECK (WITHDRAWAL IN(0, 1)) CONSTRAINT NN_Y_M_WITHDRAWAL NOT NULL, -- 탈퇴 요청 여부
     MDATE DATE DEFAULT SYSDATE CONSTRAINT NN_Y_M_MDATE NOT NULL, -- 가입 일자
@@ -294,7 +294,6 @@ CREATE TABLE YOMUL_REPORTS(
 -- 테이블 생성 끝----------------------------------------------------------------------------------------------------------------------------------
 
 -- 뷰 생성 ---------------------------------------------------------------------------------------------------------------------------------------
-DROP VIEW V_Y_MEMBERS;
 -- 사용자 뷰 생성(사용자(비밀번호 제외) + 이미지)
 CREATE NOFORCE VIEW V_Y_MEMBERS
 AS
@@ -517,6 +516,12 @@ MERGE INTO YOMUL_FILES USING DUAL ON (ARTICLE_NO = 'M3')
 				UPDATE SET FILENAME = '장범준.jpg' WHERE ARTICLE_NO = 'M3'
 			WHEN NOT MATCHED THEN
 				INSERT (ARTICLE_NO, NO, FILENAME) VALUES('M3', 0, '장범준.jpg');
+                
+-- 카카오톡 연동하기
+UPDATE YOMUL_MEMBERS SET KAKAO_ID = NULL WHERE NO = 'M3';
+
+-- 카카오톡 로그인
+SELECT NO, NICKNAME, AUTHORITY FROM YOMUL_MEMBERS WHERE KAKAO_ID = 'uugUqcjctgEbHJWEMvZek42DGz_JTi7lgDrztwo9dZwAAAF6tedNzQ';
 
 -- FAQ 카테고리 데이터 생성
 INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(1, '운영정책');
@@ -787,7 +792,3 @@ INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT) VALUES('N'||YOMUL_NOTICES_
 
 -- 관리자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
 COMMIT;
-
-
-
-
