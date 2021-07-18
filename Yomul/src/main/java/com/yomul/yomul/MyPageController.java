@@ -1,5 +1,6 @@
 package com.yomul.yomul;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
+import com.yomul.service.CommentService;
 import com.yomul.service.MemberService;
 import com.yomul.util.FileUtils;
+import com.yomul.vo.CommentVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 
@@ -25,6 +29,9 @@ public class MyPageController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private CommentService commentService;
 
 	@Autowired
 	private FileUtils fileUtils;
@@ -118,6 +125,21 @@ public class MyPageController {
 		ModelAndView mv = new ModelAndView("user/mypage/mycomment_list");
 		mv.addObject("headerType", "myarticle");
 		return mv;
+	}
+
+	/**
+	 * 내가 쓴 댓글 목록 AJAX
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage//mycomment_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String mycomment_list_ajax(int page, HttpSession session) {
+		MemberVO vo = (MemberVO) session.getAttribute("member");
+		ArrayList<CommentVO> commentList = commentService.getCommentList(vo, page);
+
+		Gson gson = new Gson();
+		return gson.toJson(commentList);
 	}
 
 	/**
