@@ -26,7 +26,6 @@ public class CommentDAO extends DAO {
 	 * @return
 	 */
 	public int deleteComment(CommentVO vo) {
-		System.out.println(vo.toStringJson());
 		return sqlSession.delete(nameSpace + ".deleteComment", vo);
 	}
 
