@@ -85,7 +85,7 @@ public class CustomerCenterController {
 
 	// 문의 목록
 	@RequestMapping(value = "customer_qna", method = RequestMethod.GET)
-	public ModelAndView qnaList(QnaVO vo) {
+	public ModelAndView customer_qna(QnaVO vo) {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_list");
 		mv.addObject("qnaList", customerCenterService.getQnaList(vo, 1));
 		return mv;
