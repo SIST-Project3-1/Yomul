@@ -1,13 +1,14 @@
 package com.yomul.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.yomul.util.Commons;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.NoticeVO;
@@ -55,11 +56,19 @@ public class CustomerCenterDAO extends DAO {
 	 * 
 	 * @return
 	 */
-	public ArrayList<QnaVO> getQnaList(int page) {
-		List<QnaVO> list = sqlSession.selectList(nameSpace + ".getQnaList", page);
+	public ArrayList<QnaVO> getQnaList(QnaVO vo, int page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("page", page);
+		params.put("qna", vo);
+		List<QnaVO> list = sqlSession.selectList(nameSpace + ".getQnaList", params);
 		return (ArrayList<QnaVO>) list;
 	}
-
+	
+	/**
+	 * QnA 문의 내역 가져오기
+	 * @param vo
+	 * @return
+	 */
 	public QnaVO getQnaInfo(QnaVO vo) {
 		return sqlSession.selectOne(nameSpace + ".getqnainfo", vo);
 	}

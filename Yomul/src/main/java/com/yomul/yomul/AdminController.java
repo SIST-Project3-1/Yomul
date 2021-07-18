@@ -22,6 +22,7 @@ import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NoticeVO;
+import com.yomul.vo.QnaVO;
 
 @Controller
 public class AdminController {
@@ -51,14 +52,14 @@ public class AdminController {
 
 		mv.setViewName("admin/customer_center/faq/admin_faq_write");
 		mv.addObject("categories", categories);
-		
+
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
 	public ModelAndView adminFaqWriteProc(FaqVO faq) {
 		ModelAndView mv = new ModelAndView();
-		
+
 		int result = faqService.getAdminFaqWrite(faq);
 
 		if (result == 1) {
@@ -115,14 +116,25 @@ public class AdminController {
 		}
 	}
 
-	@RequestMapping(value = "admin_qna_list", method = RequestMethod.GET)
-	public String adminQnaList() {
-		return "admin/customer_center/qna/admin_qna_list";
+	@RequestMapping(value = "/admin_qna_list", method = RequestMethod.GET)
+	public ModelAndView adminQnaList(QnaVO vo) {
+		ModelAndView mv = new ModelAndView("admin/customer_center/qna/admin_qna_list");
+
+		Integer category = vo.getCategory();
+		Integer reply = vo.getReply();
+		
+		mv.addObject("categories", customerCenterService.getQnaCategories());
+		mv.addObject("category", null == category? "null" : category);
+		mv.addObject("reply", null == reply? "null" : reply);
+		
+		return mv;
 	}
 
-	@RequestMapping(value = "admin_qna_info", method = RequestMethod.GET)
-	public String adminQnaInfo() {
-		return "admin/customer_center/qna/admin_qna_info";
+	@RequestMapping(value = "/admin_qna_info", method = RequestMethod.GET)
+	public ModelAndView adminQnaInfo(QnaVO vo) {
+		ModelAndView mv = new ModelAndView("admin/customer_center/qna/admin_qna_info");
+		mv.addObject("qna", customerCenterService.getQnaInfo(vo));
+		return mv;
 	}
 
 	/**
@@ -130,13 +142,14 @@ public class AdminController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "admin_member_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin_member_list", method = RequestMethod.GET)
 	public ModelAndView adminMemberList(String page, String search) {
 		ModelAndView mv = new ModelAndView("admin/member/admin_member_list");
 		page = page == null ? "1" : page;
 		mv.addObject("page", page);
 		mv.addObject("search", search);
 		mv.addObject("totalPage", memberService.getTotalPageCount(search));
+		mv.addObject("categories", customerCenterService.getQnaCategories());
 		return mv;
 	}
 

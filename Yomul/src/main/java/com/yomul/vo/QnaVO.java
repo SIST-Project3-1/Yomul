@@ -9,12 +9,13 @@ public class QnaVO extends VO {
 	private String pw; // 작성자 비밀번호
 	private String hashsalt; // 비밀번호 해쉬솔트
 	private String wdate; // 작성일자
-	private int category; // 카테고리
+	private Integer category; // 카테고리
 	private String title; // 글 제목
 	private String content; // 글 내용
 	private CommonsMultipartFile file;// 첨부파일
-	private int hits; // 조회수
+	private int hits = -1; // 조회수
 
+	private Integer reply; // 답변 유무
 	private String rdate; // 답변 일자
 	private String rwriter; // 답변자
 	private String rcontent; // 답변 내용
@@ -67,14 +68,6 @@ public class QnaVO extends VO {
 
 	public void setWdate(String wdate) {
 		this.wdate = wdate;
-	}
-
-	public int getCategory() {
-		return category;
-	}
-
-	public void setCategory(int category) {
-		this.category = category;
 	}
 
 	public String getTitle() {
@@ -139,6 +132,22 @@ public class QnaVO extends VO {
 
 	public void setSecret(String secret) {
 		this.secret = secret;
+	}
+
+	public Integer getCategory() {
+		return category;
+	}
+
+	public void setCategory(Integer category) {
+		this.category = category;
+	}
+
+	public Integer getReply() {
+		return reply;
+	}
+
+	public void setReply(Integer reply) {
+		this.reply = reply;
 	}
 
 }
