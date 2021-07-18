@@ -6,6 +6,56 @@
 
 <mapper namespace="mapper.comment">
 	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="com.yomul.vo.CommentVO">
+		DELETE FROM
+			YOMUL_COMMENTS
+		WHERE
+				NO = #{no} 
+			AND WRITER = #{writer}
+	</delete>
+	
+	<!-- 내가 쓴 댓글 목록 조회 -->
+	<select id="getCommentList" parameterType="map" resultType="com.yomul.vo.CommentVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				  ROWNUM AS RNO
+				, C.*
+				, M.NICKNAME
+			FROM
+			(
+				SELECT
+					  NO
+					, WRITER
+					, ARTICLE_NO
+					, CONTENT
+					, WDATE 
+				FROM
+					YOMUL_COMMENTS
+				WHERE
+					WRITER = #{no}
+				ORDER BY
+					TO_NUMBER(SUBSTR(NO, 2, 10)) DESC
+			) C
+			JOIN
+			(
+				SELECT
+					  NO
+					, NICKNAME
+				FROM
+					YOMUL_MEMBERS
+			) M
+			ON
+				C.WRITER = M.NO
+		)
+		WHERE 
+<![CDATA[		RNO > 10 * (#{page} - 1) ]]>
+<![CDATA[	AND RNO <= 10 * #{page} ]]>
+	</select>
+	
 	<!-- 댓글 목록 조회 -->
 	<select id="selectCommentList" resultType="com.yomul.vo.CommentVO" parameterType="java.util.HashMap">
 		select no, writer, content, wdate, likes, img

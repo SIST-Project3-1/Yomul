@@ -502,6 +502,10 @@ SELECT NO, EMAIL, NICKNAME, AUTHORITY FROM YOMUL_MEMBERS WHERE EMAIL = 'hwisaek@
 -- SALT 얻기
 SELECT HASHSALT FROM YOMUL_MEMBERS WHERE EMAIL = 'dia_changmin@naver.com';
 
+
+-- 카카오톡 로그인
+SELECT NO, NICKNAME, AUTHORITY FROM YOMUL_MEMBERS WHERE KAKAO_ID = '';
+
 -- 프로필 정보 가져오기
 SELECT NO, EMAIL, NICKNAME, PHONE, GENDER, INTRO, WITHDRAWAL FROM YOMUL_MEMBERS WHERE NO = 'M3'; -- 프로필 내용 가져오기
 SELECT ARTICLE_NO, NO, FILENAME FROM YOMUL_FILES WHERE ARTICLE_NO = 'M3'; -- 프로필 사진 가져오기
@@ -526,8 +530,20 @@ UPDATE YOMUL_MEMBERS SET WITHDRAWAL = 1 WHERE NO = 'M3';
 -- 카카오톡 연동하기
 UPDATE YOMUL_MEMBERS SET KAKAO_ID = NULL WHERE NO = 'M3';
 
--- 카카오톡 로그인
-SELECT NO, NICKNAME, AUTHORITY FROM YOMUL_MEMBERS WHERE KAKAO_ID = 'uugUqcjctgEbHJWEMvZek42DGz_JTi7lgDrztwo9dZwAAAF6tedNzQ';
+-- 내가 쓴 댓글 목록
+SELECT *
+FROM ( SELECT ROWNUM AS RNO, C.*, M.NICKNAME
+            FROM ( SELECT NO,  WRITER, ARTICLE_NO, CONTENT, WDATE 
+                        FROM YOMUL_COMMENTS
+                        WHERE WRITER = 'M1' ORDER BY TO_NUMBER(SUBSTR(NO, 2, 10)) DESC) C
+                        JOIN
+                     ( SELECT NO, NICKNAME
+                        FROM YOMUL_MEMBERS) M
+                        ON C.WRITER = M.NO)
+WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
+
+-- 댓글 삭제
+DELETE FROM YOMUL_COMMENTS WHERE NO = 'C24' AND WRITER = 'M3';
 
 -- FAQ 카테고리 데이터 생성
 INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(1, '운영정책');
@@ -662,6 +678,23 @@ FROM YOMUL_NEAR_ARTICLES N, YOMUL_VENDORS V
 WHERE N.WRITER = V.OWNER AND N.NO = 'n1';
 
 -- 댓글 생성
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
 values('C'||yomul_comments_no_seq.nextval,  'n1', 'M2', '댓글입니다~', sysdate);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
