@@ -6,6 +6,10 @@ import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 
 public interface MemberService {
+	int withdrawal(MemberVO vo);
+
+	int cancleWithdrawal(MemberVO vo);
+
 	int join(MemberVO vo);
 
 	int emailCheck(String email);

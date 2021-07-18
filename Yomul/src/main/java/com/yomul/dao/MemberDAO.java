@@ -22,6 +22,26 @@ public class MemberDAO extends DAO {
 	private static String namespace = "mapper.member";
 
 	/**
+	 * 회원 탈퇴 처리
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int withdrawal(MemberVO vo) {
+		return sqlSession.update(namespace + ".withdrawal", vo);
+	}
+
+	/**
+	 * 회원 탈퇴 취소
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int cancleWithdrawal(MemberVO vo) {
+		return sqlSession.update(namespace + ".cancleWithdrawal", vo);
+	}
+	
+	/**
 	 * 카카오톡 연동하기
 	 * 
 	 * @param vo

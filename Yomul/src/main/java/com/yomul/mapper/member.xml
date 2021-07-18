@@ -6,6 +6,26 @@
 
 <mapper namespace="mapper.member">
 
+	<!-- 회원 탈퇴 신청 -->
+	<update id="withdrawal" parameterType="com.yomul.vo.MemberVO">
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			WITHDRAWAL = 1
+		WHERE
+			NO = #{no}
+	</update>
+	
+	<!-- 회원 탈퇴 취소 -->
+	<update id="cancleWithdrawal" parameterType="com.yomul.vo.MemberVO">
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			WITHDRAWAL = 0
+		WHERE
+			NO = #{no}
+	</update>
+
 	<!-- 카카오톡 연동하기 -->
 	<update id="kakaoRegister" parameterType="com.yomul.vo.MemberVO">
 		UPDATE
@@ -133,6 +153,7 @@
 			, PHONE
 			, GENDER
 			, INTRO
+			, WITHDRAWAL
 		FROM 
 			YOMUL_MEMBERS
 		WHERE
