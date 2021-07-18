@@ -20,6 +20,7 @@ import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.ReviewVO;
 import com.yomul.vo.VendorVO;
 
 @Controller
@@ -174,10 +175,14 @@ public class VendorController {
 	}
 		
 	//업체 소식 보기
-	@RequestMapping(value = "/vendor_news_list", method = RequestMethod.GET)
-	public ModelAndView vendor_news_list() {
+	@RequestMapping(value = "/vendor_news_list/{no}", method = RequestMethod.GET)
+	public ModelAndView vendor_news_list(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_news_list");
+		
+		
+		
 		mv.addObject("headerType", "news");
+		mv.addObject("no", no);
 		return mv;
 	}
 	
@@ -198,9 +203,15 @@ public class VendorController {
 	}
 	
 	//업체 후기
-	@RequestMapping(value = "/vendor_reviews", method = RequestMethod.GET)
-	public ModelAndView vendor_reviews() {
+	@RequestMapping(value = "/vendor_reviews/{no}", method = RequestMethod.GET)
+	public ModelAndView vendor_reviews(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_reviews");
+		
+		// 업체 후기 목록 1페이지 조회
+		ArrayList<ReviewVO> list = vendorService.getVendorReviewList(no, 1);
+		
+		mv.addObject("list", list);
+		mv.addObject("no", no);
 		return mv;
 	}
 	

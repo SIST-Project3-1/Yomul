@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.ReviewVO;
 import com.yomul.vo.VendorVO;
 
 @Repository
@@ -43,6 +44,12 @@ public class VendorDAO extends DAO{
 		} catch (NullPointerException e) { // 0명일 시 널 포인터 예외 발생 
 			return 0;
 		}
+	}
+	
+	// 업체 후기 목록 조회
+	public ArrayList<ReviewVO> getVendorReviewList(HashMap<String, Object> params) {
+		List<ReviewVO> list = sqlSession.selectList(nameSpace + ".selectVendorReviewList", params);
+		return (ArrayList<ReviewVO>) list;
 	}
 	
 	// 업체 정보 조회

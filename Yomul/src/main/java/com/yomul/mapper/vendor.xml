@@ -54,6 +54,30 @@
 		where vendor_no = #{vno} and customer_no = #{cno}
 	</delete>
 	
+	<!-- 업체 소식 목록 조회 -->
+	<select id="selectVendorNewsList" resultType="com.yomul.vo.NearVO" parameterType="java.util.HashMap">
+		select no, nickname, profileimg
+		from (select rownum as rno, no, nickname, profileimg
+			from (select no, writer, category, title, content, hits, vdate
+				from yomul_near_articles
+				where writer = #{owner}
+				order by to_number(substr(no, 2)))
+			where <![CDATA[rownum <= 10 * #{page}]]>)
+		where <![CDATA[rno > 10 * (#{page} - 1)]]>
+	</select>
+	
+	<!-- 업체 후기 목록 조회 -->
+	<select id="selectVendorReviewList" resultType="com.yomul.vo.ReviewVO" parameterType="java.util.HashMap">
+		select no, member_no, nickname, profileImg, content, hits, vdate
+		from (select rownum as rno, no, member_no, nickname, profileImg, content, hits, vdate
+			from (select r.no, r.member_no, m.nickname, m.profileImg, r.content, r.hits, r.vdate
+				from yomul_vendor_reviews r, v_y_members m
+				where r.vendor_no = #{vno} and r.member_no = m.no
+				order by to_number(substr(r.no, 2)) desc)
+			where <![CDATA[rownum <= 10 * #{page}]]>)
+		where <![CDATA[rno > 10 * (#{page} - 1)]]>
+	</select>
+	
 	<!-- 업체 번호로 조회 -->
 	<select id="selectVendorByNo" resultType="com.yomul.vo.VendorVO" parameterType="java.lang.String">
 		select no, owner, name, category, info, tel, addr, news, customers, reviews, img

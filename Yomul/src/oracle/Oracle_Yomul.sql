@@ -188,7 +188,7 @@ CREATE TABLE YOMUL_VENDOR_CUSTOMERS(
 
 -- 업체 후기 (회원번호 이용하여 단골 프필이미지, 닉네임 가져오기)
 CREATE TABLE YOMUL_VENDOR_REVIEWS(
-    NO NUMBER(10), --후기 번호
+    NO VARCHAR2(10), --후기 번호
     VENDOR_NO VARCHAR2(10) CONSTRAINT NN_Y_VR_VENDOR_NO NOT NULL,  --업체 번호
     MEMBER_NO VARCHAR2(10)CONSTRAINT NN_Y_VR_MEMBER_NO NOT NULL, --회원번호
     CONTENT VARCHAR2(500) CONSTRAINT NN_Y_VR_CONTENT NOT NULL, --후기 내용
@@ -760,6 +760,33 @@ from 	(select rownum as rno, no, nickname, profileimg
 	WHERE ROWNUM <= 10 * 1)
 WHERE rno > 10 * (1 - 1);
 
+-- 업체 리뷰 데이터
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M1', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M2', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M3', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M4', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M5', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M6', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M7', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M8', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M9', '리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M10', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M11', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M12', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M13', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M14', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M15', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M16', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+
+-- 업체 리뷰 목록 조회
+select no, member_no, nickname, profileImg, content, hits, vdate
+from (select rownum as rno, no, member_no, nickname, profileImg, content, hits, vdate
+	from (select r.no, r.member_no, m.nickname, m.profileImg, r.content, r.hits, r.vdate
+		from yomul_vendor_reviews r, v_y_members m
+		WHERE r.vendor_no = 'V1' AND r.member_no = m.NO
+		order by to_number(substr(r.no, 2)) desc)
+	WHERE ROWNUM <= 10 * 1)
+WHERE rno > 10 * (1 - 1);
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 
 -- 사용자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
