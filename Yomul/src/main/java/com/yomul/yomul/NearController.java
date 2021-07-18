@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -69,7 +70,7 @@ public class NearController {
 		mv.addObject("list", list);
 		if(fvo != null) {
 			mv.addObject("fvo", fvo);		
-			System.out.println("fvo 파일 네임 "+fvo.getFilename()); //dao -> vo로 연결 시켜야함 파일 
+			//System.out.println("fvo 파일 네임 "+fvo.getFilename()); //dao -> vo로 연결 시켜야함 파일 
 		}
 		mv.setViewName("user/near/near_home");
 
@@ -89,9 +90,8 @@ public class NearController {
 		ModelAndView mv = new ModelAndView();
 		int fileCount = fileUploadService.getUploadedCount(files);
 		String articleNo = nearDAO.getWriteNumber();
-		System.out.println("articleNo--->" + articleNo);
 		if(fileCount !=0) {
-			String url = fileUploadService.restore(files, nearDAO, request, articleNo);	
+			String url = fileUploadService.restore(files, request, articleNo);	
 			System.out.println("url--->"+ url);
 			mv.addObject("url", url);
 		
@@ -177,8 +177,13 @@ public class NearController {
 	}
 
 	@RequestMapping(value = "/near_card_form", method = RequestMethod.GET)
-	public String near_card_form() {
-		return "user/near/near_card_form";
+	public ModelAndView near_card_form(NearVO vo) {
+		ModelAndView mv = new ModelAndView();
+		List<NearVO> list = nearService.selectNearList(vo);
+		
+		mv.addObject("list", list);
+		mv.setViewName("user/near/near_card_form");
+		return mv;
 	}
 
 	@RequestMapping(value = "/reviews_info", method = RequestMethod.GET)

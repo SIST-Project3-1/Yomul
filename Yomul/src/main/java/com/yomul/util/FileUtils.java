@@ -25,6 +25,9 @@ public class FileUtils {
 
 	@Autowired
 	private FileService fileService;
+	
+	@Autowired
+	private NearDAO dao;
 
 	private static long SEQUENCE = 0L;
 
@@ -74,7 +77,7 @@ public class FileUtils {
 		return count;
 	}
 
-	public String restore(List<MultipartFile> multipartFile, NearDAO dao, HttpServletRequest request, String articleNo) {
+	public String restore(List<MultipartFile> multipartFile, HttpServletRequest request, String articleNo) {
 		String url = null;
 		final String PREFIX_URL = "resources/upload/";
 		try {
@@ -90,7 +93,11 @@ public class FileUtils {
 				// 서버에서 저장 할 파일 이름
 				String saveFileName = genSaveFileName(articleNo, extName);
 				// db에 저장
-				//int result = dao.getNearFile(saveFileName, originFilename);
+				/*
+				 * int result = dao.getNearFile(saveFileName, originFilename);
+				 * 
+				 * System.out.println("result 결과 -->" + result);
+				 */
 				
 				System.out.println("originFilename : " + originFilename);
 				System.out.println("extensionName : " + extName);

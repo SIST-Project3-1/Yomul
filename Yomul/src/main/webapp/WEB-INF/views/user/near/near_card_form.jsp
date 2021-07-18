@@ -14,15 +14,19 @@
 
 	<!--  BODY  -->
 	<div id="near_card_form" class="near-card-form-content">
-		<% for(int i=0;i<15;i++){ %>
+		<c:forEach var="vo" items="${list }">
 		<div class="near-card-form-card">
 			<div class="card" style="width: 18rem;">
-			 	<img src="/yomul/image/이미지준비중.jpg" class="card-img-top">
+			 		<c:if test="${fvo.getFilename() != null }">
+							<img src="/yomul/upload/${fvo.getFilename }">
+							</c:if>
+							<c:if test="${fvo.getFilename() == null }">
+							<img src="http://localhost:9000/yomul/upload/default.jpg">
+							</c:if>
 			 	<div class="card-body">
-				 	<a href="/yomul/near_info">
-					    <h5 class="card-title">타이틀입니다</h5>
-					    <p class="card-text">내용입니다내용입니다내용입니다내용입니내용입니다
-						내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내내용입니다용입니다...</p>
+				 	<a href="near_info/${vo.no }">
+					    <h5 class="card-title">${vo.title }</h5>
+					    <p class="card-text">${vo.content }</p>
 				 	</a>
 			 	</div>
 			 	<div class="near-card-form-bottom">
@@ -32,7 +36,7 @@
 			 	</div>
 			</div>
 		</div>
-		<% } %>
+		</c:forEach>
 	</div>
 
 	<!-- FOOTER -->
