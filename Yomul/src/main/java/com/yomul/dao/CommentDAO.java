@@ -21,6 +21,16 @@ public class CommentDAO extends DAO {
 	private static String nameSpace = "mapper.comment";
 
 	/**
+	 * 댓글 삭제
+	 * 
+	 * @return
+	 */
+	public int deleteComment(CommentVO vo) {
+		System.out.println(vo.toStringJson());
+		return sqlSession.delete(nameSpace + ".deleteComment", vo);
+	}
+
+	/**
 	 * 내가 쓴 댓글 목록 조회
 	 * 
 	 * @param vo

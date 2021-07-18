@@ -19,6 +19,7 @@ import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
 import com.yomul.service.CommentService;
 import com.yomul.service.MemberService;
+import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.CommentVO;
 import com.yomul.vo.FileVO;
@@ -29,7 +30,7 @@ public class MyPageController {
 
 	@Autowired
 	private MemberService memberService;
-	
+
 	@Autowired
 	private CommentService commentService;
 
@@ -97,7 +98,7 @@ public class MyPageController {
 	}
 
 	// 회원 탈퇴 페이지
-	@RequestMapping(value = "/mypage//withdrawal", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/withdrawal", method = RequestMethod.GET)
 	public ModelAndView withdrawal() {
 		ModelAndView mv = new ModelAndView("user/mypage/withdrawal");
 		return mv;
@@ -108,7 +109,7 @@ public class MyPageController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/mypage//myarticle_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/myarticle_list", method = RequestMethod.GET)
 	public ModelAndView myacticle_list() {
 		ModelAndView mv = new ModelAndView("user/mypage/myarticle_list");
 		mv.addObject("headerType", "myarticle");
@@ -120,11 +121,26 @@ public class MyPageController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/mypage//mycomment_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/mycomment_list", method = RequestMethod.GET)
 	public ModelAndView mycomment_list() {
 		ModelAndView mv = new ModelAndView("user/mypage/mycomment_list");
 		mv.addObject("headerType", "myarticle");
 		return mv;
+	}
+
+	/**
+	 * 내가 쓴 댓글 삭제
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage/delete_comment", method = RequestMethod.POST)
+	public String delete_comment(CommentVO vo, HttpSession session) {
+
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		vo.setWriter(member.getNo());
+		return String.valueOf(commentService.deleteComment(vo));
 	}
 
 	/**
@@ -133,7 +149,7 @@ public class MyPageController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/mypage//mycomment_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/mypage/mycomment_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public String mycomment_list_ajax(int page, HttpSession session) {
 		MemberVO vo = (MemberVO) session.getAttribute("member");
 		ArrayList<CommentVO> commentList = commentService.getCommentList(vo, page);
@@ -147,7 +163,7 @@ public class MyPageController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/mypage//buy_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/buy_list", method = RequestMethod.GET)
 	public ModelAndView buy_list() {
 		ModelAndView mv = new ModelAndView("user/mypage/buy_list");
 		mv.addObject("headerType", "buy_list");
@@ -159,7 +175,7 @@ public class MyPageController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/mypage//sell_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/sell_list", method = RequestMethod.GET)
 	public ModelAndView sell_list() {
 		ModelAndView mv = new ModelAndView("user/mypage/sell_list");
 		mv.addObject("headerType", "buy_list");
@@ -171,7 +187,7 @@ public class MyPageController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/mypage//favorite_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/favorite_list", method = RequestMethod.GET)
 	public ModelAndView favorite_list() {
 		ModelAndView mv = new ModelAndView("user/mypage/favorite_list");
 		mv.addObject("headerType", "buy_list");

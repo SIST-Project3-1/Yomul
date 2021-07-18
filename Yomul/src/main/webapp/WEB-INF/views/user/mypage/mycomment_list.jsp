@@ -13,9 +13,23 @@
 
 	$(document).ready(function() {
 		getData(page);
-		
+
 		$("#btn_comment_delete").on("click", function() {
-			
+			$.ajax({
+				url : "/yomul/mypage/delete_comment",
+				method : "POST",
+				data : {
+					"no" : $("#modal_content_no").text()
+				},
+				success : function(result) {
+					if (result == 1) {
+						alert("댓글 삭제에 성공했습니다.");
+						location.href = "/yomul/mypage/mycomment_list";
+					} else {
+						alert("댓글 삭제에 실패했습니다.");
+					}
+				}
+			});
 		});
 	});
 

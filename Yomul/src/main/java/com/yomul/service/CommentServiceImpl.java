@@ -37,4 +37,9 @@ public class CommentServiceImpl implements CommentService {
 	public ArrayList<CommentVO> getCommentList(MemberVO vo, int page) {
 		return commentDAO.getCommentList(vo, page);
 	}
+
+	@Override
+	public int deleteComment(CommentVO vo) {
+		return commentDAO.deleteComment(vo);
+	}
 }

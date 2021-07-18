@@ -17,4 +17,6 @@ public interface CommentService {
 	public String addComment(CommentVO vo);
 
 	ArrayList<CommentVO> getCommentList(MemberVO vo, int page);
+
+	int deleteComment(CommentVO vo);
 }
