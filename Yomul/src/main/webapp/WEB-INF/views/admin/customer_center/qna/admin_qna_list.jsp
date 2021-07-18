@@ -4,92 +4,106 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>요물 QnA 관리</title>
 <!-- HEAD -->
 <%@ include file="../../../head.jsp"%>
 <style>
-	#admin_qna_list {
-		width: 750px;
-		margin: 0 auto;
-	}
-	
-	#admin_qna_list .list {
-		list-style-type: none;
-	}
-	
-	#admin_qna_list li:hover {
-		cursor: Pointer;
-		opacity: 0.5;
-	}
-	
-	#admin_qna_list hr {
-		border-width: 1px 0 0 0;
-		border-color: lightgray;
-		margin: 25px 0;
-	}
+a.text-decoration-none:hover {
+	opacity: 0.5;
+}
 </style>
-<script>
+<script type="text/javascript">
+	var page = 1;
+	var ajaxFlag = true;
+
+	var reply = ${reply};
+	var category = ${category};
+
 	$(document).ready(function() {
-		$("li").click(function() {
-			location.href = "admin_qna/" + $(this).attr("no");
-		})
+
+		getData(page);
+
+		$("#category option[value=" + category + "]").prop("selected", true);
+		$("#reply option[value=" + reply + "]").prop("selected", true);
+
+		$("#reply").on("change", function() {
+			reply = $("#reply  option:selected").val();
+			location.href = "/yomul/admin_qna_list?reply=" + reply + (category != null ? "&category=" + category : "");
+		});
+
+		$("#category").on("change", function() {
+			category = $("#category option:selected").val();
+			location.href = "/yomul/admin_qna_list?category=" + category + (reply != null ? "&reply=" + reply : "");
+		});
 	});
+
+	// 스크롤 페이징
+	$(window).scroll(function() {
+		var scroll = $(window).scrollTop();
+		var dHeight = $(document).height();
+		var wHeight = $(window).height();
+		if (ajaxFlag && (scroll + 200 >= dHeight - wHeight)) {
+			getData(++page);
+		}
+	});
+
+	// 문의 목록 불러오기
+	function getData(page) {
+		$.ajax({
+			url : "/yomul/customer_qna_ajax",
+			method : "get",
+			data : {
+				"page" : page,
+				"category" : category,
+				"reply" : reply
+			},
+			success : function(json) {
+				if (json.length == 0) {
+					ajaxFlag = false;
+				}
+				var html = "";
+				for (var i = 0; i < json.length; i++) {
+					qna = json[i];
+					html += '<a href="/yomul/admin_qna_info?no=' + qna.no + '" class="text-decoration-none">';
+					html += '	<p class="d-inline-block p-0 mb-1 mr-1 text-body">' + qna.title + '</p>';
+					if(qna.secret == 'on'){
+						html += '<i class="bi bi-lock-fill text-dark"></i>';
+					}
+					html += '	<kbd class="bg-yomul">' + (qna.reply == 0 ? "답변대기" : "답변완료") + '</kbd>';
+					html += '	<p class="text-secondary">' + qna.wdate + '</p>';
+					html += '</a>';
+					html += '<hr>';
+				}
+				$("#admin_qna_list").append(html);
+			}
+		});
+	}
 </script>
 </head>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../../admin_header.jsp"%>
-	
+
 	<!--  BODY  -->
-	<section id="admin_qna_list">
+	<section id="admin_qna_list" class="container">
 		<h3 class="my-5 mx-0 font-weight-bold">문의 내역 관리</h3>
 		<div class="row justify-content-end">
 			<div class="col-2">
-				<select class="select form-control pl-1">
-					<option value="all">전체</option>
-					<option value="wait">답변대기</option>
+				<select id="reply" class="select form-control pl-1">
+					<option value="">전체</option>
+					<option value="0">답변대기</option>
+					<option value="1">답변완료</option>
 				</select>
 			</div>
 			<div class="col-5">
-				<select class="select form-control pl-1">
-					<option value="0">유형</option>
-					<option value="1">거래 환불/분쟁 및 사기 신고</option>
-					<option value="2">계정 문의</option>
-					<option value="3">판매 금지/거래 품목 문의</option>
-					<option value="4">매너평가, 매너온도, 거래후기 관련 문의</option>
-					<option value="5">게시글 노출, 미노출 문의</option>
-					<option value="6">채팅, 알림 문의</option>
-					<option value="7">앱 사용/거래 방법 문의</option>
-					<option value="8">동네 생활(커뮤니티) 문의</option>
-					<option value="9">지역 광고 문의</option>
-					<option value="10">비즈프로필(등록, 이용) 문의</option>
-					<option value="11">검색 문의</option>
-					<option value="12">기타 문의</option>
-					<option value="13">오류 제보</option>
-					<option value="14">개선/제안</option>
+				<select id="category" class="select form-control pl-1">
+					<option value="">유형</option>
+					<c:forEach var="category" items="${categories}">
+						<option value="${category.no}"><a href="/yomul/admin_qna_list?">${category.content}</a></option>
+					</c:forEach>
 				</select>
 			</div>
 		</div>
-		<ul class="list p-0 mt-3">
-			<li no="3">
-				<p class="d-inline-block p-0 mb-1 mr-1 text-body">제목~~~~</p>
-				<kbd class="bg-yomul">답변대기</kbd>
-				<p class="text-secondary">2021.07.02</p>
-				<hr>
-			</li>
-			<li no="2">
-				<p class="d-inline-block p-0 mb-1 mr-1 text-body">제목~~~~</p>
-				<kbd class="bg-yomul">답변완료</kbd>
-				<p class="text-secondary">2021.07.02</p>
-				<hr>
-			</li>
-			<li no="1">
-				<p class="d-inline-block p-0 mb-1 mr-1 text-body">제목~~~~</p>
-				<kbd class="bg-yomul">답변완료</kbd>
-				<p class="text-secondary">2021.07.02</p>
-				<hr>
-			</li>
-		</ul>
 	</section>
 </body>
 </html>

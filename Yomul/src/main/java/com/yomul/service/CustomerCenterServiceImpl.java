@@ -9,6 +9,7 @@ import com.yomul.dao.CustomerCenterDAO;
 import com.yomul.util.Security;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.NoticeVO;
 import com.yomul.vo.QnaVO;
 
@@ -58,8 +59,8 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	}
 
 	@Override
-	public ArrayList<QnaVO> getQnaList(int page) {
-		return customerCenterDAO.getQnaList(page);
+	public ArrayList<QnaVO> getQnaList(QnaVO vo, int page) {
+		return customerCenterDAO.getQnaList(vo, page);
 	}
 
 	@Override
@@ -84,5 +85,10 @@ public class CustomerCenterServiceImpl implements CustomerCenterService {
 	@Override
 	public int checkPw(QnaVO vo) {
 		return customerCenterDAO.checkPw(vo) == 1 ? 1 : 0;
+	}
+
+	@Override
+	public int replyQnA(MemberVO member, QnaVO qna) {
+		return customerCenterDAO.replyQnA(member, qna) == 1 ? 1 : 0;
 	}
 }
