@@ -22,15 +22,15 @@
 <footer class="text-muted text-center mt-5">
 	<section class="footer-content container d-inline-block p-4 w-100">
 		<div class="text-center mb-3">
-			<a href="/yomul/customer_center/" class="d-inline text-muted">
+			<a href="/yomul/customer_center" class="d-inline text-muted">
 				<h5>고객센터</h5>
 			</a>
 			<div class="vertical_line mr-1"></div>
-			<a href="/yomul/customer_notices/" class="d-inline text-muted">
+			<a href="/yomul/customer_notices" class="d-inline text-muted">
 				<h5>공지사항</h5>
 			</a>
 			<div class="vertical_line mr-1"></div>
-			<a href="/yomul/customer_qna/" class="d-inline text-muted">
+			<a href="/yomul/customer_qna" class="d-inline text-muted">
 				<h5>문의하기</h5>
 			</a>
 			<div class="vertical_line mr-1"></div>

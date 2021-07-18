@@ -9,6 +9,7 @@
 <%@ include file="../../head.jsp"%>
 <script type="text/javascript">
 	$(document).ready(function() {
+		// 일반 로그인
 		$("#form_login").on("submit", function(e) {
 			e.preventDefault();
 
@@ -31,9 +32,21 @@
 			return false;
 		});
 
+		// 자동 로그인이 설정된 경우
 		if ($("#autoLogin").is(":checked")) {
 			$("#form_login").submit();
 		}
+
+		// 자동 로그인 체크시, 아이디 저장도 자동으로 체크
+		$("#autoLogin").on("click", function() {
+			if ($("#autoLogin").is(":checked")) {
+				$("#idStore").prop("checked", true);
+				$("#idStore").attr("onclick", "return false;");
+			}else{
+				$("#idStore").prop("checked", false);				
+				$("#idStore").attr("onclick", "return true;");
+			}
+		})
 	});
 </script>
 </head>

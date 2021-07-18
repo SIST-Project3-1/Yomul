@@ -26,6 +26,7 @@
 	var page = 1;
 	var ajaxFlag = true;
 
+	// 스크롤 페이징
 	$(window).scroll(function() {
 		var scroll = $(window).scrollTop();
 		var dHeight = $(document).height();
@@ -35,6 +36,7 @@
 		}
 	});
 
+	// 문의 목록 불러오기
 	function getData(page) {
 		$.ajax({
 			url : "customer_qna_ajax",
@@ -55,7 +57,7 @@
 					if (qna.secret == "on") {
 						html += '	<i class="bi bi-lock-fill text-dark"></i>';
 					}
-					html += '		<kbd class="bg-yomul">' + (qna.rdate == null ? "답변대기" : "답변완료") + '</kbd>';
+					html += '		<kbd class="bg-yomul">' + (qna.reply == 0 ? "답변대기" : "답변완료") + '</kbd>';
 					html += '		<p class="text-secondary">' + qna.wdate + '</p>';
 					html += '		<hr>';
 					html += '	</a>';
@@ -82,10 +84,10 @@
 				<li>
 					<a class="m-0 text-decoration-none" href="/yomul/customer_qna/${qna.no}">
 						<p class="d-inline-block p-0 mb-1 mr-1 text-body">${qna.title}</p>
-						<c:if test='${qna.secret.equals("on") }'>
+						<c:if test="${qna.secret == 'on' }">
 							<i class="bi bi-lock-fill text-dark"></i>
 						</c:if>
-						<kbd class="bg-yomul">${qna.rdate==null?"답변대기":"답변완료"}</kbd>
+						<kbd class="bg-yomul">${qna.reply == 0 ? "답변대기" : "답변완료"}</kbd>
 						<p class="text-secondary">${qna.wdate}</p>
 						<hr>
 					</a>

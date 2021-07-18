@@ -42,7 +42,7 @@
 		<hr>
 		<c:if test="${qna.rdate !=null }">
 			<div class="my-5 mx-0">
-				<h4 class="font-weight-bold">답변</h4>
+				<h4 class="font-weight-bold">${qna.rtitle}</h4>
 				<p class="font-weight-bold text-secondary">${qna.rdate}</p>
 				<div>${qna.rcontent}</div>
 			</div>
