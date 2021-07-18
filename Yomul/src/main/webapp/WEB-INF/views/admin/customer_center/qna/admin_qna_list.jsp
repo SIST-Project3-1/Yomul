@@ -69,7 +69,7 @@ a.text-decoration-none:hover {
 					if(qna.secret == 'on'){
 						html += '<i class="bi bi-lock-fill text-dark"></i>';
 					}
-					html += '	<kbd class="bg-yomul">' + (qna.rdate == null ? "답변대기" : "답변완료") + '</kbd>';
+					html += '	<kbd class="bg-yomul">' + (qna.reply == 0 ? "답변대기" : "답변완료") + '</kbd>';
 					html += '	<p class="text-secondary">' + qna.wdate + '</p>';
 					html += '</a>';
 					html += '<hr>';

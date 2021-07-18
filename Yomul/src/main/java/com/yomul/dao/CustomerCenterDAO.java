@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.NoticeVO;
 import com.yomul.vo.QnaVO;
 
@@ -20,6 +21,20 @@ public class CustomerCenterDAO extends DAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+
+	/**
+	 * QnA 답변하기
+	 * 
+	 * @param member
+	 * @param qna
+	 * @return
+	 */
+	public int replyQnA(MemberVO member, QnaVO qna) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member", member);
+		params.put("qna", qna);
+		return sqlSession.update(nameSpace + ".replyQnA", params);
+	}
 
 	/**
 	 * QnA 삭제하기
@@ -63,9 +78,10 @@ public class CustomerCenterDAO extends DAO {
 		List<QnaVO> list = sqlSession.selectList(nameSpace + ".getQnaList", params);
 		return (ArrayList<QnaVO>) list;
 	}
-	
+
 	/**
 	 * QnA 문의 내역 가져오기
+	 * 
 	 * @param vo
 	 * @return
 	 */

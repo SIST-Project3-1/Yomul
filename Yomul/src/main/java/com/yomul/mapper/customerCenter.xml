@@ -6,6 +6,22 @@
 
 <mapper namespace="mapper.customerCenter">
 
+	<!-- QnA 답변하기 -->
+	<update id="replyQnA" parameterType="map">
+		UPDATE
+			YOMUL_QNA_ARTICLES 
+		SET
+			  REPLY = 1
+			, RDATE = SYSDATE
+			, RWRITER = #{member.no}
+			, RTITLE = #{qna.rtitle}
+			, RCONTENT = #{qna.rcontent}
+		WHERE
+			NO = #{qna.no}
+			AND REPLY = 0
+			AND 'ADMIN' = #{member.authority}
+	</update>
+	
 	<!-- QnA 삭제하기 -->
 	<delete id="deleteqna" parameterType="com.yomul.vo.QnaVO">
 		DELETE FROM
@@ -127,6 +143,7 @@
 			, TO_CHAR(RDATE, 'YYYY-MM-DD') RDATE
 			, REPLY
 			, M.NICKNAME RWRITER
+			, RTITLE
 			, RCONTENT
 			, SECRET
 		FROM

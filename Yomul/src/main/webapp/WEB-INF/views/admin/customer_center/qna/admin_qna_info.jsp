@@ -8,29 +8,28 @@
 <!-- HEAD -->
 <%@ include file="../../../head.jsp"%>
 <script type="text/javascript">
-$(document).ready(function() {
-	$("#form_admin_qna_info").on("submit", function(e) {
-		e.preventDefault();
+	$(document).ready(function() {
+		$("#form_admin_qna_info").on("submit", function(e) {
+			e.preventDefault();
 
-		$.ajax({
-			url : "${url}",
-			method : "${method}",
-			data : new FormData(this), // 필수
-			processData : false, // 필수 
-			contentType : false, // 필수
-			success : function(result) {
-				var json = JSON.parse(result);
-				if (json.result == 1) {
-					alert("${successMsg}");
-					location.href = "${successLink}";
-				} else {
-					alert("${failMsg}");
+			$.ajax({
+				url : "/yomul/admin_qna_reply",
+				method : "POST",
+				data : new FormData(this), // 필수
+				processData : false, // 필수 
+				contentType : false, // 필수
+				success : function(result) {
+					if (result == 1) {
+						alert("답변 등록에 성공했습니다.");
+						location.reload();
+					} else {
+						alert("답변 등록에 실패했습니다.");
+					}
 				}
-			}
-		});
-		return false;
-	})
-});
+			});
+			return false;
+		})
+	});
 </script>
 </head>
 <body>
@@ -44,7 +43,12 @@ $(document).ready(function() {
 			<p class="font-weight-bold  m-0 text-secondary">${qna.category_content}${qna.wdate }</p>
 		</div>
 		<hr class="my-2">
-		<div>${qna.content }</div>
+		<div>
+			<c:forEach var="img" items="${images}">
+				<div>
+					<img alt="" src="/yomul/upload/${img.getSavedFilename() }">
+				</div>
+			</c:forEach>${qna.content }</div>
 		<hr class="my-2">
 
 		<c:choose>
@@ -52,10 +56,11 @@ $(document).ready(function() {
 				<!-- 아직 답변 없을 때 -->
 				<h4 class="font-weight-bold">답변</h4>
 				<form id="form_admin_qna_info" class="mt-3" method="post">
-					<input type="text" name="title" class="form-control" placeholder="제목">
-					<textarea name="content" class="textarea form-control mt-3" placeholder="내용" rows="10"></textarea>
+					<input type="hidden" name="no" class="form-control" value="${qna.no}" readonly required>
+					<input type="text" name="rtitle" class="form-control" placeholder="제목" required>
+					<textarea name="rcontent" class="textarea form-control mt-3" placeholder="내용" rows="10" required></textarea>
 					<div class="row mx-1 justify-content-end">
-						<button type="button" class="btn btn-yomul mt-3">완료</button>
+						<button type="submit" class="btn btn-yomul mt-3">완료</button>
 					</div>
 				</form>
 			</c:when>
@@ -63,16 +68,13 @@ $(document).ready(function() {
 				<!-- 답변이 이미 있을 때 -->
 				<div class="mx-3">
 					<div class="row">
-						<h4 class="mr-3 font-weight-bold">답변드립니다~</h4>
-						<p class="font-weight-bold text-secondary mt-1">2021.07.04</p>
+						<h4 class="mr-3 font-weight-bold">${qna.rtitle}</h4>
+						<p class="font-weight-bold text-secondary mt-1">${qna.rdate}</p>
 					</div>
-					<div class="row">
-						내요옹~~~<br> 내요옹~~~<br> 내요옹~~~<br> 내요옹~~~<br> 내요옹~~~<br>
-					</div>
+					<div class="row">${qna.rcontent}</div>
 				</div>
 			</c:when>
 		</c:choose>
-
 
 		<hr class="mt-2 mb-3">
 		<div class="text-center">

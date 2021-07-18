@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FaqService;
+import com.yomul.service.FileService;
 import com.yomul.service.MemberService;
 import com.yomul.service.NoticeService;
 import com.yomul.util.Commons;
@@ -35,6 +37,8 @@ public class AdminController {
 	private CustomerCenterService customerCenterService;
 	@Autowired
 	private FaqService faqService;
+	@Autowired
+	private FileService fileService;
 
 	/*
 	 * FAQ
@@ -146,6 +150,7 @@ public class AdminController {
 	public ModelAndView adminQnaInfo(QnaVO vo) {
 		ModelAndView mv = new ModelAndView("admin/customer_center/qna/admin_qna_info");
 		mv.addObject("qna", customerCenterService.getQnaInfo(vo));
+		mv.addObject("images", fileService.getFileList(vo.getNo()));
 		return mv;
 	}
 
@@ -157,8 +162,9 @@ public class AdminController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/admin_qna_reply", method = RequestMethod.POST)
-	public String admin_qna_reply(QnaVO vo) {
-		return "";
+	public String admin_qna_reply(QnaVO qna, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		return String.valueOf(customerCenterService.replyQnA(member, qna));
 	}
 
 	/**

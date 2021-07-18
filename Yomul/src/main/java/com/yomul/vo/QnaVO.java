@@ -19,6 +19,7 @@ public class QnaVO extends VO {
 	private Integer reply; // 답변 유무
 	private String rdate; // 답변 일자
 	private String rwriter; // 답변자
+	private String rtitle; // 답변 제목
 	private String rcontent; // 답변 내용
 
 	private String secret;
@@ -157,6 +158,14 @@ public class QnaVO extends VO {
 
 	public void setCategory_content(String category_content) {
 		this.category_content = category_content;
+	}
+
+	public String getRtitle() {
+		return rtitle;
+	}
+
+	public void setRtitle(String rtitle) {
+		this.rtitle = rtitle;
 	}
 
 }
