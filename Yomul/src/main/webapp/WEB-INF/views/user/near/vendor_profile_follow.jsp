@@ -10,7 +10,6 @@
 <script>
 var page = 1;
 var ajaxFlag = true;
-var a = "";
 
 $(window).scroll(function() {
 	var scroll = $(window).scrollTop();
@@ -70,7 +69,7 @@ function getData(page) {
 	</script>
 
 	<!--  BODY  -->
-	<input id="vendor_no" class="d-none" value="${no }" disabled>
+	<input type="hidden" id="vendor_no" value="${no }">
 	<div id="vendor_profile_follow" class="vendor-profile-follow-content">
 		<c:forEach var="vo" items="${list }">
 			<div class="media" id="vendor-profile-follow-img">

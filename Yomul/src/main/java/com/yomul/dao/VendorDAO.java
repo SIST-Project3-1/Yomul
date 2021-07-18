@@ -88,4 +88,13 @@ public class VendorDAO extends DAO{
 			return 0;
 		}
 	}
+	
+	// 업체 번호로 업체 주인 사용자 번호 구하기
+	public String getVendorOwner(String no) {
+		try {
+			return sqlSession.selectOne(nameSpace + ".selectOwnerNoByVendorNo", no);
+		} catch (NullPointerException e) {
+			return "";
+		}
+	}
 }

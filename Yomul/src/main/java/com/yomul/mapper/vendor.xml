@@ -74,8 +74,8 @@
 				from yomul_vendor_reviews r, v_y_members m
 				where r.vendor_no = #{vno} and r.member_no = m.no
 				order by to_number(substr(r.no, 2)) desc)
-			where <![CDATA[rownum <= 10 * #{page}]]>)
-		where <![CDATA[rno > 10 * (#{page} - 1)]]>
+			where <![CDATA[rownum <= 12 * #{page}]]>)
+		where <![CDATA[rno > 12 * (#{page} - 1)]]>
 	</select>
 	
 	<!-- 업체 번호로 조회 -->
@@ -90,6 +90,13 @@
 		select no
 		from v_y_vendors
 		where owner = #{no}
+	</select>
+	
+	<!-- 업체 번호로 주인 사용자 번호 조회 -->
+	<select id="selectOwnerNoByVendorNo" resultType="java.lang.String" parameterType="java.lang.String">
+		select owner
+		from v_y_vendors
+		where no = #{no}
 	</select>
 	
 	<!-- 사용자 번호로 업체 조회 -->

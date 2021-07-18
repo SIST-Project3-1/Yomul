@@ -81,6 +81,7 @@ public class VendorController {
 		
 		mv.addObject("headerType", "profile");
 		mv.addObject("no", no);
+		mv.addObject("owner", vo.getOwner());
 		mv.addObject("vo", vo);
 		
 		return mv;
@@ -105,6 +106,7 @@ public class VendorController {
 		
 		mv.addObject("headerType", "profile");
 		mv.addObject("no", vo.getNo());
+		mv.addObject("owner", vo.getOwner());
 		mv.addObject("vo", vo);
 		return mv;
 	}
@@ -157,8 +159,12 @@ public class VendorController {
 		// 단골 목록 구하기(1페이지)
 		ArrayList<MemberVO> list = vendorService.getVendorCustomerList(no, 1);
 		
+		// 업체 소유자 구하기
+		String owner = vendorService.getVendorOwner(no);
+		
 		mv.addObject("headerType", "profile");
 		mv.addObject("no", no);
+		mv.addObject("owner", owner);
 		mv.addObject("list", list);
 		return mv;
 	}
@@ -210,12 +216,23 @@ public class VendorController {
 		// 업체 후기 목록 1페이지 조회
 		ArrayList<ReviewVO> list = vendorService.getVendorReviewList(no, 1);
 		
-		mv.addObject("list", list);
+		// 주인 사용자 번호 조회
+		String owner = vendorService.getVendorOwner(no);
+		
 		mv.addObject("no", no);
+		mv.addObject("owner", owner);
+		mv.addObject("list", list);
 		return mv;
 	}
 	
-
-	
-	
+	// 업체 후기 목록 페이지네이션 ajax
+	@ResponseBody
+	@RequestMapping(value = "/vendor_reviews_pagination", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String vendor_reviews_pagination(String no, int page) {
+		// 입력된 페이지의 후기 목록 구하기
+		ArrayList<ReviewVO> list = vendorService.getVendorReviewList(no, page);
+		
+		// 결과를 json 형식으로 반환
+		return Commons.parseJson(list);
+	}
 }

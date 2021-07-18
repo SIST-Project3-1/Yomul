@@ -7,6 +7,60 @@
 <title>후기</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+<script>
+var page = 1;
+var ajaxFlag = true;
+
+$(window).scroll(function() {
+	var scroll = $(window).scrollTop();
+	var dHeight = $(document).height();
+	var wHeight = $(window).height();
+	if (ajaxFlag && (scroll + 200 >= dHeight - wHeight)) {
+		getData(++page);
+	}
+});
+
+function getData(page) {
+	$.ajax({
+		url : "/yomul/vendor_reviews_pagination",
+		method : "get",
+		data : {
+			"no" : $("#vendor_no").val(),
+			"page" : page
+		},
+		dataType : "json",
+		contentType: "application/json; charset=UTF-8",
+		success : function(json) {
+			if (json.length == 0) {
+				ajaxFlag = false;
+			}
+			var html = "";
+			for (var i = 0; i < json.length; i++) {
+				vo = json[i];
+				html += "<div class='card vendor-reviews-card'>";
+				html += "	<div class='card-body'>";
+				html += "		<div class='vendor-reviews-regular'>";
+				html += "			<img src='/yomul/upload/";
+				if(vo.profileImg == "__") {
+					html += "default.jpg";
+				}else {
+					html += vo.profileImg;
+				}
+				html += "' class='card-img-top'>";
+				html += "			<h5 class='card-title'>" + vo.nickname + "<h5>";
+				html += "		</div>";
+				html += "		<a href='/yomul/reviews_info/" + vo.no + "'>";
+				html += "			<p class='card-text'>" + vo.content + "</p>";
+				html += "		</a>";
+				html += "	</div>";
+				html += "</div>";
+			}
+
+			$("#vendor_reviews").append(html).trigger("create");
+		}
+	});
+}
+</script>
 </head>
 <body>
 	<!-- HEADER -->
@@ -19,11 +73,11 @@
 	</script>
 
 	<!--  BODY  -->
-	<div id="vendor_reviews" class="vendor-reviews-content">
+	<input type="hidden" id="vendor_no" value="${no }">
+	<div id="vendor_reviews" class="vendor-reviews-content card-columns">
 		<c:forEach var="vo" items="${list }">
-			<div class="vendor-reviews-card">
-				<div class="card" style="width: 18rem;">
-				 	<div class="card-body">
+			<div class="card vendor-reviews-card">
+			 	<div class="card-body">
 				 	<div class="vendor-reviews-regular">
 					 	<img src="/yomul/upload/${vo.profileImg }" class="card-img-top">
 					    <h5 class="card-title">${vo.nickname }</h5>
@@ -31,7 +85,6 @@
 		    		<a href="/yomul/reviews_info/${vo.no }">
 			    		<p class="card-text">${vo.content }</p>
 					</a>
-					</div>
 				</div>
 			</div>
 		</c:forEach>

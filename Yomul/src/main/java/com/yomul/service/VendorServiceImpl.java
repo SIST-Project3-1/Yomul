@@ -89,4 +89,10 @@ public class VendorServiceImpl implements VendorService {
 	public VendorVO getVendorInfo(String no) {
 		return vendorDAO.getVendorInfo(no);
 	}
+	
+	// 업체 번호로 주인 사용자 번호 조회
+	@Override
+	public String getVendorOwner(String no) {
+		return vendorDAO.getVendorOwner(no);
+	}
 }

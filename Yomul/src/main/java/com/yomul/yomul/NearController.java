@@ -46,12 +46,6 @@ public class NearController {
 	private VendorService vendorService;
 	
 	@Autowired
-	private LikeService likeService;
-	
-	@Autowired
-	private ReportService reportService;
-	
-	@Autowired
 	private NearDAO nearDAO;
 
 	@Autowired
