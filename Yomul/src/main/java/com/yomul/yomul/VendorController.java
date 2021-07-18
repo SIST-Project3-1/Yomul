@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.FileService;
 import com.yomul.service.VendorService;
+import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
@@ -152,13 +153,24 @@ public class VendorController {
 	public ModelAndView vendor_profile_follow(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_profile_follow");
 		
-		// 단골 목록 구하기
+		// 단골 목록 구하기(1페이지)
 		ArrayList<MemberVO> list = vendorService.getVendorCustomerList(no, 1);
 		
 		mv.addObject("headerType", "profile");
 		mv.addObject("no", no);
 		mv.addObject("list", list);
 		return mv;
+	}
+	
+	// 업체 단골 목록 페이지네이션 ajax
+	@ResponseBody
+	@RequestMapping(value = "/vendor_profile_follow_pagination", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String vendor_profile_follow_pagination(String no, int page) {
+		// 입력된 페이지의 단골 목록 구하기
+		ArrayList<MemberVO> list = vendorService.getVendorCustomerList(no, page);
+		
+		// 결과를 json 형식으로 반환
+		return Commons.parseJson(list);
 	}
 		
 	//업체 소식 보기
