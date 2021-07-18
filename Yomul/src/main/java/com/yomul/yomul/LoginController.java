@@ -1,5 +1,7 @@
 package com.yomul.yomul;
 
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,7 +18,6 @@ import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
 import com.yomul.service.MemberService;
 import com.yomul.util.Cookies;
-import com.yomul.util.Security;
 import com.yomul.vo.MemberVO;
 
 @Controller
@@ -33,7 +34,7 @@ public class LoginController {
 	@RequestMapping(value = "kakao_login", method = RequestMethod.GET)
 	public String kakao_login() {
 		return "redirect:https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=" + APIKey.KAKAO_API_REST_KEY + "&redirect_uri="
-				+ APIKey.KAKAO_REDIRECT_URI;
+				+ APIKey.KAKAO_REDIRECT_URI_LOGIN;
 	}
 
 	/**
@@ -45,20 +46,29 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping(value = "kakao_login_proc", method = RequestMethod.GET)
-	public ModelAndView kakao_login_proc_(String code, String error, String error_description) {
-//		System.out.println("카카오 로그인 코드: " + code);
+	public ModelAndView kakao_login_proc_(String code, String error, String error_description, HttpSession session) {
 		ModelAndView mv = new ModelAndView("redirect:/");
-		KakaoLoginAPI kakao = new KakaoLoginAPI();
-		// 로그인 토큰으로 세션 처리 해야함
-		String access_token = kakao.getAccessToken(code);
-//		System.out.println("카카오 로그인 토큰: " + access_token);
+
+		// 토큰으로 유저 정보를 받아옴
+		String access_token = KakaoLoginAPI.getAccessToken(code, APIKey.KAKAO_REDIRECT_URI_LOGIN);
+		Map<String, Object> map = KakaoLoginAPI.getUserInfo(access_token);
+
+		String id = (String) map.get("id");
+
+		MemberVO vo = new MemberVO();
+		vo.setKakao_id(id);
+		MemberVO member = memberService.kakaoLogin(vo);
+		if (member != null) {
+			session.setAttribute("member", member);
+		} else {
+			mv.setViewName("redirect:/login");
+		}
 		return mv;
 	}
 
 	/**
 	 * login_check.do : 로그인 처리 여기 이 맵핑에서 비즈니스 로직을 처하게 된
 	 */
-
 	@ResponseBody
 	@RequestMapping(value = "login_proc", method = RequestMethod.POST)
 	public String login_proc(MemberVO vo, String idStore, String autoLogin, HttpSession session, HttpServletResponse response) {
@@ -137,9 +147,11 @@ public class LoginController {
 	 */
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
 	public String logout(HttpSession session, HttpServletResponse response, @CookieValue(value = "autoLogin", required = false) Cookie autoLogin) {
-		Cookies.removeCookie(autoLogin);
+		if (autoLogin != null) {
+			Cookies.removeCookie(autoLogin);
+			response.addCookie(autoLogin);
+		}
 		session.invalidate();
-		response.addCookie(autoLogin);
 		return "redirect:/";
 	}
 }
