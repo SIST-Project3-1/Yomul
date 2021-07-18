@@ -26,6 +26,7 @@
 	var page = 1;
 	var ajaxFlag = true;
 
+	// 스크롤 페이징
 	$(window).scroll(function() {
 		var scroll = $(window).scrollTop();
 		var dHeight = $(document).height();
@@ -35,6 +36,7 @@
 		}
 	});
 
+	// 문의 목록 불러오기
 	function getData(page) {
 		$.ajax({
 			url : "customer_qna_ajax",
