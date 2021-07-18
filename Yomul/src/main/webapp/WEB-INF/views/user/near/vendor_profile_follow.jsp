@@ -7,6 +7,56 @@
 <title>단골</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+<script>
+var page = 1;
+var ajaxFlag = true;
+var a = "";
+
+$(window).scroll(function() {
+	var scroll = $(window).scrollTop();
+	var dHeight = $(document).height();
+	var wHeight = $(window).height();
+	if (ajaxFlag && (scroll + 200 >= dHeight - wHeight)) {
+		getData(++page);
+	}
+});
+
+function getData(page) {
+	$.ajax({
+		url : "/yomul/vendor_profile_follow_pagination",
+		method : "get",
+		data : {
+			"no" : $("#vendor_no").val(),
+			"page" : page
+		},
+		dataType : "json",
+		contentType: "application/json; charset=UTF-8",
+		success : function(json) {
+			if (json.length == 0) {
+				ajaxFlag = false;
+			}
+			var html = "";
+			for (var i = 0; i < json.length; i++) {
+				vo = json[i];
+				html += "<div class='media' id='vendor-profile-follow-img'>";
+				html += "	<img src='/yomul/upload/";
+				if(vo.profileImg == "__") {
+					html += "default.jpg";
+				}else {
+					html += vo.profileImg;
+				}
+				html += "' class='mr-3'>";
+				html += "	<div class='media-body'>";
+				html += "		<h5 class='mt-0'>" + vo.nickname + "</h5>";
+				html += "	</div>";
+				html += "</div>";
+			}
+
+			$("#vendor_profile_follow").append(html).trigger("create");
+		}
+	});
+}
+</script>
 </head>
 <body>
 	<!-- HEADER -->
@@ -20,15 +70,16 @@
 	</script>
 
 	<!--  BODY  -->
+	<input id="vendor_no" class="d-none" value="${no }" disabled>
 	<div id="vendor_profile_follow" class="vendor-profile-follow-content">
-		<% for(int i=0;i<10;i++){ %>
-		<div class="media" id="vendor-profile-follow-img">
-			<img src="/yomul/image/이미지준비중.jpg" class="mr-3">
-			<div class="media-body">
-			 <h5 class="mt-0">단골 닉네임</h5>
+		<c:forEach var="vo" items="${list }">
+			<div class="media" id="vendor-profile-follow-img">
+				<img src="/yomul/upload/${vo.profileImg }" class="mr-3">
+				<div class="media-body">
+				 <h5 class="mt-0">${vo.nickname }</h5>
+				</div>
 			</div>
-		</div>
-		<% } %>
+		</c:forEach>
 	</div>
 	
 	<!-- FOOTER -->

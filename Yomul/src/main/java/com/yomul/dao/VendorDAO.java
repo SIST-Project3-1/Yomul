@@ -1,9 +1,12 @@
 package com.yomul.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.VendorVO;
 
 @Repository
@@ -22,6 +25,17 @@ public class VendorDAO extends DAO{
 		return sqlSession.selectOne(nameSpace + ".selectVendorNoByOwner", vo.getOwner());
 	}
 	
+	// 업체 정보 수정
+	public int updateVendorInfo(VendorVO vo) {
+		return sqlSession.update(nameSpace + ".updateVendor", vo);
+	}
+	
+	// 업체 단골 목록 조회
+	public ArrayList<MemberVO> getVendorCustomers(HashMap<String, Object> params) {
+		List<MemberVO> list = sqlSession.selectList(nameSpace + ".selectVendorCustomerList", params);
+		return (ArrayList<MemberVO>) list;
+	}
+	
 	// 업체 단골 수 확인
 	public int getVendorCustomerCount(String no) {
 		try {
@@ -30,6 +44,22 @@ public class VendorDAO extends DAO{
 			return 0;
 		}
 	}
+	
+	// 업체 정보 조회
+	public VendorVO getVendorInfo(String no) {
+		try {
+			if(no.startsWith("V")) { // 업체 번호일 경우 업체 번호로 조회
+				return sqlSession.selectOne(nameSpace + ".selectVendorByNo", no);
+			}else if(no.startsWith("M")) { // 회원 번호일 경우 회원 번호로 조회
+				return sqlSession.selectOne(nameSpace + ".selectVendorByOwner", no);
+			}else {
+				return null;
+			}
+		} catch (NullPointerException e) { // 해당 업체가 없을 경우 null 반환
+			return null;
+		}
+	}
+	
 	
 	// 업체 단골 등록
 	public int addVendorCustomer(HashMap<String, String> params) {

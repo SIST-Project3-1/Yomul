@@ -24,7 +24,7 @@ public interface CustomerCenterService {
 
 	String getNextQnaNo();
 
-	ArrayList<QnaVO> getQnaList();
+	ArrayList<QnaVO> getQnaList(int page);
 
 	QnaVO getQnaInfo(QnaVO vo);
 

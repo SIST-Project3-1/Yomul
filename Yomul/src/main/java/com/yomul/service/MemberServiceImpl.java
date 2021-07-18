@@ -31,7 +31,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.nicknameCheck(nickname) == 1 ? 1 : 0;
 	}
 
-
 	@Override
 	public int getBuyCount(MemberVO vo) {
 		return memberDAO.getBuyCount(vo);
@@ -81,16 +80,14 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO getLoginResult(MemberVO vo) {
 		String pw = vo.getPw();
-		String hashsalt =getHashsalt(vo);
+		String hashsalt = getHashsalt(vo);
 		vo.setPw(Security.pwHashing(pw, hashsalt));
 		return memberDAO.getLoginResult(vo);
-		
 	}
-	
+
 	@Override
 	public String getHashsalt(MemberVO vo) {
 		return memberDAO.getHashsalt(vo);
 	}
-
 
 }

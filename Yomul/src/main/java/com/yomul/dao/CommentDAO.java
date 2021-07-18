@@ -34,11 +34,19 @@ public class CommentDAO extends DAO {
 	}
 
 	// 댓글 작성
-	public int addComment(CommentVO vo) {
+	public String addComment(CommentVO vo) {
 		try {
-			return sqlSession.insert(nameSpace + ".insertComment", vo);
+			sqlSession.insert(nameSpace + ".insertComment", vo);
 		} catch (Exception e) { // 작성 실패 시 0 반환
-			return 0;
+			return "0";
 		}
+		
+		// 작성 성공 시 작성한 댓글 번호를 반환
+		return getLastCommentNo(vo);
+	}
+	
+	// 작성한 댓글 번호 조회
+	public String getLastCommentNo(CommentVO vo) {
+		return sqlSession.selectOne(nameSpace + ".selectLastCommentNo", vo);
 	}
 }

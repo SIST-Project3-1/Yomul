@@ -52,4 +52,10 @@
 			)
 	</insert>
 	
+	<!-- 해당 게시글의 파일 모두 삭제 -->
+	<delete id="deleteArticleFiles" parameterType="java.lang.String">
+		delete from yomul_files
+		where article_no = #{articleNo}
+	</delete>
+	
 </mapper>
