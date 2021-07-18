@@ -13,7 +13,7 @@
 			from (select c.no, m.nickname as writer, c.content, c.wdate, c.likes, c.img
 				from v_y_comments c, yomul_members m
 				where c.article_no = #{no} and c.writer = m.no
-				order by c.no desc)
+				order by c.wdate desc)
 			where <![CDATA[rownum <= #{perPage} * #{page}]]>)
 		where <![CDATA[rno > #{perPage} * (#{page} - 1)]]>
 	</select>
@@ -29,6 +29,16 @@
 	<!-- 댓글 등록 -->
 	<insert id="insertComment" parameterType="com.yomul.vo.CommentVO">
 		insert into yomul_comments(no, article_no, writer, content, wdate)
-		values('C'||yomul_comment_no_seq.nextval, ${articleNo}, ${writer}, ${content}, sysdate)
+		values('C'||yomul_comments_no_seq.nextval, #{articleNo}, #{writer}, #{content}, sysdate)
 	</insert>
+	
+	<!-- 작성한 댓글 번호 확인 -->
+	<select id="selectLastCommentNo" resultType="java.lang.String" parameterType="com.yomul.vo.CommentVO">
+		select no
+		from(select no
+			from v_y_comments
+			where article_no = #{articleNo} and writer = #{writer}
+			order by no desc)
+		where rownum = 1
+	</select>
 </mapper>
