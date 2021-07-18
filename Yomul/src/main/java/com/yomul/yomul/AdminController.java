@@ -160,7 +160,6 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value = "/admin_delete_member", method = RequestMethod.POST)
 	public String admin_delete_member(MemberVO vo) {
-		System.out.println(vo.toStringJson());
 		int result = memberService.deleteMember(vo);
 
 		Map<String, Object> map = new HashMap<String, Object>();

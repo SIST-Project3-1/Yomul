@@ -67,7 +67,7 @@
 					html += '	<td class="align-middle">' + member.phone + '</td>';
 					html += '	<td class="align-middle">' + member.mdate + '</td>';
 					html += '	<td class="align-middle">';
-					html += '		<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="'+member.no+'">탈퇴</button>';
+					html += '		<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="' + member.no + '" '+ (member.withdrawal == 0 ? 'disabled' : '') +'>탈퇴</button>';
 					html += '	</td>';
 					html += '</tr>';
 				}

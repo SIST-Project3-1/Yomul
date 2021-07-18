@@ -47,6 +47,7 @@
 	<beans:bean id="authInterceptor" class="com.yomul.interceptor.AuthInterceptor"></beans:bean>
 	<beans:bean id="adminInterceptor" class="com.yomul.interceptor.AdminInterceptor"></beans:bean>
 	<beans:bean id="loginInterceptor" class="com.yomul.interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="autoLoginInterceptor" class="com.yomul.interceptor.AutoLoginInterceptor"></beans:bean>
 
 	<interceptors>
 		<!-- 마이페이지 로그인 필요 -->
@@ -78,6 +79,11 @@
 		<interceptor>
 			<mapping path="/login*" />
 			<beans:ref bean="loginInterceptor" />
+		</interceptor>
+		<!-- 자동 로그인 처리 -->
+		<interceptor>
+			<mapping path="/*" />
+			<beans:ref bean="autoLoginInterceptor" />
 		</interceptor>
 	</interceptors>
 
