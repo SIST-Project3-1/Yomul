@@ -124,6 +124,9 @@ public class MemberVO extends VO {
 	}
 
 	public String getProfileImg() {
+		if(profileImg.equals("__")) { // 프로필 사진이 없을 경우 기본 이미지 출력
+			return "default.jpg";
+		}
 		return profileImg;
 	}
 

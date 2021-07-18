@@ -33,4 +33,10 @@ public class FileServiceImpl implements FileService {
 	public ArrayList<FileVO> getFileList(String no) {
 		return fileDAO.getFileList(no);
 	}
+	
+	// 게시글 파일 모두 삭제
+	@Override
+	public int deleteArticleFiles(String articleNo) {
+		return fileDAO.deleteArticleFiles(articleNo);
+	}
 }

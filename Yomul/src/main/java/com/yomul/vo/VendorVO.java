@@ -8,6 +8,7 @@ public class VendorVO extends VO {
 	private String info; // 상세정보
 	private String tel; // 전화번호
 	private String addr; // 주소
+	private String img; // 이미지
 	private int news; // 소식 수
 	private int customers; // 단골 수
 	private int reviews; // 후기 수
@@ -53,6 +54,16 @@ public class VendorVO extends VO {
 	}
 	public void setAddr(String addr) {
 		this.addr = addr;
+	}
+	
+	public String getImg() {
+		if(img.equals("__")) { // 파일이 없을 경우 기본 이미지
+			return "default.jpg";
+		}
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
 	}
 	public int getNews() {
 		return news;
