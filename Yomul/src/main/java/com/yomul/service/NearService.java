@@ -13,6 +13,12 @@ public interface NearService {
 
 	// 내 근처 홈 화면 보기
 	List<NearVO> selectNearList(NearVO vo);
+	
+	// 내 근처 글 수정
+	int getUpdate(NearVO vo);
+	
+	// 내 근처 글 삭제
+	int getDelete(int no);
 
 	// 내 근처 게시글 상세보기
 	NearVO getNearInfo(String no);

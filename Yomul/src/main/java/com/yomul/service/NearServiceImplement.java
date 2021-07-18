@@ -41,4 +41,16 @@ public class NearServiceImplement implements NearService {
 		
 		return dao.getNearFile(saveFileName, originFilename);
 	}
+
+	@Override
+	public int getUpdate(NearVO vo) {
+		
+		return 0;
+	}
+
+	@Override
+	public int getDelete(int no) {
+		
+		return 0;
+	}
 }
