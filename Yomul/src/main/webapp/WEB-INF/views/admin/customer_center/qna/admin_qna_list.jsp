@@ -18,7 +18,7 @@ a.text-decoration-none:hover {
 
 	var reply = ${reply};
 	var category = ${category};
-	
+
 	$(document).ready(function() {
 
 		getData(page);
@@ -66,6 +66,9 @@ a.text-decoration-none:hover {
 					qna = json[i];
 					html += '<a href="/yomul/admin_qna_info?no=' + qna.no + '" class="text-decoration-none">';
 					html += '	<p class="d-inline-block p-0 mb-1 mr-1 text-body">' + qna.title + '</p>';
+					if(qna.secret == 'on'){
+						html += '<i class="bi bi-lock-fill text-dark"></i>';
+					}
 					html += '	<kbd class="bg-yomul">' + (qna.rdate == null ? "답변대기" : "답변완료") + '</kbd>';
 					html += '	<p class="text-secondary">' + qna.wdate + '</p>';
 					html += '</a>';
