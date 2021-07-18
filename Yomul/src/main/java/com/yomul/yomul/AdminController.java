@@ -116,25 +116,49 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * 관리자 QnA 목록 가져오기
+	 * 
+	 * @param vo
+	 * @return
+	 */
 	@RequestMapping(value = "/admin_qna_list", method = RequestMethod.GET)
 	public ModelAndView adminQnaList(QnaVO vo) {
 		ModelAndView mv = new ModelAndView("admin/customer_center/qna/admin_qna_list");
 
 		Integer category = vo.getCategory();
 		Integer reply = vo.getReply();
-		
+
 		mv.addObject("categories", customerCenterService.getQnaCategories());
-		mv.addObject("category", null == category? "null" : category);
-		mv.addObject("reply", null == reply? "null" : reply);
-		
+		mv.addObject("category", null == category ? "null" : category);
+		mv.addObject("reply", null == reply ? "null" : reply);
+
 		return mv;
 	}
 
+	/**
+	 * 관리자 QnA 상세보기
+	 * 
+	 * @param vo
+	 * @return
+	 */
 	@RequestMapping(value = "/admin_qna_info", method = RequestMethod.GET)
 	public ModelAndView adminQnaInfo(QnaVO vo) {
 		ModelAndView mv = new ModelAndView("admin/customer_center/qna/admin_qna_info");
 		mv.addObject("qna", customerCenterService.getQnaInfo(vo));
 		return mv;
+	}
+
+	/**
+	 * 관리자 QnA 답변하기 처리
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_qna_reply", method = RequestMethod.POST)
+	public String admin_qna_reply(QnaVO vo) {
+		return "";
 	}
 
 	/**

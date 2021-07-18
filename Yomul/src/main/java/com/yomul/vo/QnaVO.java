@@ -10,6 +10,7 @@ public class QnaVO extends VO {
 	private String hashsalt; // 비밀번호 해쉬솔트
 	private String wdate; // 작성일자
 	private Integer category; // 카테고리
+	private String category_content; // 카테고리 내용
 	private String title; // 글 제목
 	private String content; // 글 내용
 	private CommonsMultipartFile file;// 첨부파일
@@ -148,6 +149,14 @@ public class QnaVO extends VO {
 
 	public void setReply(Integer reply) {
 		this.reply = reply;
+	}
+
+	public String getCategory_content() {
+		return category_content;
+	}
+
+	public void setCategory_content(String category_content) {
+		this.category_content = category_content;
 	}
 
 }

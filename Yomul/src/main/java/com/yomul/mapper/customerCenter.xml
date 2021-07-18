@@ -88,6 +88,7 @@
 				, CONTENT
 				, WDATE
 				, REPLY
+				, SECRET
 			FROM
 			(
 				SELECT
@@ -114,22 +115,26 @@
 	<!-- QnA 상세보기 -->
 	<select id="getqnainfo" parameterType="com.yomul.vo.QnaVO" resultType="com.yomul.vo.QnaVO">
 		SELECT 
-			  NO
+			QA.NO
 			, NAME
-			, EMAIL
-			, TO_CHAR(WDATE, 'YYYY-MM-DD HH:MI') WDATE
+			, QA.EMAIL
+			, WDATE
 			, CATEGORY
+			, QC.CONTENT CATEGORY_CONTENT
 			, TITLE
-			, CONTENT
+			, QA.CONTENT
 			, HITS
-			, TO_CHAR(RDATE, 'YYYY-MM-DD HH:MI') RDATE
-			, RWRITER
+			, TO_CHAR(RDATE, 'YYYY-MM-DD') RDATE
+			, REPLY
+			, M.NICKNAME RWRITER
 			, RCONTENT
 			, SECRET
 		FROM
-			YOMUL_QNA_ARTICLES
+						YOMUL_QNA_ARTICLES QA 
+			LEFT OUTER 	JOIN YOMUL_MEMBERS M ON (QA.RWRITER = M.NO)
+			LEFT OUTER JOIN YOMUL_QNA_CATEGORIES QC ON (QA.CATEGORY = QC.NO)
 		WHERE
-				NO = #{no}
+				QA.NO = #{no}
 			<if test="pw != null">
 			AND PW = #{pw}
 			</if>
