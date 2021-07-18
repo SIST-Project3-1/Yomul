@@ -47,7 +47,9 @@
 		DELETE
 			FROM YOMUL_MEMBERS 
 		WHERE
-			NO = #{no}
+				NO = #{no}
+			AND WITHDRAWAL = 1
+			
 	</delete>
 
 	<!-- 회원 목록 가져오기 -->
@@ -59,6 +61,7 @@
 			, NICKNAME
 			, PHONE
 			, MDATE
+			, WITHDRAWAL
 		FROM
 		(
 			SELECT
@@ -72,7 +75,8 @@
 					, EMAIL
 					, NICKNAME
 					, NVL(PHONE, ' ') AS PHONE
-					, MDATE 
+					, MDATE
+					, WITHDRAWAL
 				FROM
 					YOMUL_MEMBERS 
 				WHERE
