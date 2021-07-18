@@ -535,12 +535,12 @@ SELECT *
 FROM ( SELECT ROWNUM AS RNO, C.*, M.NICKNAME
             FROM ( SELECT NO,  WRITER, ARTICLE_NO, CONTENT, WDATE 
                         FROM YOMUL_COMMENTS
-                        WHERE WRITER = 'M3' ORDER BY WDATE DESC) C
+                        WHERE WRITER = 'M3' ORDER BY TO_NUMBER(SUBSTR(NO, 2, 10)) DESC) C
                         JOIN
                      ( SELECT NO, NICKNAME
                         FROM YOMUL_MEMBERS) M
                         ON C.WRITER = M.NO)
-WHERE RNO > 10 * (2 - 1) AND RNO <= 10 * 2;
+WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
 
 -- FAQ 카테고리 데이터 생성
 INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(1, '운영정책');

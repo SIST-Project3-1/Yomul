@@ -29,7 +29,7 @@
 				WHERE
 					WRITER = #{no}
 				ORDER BY
-					WDATE DESC
+					TO_NUMBER(SUBSTR(NO, 2, 10)) DESC) C
 				) C
 				JOIN
 				(
