@@ -78,6 +78,21 @@
 		where <![CDATA[rno > 12 * (#{page} - 1)]]>
 	</select>
 	
+	<!-- 업체 후기 상세 보기 -->
+	<select id="selectVendorReviewInfo" resultType="com.yomul.vo.ReviewVO" parameterType="java.lang.String">
+		select r.no, r.member_no, m.nickname, m.profileImg, r.content, r.hits, r.vdate
+		from yomul_vendor_reviews r, v_y_members m
+		where r.no = #{no} and r.member_no = m.no
+	</select>
+	
+	<!-- 업체 후기 조회수 업데이트 -->
+	<update id="updateVendorReviewHits" parameterType="java.lang.String">
+		update yomul_vendor_reviews
+		set
+		hits = hits + 1
+		where no = #{no}
+	</update>
+	
 	<!-- 업체 번호로 조회 -->
 	<select id="selectVendorByNo" resultType="com.yomul.vo.VendorVO" parameterType="java.lang.String">
 		select no, owner, name, category, info, tel, addr, news, customers, reviews, img

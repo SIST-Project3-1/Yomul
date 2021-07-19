@@ -296,10 +296,10 @@ CREATE TABLE YOMUL_REPORTS(
 -- 테이블 생성 끝----------------------------------------------------------------------------------------------------------------------------------
 
 -- 뷰 생성 ---------------------------------------------------------------------------------------------------------------------------------------
--- 사용자 뷰 생성(사용자(비밀번호 제외) + 이미지)
+-- 사용자 뷰 생성(사용자 + 이미지)
 CREATE NOFORCE VIEW V_Y_MEMBERS
 AS
-SELECT M.NO, M.EMAIL, M.NICKNAME, M.PHONE, M.GENDER, M.INTRO, M.AUTHORITY, M.WITHDRAWAL, M.MDATE, M.SUBSCRIBE, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME PROFILEIMG
+SELECT M.NO, M.EMAIL, M.PW, M.NICKNAME, M.PHONE, M.GENDER, M.INTRO, M.AUTHORITY, M.WITHDRAWAL, M.MDATE, M.SUBSCRIBE, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME PROFILEIMG
 FROM YOMUL_MEMBERS M, YOMUL_FILES F
 WHERE M.NO = F.ARTICLE_NO(+);
 

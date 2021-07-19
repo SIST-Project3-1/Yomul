@@ -54,6 +54,17 @@ public class VendorServiceImpl implements VendorService {
 		return vendorDAO.getVendorReviewList(params);
 	}
 	
+	// 업체 후기 상세보기
+	@Override
+	public ReviewVO getVendorReviewInfo(String no) {
+		return vendorDAO.getVendorReviewInfo(no);
+	}
+	
+	// 업체 후기 조회수 업데이트
+	public int updateVendorReviewHits(String no) {
+		return vendorDAO.updateVendorReviewHits(no);
+	}
+	
 	// 업체 단골 등록
 	@Override
 	public int addVendorCustomer(String vno, String cno) {

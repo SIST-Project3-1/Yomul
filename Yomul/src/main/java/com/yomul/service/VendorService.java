@@ -23,6 +23,12 @@ public interface VendorService {
 	// 업체 후기 목록 조회
 	public ArrayList<ReviewVO> getVendorReviewList(String no, int page);
 	
+	// 업체 후기 상세 보기
+	public ReviewVO getVendorReviewInfo(String no);
+	
+	// 업체 후기 조회수 업데이트
+	public int updateVendorReviewHits(String no);
+	
 	// 업체 단골 등록
 	public int addVendorCustomer(String vno, String cno);
 	

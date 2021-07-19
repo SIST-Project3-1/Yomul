@@ -1,6 +1,7 @@
 package com.yomul.yomul;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,10 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yomul.service.CommentService;
 import com.yomul.service.FileService;
 import com.yomul.service.VendorService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
+import com.yomul.vo.CommentVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.ReviewVO;
@@ -27,6 +30,8 @@ import com.yomul.vo.VendorVO;
 public class VendorController {
 	@Autowired
 	private VendorService vendorService;
+	@Autowired
+	private CommentService commentService;
 	@Autowired
 	private FileService fileService;
 	@Autowired
@@ -234,5 +239,33 @@ public class VendorController {
 		
 		// 결과를 json 형식으로 반환
 		return Commons.parseJson(list);
+	}
+
+	// 업체 후기 상세보기
+	@RequestMapping(value = "/reviews_info/{no}", method = RequestMethod.GET)
+	public ModelAndView reviews_info(@PathVariable("no") String no) {
+		ModelAndView mv = new ModelAndView("user/near/reviews_info");
+		
+		// 조회수 추가 겸 해당 후기 존재여부 확인
+		if(vendorService.updateVendorReviewHits(no) == 0) {
+			// 해당 후기가 없을 경우 에러 페이지 이동
+			mv.setViewName("/error");
+			return mv;
+		}
+		
+		// 해당 번호의 후기 불러오기
+		ReviewVO vo = vendorService.getVendorReviewInfo(no);
+		
+		// 댓글 조회
+		int commentCount = commentService.getCommentCount(no);
+		ArrayList<CommentVO> comments = commentService.getCommentList(no, 1);
+		
+		// 댓글 페이지 정보 불러오기
+		HashMap<String, Integer> commentPageInfo = Commons.getPageInfo(commentCount, 10);
+		
+		mv.addObject("vo", vo);
+		mv.addObject("comments", comments);
+		mv.addObject("commentPageInfo", commentPageInfo);
+		return mv;
 	}
 }
