@@ -34,6 +34,7 @@
 			data : {
 				"page" : page,
 			},
+			async : false,
 			success : function(json) {
 				if (json.length == 0) {
 					ajaxFlag = false;

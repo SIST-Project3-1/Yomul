@@ -18,6 +18,7 @@ import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FaqService;
 import com.yomul.service.FileService;
 import com.yomul.service.MemberService;
+import com.yomul.service.NearService;
 import com.yomul.service.NoticeService;
 import com.yomul.util.Commons;
 import com.yomul.vo.CategoryVO;
@@ -39,23 +40,25 @@ public class AdminController {
 	private FaqService faqService;
 	@Autowired
 	private FileService fileService;
+	@Autowired
+	private NearService nearService;
 
 	/*
 	 * FAQ
 	 */
-	//목록보기
+	// 목록보기
 	@RequestMapping(value = "admin_faq_list", method = RequestMethod.GET)
 	public ModelAndView adminFaqList() {
 		ModelAndView mv = new ModelAndView();
 		ArrayList<FaqVO> list = faqService.getAdminFaqList();
-		
+
 		mv.setViewName("admin/customer_center/faq/admin_faq_list");
-		mv.addObject("list",list);
-		
+		mv.addObject("list", list);
+
 		return mv;
 	}
-	
-	//글쓰기 페이지 열기
+
+	// 글쓰기 페이지 열기
 	@RequestMapping(value = "admin_faq_write", method = RequestMethod.GET)
 	public ModelAndView adminFaqWrite() {
 		ModelAndView mv = new ModelAndView();
@@ -67,14 +70,14 @@ public class AdminController {
 		return mv;
 	}
 
-	//글쓰기 데이터 저장
+	// 글쓰기 데이터 저장
 	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
 	public ModelAndView adminFaqWriteProc(FaqVO faq, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
-		MemberVO member = (MemberVO)session.getAttribute("member");
-		
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
 		faq.setWriter(member.getNo());
-		
+
 		int result = faqService.getAdminFaqWrite(faq);
 		if (result == 1) {
 			mv.setViewName("redirect:/admin_faq_list");
@@ -228,8 +231,10 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "admin_near_info", method = RequestMethod.GET)
-	public String adminNearInfo() {
-		return "admin/near/admin_near_info";
+	public ModelAndView admin_near_info(String no) {
+		ModelAndView mv = new ModelAndView("admin/near/admin_near_info");
+		mv.addObject("near", nearService.getNearInfo(no));
+		return mv;
 	}
 
 	@RequestMapping(value = "admin_product_list", method = RequestMethod.GET)
