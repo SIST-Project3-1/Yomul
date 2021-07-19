@@ -6,6 +6,50 @@
 
 <mapper namespace="mapper.near">
 
+	<!-- 내 근처 글 삭제 -->
+	<delete id="deleteNear" parameterType="map">
+		DELETE FROM
+			YOMUL_NEAR_ARTICLES
+		WHERE
+				NO = #{near.no}
+			AND 'ADMIN' = #{member.authority}
+	</delete>
+
+	<!-- 내 근처 글 목록 가져오기 -->
+	<select id="getNearList" parameterType="map" resultType="com.yomul.vo.NearVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT 
+				  ROWNUM AS RNO
+				, NA.*
+			FROM
+			(
+				SELECT
+					    NA.NO
+					  , TITLE
+					  , NA.CATEGORY
+					  , PRICE
+					  , NDATE
+					  , V.NO AS VNO
+					  , V.NAME AS WRITER
+				FROM
+					YOMUL_NEAR_ARTICLES NA 
+						LEFT JOIN
+							YOMUL_VENDORS V
+						ON
+							NA.WRITER = V.OWNER
+				ORDER BY
+					TO_NUMBER(SUBSTR(NO, 2, 10)) DESC
+			) NA
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1)
+<![CDATA[	AND RNO <= 10 * #{page}]]>
+	</select>
+
+
 	<!-- 내 근처 글쓰기 -->
 	<insert id="getNearWrite" parameterType="com.yomul.vo.NearVO">
 		INSERT INTO YOMUL_NEAR_ARTICLES
@@ -21,7 +65,7 @@
 		)
 		VALUES
 		(
-			  'N'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL
+			  'n'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL
 			, #{writer}
 			, #{title}
 			, #{category}

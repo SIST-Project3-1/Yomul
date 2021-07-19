@@ -12,15 +12,29 @@
 		(
 			NO
 			, CATEGORY
+			, WRITER
 			, TITLE
 			, CONTENT
 		)
 		VALUES
 		(
-			YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL
+			'FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL
 			, #{categoryNo}
+			, #{writer}
 			, #{title}
 			, #{content}
 		)
 	</insert>
+	
+	<!-- 관리자 FAQ 목록 가져오기 -->
+	<select id="getAdminFaqList" resultType="com.yomul.vo.FaqVO">
+		SELECT 
+		* 
+		FROM 
+		V_Y_FAQ_ARTICLES 
+		ORDER BY 
+		NO 
+		DESC
+	</select>
+	
 </mapper>

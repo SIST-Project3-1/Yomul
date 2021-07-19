@@ -188,7 +188,7 @@ CREATE TABLE YOMUL_VENDOR_CUSTOMERS(
 
 -- 업체 후기 (회원번호 이용하여 단골 프필이미지, 닉네임 가져오기)
 CREATE TABLE YOMUL_VENDOR_REVIEWS(
-    NO NUMBER(10), --후기 번호
+    NO VARCHAR2(10), --후기 번호
     VENDOR_NO VARCHAR2(10) CONSTRAINT NN_Y_VR_VENDOR_NO NOT NULL,  --업체 번호
     MEMBER_NO VARCHAR2(10)CONSTRAINT NN_Y_VR_MEMBER_NO NOT NULL, --회원번호
     CONTENT VARCHAR2(500) CONSTRAINT NN_Y_VR_CONTENT NOT NULL, --후기 내용
@@ -220,12 +220,14 @@ CREATE TABLE YOMUL_FAQ_CATEGORIES(
 
 -- FAQ 게시글
 CREATE TABLE YOMUL_FAQ_ARTICLES(
-    NO NUMBER(10), -- 글 번호
+    NO VARCHAR2(10), -- 글 번호
     CATEGORY NUMBER(4) CONSTRAINT NN_Y_FA_CATEGORY NOT NULL, -- 카테고리
+    WRITER VARCHAR2(10) CONSTRAINT NN_Y_FA_WRITER NOT NULL, -- 작성자
     TITLE VARCHAR2(100) CONSTRAINT NN_Y_FA_TITLE NOT NULL, -- 제목
     CONTENT VARCHAR2(500) CONSTRAINT NN_Y_FAQ_ARTICLES_CONTENT NOT NULL, -- 내용
     CONSTRAINT PK_Y_FA_NO PRIMARY KEY (NO),
-    CONSTRAINT FK_Y_FA_FAQ_CATEGORIES FOREIGN KEY (CATEGORY) REFERENCES YOMUL_FAQ_CATEGORIES(NO) ON DELETE CASCADE
+    CONSTRAINT FK_Y_FA_FAQ_CATEGORIES FOREIGN KEY (CATEGORY) REFERENCES YOMUL_FAQ_CATEGORIES(NO) ON DELETE CASCADE,
+    CONSTRAINT FK_Y_FA_WRITER FOREIGN KEY (WRITER) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
 );
 
 -- QNA 카테고리
@@ -296,10 +298,10 @@ CREATE TABLE YOMUL_REPORTS(
 -- 테이블 생성 끝----------------------------------------------------------------------------------------------------------------------------------
 
 -- 뷰 생성 ---------------------------------------------------------------------------------------------------------------------------------------
--- 사용자 뷰 생성(사용자(비밀번호 제외) + 이미지)
+-- 사용자 뷰 생성(사용자 + 이미지)
 CREATE NOFORCE VIEW V_Y_MEMBERS
 AS
-SELECT M.NO, M.EMAIL, M.NICKNAME, M.PHONE, M.GENDER, M.INTRO, M.AUTHORITY, M.WITHDRAWAL, M.MDATE, M.SUBSCRIBE, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME PROFILEIMG
+SELECT M.NO, M.EMAIL, M.PW, M.NICKNAME, M.PHONE, M.GENDER, M.INTRO, M.AUTHORITY, M.WITHDRAWAL, M.MDATE, M.SUBSCRIBE, M.KAKAO_ID, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME PROFILEIMG
 FROM YOMUL_MEMBERS M, YOMUL_FILES F
 WHERE M.NO = F.ARTICLE_NO(+);
 
@@ -365,7 +367,7 @@ WHERE V.NO = N.NO AND V.NO = C.NO AND V.NO = R.NO AND V.NO = F.ARTICLE_NO(+);
 -- FAQ 뷰 생성(faq + 카테고리)
 CREATE NOFORCE VIEW V_Y_FAQ_ARTICLES
 AS
-SELECT F.NO, F.CATEGORY CATEGORY_NO, C.CONTENT AS CATEGORY, F.TITLE, F.CONTENT
+SELECT F.NO, F.CATEGORY CATEGORY_NO, C.CONTENT AS CATEGORY, F.WRITER, F.TITLE, F.CONTENT
 FROM YOMUL_FAQ_ARTICLES F, YOMUL_FAQ_CATEGORIES C
 WHERE F.CATEGORY = C.NO;
 
@@ -637,11 +639,13 @@ INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, C
 INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
   
 -- FAQ 데이터 생성
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, TITLE, CONTENT) VALUES(YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, '제목1', '내용1');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, TITLE, CONTENT) VALUES(YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, '제목2', '내용2');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, TITLE, CONTENT) VALUES(YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 3, '제목3', '내용3');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, TITLE, CONTENT) VALUES(YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 4, '제목4', '내용4');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, TITLE, CONTENT) VALUES(YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 5, '제목5', '내용5');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, 'M1', '제목1', '내용1');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, 'M1', '제목2', '내용2');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 3, 'M1', '제목3', '내용3');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 4, 'M1', '제목4', '내용4');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 5, 'M1', '제목5', '내용5');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 6, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
+
 
 -- 공지사항 데이터 생성
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT, NDATE) VALUES(CONCAT('N', YOMUL_NOTICES_NO_SEQ.NEXTVAL), 'M1', '제목1', '내용1', SYSDATE);
@@ -671,8 +675,35 @@ INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
 SELECT * FROM YOMUL_VENDORS;
 
 -- 내 근처 게시글 생성
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, NDATE, CHATCHECK, HITS)
-VALUES(CONCAT('n', YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL), 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', SYSDATE, 1, 0);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
 
 -- 내 근처 게시글 상세보기
 SELECT N.NO, V.NO AS VNO, V.NAME AS WRITER, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS
@@ -722,12 +753,12 @@ values('C'||yomul_comments_no_seq.nextval,  'n1', 'M12', '댓글입니다~', sys
 
 -- 댓글 목록 조회
 SELECT writer, CONTENT, wdate, img
-FROM (SELECT ROWNUM AS rno, writer, CONTENT, wdate, img
-	FROM (SELECT m.nickname AS writer, c.CONTENT, c.wdate, img
-		FROM v_y_comments c, yomul_members m
-		where c.article_no = 'n1' and c.writer = m.no
-		ORDER BY c.NO)
-	WHERE ROWNUM <= 10 * 1)
+FROM ( SELECT ROWNUM AS rno, writer, CONTENT, wdate, img
+            FROM ( SELECT m.nickname AS writer, c.CONTENT, c.wdate, img
+                        FROM v_y_comments c, yomul_members m
+                        where c.article_no = 'n1' and c.writer = m.no
+                        ORDER BY c.NO)
+            WHERE ROWNUM <= 10 * 1)
 WHERE rno > 10 * (1 - 1);
 
 -- 댓글 갯수 확인
@@ -806,6 +837,33 @@ from 	(select rownum as rno, no, nickname, profileimg
 	WHERE ROWNUM <= 10 * 1)
 WHERE rno > 10 * (1 - 1);
 
+-- 업체 리뷰 데이터
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M1', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M2', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M3', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M4', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M5', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M6', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M7', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M8', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M9', '리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M10', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M11', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M12', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M13', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M14', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M15', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V1', 'M16', '리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~리뷰에요~~~~');
+
+-- 업체 리뷰 목록 조회
+select no, member_no, nickname, profileImg, content, hits, vdate
+from (select rownum as rno, no, member_no, nickname, profileImg, content, hits, vdate
+	from (select r.no, r.member_no, m.nickname, m.profileImg, r.content, r.hits, r.vdate
+		from yomul_vendor_reviews r, v_y_members m
+		WHERE r.vendor_no = 'V1' AND r.member_no = m.NO
+		order by to_number(substr(r.no, 2)) desc)
+	WHERE ROWNUM <= 10 * 1)
+WHERE rno > 10 * (1 - 1);
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 
 -- 사용자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
@@ -827,6 +885,20 @@ SELECT CEIL(COUNT(*)/10) TOTAL_PAGE FROM YOMUL_MEMBERS WHERE NICKNAME LIKE('%' |
 
 -- 회원 삭제
 DELETE FROM YOMUL_MEMBERS WHERE NO = 'M24' AND WITHDRAWAL = 1;
+
+-- 내 근처 글 목록 불러오기
+SELECT *
+FROM ( SELECT ROWNUM AS RNO, NA.*
+            FROM ( SELECT NA.NO, TITLE, NA.CATEGORY, PRICE, NDATE, V.NO AS VNO, V.NAME AS WRITER
+                        FROM YOMUL_NEAR_ARTICLES NA LEFT JOIN YOMUL_VENDORS V ON NA.WRITER = V.OWNER
+                        ORDER BY TO_NUMBER(SUBSTR(NA.NO, 2, 10)) DESC) NA
+            )
+WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
+
+-- 내 근처 글 상세보기
+SELECT N.NO, V.NO AS VNO, V.NAME AS WRITER, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS, N.FILES
+FROM V_Y_NEAR_ARTICLES N, YOMUL_VENDORS V
+WHERE N.WRITER = V.OWNER AND N.NO = 'n2';
 
 -- 공지사항 작성
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT) VALUES('N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL, 'M1', '테스트', '공지내용');

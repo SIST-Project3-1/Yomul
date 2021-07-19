@@ -18,11 +18,13 @@ import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FaqService;
 import com.yomul.service.FileService;
 import com.yomul.service.MemberService;
+import com.yomul.service.NearService;
 import com.yomul.service.NoticeService;
 import com.yomul.util.Commons;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.NearVO;
 import com.yomul.vo.NoticeVO;
 import com.yomul.vo.QnaVO;
 
@@ -39,19 +41,28 @@ public class AdminController {
 	private FaqService faqService;
 	@Autowired
 	private FileService fileService;
+	@Autowired
+	private NearService nearService;
 
 	/*
 	 * FAQ
 	 */
+	// 목록보기
 	@RequestMapping(value = "admin_faq_list", method = RequestMethod.GET)
-	public String adminFaqList() {
-		return "admin/customer_center/faq/admin_faq_list";
+	public ModelAndView adminFaqList() {
+		ModelAndView mv = new ModelAndView();
+		ArrayList<FaqVO> list = faqService.getAdminFaqList();
+
+		mv.setViewName("admin/customer_center/faq/admin_faq_list");
+		mv.addObject("list", list);
+
+		return mv;
 	}
 
+	// 글쓰기 페이지 열기
 	@RequestMapping(value = "admin_faq_write", method = RequestMethod.GET)
 	public ModelAndView adminFaqWrite() {
 		ModelAndView mv = new ModelAndView();
-
 		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보
 
 		mv.setViewName("admin/customer_center/faq/admin_faq_write");
@@ -60,12 +71,15 @@ public class AdminController {
 		return mv;
 	}
 
+	// 글쓰기 데이터 저장
 	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
-	public ModelAndView adminFaqWriteProc(FaqVO faq) {
+	public ModelAndView adminFaqWriteProc(FaqVO faq, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		faq.setWriter(member.getNo());
 
 		int result = faqService.getAdminFaqWrite(faq);
-
 		if (result == 1) {
 			mv.setViewName("redirect:/admin_faq_list");
 		} else {
@@ -211,14 +225,27 @@ public class AdminController {
 		return Commons.parseJson(map);
 	}
 
+	/**
+	 * 내 근처 관리
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "admin_near_home", method = RequestMethod.GET)
-	public String adminNearHome() {
-		return "admin/near/admin_near_home";
+	public ModelAndView admin_near_home() {
+		ModelAndView mv = new ModelAndView("admin/near/admin_near_home");
+		return mv;
 	}
 
-	@RequestMapping(value = "admin_near_info", method = RequestMethod.GET)
-	public String adminNearInfo() {
-		return "admin/near/admin_near_info";
+	/**
+	 * 내 근처 글 삭제
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_near_delete", method = RequestMethod.GET)
+	public String admin_near_delete_ajax(NearVO near, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		return String.valueOf(nearService.deleteNear(member, near));
 	}
 
 	@RequestMapping(value = "admin_product_list", method = RequestMethod.GET)
