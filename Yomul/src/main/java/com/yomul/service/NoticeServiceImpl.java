@@ -16,5 +16,13 @@ public class NoticeServiceImpl implements NoticeService {
 	public int writeNotice(NoticeVO vo) {
 		return noticeDAO.writeNotice(vo) == 1 ? 1 : 0;
 	}
+	@Override
+	public int updateNotice(NoticeVO vo) {
+		return noticeDAO.updateNotice(vo) == 1 ? 1 : 0;
+	}
+	@Override
+	public int deleteNotice(NoticeVO vo) {
+		return noticeDAO.deleteNotice(vo) == 1 ? 1 : 0;
+	}
 
 }

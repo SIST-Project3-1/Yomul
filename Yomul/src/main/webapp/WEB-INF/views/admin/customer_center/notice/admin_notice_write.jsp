@@ -71,7 +71,7 @@ div.admin_notice_write div.notice_write_btn .noticeWrite {
 	<%@ include file="../../admin_header.jsp"%>
 
 	<!--  BODY  -->
-	<section id="admin_notice_wrtie">
+	<section id="admin_notice_write">
 		<form name="noticeWrite" method="post" action="admin_notice_write_proc">
 			<div class="admin_notice_write">
 				<div class="head">
