@@ -21,6 +21,12 @@ public class Cookies {
 
 	// Method
 
+	// 쿠키 삭제
+	public static Cookie removeCookie(Cookie cookie) {
+		cookie.setMaxAge(0);
+		return cookie;
+	}
+
 	// 특정 이름의 쿠키를 꺼내는 메소드
 	public Cookie getCookie(String name) {
 		return cookieMap.get(name);

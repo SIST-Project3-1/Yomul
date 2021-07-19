@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,13 +16,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FaqService;
+import com.yomul.service.FileService;
 import com.yomul.service.MemberService;
+import com.yomul.service.NearService;
 import com.yomul.service.NoticeService;
 import com.yomul.util.Commons;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.NearVO;
 import com.yomul.vo.NoticeVO;
+import com.yomul.vo.QnaVO;
 
 @Controller
 public class AdminController {
@@ -34,33 +39,47 @@ public class AdminController {
 	private CustomerCenterService customerCenterService;
 	@Autowired
 	private FaqService faqService;
+	@Autowired
+	private FileService fileService;
+	@Autowired
+	private NearService nearService;
 
 	/*
 	 * FAQ
 	 */
+	// 목록보기
 	@RequestMapping(value = "admin_faq_list", method = RequestMethod.GET)
-	public String adminFaqList() {
-		return "admin/customer_center/faq/admin_faq_list";
+	public ModelAndView adminFaqList() {
+		ModelAndView mv = new ModelAndView();
+		ArrayList<FaqVO> list = faqService.getAdminFaqList();
+
+		mv.setViewName("admin/customer_center/faq/admin_faq_list");
+		mv.addObject("list", list);
+
+		return mv;
 	}
 
+	// 글쓰기 페이지 열기
 	@RequestMapping(value = "admin_faq_write", method = RequestMethod.GET)
 	public ModelAndView adminFaqWrite() {
 		ModelAndView mv = new ModelAndView();
-
 		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보
 
 		mv.setViewName("admin/customer_center/faq/admin_faq_write");
 		mv.addObject("categories", categories);
-		
+
 		return mv;
 	}
-	
-	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
-	public ModelAndView adminFaqWriteProc(FaqVO faq) {
-		ModelAndView mv = new ModelAndView();
-		
-		int result = faqService.getAdminFaqWrite(faq);
 
+	// 글쓰기 데이터 저장
+	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
+	public ModelAndView adminFaqWriteProc(FaqVO faq, HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		faq.setWriter(member.getNo());
+
+		int result = faqService.getAdminFaqWrite(faq);
 		if (result == 1) {
 			mv.setViewName("redirect:/admin_faq_list");
 		} else {
@@ -115,14 +134,51 @@ public class AdminController {
 		}
 	}
 
-	@RequestMapping(value = "admin_qna_list", method = RequestMethod.GET)
-	public String adminQnaList() {
-		return "admin/customer_center/qna/admin_qna_list";
+	/**
+	 * 관리자 QnA 목록 가져오기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/admin_qna_list", method = RequestMethod.GET)
+	public ModelAndView adminQnaList(QnaVO vo) {
+		ModelAndView mv = new ModelAndView("admin/customer_center/qna/admin_qna_list");
+
+		Integer category = vo.getCategory();
+		Integer reply = vo.getReply();
+
+		mv.addObject("categories", customerCenterService.getQnaCategories());
+		mv.addObject("category", null == category ? "null" : category);
+		mv.addObject("reply", null == reply ? "null" : reply);
+
+		return mv;
 	}
 
-	@RequestMapping(value = "admin_qna_info", method = RequestMethod.GET)
-	public String adminQnaInfo() {
-		return "admin/customer_center/qna/admin_qna_info";
+	/**
+	 * 관리자 QnA 상세보기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/admin_qna_info", method = RequestMethod.GET)
+	public ModelAndView adminQnaInfo(QnaVO vo) {
+		ModelAndView mv = new ModelAndView("admin/customer_center/qna/admin_qna_info");
+		mv.addObject("qna", customerCenterService.getQnaInfo(vo));
+		mv.addObject("images", fileService.getFileList(vo.getNo()));
+		return mv;
+	}
+
+	/**
+	 * 관리자 QnA 답변하기 처리
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_qna_reply", method = RequestMethod.POST)
+	public String admin_qna_reply(QnaVO qna, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		return String.valueOf(customerCenterService.replyQnA(member, qna));
 	}
 
 	/**
@@ -130,13 +186,14 @@ public class AdminController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "admin_member_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin_member_list", method = RequestMethod.GET)
 	public ModelAndView adminMemberList(String page, String search) {
 		ModelAndView mv = new ModelAndView("admin/member/admin_member_list");
 		page = page == null ? "1" : page;
 		mv.addObject("page", page);
 		mv.addObject("search", search);
 		mv.addObject("totalPage", memberService.getTotalPageCount(search));
+		mv.addObject("categories", customerCenterService.getQnaCategories());
 		return mv;
 	}
 
@@ -160,7 +217,6 @@ public class AdminController {
 	@ResponseBody
 	@RequestMapping(value = "/admin_delete_member", method = RequestMethod.POST)
 	public String admin_delete_member(MemberVO vo) {
-		System.out.println(vo.toStringJson());
 		int result = memberService.deleteMember(vo);
 
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -169,14 +225,27 @@ public class AdminController {
 		return Commons.parseJson(map);
 	}
 
+	/**
+	 * 내 근처 관리
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "admin_near_home", method = RequestMethod.GET)
-	public String adminNearHome() {
-		return "admin/near/admin_near_home";
+	public ModelAndView admin_near_home() {
+		ModelAndView mv = new ModelAndView("admin/near/admin_near_home");
+		return mv;
 	}
 
-	@RequestMapping(value = "admin_near_info", method = RequestMethod.GET)
-	public String adminNearInfo() {
-		return "admin/near/admin_near_info";
+	/**
+	 * 내 근처 글 삭제
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_near_delete", method = RequestMethod.GET)
+	public String admin_near_delete_ajax(NearVO near, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		return String.valueOf(nearService.deleteNear(member, near));
 	}
 
 	@RequestMapping(value = "admin_product_list", method = RequestMethod.GET)

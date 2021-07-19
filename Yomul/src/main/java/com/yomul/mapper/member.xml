@@ -6,6 +6,36 @@
 
 <mapper namespace="mapper.member">
 
+	<!-- 회원 탈퇴 신청 -->
+	<update id="withdrawal" parameterType="com.yomul.vo.MemberVO">
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			WITHDRAWAL = 1
+		WHERE
+			NO = #{no}
+	</update>
+	
+	<!-- 회원 탈퇴 취소 -->
+	<update id="cancleWithdrawal" parameterType="com.yomul.vo.MemberVO">
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			WITHDRAWAL = 0
+		WHERE
+			NO = #{no}
+	</update>
+
+	<!-- 카카오톡 연동하기 -->
+	<update id="kakaoRegister" parameterType="com.yomul.vo.MemberVO">
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			KAKAO_ID = #{kakao_id}
+		WHERE
+			NO = #{no}
+	</update>
+	
 	<!-- Hastsalt 가져오기 -->
 	<select id="getHashsalt" parameterType="com.yomul.vo.MemberVO" resultType="string">
 		SELECT HASHSALT
@@ -15,9 +45,23 @@
 	
 	<!-- 로그인 -->
 	<select id="getLoginResult" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
-		SELECT NO, NICKNAME, AUTHORITY
-		from YOMUL_MEMBERS
-		where email = #{email} and pw = #{pw}
+		SELECT
+			  NO
+			, NICKNAME
+			, PROFILEIMG
+			, AUTHORITY
+		FROM
+			V_Y_MEMBERS
+		WHERE
+		<choose>
+		<when test="kakao_id != null">
+			KAKAO_ID = #{kakao_id}
+		</when>
+		<when test="kakao_id == null">
+				EMAIL= #{email}
+			AND PW = #{pw}
+		</when>
+		</choose>
 	</select>
 
 	<!-- 회원 삭제 -->
@@ -25,7 +69,9 @@
 		DELETE
 			FROM YOMUL_MEMBERS 
 		WHERE
-			NO = #{no}
+				NO = #{no}
+			AND WITHDRAWAL = 1
+			
 	</delete>
 
 	<!-- 회원 목록 가져오기 -->
@@ -37,6 +83,7 @@
 			, NICKNAME
 			, PHONE
 			, MDATE
+			, WITHDRAWAL
 		FROM
 		(
 			SELECT
@@ -50,7 +97,8 @@
 					, EMAIL
 					, NICKNAME
 					, NVL(PHONE, ' ') AS PHONE
-					, MDATE 
+					, MDATE
+					, WITHDRAWAL
 				FROM
 					YOMUL_MEMBERS 
 				WHERE
@@ -107,6 +155,7 @@
 			, PHONE
 			, GENDER
 			, INTRO
+			, WITHDRAWAL
 		FROM 
 			YOMUL_MEMBERS
 		WHERE
@@ -127,7 +176,21 @@
 	
 	<!-- 프로필 정보 수정 -->
 	<insert id="setmyprofileinfo" parameterType="com.yomul.vo.MemberVO">
-		UPDATE YOMUL_MEMBERS SET NICKNAME = #{nickname}, PHONE = #{phone}, GENDER = #{gender}, INTRO = #{intro} WHERE NO = #{no}
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			  NICKNAME = #{nickname}
+			 <if test="phone != null">
+			, PHONE = #{phone}
+			 </if>
+			<if test="gender != null">
+			, GENDER = #{gender}
+			</if>
+			<if test="intro != null">
+			, INTRO = #{intro}
+			</if>
+		WHERE
+			NO = #{no}
 	</insert>
 	
 	<!-- 구매내역 수 가져오기 -->

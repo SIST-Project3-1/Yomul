@@ -67,7 +67,7 @@
 					html += '	<td class="align-middle">' + member.phone + '</td>';
 					html += '	<td class="align-middle">' + member.mdate + '</td>';
 					html += '	<td class="align-middle">';
-					html += '		<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="'+member.no+'">탈퇴</button>';
+					html += '		<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="' + member.no + '" '+ (member.withdrawal == 0 ? 'disabled' : '') +'>탈퇴</button>';
 					html += '	</td>';
 					html += '</tr>';
 				}
@@ -113,7 +113,7 @@
 					<div class="input-group-prepend">
 						<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 20; left: 23px; top: 8px;"></label>
 					</div>
-					<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search">
+					<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search" value="${search }">
 				</div>
 			</form>
 

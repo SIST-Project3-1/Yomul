@@ -20,7 +20,7 @@
 	</script>
 
 	<!--  BODY  -->
-	<section id="myprofile_info" style="height: 75%; display: flex; align-items: center;">
+	<section id="myprofile_info" style="height: 75%; align-items: center;">
 		<div class="container border mt-3 p-3">
 			<div class="row">
 				<div class="col-md-4 text-center">
@@ -29,7 +29,7 @@
 				<div class="col-md my-auto">
 					<div class="mb-3 d-flex justify-content-between">
 						<h3 class="my-0 d-inline-block">${member.nickname }</h3>
-						<a class="btn btn-sm my-0" href="/yomul/vendor_profile_info">
+						<a class="btn btn-sm my-0" href="/yomul/vendor_profile_info/${member.no}">
 							<small>비즈 프로필</small>
 						</a>
 					</div>
@@ -63,6 +63,12 @@
 					<div>${favoriteCount }</div>
 				</a>
 			</div>
+		</div>
+		<br>
+		<div class="text-center mt-5">
+			<a href="/yomul/mypage/kakao_register">
+				<img src="/yomul/image/kakao_login_medium.png">
+			</a>
 		</div>
 	</section>
 

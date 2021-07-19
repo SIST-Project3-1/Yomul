@@ -80,14 +80,31 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO getLoginResult(MemberVO vo) {
 		String pw = vo.getPw();
-		String hashsalt = getHashsalt(vo);
-		vo.setPw(Security.pwHashing(pw, hashsalt));
+		if (vo.getKakao_id() == null) {
+			String hashsalt = getHashsalt(vo);
+			vo.setPw(Security.pwHashing(pw, hashsalt));
+		}
 		return memberDAO.getLoginResult(vo);
 	}
 
 	@Override
 	public String getHashsalt(MemberVO vo) {
 		return memberDAO.getHashsalt(vo);
+	}
+
+	@Override
+	public int kakaoRegister(MemberVO vo) {
+		return memberDAO.kakaoRegister(vo);
+	}
+
+	@Override
+	public int withdrawal(MemberVO vo) {
+		return memberDAO.withdrawal(vo);
+	}
+
+	@Override
+	public int cancleWithdrawal(MemberVO vo) {
+		return memberDAO.cancleWithdrawal(vo);
 	}
 
 }

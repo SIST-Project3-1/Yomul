@@ -10,7 +10,6 @@
 <script>
 var page = 1;
 var ajaxFlag = true;
-var a = "";
 
 $(window).scroll(function() {
 	var scroll = $(window).scrollTop();
@@ -63,14 +62,14 @@ function getData(page) {
 	<%@ include file="../header.jsp"%>
 
 	<!-- MYPAGE HEADER -->
-	<%@include file="vendor_header.jsp"%>
+	<c:import url="vendor_header.jsp" />
 	<script type="text/javascript">
 		$("#vendor_header_profile").addClass("active").removeClass("text-muted").css("color", "rgb(255, 99, 95)");
 		$("#vendor_header_profile_follow").addClass("active").removeClass("text-muted").css("color", "rgb(255, 99, 95)");
 	</script>
 
 	<!--  BODY  -->
-	<input id="vendor_no" class="d-none" value="${no }" disabled>
+	<input type="hidden" id="vendor_no" value="${no }">
 	<div id="vendor_profile_follow" class="vendor-profile-follow-content">
 		<c:forEach var="vo" items="${list }">
 			<div class="media" id="vendor-profile-follow-img">

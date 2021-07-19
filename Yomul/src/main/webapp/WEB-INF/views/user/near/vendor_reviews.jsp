@@ -7,34 +7,87 @@
 <title>후기</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+<script>
+var page = 1;
+var ajaxFlag = true;
+
+$(window).scroll(function() {
+	var scroll = $(window).scrollTop();
+	var dHeight = $(document).height();
+	var wHeight = $(window).height();
+	if (ajaxFlag && (scroll + 200 >= dHeight - wHeight)) {
+		getData(++page);
+	}
+});
+
+function getData(page) {
+	$.ajax({
+		url : "/yomul/vendor_reviews_pagination",
+		method : "get",
+		data : {
+			"no" : $("#vendor_no").val(),
+			"page" : page
+		},
+		dataType : "json",
+		contentType: "application/json; charset=UTF-8",
+		success : function(json) {
+			if (json.length == 0) {
+				ajaxFlag = false;
+			}
+			var html = "";
+			for (var i = 0; i < json.length; i++) {
+				vo = json[i];
+				html += "<div class='card vendor-reviews-card'>";
+				html += "	<div class='card-body'>";
+				html += "		<div class='vendor-reviews-regular'>";
+				html += "			<img src='/yomul/upload/";
+				if(vo.profileImg == "__") {
+					html += "default.jpg";
+				}else {
+					html += vo.profileImg;
+				}
+				html += "' class='card-img-top'>";
+				html += "			<h5 class='card-title'>" + vo.nickname + "<h5>";
+				html += "		</div>";
+				html += "		<a href='/yomul/reviews_info/" + vo.no + "'>";
+				html += "			<p class='card-text'>" + vo.content + "</p>";
+				html += "		</a>";
+				html += "	</div>";
+				html += "</div>";
+			}
+
+			$("#vendor_reviews").append(html).trigger("create");
+		}
+	});
+}
+</script>
 </head>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../header.jsp"%>
 
 	<!-- MYPAGE HEADER -->
-	<%@include file="vendor_header.jsp"%>
+	<c:import url="vendor_header.jsp" />
 	<script type="text/javascript">
 		$("#vendor_header_reviews").addClass("active").removeClass("text-muted").css("color", "rgb(255, 99, 95)");
 	</script>
 
 	<!--  BODY  -->
-	<div id="vendor_reviews" class="vendor-reviews-content">
-		<% for(int i=0;i<10;i++){ %>
-		<div class="vendor-reviews-card">
-			<div class="card" style="width: 18rem;">
+	<input type="hidden" id="vendor_no" value="${no }">
+	<div id="vendor_reviews" class="vendor-reviews-content card-columns">
+		<c:forEach var="vo" items="${list }">
+			<div class="card vendor-reviews-card">
 			 	<div class="card-body">
-			 	<div class="vendor-reviews-regular">
-				 	<img src="/yomul/image/이미지준비중.jpg" class="card-img-top">
-				    <h5 class="card-title">단골 닉네임</h5>
-			 	</div>
-	    		<a href="/yomul/reviews_info">
-		    		<p class="card-text">요거 물건이네 이용해 봤는데 친절하고 너무 좋아요. 사장님이 젊으셔서 그런지 인테리어도 예쁘더라구요 *^^* ...</p>
-				</a>			    		
+				 	<div class="vendor-reviews-regular">
+					 	<img src="/yomul/upload/${vo.profileImg }" class="card-img-top">
+					    <h5 class="card-title">${vo.nickname }</h5>
+				 	</div>
+		    		<a href="/yomul/reviews_info/${vo.no }">
+			    		<p class="card-text">${vo.content }</p>
+					</a>
 				</div>
 			</div>
-		</div>
-		<% } %>
+		</c:forEach>
 	</div>
 	
 	<!-- FOOTER -->
