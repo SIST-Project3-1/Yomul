@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FaqService;
+import com.yomul.service.FileService;
 import com.yomul.service.MemberService;
 import com.yomul.service.NoticeService;
 import com.yomul.util.Commons;
@@ -22,6 +24,7 @@ import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NoticeVO;
+import com.yomul.vo.QnaVO;
 
 @Controller
 public class AdminController {
@@ -34,6 +37,8 @@ public class AdminController {
 	private CustomerCenterService customerCenterService;
 	@Autowired
 	private FaqService faqService;
+	@Autowired
+	private FileService fileService;
 
 	/*
 	 * FAQ
@@ -51,14 +56,14 @@ public class AdminController {
 
 		mv.setViewName("admin/customer_center/faq/admin_faq_write");
 		mv.addObject("categories", categories);
-		
+
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
 	public ModelAndView adminFaqWriteProc(FaqVO faq) {
 		ModelAndView mv = new ModelAndView();
-		
+
 		int result = faqService.getAdminFaqWrite(faq);
 
 		if (result == 1) {
@@ -115,14 +120,51 @@ public class AdminController {
 		}
 	}
 
-	@RequestMapping(value = "admin_qna_list", method = RequestMethod.GET)
-	public String adminQnaList() {
-		return "admin/customer_center/qna/admin_qna_list";
+	/**
+	 * 관리자 QnA 목록 가져오기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/admin_qna_list", method = RequestMethod.GET)
+	public ModelAndView adminQnaList(QnaVO vo) {
+		ModelAndView mv = new ModelAndView("admin/customer_center/qna/admin_qna_list");
+
+		Integer category = vo.getCategory();
+		Integer reply = vo.getReply();
+
+		mv.addObject("categories", customerCenterService.getQnaCategories());
+		mv.addObject("category", null == category ? "null" : category);
+		mv.addObject("reply", null == reply ? "null" : reply);
+
+		return mv;
 	}
 
-	@RequestMapping(value = "admin_qna_info", method = RequestMethod.GET)
-	public String adminQnaInfo() {
-		return "admin/customer_center/qna/admin_qna_info";
+	/**
+	 * 관리자 QnA 상세보기
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@RequestMapping(value = "/admin_qna_info", method = RequestMethod.GET)
+	public ModelAndView adminQnaInfo(QnaVO vo) {
+		ModelAndView mv = new ModelAndView("admin/customer_center/qna/admin_qna_info");
+		mv.addObject("qna", customerCenterService.getQnaInfo(vo));
+		mv.addObject("images", fileService.getFileList(vo.getNo()));
+		return mv;
+	}
+
+	/**
+	 * 관리자 QnA 답변하기 처리
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_qna_reply", method = RequestMethod.POST)
+	public String admin_qna_reply(QnaVO qna, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		return String.valueOf(customerCenterService.replyQnA(member, qna));
 	}
 
 	/**
@@ -130,13 +172,14 @@ public class AdminController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "admin_member_list", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin_member_list", method = RequestMethod.GET)
 	public ModelAndView adminMemberList(String page, String search) {
 		ModelAndView mv = new ModelAndView("admin/member/admin_member_list");
 		page = page == null ? "1" : page;
 		mv.addObject("page", page);
 		mv.addObject("search", search);
 		mv.addObject("totalPage", memberService.getTotalPageCount(search));
+		mv.addObject("categories", customerCenterService.getQnaCategories());
 		return mv;
 	}
 

@@ -27,7 +27,6 @@ public class NoticeDAO extends DAO {
 	 * @return
 	 */
 	public int writeNotice(NoticeVO vo) {
-		System.out.println(vo.toStringJson());
 		return sqlSession.delete(namespace + ".writeNotice", vo);
 	}
 
@@ -38,7 +37,6 @@ public class NoticeDAO extends DAO {
 	 * @return
 	 */
 	public int deleteNotice(NoticeVO vo) {
-		System.out.println(vo.toStringJson());
 		return sqlSession.delete(namespace + ".deleteNotice", vo);
 	}
 

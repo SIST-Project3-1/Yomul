@@ -85,9 +85,9 @@ public class CustomerCenterController {
 
 	// 문의 목록
 	@RequestMapping(value = "customer_qna", method = RequestMethod.GET)
-	public ModelAndView qnaList() {
+	public ModelAndView customer_qna(QnaVO vo) {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_list");
-		mv.addObject("qnaList", customerCenterService.getQnaList(1));
+		mv.addObject("qnaList", customerCenterService.getQnaList(vo, 1));
 		return mv;
 	}
 
@@ -99,8 +99,8 @@ public class CustomerCenterController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "customer_qna_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public String customer_qna_ajax(int page) {
-		return Commons.parseJson(customerCenterService.getQnaList(page));
+	public String customer_qna_ajax(QnaVO vo, int page) {
+		return Commons.parseJson(customerCenterService.getQnaList(vo, page));
 	}
 
 	// 문의 상세

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yomul.dao.CommentDAO;
 import com.yomul.vo.CommentVO;
+import com.yomul.vo.MemberVO;
 
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {
@@ -30,5 +31,15 @@ public class CommentServiceImpl implements CommentService {
 
 	public String addComment(CommentVO vo) {
 		return commentDAO.addComment(vo);
+	}
+
+	@Override
+	public ArrayList<CommentVO> getCommentList(MemberVO vo, int page) {
+		return commentDAO.getCommentList(vo, page);
+	}
+
+	@Override
+	public int deleteComment(CommentVO vo) {
+		return commentDAO.deleteComment(vo);
 	}
 }

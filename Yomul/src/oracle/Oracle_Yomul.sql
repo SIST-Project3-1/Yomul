@@ -247,8 +247,10 @@ CREATE TABLE YOMUL_QNA_ARTICLES(
     TITLE VARCHAR2(100) CONSTRAINT NN_Y_QA_TITLE NOT NULL, -- 제목
     CONTENT VARCHAR2(500) CONSTRAINT NN_Y_QA_CONTENT NOT NULL, -- 내용
     HITS NUMBER(10) DEFAULT 0 CONSTRAINT NN_Y_QA_HITS NOT NULL CONSTRAINT C_Y_QA_HITS CHECK (HITS >= 0), -- 조회수
+    REPLY NUMBER(1) DEFAULT 0 CONSTRAINT NN_Y_QA_REPLY NOT NULL CONSTRAINT C_Y_QA_REPLY CHECK (REPLY IN(0, 1)), -- 답변 유무, 0 이면 답변 없음
     RDATE DATE, -- 답변 날짜
     RWRITER VARCHAR2(10), -- 답변 작성자 회원번호
+    RTITLE VARCHAR2(100), -- 답변 작성 제목
     RCONTENT VARCHAR2(500), -- 답변 작성 내용
     SECRET VARCHAR2(3) DEFAULT 'off' CONSTRAINT NN_Y_QA_SECRET NOT NULL CONSTRAINT C_Y_QA_SECRET CHECK (SECRET IN ('on', 'off')), -- 구독, OFF: 구독안함, ON: 구독함
     CONSTRAINT PK_Y_QA_NO PRIMARY KEY (NO),
@@ -502,6 +504,10 @@ SELECT NO, EMAIL, NICKNAME, AUTHORITY FROM YOMUL_MEMBERS WHERE EMAIL = 'hwisaek@
 -- SALT 얻기
 SELECT HASHSALT FROM YOMUL_MEMBERS WHERE EMAIL = 'dia_changmin@naver.com';
 
+
+-- 카카오톡 로그인
+SELECT NO, NICKNAME, AUTHORITY FROM YOMUL_MEMBERS WHERE KAKAO_ID = '';
+
 -- 프로필 정보 가져오기
 SELECT NO, EMAIL, NICKNAME, PHONE, GENDER, INTRO, WITHDRAWAL FROM YOMUL_MEMBERS WHERE NO = 'M3'; -- 프로필 내용 가져오기
 SELECT ARTICLE_NO, NO, FILENAME FROM YOMUL_FILES WHERE ARTICLE_NO = 'M3'; -- 프로필 사진 가져오기
@@ -526,8 +532,20 @@ UPDATE YOMUL_MEMBERS SET WITHDRAWAL = 1 WHERE NO = 'M3';
 -- 카카오톡 연동하기
 UPDATE YOMUL_MEMBERS SET KAKAO_ID = NULL WHERE NO = 'M3';
 
--- 카카오톡 로그인
-SELECT NO, NICKNAME, AUTHORITY FROM YOMUL_MEMBERS WHERE KAKAO_ID = 'uugUqcjctgEbHJWEMvZek42DGz_JTi7lgDrztwo9dZwAAAF6tedNzQ';
+-- 내가 쓴 댓글 목록
+SELECT *
+FROM ( SELECT ROWNUM AS RNO, C.*, M.NICKNAME
+            FROM ( SELECT NO,  WRITER, ARTICLE_NO, CONTENT, WDATE 
+                        FROM YOMUL_COMMENTS
+                        WHERE WRITER = 'M1' ORDER BY TO_NUMBER(SUBSTR(NO, 2, 10)) DESC) C
+                        JOIN
+                     ( SELECT NO, NICKNAME
+                        FROM YOMUL_MEMBERS) M
+                        ON C.WRITER = M.NO)
+WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
+
+-- 댓글 삭제
+DELETE FROM YOMUL_COMMENTS WHERE NO = 'C24' AND WRITER = 'M3';
 
 -- FAQ 카테고리 데이터 생성
 INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(1, '운영정책');
@@ -591,32 +609,32 @@ SELECT 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL AS NO FROM DUAL;
 -- QNA 문의하기 작성
 INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, SECRET) VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '홍길동', 'test@youml.com',  'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', 1, '문의할게 있습니다', '이게 대체 뭐여!', 'off');
 INSERT INTO YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES('Q2', 1, '신발사진1.jpg');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
+INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
   
 -- FAQ 데이터 생성
 INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, TITLE, CONTENT) VALUES(YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, '제목1', '내용1');
@@ -662,6 +680,23 @@ FROM YOMUL_NEAR_ARTICLES N, YOMUL_VENDORS V
 WHERE N.WRITER = V.OWNER AND N.NO = 'n1';
 
 -- 댓글 생성
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
+INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate) values('C'||yomul_comments_no_seq.nextval,  'n1', 'M1', '댓글입니다~', sysdate);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
 values('C'||yomul_comments_no_seq.nextval,  'n1', 'M2', '댓글입니다~', sysdate);
 INSERT INTO yomul_comments(NO, article_no, writer, CONTENT, wdate)
@@ -795,6 +830,25 @@ DELETE FROM YOMUL_MEMBERS WHERE NO = 'M24' AND WITHDRAWAL = 1;
 
 -- 공지사항 작성
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT) VALUES('N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL, 'M1', '테스트', '공지내용');
+
+-- QnA 불러오기
+SELECT *
+FROM ( SELECT ROWNUM AS RNO, NO, NAME, EMAIL, TITLE, CONTENT, WDATE, REPLY, SECRET
+            FROM ( SELECT *
+                        FROM YOMUL_QNA_ARTICLES
+                        WHERE 1=1 AND REPLY = 1 AND CATEGORY = 2
+                        ORDER BY TO_NUMBER(SUBSTR(NO, 2, 10)) DESC)
+            )
+WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
+
+-- 관리자 QnA 상세보기
+SELECT QA.NO, NAME, QA.EMAIL, WDATE, CATEGORY, QC.CONTENT CATEGORY_CONTENT, TITLE, QA.CONTENT, HITS, TO_CHAR(RDATE, 'YYYY-MM-DD') RDATE, REPLY, M.NICKNAME RWRITER, RCONTENT, SECRET 
+FROM YOMUL_QNA_ARTICLES QA LEFT OUTER JOIN YOMUL_MEMBERS M ON (QA.RWRITER = M.NO)  LEFT OUTER JOIN YOMUL_QNA_CATEGORIES QC ON (QA.CATEGORY = QC.NO)
+WHERE QA.NO = 'Q29';
+SELECT ARTICLE_NO, NO, FILENAME FROM YOMUL_FILES WHERE ARTICLE_NO = 'Q29' ORDER BY NO;
+
+-- 관리자 QnA 답변 등록
+UPDATE YOMUL_QNA_ARTICLES SET REPLY = 1, RDATE = SYSDATE, RWRITER = 'M1', RTITLE = '123435', RCONTENT = '124132' WHERE NO = 'Q30' AND REPLY = 0 AND 'ADMIN' = 'ADMIN';
 
 -- 관리자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
 COMMIT;
