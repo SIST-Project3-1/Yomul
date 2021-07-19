@@ -22,7 +22,7 @@ public class NearDAO extends DAO {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("saveFileName", saveFileName);
 		params.put("originFilename", originFilename);
-		return sqlSession.insert(nameSpace + "getNearFile", params);
+		return sqlSession.insert(nameSpace + ".getNearFile", params);
 	}
 
 	// 내 근처 글쓰기 글번호 가져오기
@@ -33,6 +33,11 @@ public class NearDAO extends DAO {
 	// 내 근처 홈 글 보기
 	public List<NearVO> getList(NearVO vo) {
 		return sqlSession.selectList(nameSpace + ".selectNearList");
+	}
+	
+	// 내 근처 카드 형식 글 보기
+	public List<NearVO> selectNearCardList(NearVO vo) {
+		return sqlSession.selectList(nameSpace + ".selectNearCardList");
 	}
 
 	// 내 근처 게시글 상세 보기

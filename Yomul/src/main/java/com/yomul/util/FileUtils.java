@@ -93,11 +93,9 @@ public class FileUtils {
 				// 서버에서 저장 할 파일 이름
 				String saveFileName = genSaveFileName(articleNo, extName);
 				// db에 저장
-				/*
-				 * int result = dao.getNearFile(saveFileName, originFilename);
-				 * 
-				 * System.out.println("result 결과 -->" + result);
-				 */
+				dao.getNearFile(saveFileName, originFilename);
+				 
+				
 				
 				System.out.println("originFilename : " + originFilename);
 				System.out.println("extensionName : " + extName);

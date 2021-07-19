@@ -60,18 +60,15 @@ public class NearController {
 	private FileUtils fileUploadService;
 
 	@RequestMapping(value = "/near_home", method = RequestMethod.GET)
-	public ModelAndView near_home(NearVO vo,FileVO fvo) {
+	public ModelAndView near_home(NearVO vo) {
 		
 		ModelAndView mv = new ModelAndView();
 		List<NearVO> list = nearService.selectNearList(vo);
 		String keyword[] = { "부동산", "카페", "요가", "휴대폰", "마사지", "미용실", "왁싱" };
-
+		
 		mv.addObject("keyword", keyword);
 		mv.addObject("list", list);
-		if(fvo != null) {
-			mv.addObject("fvo", fvo);		
-			//System.out.println("fvo 파일 네임 "+fvo.getFilename()); //dao -> vo로 연결 시켜야함 파일 
-		}
+	
 		mv.setViewName("user/near/near_home");
 
 		return mv;
@@ -94,7 +91,6 @@ public class NearController {
 			String url = fileUploadService.restore(files, request, articleNo);	
 			System.out.println("url--->"+ url);
 			mv.addObject("url", url);
-		
 		}
 		mv.addObject("fileCount", fileCount);
 		vo.setWriter(((MemberVO)session.getAttribute("member")).getNo());
@@ -179,7 +175,7 @@ public class NearController {
 	@RequestMapping(value = "/near_card_form", method = RequestMethod.GET)
 	public ModelAndView near_card_form(NearVO vo) {
 		ModelAndView mv = new ModelAndView();
-		List<NearVO> list = nearService.selectNearList(vo);
+		List<NearVO> list = nearService.selectNearCardList(vo);
 		
 		mv.addObject("list", list);
 		mv.setViewName("user/near/near_card_form");

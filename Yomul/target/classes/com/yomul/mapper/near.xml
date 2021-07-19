@@ -41,7 +41,7 @@
 	</select>
 	
 	<!-- 내 근처 글쓰기 시 파일 등록 -->
-	<insert id="getNearFile" parameterType="map">
+	<insert id="getNearFile" parameterType="map" >
 		INSERT INTO YOMUL_FILES
 		(
 			  ARTICLE_NO
@@ -62,6 +62,11 @@
 		<!-- 부등호 인식 -->
 		<![CDATA[where rownum <= 3]]>
 	</select>
+	<!-- 내 근처 near_card_form 글 보기 -->
+	<select id="selectNearCardList" resultType="com.yomul.vo.NearVO">
+		select no, title, content, writer, ndate from yomul_near_articles order by ndate desc
+	</select>
+	
 	
 	
 	<!-- 내 근처 게시글 상세보기 -->

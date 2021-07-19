@@ -45,10 +45,10 @@
 				<table>
 					<tr>
 						<td>
-							<c:if test="${fvo.getFilename() != null }">
-							<img src="/yomul/upload/${fvo.getFilename }">
+							<c:if test="${filePath != null }">
+							<img src="/yomul/upload/${url}">
 							</c:if>
-							<c:if test="${fvo.getFilename() == null }">
+							<c:if test="${filePath == null }">
 							<img src="http://localhost:9000/yomul/upload/default.jpg">
 							</c:if>
 						</td>
