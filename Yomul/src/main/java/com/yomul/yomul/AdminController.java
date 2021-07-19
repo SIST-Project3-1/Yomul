@@ -43,15 +43,22 @@ public class AdminController {
 	/*
 	 * FAQ
 	 */
+	//목록보기
 	@RequestMapping(value = "admin_faq_list", method = RequestMethod.GET)
-	public String adminFaqList() {
-		return "admin/customer_center/faq/admin_faq_list";
+	public ModelAndView adminFaqList() {
+		ModelAndView mv = new ModelAndView();
+		ArrayList<FaqVO> list = faqService.getAdminFaqList();
+		
+		mv.setViewName("admin/customer_center/faq/admin_faq_list");
+		mv.addObject("list",list);
+		
+		return mv;
 	}
-
+	
+	//글쓰기 페이지 열기
 	@RequestMapping(value = "admin_faq_write", method = RequestMethod.GET)
 	public ModelAndView adminFaqWrite() {
 		ModelAndView mv = new ModelAndView();
-
 		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보
 
 		mv.setViewName("admin/customer_center/faq/admin_faq_write");
@@ -60,12 +67,15 @@ public class AdminController {
 		return mv;
 	}
 
+	//글쓰기 데이터 저장
 	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
-	public ModelAndView adminFaqWriteProc(FaqVO faq) {
+	public ModelAndView adminFaqWriteProc(FaqVO faq, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
-
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		
+		faq.setWriter(member.getNo());
+		
 		int result = faqService.getAdminFaqWrite(faq);
-
 		if (result == 1) {
 			mv.setViewName("redirect:/admin_faq_list");
 		} else {
