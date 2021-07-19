@@ -6,6 +6,7 @@ public class FaqVO extends VO {
 	private String no; // 번호
 	private String title; // 제목
 	private String content; // 내용
+	private String writer; // 작성자
 	
 	public int getCategoryNo() {
 		return categoryNo;
@@ -46,4 +47,13 @@ public class FaqVO extends VO {
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	public String getWriter() {
+		return writer;
+	}
+
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+	
 }
