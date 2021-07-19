@@ -57,8 +57,8 @@
 	
 	<!-- 로그인 -->
 	<select id="getLoginResult" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
-		SELECT NO, NICKNAME, AUTHORITY
-		from YOMUL_MEMBERS
+		SELECT NO, NICKNAME, PROFILEIMG, AUTHORITY
+		from V_Y_MEMBERS
 		where email = #{email} and pw = #{pw}
 	</select>
 
