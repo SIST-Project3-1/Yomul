@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,6 +28,7 @@ import com.yomul.service.VendorService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.CommentVO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 
@@ -57,9 +59,10 @@ public class NearController {
 		ModelAndView mv = new ModelAndView();
 		List<NearVO> list = nearService.selectNearList(vo);
 		String keyword[] = { "부동산", "카페", "요가", "휴대폰", "마사지", "미용실", "왁싱" };
-
+		
 		mv.addObject("keyword", keyword);
 		mv.addObject("list", list);
+	
 		mv.setViewName("user/near/near_home");
 
 		return mv;
@@ -92,11 +95,12 @@ public class NearController {
 		int fileCount = fileUploadService.getUploadedCount(files);
 		String articleNo = nearDAO.getWriteNumber();
 		if (fileCount != 0) {
-			String url = fileUploadService.restore(files, nearDAO, request, articleNo);
+			String url = fileUploadService.restore(files, request, articleNo);
 			mv.addObject("url", url);
 		}
 		mv.addObject("fileCount", fileCount);
 		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
+
 		int result = nearDAO.getNearWrite(vo);
 
 		if (result == 1) {
@@ -175,7 +179,14 @@ public class NearController {
 	}
 
 	@RequestMapping(value = "/near_card_form", method = RequestMethod.GET)
-	public String near_card_form() {
-		return "user/near/near_card_form";
+	public ModelAndView near_card_form(NearVO vo, String word) {
+		ModelAndView mv = new ModelAndView();
+		List<NearVO> list = nearService.selectNearCardList(vo,word);
+		if(word != null) {		
+			mv.addObject("word", word);
+		}
+		mv.addObject("list", list);
+		mv.setViewName("user/near/near_card_form");
+		return mv;
 	}
 }
