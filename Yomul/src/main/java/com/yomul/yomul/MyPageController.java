@@ -240,7 +240,6 @@ public class MyPageController {
 			fileVO.setArticle_no(member.getNo());
 			fileVO.setNo(0);
 			fileVO.setFilename(profile_img.getOriginalFilename());
-			;
 
 			// 파일을 서버와 DB에 업로드
 			result = fileUtils.uploadFile(fileVO, profile_img, request);

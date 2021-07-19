@@ -40,5 +40,4 @@ public interface MemberService {
 
 	int kakaoRegister(MemberVO vo);
 
-	MemberVO kakaoLogin(MemberVO vo);
 }

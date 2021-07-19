@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -172,11 +172,11 @@ div.town_info label {
 </script>
 </head>
 <body>
+	<!-- HEADER -->
 	<%@ include file="../header.jsp"%>
-	<!-- //http://localhost:9090/yomul/town_list -->
 
 	<!-- user_town_list 검색창 부분 -->
-	<div id="sample">
+	<div id="town_list">
 		<div class="user_town_list_head">
 			<div class="head">
 				<div class="container">
@@ -194,15 +194,11 @@ div.town_info label {
 									</div>
 
 									<div class="col">
-										<input
-											class="form-control form-control-lg form-control-borderless"
-											type="search" placeholder="궁금한것을 찾아보세요" id="townSearch"
-											name="townSearch">
+										<input class="form-control form-control-lg form-control-borderless" type="search" placeholder="궁금한것을 찾아보세요" id="townSearch" name="townSearch">
 									</div>
 
 									<div class="col-auto">
-										<button class="btn btn-lg btn-primary" type="submit"
-											id="btn-yomul">검색</button>
+										<button class="btn btn-lg btn-primary" type="submit" id="btn-yomul">검색</button>
 									</div>
 
 								</div>
@@ -226,7 +222,8 @@ div.town_info label {
 						인기순 <i class="fa fa-caret-down"></i>
 					</button>
 					<div class="dropdown-content">
-						<a href="#">인기순</a> <a href="#">최신순</a>
+						<a href="#">인기순</a>
+						<a href="#">최신순</a>
 					</div>
 				</div>
 			</div>
@@ -242,13 +239,13 @@ div.town_info label {
 								<h1 class="description">제목</h1>
 								<span class="badge badge-pill badge-secondary">중고상품</span>
 								<div>
-									<a href="http://localhost:9000/yomul/town_info?no=">부엌 찐한
-										차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑
-										바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
+									<a href="http://localhost:9000/yomul/town_info?no=">부엌 찐한 차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑 바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
 								</div>
 								<div class="town_info">
-									<label>닉네임</label><label>작성일자:2021-07-05</label><label
-										style="color: tomato">댓글:15</label><label>조회수:30</label>
+									<label>닉네임</label>
+									<label>작성일자:2021-07-05</label>
+									<label style="color: tomato">댓글:15</label>
+									<label>조회수:30</label>
 								</div>
 							</div>
 							<div class="col-sm-4">
@@ -264,13 +261,13 @@ div.town_info label {
 								<h1 class="description">제목</h1>
 								<span class="badge badge-pill badge-secondary">중고상품</span>
 								<div>
-									<a href="http://localhost:9000/yomul/town_info">부엌 찐한
-										차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑
-										바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
+									<a href="http://localhost:9000/yomul/town_info">부엌 찐한 차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑 바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
 								</div>
 								<div class="town_info">
-									<label>닉네임</label><label>작성일자:2021-07-05</label><label
-										style="color: tomato">댓글:15</label><label>조회수:30</label>
+									<label>닉네임</label>
+									<label>작성일자:2021-07-05</label>
+									<label style="color: tomato">댓글:15</label>
+									<label>조회수:30</label>
 								</div>
 							</div>
 							<div class="col-sm-4">
@@ -286,13 +283,13 @@ div.town_info label {
 								<h1 class="description">제목</h1>
 								<span class="badge badge-pill badge-secondary">중고상품</span>
 								<div>
-									<a href="http://localhost:9000/yomul/town_info">부엌 찐한
-										차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑
-										바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
+									<a href="http://localhost:9000/yomul/town_info">부엌 찐한 차콜색?으로 인테리어 되어있었어요!삼성 비스포크로 냉장고 할건데.. 색상 추천 부탁드려용 거실 톤도 티비벽이랑 바닥이 나무인데요! 어떤 톤 가구가 이 집에 잘 어울릴까용..? 재능 많으신 분들 의견 부탁드려용</a>
 								</div>
 								<div class="town_info">
-									<label>닉네임</label><label>작성일자:2021-07-05</label><label
-										style="color: tomato">댓글:15</label><label>조회수:30</label>
+									<label>닉네임</label>
+									<label>작성일자:2021-07-05</label>
+									<label style="color: tomato">댓글:15</label>
+									<label>조회수:30</label>
 								</div>
 							</div>
 							<div class="col-sm-4">

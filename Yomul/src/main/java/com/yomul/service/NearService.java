@@ -3,6 +3,7 @@ package com.yomul.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 
 public interface NearService {
@@ -19,4 +20,6 @@ public interface NearService {
 	int updateNearHits(String no);
 
 	ArrayList<NearVO> getNearList(NearVO near, String page);
+
+	int deleteNear(MemberVO member, NearVO near);
 }
