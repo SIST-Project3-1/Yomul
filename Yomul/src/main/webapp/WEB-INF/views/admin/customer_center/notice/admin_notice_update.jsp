@@ -9,16 +9,16 @@
 <!-- HEAD -->
 <%@ include file="../../../head.jsp"%>
 <style>
-div.admin_notice_write {
+div.admin_notice_update {
 	width: 50%;
 	margin: auto;
 }
 
-div.admin_notice_write .head {
+div.admin_notice_update .head {
 	margin-top: 50px;
 }
 
-div.admin_notice_write .head input {
+div.admin_notice_update .head input {
 	display: block;
 	width: 900px;
 	height: 50px;
@@ -27,13 +27,13 @@ div.admin_notice_write .head input {
 	text-align: left;
 }
 
-div.admin_notice_write .head .form-select{
+div.admin_notice_update .head .form-select{
 	padding:5px 20px;
 	border:2px solid lightgray;
 	border-radius:20px;
 }
 
-div.admin_notice_write .body textarea {
+div.admin_notice_update .body textarea {
 	width: 900px;
 	height: 400px;
 	border: 2px solid lightgray;
@@ -41,7 +41,7 @@ div.admin_notice_write .body textarea {
 	text-align: left;
 }
 
-div.admin_notice_write .head .input-file-button {
+div.admin_notice_update .head .input-file-button {
 	padding: 10px 30px;
 	margin-top: 5px;
 	margin-left: 750px;
@@ -51,12 +51,12 @@ div.admin_notice_write .head .input-file-button {
 	background-color: rgb(255, 99, 95);
 }
 
-div.admin_notice_write div.notice_write_btn {
+div.admin_notice_update div.notice_update_btn {
 	text-align: center;
 	margin-left: 300px;
 }
 
-div.admin_notice_write div.notice_write_btn #noticeUpdate {
+div.admin_notice_update div.notice_update_btn #noticeUpdate {
 	padding: 25px 80px;
 	color: white;
 	border-radius: 20px;
@@ -71,27 +71,22 @@ div.admin_notice_write div.notice_write_btn #noticeUpdate {
 	<%@ include file="../../admin_header.jsp"%>
 
 	<!--  BODY  -->
-	<section id="sample">
-		<form name="noticeUpdate" method="get" action="#">
-			<div class="admin_notice_write">
+	<section id="admin_notice_update">
+		<form name="noticeUpdate" method="post" action="admin_notice_update_proc">
+			<div class="admin_notice_update">
 				<div class="head">
-					<h1>공지사항 수정</h1>
-					<h4>
-						공지사항을 수정하세요
-					</h4>
+					<h1>공지사항 작성</h1>
+					<h4>공지사항을 수정해주세요</h4>
 					<hr>
-					<input type="text" name="title" id="title" class="title"
-						placeholder="제목을 입력해주세요" required>
+					<input type="text" name="title" id="title" class="title" placeholder="제목을 입력해주세요" required>
 					<div id="title_alert"></div>
 
 				</div>
 				<div class="body">
-					<textarea name="content" id="content" class="content"
-						placeholder="내용을 적어주세요" required></textarea>
+					<textarea name="content" id="content" class="content" placeholder="내용을 적어주세요" required></textarea>
 				</div>
-				<div class="notice_write_btn">
-					<button type="submit" name="noticeUpdate" id="noticeUpdate"
-						class="btn-yomul">저장하기</button>
+				<div class="notice_update_btn">
+					<button type="submit" name="noticeUpdate" id="noticeUpdate" class="noticeUpdate">저장하기</button>
 				</div>
 			</div>
 		</form>

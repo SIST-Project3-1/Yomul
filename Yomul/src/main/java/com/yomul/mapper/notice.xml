@@ -23,4 +23,30 @@
 			, #{content}
 		)
 	</insert>
+	
+	<!-- 공지사항 수정 -->
+	<update id="updateNotice" parameterType="com.yomul.vo.NoticeVO">
+		UPDATE YOMUL_NOTICES
+		SET
+			WRITER=#{writer}
+			, TITLE=#{title}
+			, CONTENT=#{content}
+		
+		WHERE
+			  NO=#{no}
+		
+	</update>
+		
+	<!-- 공지사항 수정 -->
+	<delete id="deleteNotice" parameterType="com.yomul.vo.NoticeVO">
+		DELETE FROM YOMUL_NOTICES
+		SET
+			WRITER=#{writer}
+			, TITLE=#{title}
+			, CONTENT=#{content}
+		
+		WHERE
+			  NO=#{no}
+		
+	</delete>
 </mapper>

@@ -27,7 +27,17 @@ public class NoticeDAO extends DAO {
 	 * @return
 	 */
 	public int writeNotice(NoticeVO vo) {
-		return sqlSession.delete(namespace + ".writeNotice", vo);
+		return sqlSession.insert(namespace + ".writeNotice", vo);
+	}
+
+	/**
+	 * 공지사항 수정
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int updateNotice(NoticeVO vo) {
+		return sqlSession.update(namespace + ".updateNotice", vo);
 	}
 
 	/**
