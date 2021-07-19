@@ -301,7 +301,7 @@ CREATE TABLE YOMUL_REPORTS(
 -- 사용자 뷰 생성(사용자 + 이미지)
 CREATE NOFORCE VIEW V_Y_MEMBERS
 AS
-SELECT M.NO, M.EMAIL, M.PW, M.NICKNAME, M.PHONE, M.GENDER, M.INTRO, M.AUTHORITY, M.WITHDRAWAL, M.MDATE, M.SUBSCRIBE, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME PROFILEIMG
+SELECT M.NO, M.EMAIL, M.PW, M.NICKNAME, M.PHONE, M.GENDER, M.INTRO, M.AUTHORITY, M.WITHDRAWAL, M.MDATE, M.SUBSCRIBE, M.KAKAO_ID, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME PROFILEIMG
 FROM YOMUL_MEMBERS M, YOMUL_FILES F
 WHERE M.NO = F.ARTICLE_NO(+);
 
@@ -753,12 +753,12 @@ values('C'||yomul_comments_no_seq.nextval,  'n1', 'M12', '댓글입니다~', sys
 
 -- 댓글 목록 조회
 SELECT writer, CONTENT, wdate, img
-FROM (SELECT ROWNUM AS rno, writer, CONTENT, wdate, img
-	FROM (SELECT m.nickname AS writer, c.CONTENT, c.wdate, img
-		FROM v_y_comments c, yomul_members m
-		where c.article_no = 'n1' and c.writer = m.no
-		ORDER BY c.NO)
-	WHERE ROWNUM <= 10 * 1)
+FROM ( SELECT ROWNUM AS rno, writer, CONTENT, wdate, img
+            FROM ( SELECT m.nickname AS writer, c.CONTENT, c.wdate, img
+                        FROM v_y_comments c, yomul_members m
+                        where c.article_no = 'n1' and c.writer = m.no
+                        ORDER BY c.NO)
+            WHERE ROWNUM <= 10 * 1)
 WHERE rno > 10 * (1 - 1);
 
 -- 댓글 갯수 확인

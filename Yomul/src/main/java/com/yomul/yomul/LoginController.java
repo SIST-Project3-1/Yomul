@@ -57,7 +57,7 @@ public class LoginController {
 
 		MemberVO vo = new MemberVO();
 		vo.setKakao_id(id);
-		MemberVO member = memberService.kakaoLogin(vo);
+		MemberVO member = memberService.getLoginResult(vo);
 		if (member != null) {
 			session.setAttribute("member", member);
 		} else {

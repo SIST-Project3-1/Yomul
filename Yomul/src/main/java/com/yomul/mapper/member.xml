@@ -36,18 +36,6 @@
 			NO = #{no}
 	</update>
 	
-	<!-- 카카오톡으로 로그인하기 -->
-	<select id="kakaoLogin" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
-		SELECT
-			  NO
-			, NICKNAME
-			, AUTHORITY
-		FROM
-			YOMUL_MEMBERS
-		WHERE
-			KAKAO_ID = #{kakao_id}
-	</select>
-	
 	<!-- Hastsalt 가져오기 -->
 	<select id="getHashsalt" parameterType="com.yomul.vo.MemberVO" resultType="string">
 		SELECT HASHSALT
@@ -57,9 +45,23 @@
 	
 	<!-- 로그인 -->
 	<select id="getLoginResult" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
-		SELECT NO, NICKNAME, PROFILEIMG, AUTHORITY
-		from V_Y_MEMBERS
-		where email = #{email} and pw = #{pw}
+		SELECT
+			  NO
+			, NICKNAME
+			, PROFILEIMG
+			, AUTHORITY
+		FROM
+			V_Y_MEMBERS
+		WHERE
+		<choose>
+		<when test="kakao_id != null">
+			KAKAO_ID = #{kakao_id}
+		</when>
+		<when test="kakao_id == null">
+				EMAIL= #{email}
+			AND PW = #{pw}
+		</when>
+		</choose>
 	</select>
 
 	<!-- 회원 삭제 -->
