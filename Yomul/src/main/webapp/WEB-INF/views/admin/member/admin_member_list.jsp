@@ -113,7 +113,7 @@
 					<div class="input-group-prepend">
 						<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 20; left: 23px; top: 8px;"></label>
 					</div>
-					<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search">
+					<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search" value="${search }">
 				</div>
 			</form>
 
