@@ -182,8 +182,7 @@ public class NearController {
 	public ModelAndView near_card_form(NearVO vo, String word) {
 		ModelAndView mv = new ModelAndView();
 		List<NearVO> list = nearService.selectNearCardList(vo,word);
-		if(word != null) {
-			System.out.println("word--> " +word );			
+		if(word != null) {		
 			mv.addObject("word", word);
 		}
 		mv.addObject("list", list);
