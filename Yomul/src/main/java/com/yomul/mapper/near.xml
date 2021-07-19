@@ -6,6 +6,15 @@
 
 <mapper namespace="mapper.near">
 
+	<!-- 내 근처 글 삭제 -->
+	<delete id="deleteNear" parameterType="map">
+		DELETE FROM
+			YOMUL_NEAR_ARTICLES
+		WHERE
+				NO = #{near.no}
+			AND 'ADMIN' = #{member.authority}
+	</delete>
+
 	<!-- 내 근처 글 목록 가져오기 -->
 	<select id="getNearList" parameterType="map" resultType="com.yomul.vo.NearVO">
 		SELECT

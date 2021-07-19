@@ -146,7 +146,24 @@
 			</div>
 			<a href="/yomul/chat" class="btn near-info-inquiry <c:if test="${vo.chatCheck != 1 }">disabled</c:if>">채팅문의</a>
 			<c:if test="${sessionScope.member.authority == 'ADMIN'}">
-				<a href="/yomul/admin_near_delete?no=${vo.no}" class="btn btn-outline-yomul mt-3">글 삭제</a>
+				<button id="deleteNear" type="button" class="btn btn-outline-yomul mt-3">글 삭제</button>
+
+				<script type="text/javascript">
+					$("#deleteNear").on("click", function() {
+						$.ajax({
+							url : "/yomul/admin_near_delete?no=${vo.no}",
+							method : "GET",
+							success : function(result) {
+								if (result == 1) {
+									alert("글을 삭제했습니다.");
+									location.href = "/yomul/near_home";
+								} else {
+									alert("삭제에 실패했습니다.");
+								}
+							}
+						});
+					});
+				</script>
 			</c:if>
 		</div>
 	</div>

@@ -18,11 +18,13 @@ import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FaqService;
 import com.yomul.service.FileService;
 import com.yomul.service.MemberService;
+import com.yomul.service.NearService;
 import com.yomul.service.NoticeService;
 import com.yomul.util.Commons;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.NearVO;
 import com.yomul.vo.NoticeVO;
 import com.yomul.vo.QnaVO;
 
@@ -39,6 +41,8 @@ public class AdminController {
 	private FaqService faqService;
 	@Autowired
 	private FileService fileService;
+	@Autowired
+	private NearService nearService;
 
 	/*
 	 * FAQ
@@ -230,6 +234,18 @@ public class AdminController {
 	public ModelAndView admin_near_home() {
 		ModelAndView mv = new ModelAndView("admin/near/admin_near_home");
 		return mv;
+	}
+
+	/**
+	 * 내 근처 글 삭제
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_near_delete", method = RequestMethod.GET)
+	public String admin_near_delete_ajax(NearVO near, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		return String.valueOf(nearService.deleteNear(member, near));
 	}
 
 	@RequestMapping(value = "admin_product_list", method = RequestMethod.GET)

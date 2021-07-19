@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yomul.dao.NearDAO;
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 
 @Service("nearService")
@@ -38,5 +39,10 @@ public class NearServiceImplement implements NearService {
 	@Override
 	public ArrayList<NearVO> getNearList(NearVO near, String page) {
 		return nearDAO.getNearList(near, page);
+	}
+
+	@Override
+	public int deleteNear(MemberVO member, NearVO near) {
+		return nearDAO.deleteNear(member, near);
 	}
 }
