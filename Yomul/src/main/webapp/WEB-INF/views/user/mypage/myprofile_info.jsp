@@ -29,7 +29,7 @@
 				<div class="col-md my-auto">
 					<div class="mb-3 d-flex justify-content-between">
 						<h3 class="my-0 d-inline-block">${member.nickname }</h3>
-						<a class="btn btn-sm my-0" href="/yomul/vendor_profile_info">
+						<a class="btn btn-sm my-0" href="/yomul/vendor_profile_info/${member.no}">
 							<small>비즈 프로필</small>
 						</a>
 					</div>
