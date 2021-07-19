@@ -7,6 +7,7 @@
 <title>내 근처</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+
 </head>
 <body>
 	<!-- HEADER -->
@@ -16,10 +17,10 @@
 	<div id="near_home" class="near-home-content">
 		<!-- 검색창 -->
 		<div class="near-home-search">
-			<form class="form-inline ml-auto">
+			<form class="form-inline ml-auto" id="searchForm" method="GET" action="near_card_form?word=${word }">
 				<label for="search_bar" class="bi bi-search" style="position:relative; z-index:20; left:23px;"></label>
 				<div class="input-group flex-nowrap">
-					<input class="form-control mr-sm-2 pl-4" type="search" placeholder="주변 가게를 찾아보세요" size="60" required>
+					<input class="form-control mr-sm-2 pl-4" type="search" placeholder="주변 가게를 찾아보세요" size="60" id="searchInput" name="word" value="${word }">
 				</div>
 			</form>	
 		</div>
@@ -29,8 +30,9 @@
 			<h3>키워드</h3>
 			<div>
 				<c:forEach var="keyword" items="${keyword}">
-					<a href="/yomul/near_card_form"><label>${keyword }</label></a>
+						<a href="/yomul/near_card_form"><label>${keyword }</label></a>
 				</c:forEach>
+
 			</div>
 		</div>
 
@@ -45,7 +47,12 @@
 				<table>
 					<tr>
 						<td>
-							<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
+							<c:if test="${filePath != null }">
+							<img src="/yomul/upload/${url}">
+							</c:if>
+							<c:if test="${filePath == null }">
+							<img src="http://localhost:9000/yomul/upload/default.jpg">
+							</c:if>
 						</td>
 						<td>
 							<div class="near-home-news-title">
