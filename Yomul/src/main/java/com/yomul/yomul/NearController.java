@@ -179,10 +179,13 @@ public class NearController {
 	}
 
 	@RequestMapping(value = "/near_card_form", method = RequestMethod.GET)
-	public ModelAndView near_card_form(NearVO vo) {
+	public ModelAndView near_card_form(NearVO vo, String word) {
 		ModelAndView mv = new ModelAndView();
-		List<NearVO> list = nearService.selectNearCardList(vo);
-		
+		List<NearVO> list = nearService.selectNearCardList(vo,word);
+		if(word != null) {
+			System.out.println("word--> " +word );			
+			mv.addObject("word", word);
+		}
 		mv.addObject("list", list);
 		mv.setViewName("user/near/near_card_form");
 		return mv;

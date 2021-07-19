@@ -17,7 +17,7 @@ public interface NearService {
 	List<NearVO> selectNearList(NearVO vo);
 	
 	// 내 근처 카드 폼 화면 보기
-	List<NearVO> selectNearCardList(NearVO vo);
+	List<NearVO> selectNearCardList(NearVO vo, String word);
 	
 	// 내 근처 글 수정
 	int getUpdate(NearVO vo);

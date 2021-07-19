@@ -65,8 +65,12 @@ public class NearDAO extends DAO {
 	}
 	
 	// 내 근처 카드 형식 글 보기
-	public List<NearVO> selectNearCardList(NearVO vo) {
-		return sqlSession.selectList(nameSpace + ".selectNearCardList");
+	public List<NearVO> selectNearCardList(NearVO vo, String word) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("word", word);
+		params.put("vo", vo);
+		List<NearVO> list = sqlSession.selectList(nameSpace + ".selectNearCardList", params);
+		return list;
 	}
 
 	// 내 근처 게시글 상세 보기

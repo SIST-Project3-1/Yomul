@@ -65,8 +65,8 @@ public class NearServiceImplement implements NearService {
 	}
 
 	@Override
-	public List<NearVO> selectNearCardList(NearVO vo) {
+	public List<NearVO> selectNearCardList(NearVO vo, String word) {
 		
-		return nearDAO.selectNearCardList(vo);
+		return nearDAO.selectNearCardList(vo,word);
 	}
 }

@@ -106,10 +106,24 @@
 		<!-- 부등호 인식 -->
 		<![CDATA[where rownum <= 3]]>
 	</select>
+	
 	<!-- 내 근처 near_card_form 글 보기 -->
-	<select id="selectNearCardList" resultType="com.yomul.vo.NearVO">
-		select no, title, content, writer, ndate from yomul_near_articles order by ndate desc
+	<select id="selectNearCardList" resultType="com.yomul.vo.NearVO" parameterType="map">
+		select no, title, content, writer, ndate from yomul_near_articles 
+		<include refid="search"/>
+		order by ndate desc
 	</select>
+	<!-- 검색 쿼리 -->
+	<sql id="search">
+    <!-- 검색어가 존재하는 경우만 쿼리 실행 -->
+    <if test="word != null and word != ''.toString() ">
+ 		 where ( 
+	        title like '%'||#{word}||'%' or
+	        content like '%'||#{word}||'%' or 
+	        writer like '%'||#{word}||'%'
+        )
+    </if>
+</sql>
 	
 	
 	
