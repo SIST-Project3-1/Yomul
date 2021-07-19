@@ -37,16 +37,10 @@
 		
 	</update>
 		
-	<!-- 공지사항 수정 -->
+	<!-- 공지사항 삭제 -->
 	<delete id="deleteNotice" parameterType="com.yomul.vo.NoticeVO">
 		DELETE FROM YOMUL_NOTICES
-		SET
-			WRITER=#{writer}
-			, TITLE=#{title}
-			, CONTENT=#{content}
-		
 		WHERE
 			  NO=#{no}
-		
 	</delete>
 </mapper>
