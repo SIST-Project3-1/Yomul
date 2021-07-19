@@ -18,7 +18,6 @@ import com.yomul.service.CustomerCenterService;
 import com.yomul.service.FaqService;
 import com.yomul.service.FileService;
 import com.yomul.service.MemberService;
-import com.yomul.service.NearService;
 import com.yomul.service.NoticeService;
 import com.yomul.util.Commons;
 import com.yomul.vo.CategoryVO;
@@ -40,8 +39,6 @@ public class AdminController {
 	private FaqService faqService;
 	@Autowired
 	private FileService fileService;
-	@Autowired
-	private NearService nearService;
 
 	/*
 	 * FAQ
@@ -224,16 +221,14 @@ public class AdminController {
 		return Commons.parseJson(map);
 	}
 
+	/**
+	 * 내 근처 관리
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "admin_near_home", method = RequestMethod.GET)
 	public ModelAndView admin_near_home() {
 		ModelAndView mv = new ModelAndView("admin/near/admin_near_home");
-		return mv;
-	}
-
-	@RequestMapping(value = "admin_near_info", method = RequestMethod.GET)
-	public ModelAndView admin_near_info(String no) {
-		ModelAndView mv = new ModelAndView("admin/near/admin_near_info");
-		mv.addObject("near", nearService.getNearInfo(no));
 		return mv;
 	}
 

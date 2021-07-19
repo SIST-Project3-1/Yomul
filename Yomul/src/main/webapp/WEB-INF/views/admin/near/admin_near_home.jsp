@@ -50,7 +50,7 @@
 					html += '		' + near.category;
 					html += '	</td>';
 					html += '	<td>';
-					html += '		<a href="admin_near_info?no=' + near.no + '">' + near.title + '</a>';
+					html += '		<a href="/yomul/near_info/' + near.no + '">' + near.title + '</a>';
 					html += '	</td>';
 					html += '	<td>';
 					html += '		<a href="admin_member_list?search=' + near.writer + '">' + near.writer + '</a>';
