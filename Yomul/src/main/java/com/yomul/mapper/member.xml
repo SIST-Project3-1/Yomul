@@ -174,7 +174,21 @@
 	
 	<!-- 프로필 정보 수정 -->
 	<insert id="setmyprofileinfo" parameterType="com.yomul.vo.MemberVO">
-		UPDATE YOMUL_MEMBERS SET NICKNAME = #{nickname}, PHONE = #{phone}, GENDER = #{gender}, INTRO = #{intro} WHERE NO = #{no}
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			  NICKNAME = #{nickname}
+			 <if test="phone != null">
+			, PHONE = #{phone}
+			 </if>
+			<if test="gender != null">
+			, GENDER = #{gender}
+			</if>
+			<if test="intro != null">
+			, INTRO = #{intro}
+			</if>
+		WHERE
+			NO = #{no}
 	</insert>
 	
 	<!-- 구매내역 수 가져오기 -->
