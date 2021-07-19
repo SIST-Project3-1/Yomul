@@ -46,12 +46,6 @@ public class NearController {
 	private VendorService vendorService;
 
 	@Autowired
-	private LikeService likeService;
-
-	@Autowired
-	private ReportService reportService;
-
-	@Autowired
 	private NearDAO nearDAO;
 
 	@Autowired
@@ -184,10 +178,4 @@ public class NearController {
 	public String near_card_form() {
 		return "user/near/near_card_form";
 	}
-
-	@RequestMapping(value = "/reviews_info", method = RequestMethod.GET)
-	public String reviews_info() {
-		return "user/near/reviews_info";
-	}
-
 }
