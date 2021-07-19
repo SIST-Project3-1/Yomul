@@ -4,10 +4,10 @@ public class NearVO extends VO {
 
 	private String no; // 게시글 번호
 	private String vno; // 작성 업체 번호
-	private int price; // 게시글 등록 가격
-	private int chatCheck; // 채팅 여부
-	private int hits; // 조회수
-	private int files; // 이미지 수
+	private int price = -1; // 게시글 등록 가격
+	private int chatCheck = -1; // 채팅 여부
+	private int hits = -1; // 조회수
+	private int files = -1; // 이미지 수
 	private String title; // 게시글 제목
 	private String category; // 게시글 카테고리
 	private String hp; // 게시글 전화번호
@@ -22,7 +22,7 @@ public class NearVO extends VO {
 	public void setNo(String no) {
 		this.no = no;
 	}
-	
+
 	public String getVno() {
 		return vno;
 	}
@@ -46,11 +46,11 @@ public class NearVO extends VO {
 	public void setChatCheck(int chatCheck) {
 		this.chatCheck = chatCheck;
 	}
-	
+
 	public int getHits() {
 		return hits;
 	}
-	
+
 	public int getFiles() {
 		return files;
 	}

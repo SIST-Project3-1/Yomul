@@ -1,5 +1,6 @@
 package com.yomul.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,27 +13,30 @@ import com.yomul.vo.NearVO;
 public class NearServiceImplement implements NearService {
 
 	@Autowired
-	private NearDAO dao;
+	private NearDAO nearDAO;
 
 	@Override
 	public int getNearWrite(NearVO vo) {
-
-		return dao.getNearWrite(vo);
+		return nearDAO.getNearWrite(vo);
 	}
 
 	@Override
 	public NearVO getNearInfo(String no) {
-		return dao.getNearInfo(no);
+		return nearDAO.getNearInfo(no);
 	}
 
 	@Override
 	public int updateNearHits(String no) {
-		return dao.updateNearHits(no);
+		return nearDAO.updateNearHits(no);
 	}
 
 	@Override
 	public List<NearVO> selectNearList(NearVO vo) {
+		return nearDAO.getList(vo);
+	}
 
-		return dao.getList(vo);
+	@Override
+	public ArrayList<NearVO> getNearList(NearVO near, String page) {
+		return nearDAO.getNearList(near, page);
 	}
 }

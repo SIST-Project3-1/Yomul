@@ -222,8 +222,9 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "admin_near_home", method = RequestMethod.GET)
-	public String adminNearHome() {
-		return "admin/near/admin_near_home";
+	public ModelAndView admin_near_home() {
+		ModelAndView mv = new ModelAndView("admin/near/admin_near_home");
+		return mv;
 	}
 
 	@RequestMapping(value = "admin_near_info", method = RequestMethod.GET)

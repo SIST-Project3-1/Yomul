@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.yomul.api.APIKey;
@@ -49,7 +48,7 @@ public class KakaoLoginAPI {
 			while ((line = br.readLine()) != null) {
 				result.append(line);
 			}
-//			System.out.println("response body: " + result.toString());
+//			System.out.println("accessToken: " + result.toString());
 
 			// GSON 으로 JSON 객체 생성
 			Gson gson = new Gson();
