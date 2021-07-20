@@ -99,10 +99,11 @@ public class AdminController {
 	
 	//글수정 페이지
 	@RequestMapping(value = "admin_faq_update", method = RequestMethod.GET)
-	public ModelAndView adminFaqUpdate(String no, int categoryNo) {
+	public ModelAndView adminFaqUpdate(String no) {
 		ModelAndView mv = new ModelAndView();
-		ArrayList<CategoryVO> categories = faqService.updateFaqCategories(categoryNo); // 카테고리 정보
+		
 		FaqVO faq = faqService.getAdminFaqUpdateData(no);
+		ArrayList<CategoryVO> categories = faqService.updateFaqCategories(faq.getCategory_no()); // 카테고리 정보
 		
 		mv.setViewName("admin/customer_center/faq/admin_faq_update");
 		mv.addObject("categories", categories);
