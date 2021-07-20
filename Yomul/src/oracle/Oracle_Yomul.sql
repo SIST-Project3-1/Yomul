@@ -891,9 +891,9 @@ GROUP BY CHAT_FROM
 ORDER BY CDATE DESC;
 
 -- 채팅 내역 조회
-SELECT NO, CHAT_FROM, CHAT_TO, CONTENT
+SELECT NO, CHAT_FROM, CHAT_TO, CONTENT, TO_CHAR(CDATE, 'YYYY"년" MM"월" DD"일" HH24:MM:SS') CDATE
 FROM YOMUL_CHATS
-WHERE CHAT_FROM = 'M1' OR CHAT_TO = 'M1'
+WHERE (CHAT_FROM = 'M1' AND CHAT_TO = 'M3') OR (CHAT_FROM = 'M3' AND CHAT_TO = 'M1')
 ORDER BY CDATE;
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------

@@ -24,21 +24,24 @@ public class ChatDAO extends DAO {
 
 	/**
 	 * 채팅 유저 목록 가져오기
+	 * 
 	 * @param member
 	 * @return
 	 */
 	public ArrayList<ChatVO> getChatList(MemberVO member) {
-		List<ChatVO> list = sqlSession.selectList(nameSpace + ".getChatList", member);
+		List<ChatVO> list = sqlSession.selectList(nameSpace + ".getChatList", member.getNo());
 		return (ArrayList<ChatVO>) list;
 	}
 
 	/**
 	 * 채팅 내역 가져오기
-	 * @param member
+	 * 
+	 * @param chat
 	 * @return
 	 */
-	public ArrayList<ChatVO> getChatHistory(MemberVO member) {
-		List<ChatVO> list = sqlSession.selectList(nameSpace + ".getChatHistory", member);
+	public ArrayList<ChatVO> getChatHistory(ChatVO chat) {
+		System.out.println(chat.toStringJson());
+		List<ChatVO> list = sqlSession.selectList(nameSpace + ".getChatHistory", chat);
 		return (ArrayList<ChatVO>) list;
 	}
 }

@@ -4,26 +4,34 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mapper.comment">
+<mapper namespace="mapper.chat">
 	
 	<!-- 채팅 내역 불러오기 -->
-	<select id="getChatHistory" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.ChatVO">
+	<select id="getChatHistory" parameterType="com.yomul.vo.ChatVO" resultType="com.yomul.vo.ChatVO">
 		SELECT
 			  NO
 			, CHAT_FROM
 			, CHAT_TO
 			, CONTENT
+			, TO_CHAR(CDATE, 'YYYY"년" MM"월" DD"일" HH24:MM:SS') CDATE
 		FROM
 			YOMUL_CHATS
 		WHERE
-				CHAT_FROM = #{no}
-			OR  CHAT_TO = #{no}
+			(
+					CHAT_FROM = '${chat_from}'
+				AND CHAT_TO = '${chat_to}'
+			)
+			OR
+			(
+					CHAT_FROM = '${chat_to}'
+				AND CHAT_TO = '${chat_from}'
+			)
 		ORDER BY
 			CDATE
 	</select>
 	
 	<!-- 채팅한 유저 목록 가져오기 -->
-	<select id="getChatList" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.ChatVO">
+	<select id="getChatList" parameterType="string" resultType="com.yomul.vo.ChatVO">
 		SELECT
 			  CHAT_FROM
 			, MAX(CDATE) CDATE
