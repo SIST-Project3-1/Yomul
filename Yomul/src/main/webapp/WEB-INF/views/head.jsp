@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 
 <%--jQuery --%>
-<script src="/yomul/js/jquery-3.6.0.min.js"></script>
+<script src="/yomul/js/jquery-3.6.0.js"></script>
 
 <%-- Bootstrap --%>
 <link rel="stylesheet" href="/yomul/css/bootstrap.min.css">
