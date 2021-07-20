@@ -26,6 +26,16 @@ public class VendorDAO extends DAO{
 		return sqlSession.selectOne(nameSpace + ".selectVendorNoByOwner", vo.getOwner());
 	}
 	
+	// 업체 탈퇴 신청
+	public int withdrawalVendor(String owner) {
+		return sqlSession.update(nameSpace + ".withdrawalVendor", owner);
+	}
+	
+	// 업체 탈퇴 신청
+	public int cancelWithdrawalVendor(String owner) {
+		return sqlSession.update(nameSpace + ".cancelWithdrawalVendor", owner);
+	}
+	
 	// 업체 정보 수정
 	public int updateVendorInfo(VendorVO vo) {
 		return sqlSession.update(nameSpace + ".updateVendor", vo);
@@ -112,4 +122,12 @@ public class VendorDAO extends DAO{
 		}
 	}
 	
+	// 사용자 번호로 업체 여부 확인
+	public String getVendorNoByOwner(String no) {
+		try {
+			return sqlSession.selectOne(nameSpace + ".selectVendorNoByOwner", no);
+		} catch (NullPointerException e) {
+			return "";
+		}
+	}
 }

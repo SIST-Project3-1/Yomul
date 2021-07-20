@@ -12,6 +12,21 @@
 		values('V'||yomul_vendors_no_seq.nextval, #{owner}, #{name}, #{category}, #{info}, #{tel}, #{addr})
 	</insert>
 	
+	<!-- 업체 탈퇴 신청 -->
+	<update id="withdrawalVendor" parameterType="java.lang.String">
+		update yomul_vendors
+		set
+		withdrawal = 1
+		where owner = #{owner} and withdrawal = 0
+	</update>
+	
+	<!-- 업체 탈퇴 신청 취소 -->
+	<update id="cancelWithdrawalVendor" parameterType="java.lang.String">
+		update yomul_vendors
+		set withdrawal = 0
+		where owner = #{owner} and withdrawal = 1
+	</update>
+	
 	<!-- 업체 정보 수정 -->
 	<update id="updateVendor" parameterType="com.yomul.vo.VendorVO">
 		update yomul_vendors
