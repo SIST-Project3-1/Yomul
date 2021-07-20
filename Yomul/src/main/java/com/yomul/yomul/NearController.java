@@ -100,7 +100,7 @@ public class NearController {
 		}
 		mv.addObject("fileCount", fileCount);
 		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
-
+		System.out.println("vo.getCheck 값 ==> " + vo.getChatCheck());
 		int result = nearDAO.getNearWrite(vo);
 
 		if (result == 1) {
