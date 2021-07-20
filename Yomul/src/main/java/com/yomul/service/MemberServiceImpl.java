@@ -94,17 +94,22 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int kakaoRegister(MemberVO vo) {
-		return memberDAO.kakaoRegister(vo);
+		return memberDAO.kakaoRegister(vo) == 1 ? 1 : 0;
 	}
 
 	@Override
 	public int withdrawal(MemberVO vo) {
-		return memberDAO.withdrawal(vo);
+		return memberDAO.withdrawal(vo) == 1 ? 1 : 0;
 	}
 
 	@Override
 	public int cancleWithdrawal(MemberVO vo) {
-		return memberDAO.cancleWithdrawal(vo);
+		return memberDAO.cancleWithdrawal(vo) == 1 ? 1 : 0;
+	}
+
+	@Override
+	public int checkPW(MemberVO vo) {
+		return memberDAO.checkPW(vo) == 1 ? 1 : 0;
 	}
 
 }

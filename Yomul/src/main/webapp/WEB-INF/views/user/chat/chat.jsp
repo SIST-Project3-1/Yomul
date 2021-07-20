@@ -7,6 +7,127 @@
 <title>요물 채팅</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+<script type="text/javascript">
+	var member_no = "${sessionScope.member.no}";
+	var chat_from = "${sessionScope.member.no}";
+	var chat_to = null;
+
+	$(document).ready(function() {
+		getChatList(false);
+
+		var first = $("button.card:first").attr("data-chat_from");
+		$("button.card:first").addClass("bg-dark text-white");
+		chat_to = $("button.card:first").attr("data-chat_from");
+
+		getChatHistory(first);
+		$("#chat-msg").focus();
+
+		// 채팅 주기적으로 갱신
+		var reloadChat = setInterval(function() {
+			getChatHistory(chat_to);
+			getChatList(true);
+		}, 100);
+
+		// 채팅하기
+		$("#form_chat").on("submit", function(e) {
+			var content = $("#chat-msg").val();
+			e.preventDefault();
+
+			$.ajax({
+				url : "/yomul/chat_proc",
+				method : "POST",
+				data : {
+					"chat_from" : chat_from,
+					"chat_to" : chat_to,
+					"content" : content
+				}, // 필수
+				success : function(result) {
+					if (result == 1) {
+						$("#chat-msg").val("");
+						getChatHistory(chat_to);
+						$("#chat-msg").focus();
+					} else {
+						alert("채팅 전송 실패");
+						$("#chat-msg").focus();
+					}
+				}
+			});
+			return false;
+		})
+	});
+
+	// 채팅 상대 클릭
+	function clickChat(btn) {
+		$("button.card").removeClass("bg-dark text-white");
+		$(btn).addClass("bg-dark text-white");
+		chat_to = $(btn).attr("data-chat_from");
+		getChatHistory(chat_to);
+		$("#chat-msg").val("");
+		$("#chat-msg").focus();
+	};
+
+	// 채팅 상대 목록 가져오기
+	function getChatList(flag) {
+		$.ajax({
+			url : "/yomul/chat_list_ajax",
+			method : "POST",
+			data : {
+				"no" : member_no,
+			}, // 필수
+			async : flag,
+			success : function(json) {
+				var html = "";
+				for (var i = 0; i < json.length; i++) {
+					chat = json[i];
+					html += '<button type="button" class="card btn text-left my-2 p-3 w-100'+ (chat.chat_from == chat_to ? " bg-dark text-white" : "")+'" onclick="clickChat(this)" data-chat_from="' + chat.chat_from + '">';
+					html += '	<div>';
+					html += '		<img class="rounded-circle" src="https://via.placeholder.com/50">';
+					html += '		<span class="ml-2">';
+					html += '			<strong>' + chat.chat_from + '</strong>';
+					html += '		</span>';
+					html += '	</div>';
+					html += '</button>';
+				}
+
+				$("#chat-list").empty();
+				$("#chat-list").append(html);
+			}
+		});
+	}
+
+	// 채팅 내역 가져오기
+	function getChatHistory(chat_to) {
+		$.ajax({
+			url : "/yomul/chat_history_ajax",
+			method : "GET",
+			data : {
+				"chat_from" : member_no,
+				"chat_to" : chat_to
+			}, // 필수
+			success : function(json) {
+				var html = "";
+				for (var i = 0; i < json.length; i++) {
+					chat = json[i];
+					if (chat.chat_from == member_no) { // 내가 보낸 채팅
+						html += '<div class="text-right my-3">';
+						html += '	<small class="text-muted">' + chat.cdate + '</small>';
+						html += '	<div class="chat-me">' + chat.content + '</div>';
+						html += '</div>';
+					} else { // 상대가 보낸 채팅
+						html += '<div class="text-left my-3">';
+						html += '	<div class="chat-you">' + chat.content + '</div>';
+						html += '	<small class="text-muted">' + chat.cdate + '</small>';
+						html += '</div>';
+					}
+				}
+
+				$("#chat-content").empty();
+				$("#chat-content").append(html);
+				$('#chat-content').scrollTop($('#chat-content')[0].scrollHeight);
+			}
+		});
+	}
+</script>
 </head>
 <body>
 	<!-- HEADER -->
@@ -19,103 +140,19 @@
 				<!--  채팅 대상 -->
 				<div class="col-3 border-right overflow-auto h-100">
 					<h3>채팅</h3>
-					<button type="button" class="card btn text-left my-2 p-3 w-100 bg-dark text-white">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
-					<button type="button" class="card btn text-left my-2 p-3 w-100">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
-					<button type="button" class="card btn text-left my-2 p-3 w-100">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
-					<button type="button" class="card btn text-left my-2 p-3 w-100">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
-					<button type="button" class="card btn text-left my-2 p-3 w-100">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
-					<button type="button" class="card btn text-left my-2 p-3 w-100">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
-					<button type="button" class="card btn text-left my-2 p-3 w-100">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
-					<button type="button" class="card btn text-left my-2 p-3 w-100">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
-					<button type="button" class="card btn text-left my-2 p-3 w-100">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
-					<button type="button" class="card btn text-left my-2 p-3 w-100">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
-					<button type="button" class="card btn text-left my-2 p-3 w-100">
-						<div>
-							<img class="rounded-circle" src="https://via.placeholder.com/50"> <span class="ml-2"><strong>Hwisaek</strong></span>
-						</div>
-					</button>
+					<div id="chat-list"></div>
 				</div>
 
 				<!-- 채팅 내용 -->
 				<div id="chat-panel" class="col-9 h-100">
-					<div id="chat-content" class="overflow-auto" style="height: 75vh;">
-						<div class="text-left my-3">
-							<div class="chat-you">경찰청 철창살은 외철창살이고 검찰청 철창살은 쌍철창살이다.</div>
-							<small class="text-muted">12:30</small>
-						</div>
-						<div class="text-left my-3">
-							<div class="chat-you">고려고교 교복은 고급교복이고 고려고교 교복은 고급원단을 사용했다.</div>
-							<small class="text-muted">13:44</small>
-						</div>
-						<div class="text-right my-3">
-							<small class="text-muted">14:34</small>
-							<div class="chat-me">뻗은가지 굽은가지 구부러진 가지 가지가지의 가지 올라가지 늦가지 찐가지 달린가지 조롱조롱 맺힌 가지 열린 가지 달린 가지 도롱도롱 달란 가지 젊은 가지 늙은 가지 나물할 가지 냉국 탈 가지 가지각색 가여놓아도 나 못 먹긴 마찬가지.</div>
-						</div>
-						<div class="text-left my-3">
-							<div class="chat-you">산 사람들과 선 사람 둘과 선사시대 사람들 속에 속해있는 사람들 속에서 선사람 둘을 솎아낼까. 선 사람 둘과 산 사람들과 선사시대 사람들 속에 섞여있는 선 사람들 속에 안 선 사람을 더 섞을까. 선사시대 사람들과 산 사람들과 선 사람 둘이 전부 서서 서로가 서로를 서로 솎아내려 할 때 선사시대 사람은 선 사람이나 안 선 사람이나 선한 사람이나 안 선 상태로 서로 손을 잡고 3433년 3월 13일 신시와 3시 33분 33초를 서로의 눈을 보며 말하자고 했다.</div>
-							<small class="text-muted">14:35</small>
-						</div>
-						<div class="text-right my-3">
-							<small class="text-muted">14:34</small>
-							<div class="chat-me">스위스에서 오셔서 산새들이 속삭이는 산림 숲속에서 수사슴을 샅샅이 수색해 식사하고 산 속 샘물로 세수하며 사는 삼십 삼살 샴쌍둥이 미세스 스미스씨와 미스터 심슨씨는 삼성 설립 사장의 회사 자산 상속자인 사촌의 사돈 김상속씨의 숫기있고 숭글숭글한 숫색시 삼성소속 식산업 종사자 김삼순씨를 만나서 삼성 수산물 운송수송 수색 실장에게 스위스에서 수사슴을 샅샅이 수색했던 것을 인정받아 스위스 수산물 운송 수송 과정에서 상해 삭힌 냄새가 나는 수산물을 수색해내는 삼성 소속 수산물 운송수송 수색 사원이 돼서 살신성인으로 쉴새없이 수색하다 산성수에 손이 산화되어 수술실에서 수술하게 됐는데 쉽사리 수술이 잘 안 돼서 심신에 좋은 산삼을 달여 슈르릅 들이켰더니 힘이 샘솟아 다시 몸사려 수색하다 삼성 소속 식산업 종사자 김삼순씨와 셋이서 삼삼오오 삼월 삼십 삼일 세시 삼십 삼분 삼십 삼초에 쉰 세살 김식사씨네 시내 스시식당에 식사하러 가서
-								싱싱한 샥스핀 스시와 삼색샤시참치스시를 살사소스와 슥슥삭삭 샅샅이 비빈 것과 스위스산 소세지를 샤샤샥 싹쓸어 입속에 쑤셔넣어 살며시 삼키고 스산한 새벽 세시 삼십 삼분 삼십 삼초에 산림 숲속으로 사라졌다는 스위스에서온 스미스씨 이야기</div>
-						</div>
-						<div class="text-left my-3">
-							<div class="chat-you">더 어려운 버전도 있다! 스위스에서 오셔서 산새들이 속삭이는 산림 숲속의 수사슴과 샘 속 송사리 새끼를 샅샅이 수색해 식사하고 산 속 고인돌 사이 샘물로 세수하며 살아가는 삼십 삼살 샴쌍둥이 미세스 스미스씨와 미스터 심슨씨는 삼성 설립 사장의 자상한 회사 자산 상속자인 사촌의 사돈이면서 수하물 수송 솜씨를 자랑하는 심삼속씨와 숫기있고 숭글숭글한 숫색시 삼성소속 식산업 종사자 심삼순씨를 만나서 삼성 소속 수산물 운송수송 수속 및 수색 담당 실장에게 스위스에서 수사슴을 수색했던 것을 인정받아 스위스산 수산물 운송 수송 과정에서 상해 삭힌 냄새가 나는 수산물을 샅샅이 수색해내는 삼성 수산물 운송수송 소속 수색 사원이 되자 산 속을 맨발바닥 두 손바닥 열 발가락 닳게 방방곡곡 뒤져 깊은 숲 산기슭 속 수풀 깊숙이 팔꿈치를 꿈틀꿈틀거려 찾아낸 스위스연방 지도 지리지를 들고 풀숲 샘물 속 수산물을 쉴새없이 수색하다 삼림 산성수 수색
-								담당 신상순 씨가 실수로 수송한 삼림 산성수 통 삼 톤에 의해 손가락 세 가닥과 열 발가락이 산화되어 응급실 수술실에서 응급수술하게 되었는데 수술실 실수로 쉽사리 수술이 잘 안되어 수술실 식사로 나온 산양삼삼계탕을 삼키지 못하자 심신에 좋다는 산삼을 달인 달콤한 홍삼산삼차를 슈르릅 들이켰더니 힘이 샘물 솟듯이 솟아 신상순 씨의 삼림 산성수 수송 수속 중 일어난 수술 건을 과실치사상죄로 고소하였지만 산성수 수색 담당 신상순 씨의 삼촌인 삼성 소속 식산업 종사자 심삼순씨의 사과로 셋이서 삼삼오오 삼월 삼십일일 세 시 삼십분 삼십 삼초에 쉰 세 살 김식사씨네 시내 스시식당에 시스루 룩으로 식사하러 가서 신선한 샥스핀 스시와 싱싱한 삼색샤시참치스시를 살사소스에 살살 슥삭슥삭 비빈 것과 스위스산 소세지 세 접시를 샤사샥 싹슬어 입속에 쑤셔넣어 살며시 삼키고 스산한 새벽 세시 십삼분 삼십 삼초에 숲 속 산림 산기슭 구석 풀숲 속으로 사라졌다.</div>
-							<small class="text-muted">14:35</small>
-						</div>
-						<script>
-							$('#chat-content').scrollTop($('#chat-content')[0].scrollHeight);
-						</script>
-					</div>
+					<div id="chat-content" class="overflow-auto" style="height: 75vh;"></div>
 					<div id="chat-input">
 						<hr>
-						<form action="#" method="post" class="w-100">
-							<div class="input-group mb-3">
-								<input type="text" class="form-control" placeholder="채팅을 입력해주세요..." aria-describedby="btn_submit" required>
+						<form id="form_chat" action="#" method="post" class="w-100">
+							<div class="input-group mb-3 w-100">
+								<input id="chat-msg" type="text" class="form-control" placeholder="채팅을 입력해주세요..." aria-describedby="btn_chat" required>
 								<div class="input-group-append">
-									<button class="btn btn-outline-secondary" type="submit" id="btn_submit">전송</button>
+									<button class="btn btn-outline-secondary" type="submit" id="btn_chat">전송</button>
 								</div>
 							</div>
 						</form>
