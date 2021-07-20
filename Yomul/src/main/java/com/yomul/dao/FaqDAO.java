@@ -41,8 +41,8 @@ public class FaqDAO extends DAO {
 	}
 	
 	// 관리자 FAQ 글수정 카테고리 목록 구하기
-	public ArrayList<CategoryVO> updateFaqCategories(int categoryNo) {
-		List<CategoryVO> list = sqlSession.selectList(nameSpace + ".updateFaqCategories", categoryNo);
+	public ArrayList<CategoryVO> updateFaqCategories(int category_no) {
+		List<CategoryVO> list = sqlSession.selectList(nameSpace + ".updateFaqCategories", category_no);
 		return (ArrayList<CategoryVO>) list;
 	}
 	

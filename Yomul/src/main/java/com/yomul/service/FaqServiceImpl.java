@@ -32,8 +32,8 @@ public class FaqServiceImpl implements FaqService{
 	}
 
 	@Override
-	public ArrayList<CategoryVO> updateFaqCategories(int  categoryNo) {
-		return faqDAO.updateFaqCategories(categoryNo);
+	public ArrayList<CategoryVO> updateFaqCategories(int  category_no) {
+		return faqDAO.updateFaqCategories(category_no);
 	}
 	
 	@Override

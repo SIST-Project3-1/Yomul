@@ -13,7 +13,7 @@ public interface FaqService {
 	
 	int getTotalPageFaq(String search);
 
-	ArrayList<CategoryVO> updateFaqCategories(int categoryNo);
+	ArrayList<CategoryVO> updateFaqCategories(int category_no);
 
 	FaqVO getAdminFaqUpdateData(String no);
 
