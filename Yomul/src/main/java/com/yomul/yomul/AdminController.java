@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -79,10 +80,42 @@ public class AdminController {
 		return "admin/customer_center/faq/admin_faq_update";
 	}
 
+	// 공지사항 목록
 	@RequestMapping(value = "admin_notice_list", method = RequestMethod.GET)
-	public String adminNoticeList() {
-		return "admin/customer_center/notice/admin_notice_list";
+	public ModelAndView adminNoticeList(String page) {
+		if(page==null) {
+			page="1";
+		}
+		ModelAndView mv = new ModelAndView();
+		ArrayList<NoticeVO> list = noticeService.getNoticeList(page);
+
+		mv.setViewName("admin/customer_center/notice/admin_notice_list");
+		mv.addObject("list", list);
+		mv.addObject("page", page);
+		mv.addObject("total", noticeService.getTotalPageCount());
+
+		return mv;
 	}
+	// 공지사항 상세
+//	@RequestMapping(value = "admin_notices/{no}", method = RequestMethod.GET)
+//	public ModelAndView noticeList(@PathVariable("no") int no) {
+//		ModelAndView mv = new ModelAndView();
+//		NoticeVO vo = noticeService.getNoticeInfo(no);
+//
+//		// 해당 공지사항이 없을 경우 에러페이지 이동
+//		if (vo == null) {
+//			mv.setViewName("redirect:/error");
+//		} else {
+//			ArrayList<String> files = fileService.getNoticeFiles(no);
+//
+//			mv.setViewName("admin/customer_center/notice/notice_info");
+//			mv.addObject("vo", vo);
+//			mv.addObject("files", files);
+//		}
+//
+//		return mv;
+//	}
+
 
 	@RequestMapping(value = "admin_notice_info", method = RequestMethod.GET)
 	public String adminNoticeInfo() {

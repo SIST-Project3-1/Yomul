@@ -10,37 +10,72 @@
 	<insert id="writeNotice" parameterType="com.yomul.vo.NoticeVO">
 		INSERT INTO YOMUL_NOTICES
 		(
-			  NO
-			, WRITER
-			, TITLE
-			, CONTENT
+		NO
+		, WRITER
+		, TITLE
+		, CONTENT
 		)
 		VALUES
 		(
-			  'N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL
-			, #{writer}
-			, #{title}
-			, #{content}
+		'N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL
+		,
+		#{writer}
+		, #{title}
+		, #{content}
 		)
 	</insert>
-	
+
 	<!-- 공지사항 수정 -->
 	<update id="updateNotice" parameterType="com.yomul.vo.NoticeVO">
 		UPDATE YOMUL_NOTICES
 		SET
-			WRITER=#{writer}
-			, TITLE=#{title}
-			, CONTENT=#{content}
-		
+		WRITER=#{writer}
+		, TITLE=#{title}
+		, CONTENT=#{content}
+
 		WHERE
-			  NO=#{no}
-		
+		NO=#{no}
+
 	</update>
-		
+
 	<!-- 공지사항 삭제 -->
 	<delete id="deleteNotice" parameterType="com.yomul.vo.NoticeVO">
-		DELETE FROM YOMUL_NOTICES
+		DELETE FROM
+		YOMUL_NOTICES
 		WHERE
-			  NO=#{no}
+		NO=#{no}
 	</delete>
+
+	<!-- 공지사항 목록 가져오기 -->
+	<select id="getNoticeList" parameterType="map"
+		resultType="com.yomul.vo.NoticeVO">
+		SELECT RNO, NO, TITLE, NDATE
+		FROM
+		(
+		SELECT
+		ROWNUM AS RNO, N.*
+		FROM
+		(
+		SELECT
+		NO, TITLE, NDATE
+		FROM
+		YOMUL_NOTICES
+		ORDER BY
+		TO_NUMBER(SUBSTR(NO,2))
+		DESC
+		)
+		N
+		)
+		WHERE
+		RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
+	</select>
+	<!-- 공지사항 페이지 수 가져오기 -->
+	<select id="gettotalpagecount" parameterType="string"
+		resultType="_int">
+		SELECT
+		CEIL(COUNT(*)/10) TOTAL_PAGE
+		FROM
+		YOMUL_NOTICES
+	</select>
 </mapper>

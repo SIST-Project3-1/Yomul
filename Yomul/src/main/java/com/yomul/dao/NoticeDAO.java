@@ -55,11 +55,10 @@ public class NoticeDAO extends DAO {
 	 * 
 	 * @return
 	 */
-	public ArrayList<NoticeVO> getNoticeList(int page, String search) {
+	public ArrayList<NoticeVO> getNoticeList(String page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("page", page);
-		map.put("search", search);
-		List<NoticeVO> list = sqlSession.selectList(namespace + ".getNoticelist", map);
+		List<NoticeVO> list = sqlSession.selectList(namespace + ".getNoticeList", map);
 		return (ArrayList<NoticeVO>) list;
 	}
 
@@ -68,7 +67,7 @@ public class NoticeDAO extends DAO {
 	 * 
 	 * @return
 	 */
-	public int getTotalPageCount(String search) {
-		return sqlSession.selectOne(namespace + ".gettotalpagecount", search);
+	public int getTotalPageCount() {
+		return sqlSession.selectOne(namespace + ".gettotalpagecount");
 	}
 }

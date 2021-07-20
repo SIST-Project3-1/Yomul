@@ -1,5 +1,7 @@
 package com.yomul.service;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,14 @@ public class NoticeServiceImpl implements NoticeService {
 	@Override
 	public int deleteNotice(NoticeVO vo) {
 		return noticeDAO.deleteNotice(vo) == 1 ? 1 : 0;
+	}
+	@Override
+	public ArrayList<NoticeVO> getNoticeList(String page) {
+		return noticeDAO.getNoticeList(page);
+	}
+	@Override
+	public int getTotalPageCount() {
+		return noticeDAO.getTotalPageCount();
 	}
 
 }
