@@ -88,25 +88,24 @@ public class NearController {
 	}
 
 	@RequestMapping(value = "/near_write_proc", method = RequestMethod.POST)
-	public ModelAndView near_write_proc(NearVO vo, @RequestParam("uploadFile") List<MultipartFile> files, HttpServletRequest request,
+	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request,
 			HttpSession session) {
 
 		ModelAndView mv = new ModelAndView();
 		int fileCount = fileUploadService.getUploadedCount(files);
 		String articleNo = nearDAO.getWriteNumber();
+		
 		if (fileCount != 0) {
 			String url = fileUploadService.restore(files, request, articleNo);
 			mv.addObject("url", url);
 		}
+		
 		mv.addObject("fileCount", fileCount);
 		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
-
 		int result = nearDAO.getNearWrite(vo);
 
 		if (result == 1) {
-
 			mv.setViewName("redirect:/near_home");
-
 		} else {
 			// mv.setViewName("error"); 에러페이지
 		}
@@ -114,9 +113,22 @@ public class NearController {
 		return mv;
 	}
 
-	@RequestMapping(value = "/near_update", method = RequestMethod.GET)
-	public String near_update() {
-		return "user/near/near_update";
+	@RequestMapping(value = "/near_update/{no}", method = RequestMethod.GET)
+	public ModelAndView near_update(@PathVariable("no") String no) {
+		ModelAndView mv = new ModelAndView();
+		// 게시글 정보 불러오기
+		NearVO vo = nearService.getNearInfo(no);
+		mv.addObject("vo", vo);
+		mv.setViewName("user/near/near_update");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "/near_update_proc", method = RequestMethod.POST)
+	public ModelAndView near_update_proc() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/near_home");
+		return mv;
 	}
 
 	// 내 근처 상세보기
@@ -131,8 +143,14 @@ public class NearController {
 			// 게시글 정보 불러오기
 			NearVO vo = nearService.getNearInfo(no);
 			mv.addObject("vo", vo);
-
-			// 게시글 파일이 있을 경우 불러오기
+			
+			//로그인 세션 값 불러오기
+			String id = (String)session.getAttribute("id");
+			if(id !=null) {
+				mv.addObject("id", id);
+			}
+		
+			// 게시글 파일이 있을 경우 불러오기 //null 값 들어가면 오류!
 			if (vo.getFiles() != 0) {
 				ArrayList<String> files = fileService.getArticleFiles(no);
 				mv.addObject("articleImages", files);

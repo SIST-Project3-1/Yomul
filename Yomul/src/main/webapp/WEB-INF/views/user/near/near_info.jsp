@@ -77,6 +77,10 @@
 			<div class="near-info-left-title">
 				<h6>${vo.category }</h6>
 				<h3>${vo.title }</h3>
+				<c:if test="${id == vo.writer }">
+					<a href="near_update/${vo.no }">수정</a>
+					<a href="#">삭제</a>
+				</c:if>
 			</div>
 
 			<!--  이미지  -->
