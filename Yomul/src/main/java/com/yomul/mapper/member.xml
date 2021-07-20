@@ -6,6 +6,17 @@
 
 <mapper namespace="mapper.member">
 
+	<!-- 비밀번호 일치 확인 -->
+	<select id="checkPW" parameterType="com.yomul.vo.MemberVO" resultType="_int">
+		SELECT
+			COUNT(*)
+		FROM
+			YOMUL_MEMBERS
+		WHERE
+				EMAIL = #{email}
+			AND PW = #{pw}
+	</select>
+
 	<!-- 회원 탈퇴 신청 -->
 	<update id="withdrawal" parameterType="com.yomul.vo.MemberVO">
 		UPDATE
@@ -48,6 +59,7 @@
 		SELECT
 			  NO
 			, NICKNAME
+			, EMAIL
 			, PROFILEIMG
 			, AUTHORITY
 		FROM
