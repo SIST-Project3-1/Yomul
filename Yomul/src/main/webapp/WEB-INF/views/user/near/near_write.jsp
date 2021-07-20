@@ -9,35 +9,29 @@
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
 <script>
+	function fileUpload(fis) {
+		var str = fis.value;
+		// 이미지를 변경한다.
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$('#profile_img_img').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(fis.files[0]);
+	}
+
 	$(document).ready(function() {
 		$('#category').change(function() {
 			$('#category').css('color', 'black');
 		});
 
-		 if ($('#file')[0].files.length === 0) {
-		    $('#file_btn').attr("disabled","disabled");
-		}else{
-			 $('#file_btn').removeAttr("disabled");
-		} 
+		if ($('#file')[0].files.length === 0) {
+			$('#file_btn').attr("disabled", "disabled");
+		} else {
+			$('#file_btn').removeAttr("disabled");
+		}
 	});
 </script>
-<script>
-function readURL(input) {
-	 if (input.files && input.files[0]) {
-	  var reader = new FileReader();
-	  
-	  reader.onload = function (e) {
-	   $('#preview-image').attr('src', e.target.result);  
-	  }
-	  
-	  reader.readAsDataURL(input.files[0]);
-	  }
-	}
-	
-	$("#uploadFile").change(function(){
-	   readURL(this);
-	});
-</script>
+
 </head>
 <body>
 	<!-- HEADER -->
@@ -49,10 +43,20 @@ function readURL(input) {
 			<!-- 선택한 사진 전체 미리보기 -->
 			<div class="near-write-preview"></div>
 			<!-- 사진 -->
-			<form action="near_write_proc" method="POST" enctype="multipart/form-data" >
+			<form action="near_write_proc" method="POST"
+				enctype="multipart/form-data">
 				<div class="near-write-img">
-					 <img style="width: 300px;" id="preview-image" src="#">
-					<input type="file" name="uploadFile" id="uploadFile" multiple>
+					<!-- <input type="file" name="uploadFile" id="uploadFile" multiple>
+					 -->
+
+					<img id="profile_img_img" class="rounded-circle mb-3"
+						src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }'
+						style="width: 400px; height: 400px;">
+					<input type="file" class="custom-file-input" id="profile_img"
+						name="profile_img" aria-describedby="profile_img"
+						onchange="fileUpload(this)" multiple>
+					<label class="btn-yomul" for="profile_img"
+						data-browse="업로드" style="padding:10px;border:2px solid white;border-radius:20px;">이미지업로드</label>
 
 				</div>
 
@@ -74,8 +78,8 @@ function readURL(input) {
 						</select>
 					</div>
 					<div>
-						<label>가격</label> <input type="text" placeholder="가격 (선택사항)"
-							name="price">
+						<label>가격</label> <input type="number" placeholder="가격 (선택사항)"
+							name="price" value=0>
 					</div>
 					<div>
 						<label>전화번호</label> <input type="text" placeholder="전화번호 (선택사항)"

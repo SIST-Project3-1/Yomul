@@ -302,7 +302,7 @@ CREATE TABLE YOMUL_REPORTS(
 -- 사용자 뷰 생성(사용자 + 이미지)
 CREATE NOFORCE VIEW V_Y_MEMBERS
 AS
-SELECT M.NO, M.EMAIL, M.PW, M.NICKNAME, M.PHONE, M.GENDER, M.INTRO, M.AUTHORITY, M.WITHDRAWAL, M.MDATE, M.SUBSCRIBE, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME PROFILEIMG
+SELECT M.NO, M.EMAIL, M.PW, M.NICKNAME, M.PHONE, M.GENDER, M.INTRO, M.AUTHORITY, M.WITHDRAWAL, M.MDATE, M.SUBSCRIBE, M.KAKAO_ID, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME PROFILEIMG
 FROM YOMUL_MEMBERS M, YOMUL_FILES F
 WHERE M.NO = F.ARTICLE_NO(+);
 
@@ -754,12 +754,12 @@ values('C'||yomul_comments_no_seq.nextval,  'n1', 'M12', '댓글입니다~', sys
 
 -- 댓글 목록 조회
 SELECT writer, CONTENT, wdate, img
-FROM (SELECT ROWNUM AS rno, writer, CONTENT, wdate, img
-	FROM (SELECT m.nickname AS writer, c.CONTENT, c.wdate, img
-		FROM v_y_comments c, yomul_members m
-		where c.article_no = 'n1' and c.writer = m.no
-		ORDER BY c.NO)
-	WHERE ROWNUM <= 10 * 1)
+FROM ( SELECT ROWNUM AS rno, writer, CONTENT, wdate, img
+            FROM ( SELECT m.nickname AS writer, c.CONTENT, c.wdate, img
+                        FROM v_y_comments c, yomul_members m
+                        where c.article_no = 'n1' and c.writer = m.no
+                        ORDER BY c.NO)
+            WHERE ROWNUM <= 10 * 1)
 WHERE rno > 10 * (1 - 1);
 
 -- 댓글 갯수 확인
@@ -890,14 +890,25 @@ DELETE FROM YOMUL_MEMBERS WHERE NO = 'M24' AND WITHDRAWAL = 1;
 -- 내 근처 글 목록 불러오기
 SELECT *
 FROM ( SELECT ROWNUM AS RNO, NA.*
-            FROM ( SELECT NO, TITLE, CATEGORY, PRICE, NDATE
-                        FROM YOMUL_NEAR_ARTICLES
-                        ORDER BY TO_NUMBER(SUBSTR(NO, 2, 10)) DESC) NA
+            FROM ( SELECT NA.NO, TITLE, NA.CATEGORY, PRICE, NDATE, V.NO AS VNO, V.NAME AS WRITER
+                        FROM YOMUL_NEAR_ARTICLES NA LEFT JOIN YOMUL_VENDORS V ON NA.WRITER = V.OWNER
+                        ORDER BY TO_NUMBER(SUBSTR(NA.NO, 2, 10)) DESC) NA
             )
 WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
 
+-- 내 근처 글 상세보기
+SELECT N.NO, V.NO AS VNO, V.NAME AS WRITER, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS, N.FILES
+FROM V_Y_NEAR_ARTICLES N, YOMUL_VENDORS V
+WHERE N.WRITER = V.OWNER AND N.NO = 'n2';
+
 -- 공지사항 작성
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT) VALUES('N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL, 'M1', '테스트', '공지내용');
+
+-- 공지사항 수정
+UPDATE YOMUL_NOTICES SET WRITER='M1', TITLE='테스트', CONTENT='공지내용' WHERE NO='N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL;
+
+-- 공지사항 삭제
+DELETE FROM YOMUL_NOTICES WHERE NO='N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL;
 
 -- QnA 불러오기
 SELECT *
