@@ -40,7 +40,6 @@ public class ChatDAO extends DAO {
 	 * @return
 	 */
 	public ArrayList<ChatVO> getChatHistory(ChatVO chat) {
-		System.out.println(chat.toStringJson());
 		List<ChatVO> list = sqlSession.selectList(nameSpace + ".getChatHistory", chat);
 		return (ArrayList<ChatVO>) list;
 	}

@@ -46,10 +46,27 @@ public class ChatController {
 	public String chat_history_ajax(ChatVO chat) {
 		return Commons.parseJson(chatService.getChatHistory(chat));
 	}
-	
+
+	/**
+	 * 채팅 메시지 보내기
+	 * 
+	 * @param chat
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value="/chat_proc", method = RequestMethod.POST)
+	@RequestMapping(value = "/chat_proc", method = RequestMethod.POST)
 	public String chat_proc(ChatVO chat) {
 		return Commons.parseJson(chatService.chat(chat));
+	}
+
+	/**
+	 * 채팅 유저 목록 가져오기
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/chat_list_ajax", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public String chat_list_ajax(MemberVO member) {
+		return Commons.parseJson(chatService.getChatList(member));
 	}
 }

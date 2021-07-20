@@ -13,24 +13,22 @@
 	var chat_to = null;
 
 	$(document).ready(function() {
-		var first = $("button.card:first").attr("data-chat_from")
+		getChatList(false);
+
+		var first = $("button.card:first").attr("data-chat_from");
 		$("button.card:first").addClass("bg-dark text-white");
 		chat_to = $("button.card:first").attr("data-chat_from");
+
 		getChatHistory(first);
 		$("#chat-msg").focus();
 
-		// 채팅 상대 클릭
-		$("button.card").on("click", function() {
-			$("button.card").removeClass("bg-dark text-white");
-			$(this).addClass("bg-dark text-white");
-			chat_to = $(this).attr("data-chat_from");
+		// 채팅 주기적으로 갱신
+		var reloadChat = setInterval(function() {
 			getChatHistory(chat_to);
-			$("#chat-msg").val("");
-			$("#chat-msg").focus();
-		});
-		
-		
-	// 채팅하기
+			getChatList(true);
+		}, 100);
+
+		// 채팅하기
 		$("#form_chat").on("submit", function(e) {
 			var content = $("#chat-msg").val();
 			e.preventDefault();
@@ -58,6 +56,44 @@
 		})
 	});
 
+	// 채팅 상대 클릭
+	function clickChat(btn) {
+		$("button.card").removeClass("bg-dark text-white");
+		$(btn).addClass("bg-dark text-white");
+		chat_to = $(btn).attr("data-chat_from");
+		getChatHistory(chat_to);
+		$("#chat-msg").val("");
+		$("#chat-msg").focus();
+	};
+
+	// 채팅 상대 목록 가져오기
+	function getChatList(flag) {
+		$.ajax({
+			url : "/yomul/chat_list_ajax",
+			method : "POST",
+			data : {
+				"no" : member_no,
+			}, // 필수
+			async : flag,
+			success : function(json) {
+				var html = "";
+				for (var i = 0; i < json.length; i++) {
+					chat = json[i];
+					html += '<button type="button" class="card btn text-left my-2 p-3 w-100'+ (chat.chat_from == chat_to ? " bg-dark text-white" : "")+'" onclick="clickChat(this)" data-chat_from="' + chat.chat_from + '">';
+					html += '	<div>';
+					html += '		<img class="rounded-circle" src="https://via.placeholder.com/50">';
+					html += '		<span class="ml-2">';
+					html += '			<strong>' + chat.chat_from + '</strong>';
+					html += '		</span>';
+					html += '	</div>';
+					html += '</button>';
+				}
+
+				$("#chat-list").empty();
+				$("#chat-list").append(html);
+			}
+		});
+	}
 
 	// 채팅 내역 가져오기
 	function getChatHistory(chat_to) {
@@ -104,16 +140,7 @@
 				<!--  채팅 대상 -->
 				<div class="col-3 border-right overflow-auto h-100">
 					<h3>채팅</h3>
-					<c:forEach var="chat" items="${chatList}">
-						<button type="button" class="card btn text-left my-2 p-3 w-100" data-chat_from="${chat.chat_from }">
-							<div>
-								<img class="rounded-circle" src="https://via.placeholder.com/50">
-								<span class="ml-2">
-									<strong>${chat.chat_from}</strong>
-								</span>
-							</div>
-						</button>
-					</c:forEach>
+					<div id="chat-list"></div>
 				</div>
 
 				<!-- 채팅 내용 -->
