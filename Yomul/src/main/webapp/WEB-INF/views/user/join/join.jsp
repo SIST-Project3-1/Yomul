@@ -52,14 +52,20 @@
 
 	// 비밀번호 체크
 	function pwCheck() {
-		if ($("#pw").val() != "" && $("#pw_chk").val() == $("#pw").val()) {
+		if ($("#pw").val().length < 8 || $("#pw_chk").val().length < 8) {
+			$("#pw_chk").siblings(".valid-feedback").css("display", "none");
+			$("#pw_chk").siblings(".invalid-feedback.length").css("display", "block");
+			
+			if ($("#pw").val() == "" || $("#pw_chk").val() != $("#pw").val()) {
+				$("#pw_chk").siblings(".invalid-feedback.chk").css("display", "block");
+			}else{
+				$("#pw_chk").siblings(".invalid-feedback.chk").css("display", "none");
+			}
+			pwCheckFlag = false;
+		} else {
 			$("#pw_chk").siblings(".valid-feedback").css("display", "block");
 			$("#pw_chk").siblings(".invalid-feedback").css("display", "none");
 			pwCheckFlag = true;
-		} else {
-			$("#pw_chk").siblings(".valid-feedback").css("display", "none");
-			$("#pw_chk").siblings(".invalid-feedback").css("display", "block");
-			pwCheckFlag = false;
 		}
 	}
 
@@ -175,42 +181,42 @@
 				</div>
 				<div class="form-group">
 					<label for="pw">비밀번호</label>
-					<small id="pwHelp" class="form-text text-muted">8자 이상 입력해주세요.</small>
-					<input id="pw" name="pw" class="w-100 form-control" type="password" onkeyup="pwCheck()" required>
+					<small id="pwHelp" class="form-text text-muted">8자 이상 입력해주세요.</small> <input id="pw" name="pw" class="w-100 form-control" type="password" onkeyup="pwCheck()" required>
 				</div>
 				<div class="form-group">
 					<label for="pw_chk">비밀번호 확인</label>
 					<input id="pw_chk" class="w-100 form-control" type="password" onkeyup="pwCheck()" required>
 					<div class="valid-feedback">비밀번호가 일치합니다.</div>
-					<div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+					<div class="invalid-feedback chk">비밀번호가 일치하지 않습니다.</div>
+					<div class="invalid-feedback length">비밀번호를 8자 이상 입력해주세요.</div>
 				</div>
 				<div class="form-group">
 					<label for="nickname">별명</label>
-					<small id="nicknameHelp" class="form-text text-muted">다른 유저와 겹치지 않는 별명을 입력해주세요.(2~15자)</small>
-					<input id="nickname" name="nickname" class="w-100 form-control" type="text" onkeyup="nicknameCheck()" required>
+					<small id="nicknameHelp" class="form-text text-muted">다른 유저와 겹치지 않는 별명을 입력해주세요.(2~15자)</small> <input id="nickname" name="nickname" class="w-100 form-control" type="text"
+						onkeyup="nicknameCheck()" required>
 					<div class="valid-feedback">사용할 수 있는 닉네임입니다.</div>
-					<div class="invalid-feedback">사용할 수 없는 닉네임입니다.</div>
+					<div class="invalid-feedback chk">사용할 수 없는 닉네임입니다.</div>
+					<div class="invalid-feedback min-length">닉네임의 길이가 너무 짧습니다.</div>
+					<div class="invalid-feedback max-length">닉네임의 길이가 너무 깁니다.</div>
 				</div>
 				<p>약관 동의</p>
 				<div class="form-group border rounded pt-3 pl-2 pb-1 pr-3">
 					<div class="form-check">
 						<label class="form-check-label">
-							<input id="check_all" type="checkbox" class="form-check-input" onchange="checkAllCheckbox()">
-							전체동의
+							<input id="check_all" type="checkbox" class="form-check-input" onchange="checkAllCheckbox()"> 전체동의
 						</label>
 					</div>
 					<hr>
 					<div class="form-check">
 						<label class="form-check-label">
-							<input id="check_1" name="check_1" type="checkbox" class="form-check-input" required>
-							만 14세 이상입니다. <span class="text-yomul">(필수)</span>
+							<input id="check_1" name="check_1" type="checkbox" class="form-check-input" required> 만 14세 이상입니다.
+							<span class="text-yomul">(필수)</span>
 						</label>
 						<div class="invalid-feedback">필수 약관에 동의해주세요.</div>
 					</div>
 					<div class="form-check">
 						<label class="form-check-label">
-							<input id="check_2" name="check_2" type="checkbox" class="form-check-input" required>
-							이용약관
+							<input id="check_2" name="check_2" type="checkbox" class="form-check-input" required> 이용약관
 							<a href="/yomul/usepolicy">보기</a>
 							<span class="text-yomul">(필수)</span>
 						</label>
@@ -218,8 +224,7 @@
 					</div>
 					<div class="form-check">
 						<label class="form-check-label">
-							<input id="check_3" name="check_3" type="checkbox" class="form-check-input" required>
-							개인정보수집 및 이용동의
+							<input id="check_3" name="check_3" type="checkbox" class="form-check-input" required> 개인정보수집 및 이용동의
 							<a href="/yomul/privacy">보기</a>
 							<span class="text-yomul">(필수)</span>
 						</label>
@@ -227,8 +232,8 @@
 					</div>
 					<div class="form-check">
 						<label class="form-check-label">
-							<input id="subscribe" name="subscribe" type="checkbox" class="form-check-input">
-							이벤트, 프로모션 알림 메일 및 SMS 수신 <span>(선택)</span>
+							<input id="subscribe" name="subscribe" type="checkbox" class="form-check-input"> 이벤트, 프로모션 알림 메일 및 SMS 수신
+							<span>(선택)</span>
 						</label>
 					</div>
 				</div>
