@@ -5,19 +5,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 FAQ 글 수정하기</title>
+<title>관리자 FAQ 글 수정</title>
 <!-- HEAD -->
 <%@ include file="../../../head.jsp"%>
 <style>
-div.admin_faq_write {
-	width: 50%;
-	margin: auto;
+.admin-fqa-write-content {
+	width:900px;
+	margin:auto;
+	padding:0;
 }
-
-div.admin_faq_write .head {
+.admin_faq_write {
 	margin-top: 50px;
 }
-
 div.admin_faq_write .head input {
 	display: block;
 	width: 900px;
@@ -26,13 +25,17 @@ div.admin_faq_write .head input {
 	border-radius: 10px;
 	text-align: left;
 }
-
+.head h4{
+	margin-bottom:20px;
+}
 div.admin_faq_write .head .form-select{
 	padding:5px 20px;
 	border:2px solid lightgray;
 	border-radius:20px;
 }
-
+.form-select {
+	margin-bottom:5px;
+}
 div.admin_faq_write .body textarea {
 	width: 900px;
 	height: 400px;
@@ -40,7 +43,6 @@ div.admin_faq_write .body textarea {
 	margin-top: 5px;
 	text-align: left;
 }
-
 div.admin_faq_write .head .input-file-button {
 	padding: 10px 30px;
 	margin-top: 5px;
@@ -50,52 +52,48 @@ div.admin_faq_write .head .input-file-button {
 	cursor: pointer;
 	background-color: rgb(255, 99, 95);
 }
-
-div.admin_faq_write div.faq_write_btn {
-	text-align: center;
-	margin-left: 300px;
-}
-
-div.admin_faq_write div.faq_write_btn #fqaUpdate {
-	padding: 25px 80px;
+div.admin_faq_write div.admin_faq_write_btn .fqaWrite {
+	background-color: rgb(255, 99, 95);
 	color: white;
 	border-radius: 20px;
 	border: 2px solid white;
 	display: block;
+	width:100px; height:50px;
+	margin-top:20px;
+}
+.admin_faq_write_btn {
+	display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 </style>
-
 </head>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../../admin_header.jsp"%>
 
 	<!--  BODY  -->
-	<section id="sample">
-		<form name="fqaUpdate" method="get" action="#">
+	<section id="admin_fqa_write" class="admin-fqa-write-content">
+		<form name="admin_fqa_write" method="get" action="admin_faq_update_proc">
 			<div class="admin_faq_write">
 				<div class="head">
-					<h1>FAQ 글 수정하기</h1>
-					<h4>
-						게시할 FAQ 글을 수정해주세요
-					</h4>
-					<hr>
-					<select class="form-select" aria-label="Default select example">
-						<option selected>카테고리</option>
-						<option value="상품문의">상품문의</option>
-						<option value="회원문의">회원문의</option>
-					</select> <input type="text" name="title" id="title" class="title"
-						placeholder="제목을 입력해주세요" required>
-					<div id="title_alert"></div>
-
+					<h1>FAQ 글 수정</h1>
+					<h4>게시한 FAQ 글을 수정해 주세요</h4>
+				<div id="title_alert">
+					<select id="category" name="categoryNo" class="form-select" aria-label="Default select example" required>
+						<option value="${faq.categoryNo}" selected>${faq.category}</option>
+						<c:forEach var="category" items="${categories}">
+							<option value="${category.no}">${category.content}</option>
+						</c:forEach>
+					</select> 
+					<input type="text" name="title" id="title" class="title" value="${faq.title}" required>
+				</div>
 				</div>
 				<div class="body">
-					<textarea name="content" id="content" class="content"
-						placeholder="내용을 적어주세요!!" required></textarea>
+					<textarea name="content" id="content" class="content" required>${faq.content}</textarea>
 				</div>
-				<div class="faq_write_btn">
-					<button type="submit" name="fqaUpdate" id="fqaUpdate"
-						class="btn-yomul">저장하기</button>
+				<div class="admin_faq_write_btn">
+					<button type="submit" class="fqaWrite">완료</button>
 				</div>
 			</div>
 		</form>

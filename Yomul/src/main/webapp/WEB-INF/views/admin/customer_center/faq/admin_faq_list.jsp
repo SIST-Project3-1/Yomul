@@ -93,7 +93,7 @@ function getFaqList(page, search) {
 				html += '	<td>' + faq.category + '</td>';
 				html += '	<td><span>Q.&nbsp;</span>' + faq.title + '</td>';
 				html += '	<td><span>A.&nbsp;</span>' + faq.content + '</td>';
-				html += '	<td><a class="btn btn-yomul" href="admin_faq_update?no=' + faq.no + '" role="button">수정</a></td>';
+				html += '	<td><a class="btn btn-yomul" href="admin_faq_update?no='+ faq.no +'?categoryNo='+ faq.categoryNo +'" role="button">수정</a></td>';
 				html += '	<td><a class="btn btn-yomul" href="#" role="button">삭제</a></td>';
 				html += '</tr>';
 			}

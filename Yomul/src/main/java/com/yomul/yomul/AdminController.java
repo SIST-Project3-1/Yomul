@@ -47,14 +47,14 @@ public class AdminController {
 	/*
 	 * FAQ
 	 */
-	//목록 ajax
+	// 목록 ajax
 	@ResponseBody
 	@RequestMapping(value = "admin_faq_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public String admin_faq_list_ajax(int page, String search, HttpServletRequest request) {
 		return Commons.parseJson(faqService.getAdminFaqList(page, search));
 	}
 	
-	//목록보기
+	// 목록 보기
 	@RequestMapping(value = "admin_faq_list", method = RequestMethod.GET)
 	public ModelAndView adminFaqList(String page, String search) {
 		ModelAndView mv = new ModelAndView();
@@ -68,7 +68,7 @@ public class AdminController {
 		return mv;
 	}
 
-	// 글쓰기 페이지 열기
+	// 글쓰기 페이지
 	@RequestMapping(value = "admin_faq_write", method = RequestMethod.GET)
 	public ModelAndView adminFaqWrite() { 
 		ModelAndView mv = new ModelAndView();
@@ -97,9 +97,35 @@ public class AdminController {
 		return mv;
 	}
 	
+	//글수정 페이지
 	@RequestMapping(value = "admin_faq_update", method = RequestMethod.GET)
-	public String adminFaqUpdate() {
-		return "admin/customer_center/faq/admin_faq_update";
+	public ModelAndView adminFaqUpdate(String no, int categoryNo) {
+		ModelAndView mv = new ModelAndView();
+		ArrayList<CategoryVO> categories = faqService.updateFaqCategories(categoryNo); // 카테고리 정보
+		FaqVO faq = faqService.getAdminFaqUpdateData(no);
+		
+		mv.setViewName("admin/customer_center/faq/admin_faq_update");
+		mv.addObject("categories", categories);
+		mv.addObject("faq", faq);
+		
+		return mv;
+	}
+	
+	// 글수정 데이터 저장
+	@RequestMapping(value = "admin_faq_update_proc", method = RequestMethod.GET)
+	public ModelAndView adminFaqUpdateProc(FaqVO faq, HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		faq.setWriter(member.getNo());
+
+		int result = faqService.getAdminFaqWrite(faq);
+		if (result == 1) {
+			mv.setViewName("redirect:/admin_faq_list");
+		} else {
+			// mv.setViewName("error"); 에러페이지
+		}
+		return mv;
 	}
 
 	@RequestMapping(value = "admin_notice_list", method = RequestMethod.GET)
