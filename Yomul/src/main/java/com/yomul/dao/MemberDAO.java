@@ -165,6 +165,7 @@ public class MemberDAO extends DAO {
 	 * @return
 	 */
 	public MemberVO getLoginResult(MemberVO vo) {
+		System.out.println(vo.toStringJson());
 		return sqlSession.selectOne(namespace + ".getLoginResult", vo);
 
 	}

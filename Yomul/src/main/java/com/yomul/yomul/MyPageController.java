@@ -1,6 +1,7 @@
 package com.yomul.yomul;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,13 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
 import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
 import com.yomul.service.CommentService;
 import com.yomul.service.MemberService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
+import com.yomul.util.Security;
 import com.yomul.vo.CommentVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
@@ -153,9 +154,7 @@ public class MyPageController {
 	public String mycomment_list_ajax(int page, HttpSession session) {
 		MemberVO vo = (MemberVO) session.getAttribute("member");
 		ArrayList<CommentVO> commentList = commentService.getCommentList(vo, page);
-
-		Gson gson = new Gson();
-		return gson.toJson(commentList);
+		return Commons.parseJson(commentList);
 	}
 
 	/**
@@ -195,12 +194,54 @@ public class MyPageController {
 	}
 
 	/**
+	 * 프로필 수정 비밀번호 확인 페이지
+	 * 
+	 * @param no
+	 * @return
+	 */
+	@RequestMapping(value = "/mypage/myprofile_update", method = RequestMethod.GET)
+	public ModelAndView myprofile_update() {
+		ModelAndView mv = new ModelAndView("user/check_pw");
+
+		mv.addObject("title", "요물 프로필 수정");
+		mv.addObject("useAjax", true);
+		mv.addObject("url", "/yomul/mypage/myprofile_update_check");
+		mv.addObject("method", "POST");
+		mv.addObject("successMsg", "비밀번호가 일치합니다.");
+		mv.addObject("successLink", "/yomul/myprofile_update/");
+		mv.addObject("failMsg", "비밀번호가 일치하지 않습니다.");
+		mv.addObject("bodyMsg", "프로필을 수정하려면 비밀번호를 입력하세요.");
+		mv.addObject("btnName", "확인");
+		mv.addObject("cancleLink", "/yomul/myprofile_info");
+		return mv;
+	}
+
+	/**
+	 * 프로필 수정 비밀번호 확인 처리
+	 * 
+	 * @param no
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage/myprofile_update_check", method = RequestMethod.POST)
+	public String myprofile_update_cehck(String pw, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		member.setPw(pw);
+		member.setHashsalt(memberService.getHashsalt(member));
+		System.out.println(member.toStringJson());
+		member.setPw(Security.pwHashing(pw, member.getHashsalt()));
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", memberService.getLoginResult(member) != null ? 1 : 0);
+		return Commons.parseJson(map);
+	}
+
+	/**
 	 * 프로필 수정 페이지
 	 * 
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/mypage/myprofile_update", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/myprofile_update", method = RequestMethod.POST)
 	public ModelAndView myprofile_update(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("user/mypage/myprofile_update");
 
