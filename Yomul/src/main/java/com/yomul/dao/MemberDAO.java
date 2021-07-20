@@ -22,6 +22,15 @@ public class MemberDAO extends DAO {
 	private static String namespace = "mapper.member";
 
 	/**
+	 * 비밀번호 일치 확인
+	 * @param vo
+	 * @return
+	 */
+	public int checkPW(MemberVO vo) {
+		return sqlSession.selectOne(namespace + ".checkPW", vo);
+	}
+
+	/**
 	 * 회원 탈퇴 처리
 	 * 
 	 * @param vo
@@ -165,7 +174,6 @@ public class MemberDAO extends DAO {
 	 * @return
 	 */
 	public MemberVO getLoginResult(MemberVO vo) {
-		System.out.println(vo.toStringJson());
 		return sqlSession.selectOne(namespace + ".getLoginResult", vo);
 
 	}

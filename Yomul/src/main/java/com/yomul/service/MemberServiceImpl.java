@@ -107,4 +107,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.cancleWithdrawal(vo) == 1 ? 1 : 0;
 	}
 
+	@Override
+	public int checkPW(MemberVO vo) {
+		return memberDAO.checkPW(vo) == 1 ? 1 : 0;
+	}
+
 }

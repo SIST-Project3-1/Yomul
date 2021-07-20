@@ -208,11 +208,11 @@ public class MyPageController {
 		mv.addObject("url", "/yomul/mypage/myprofile_update_check");
 		mv.addObject("method", "POST");
 		mv.addObject("successMsg", "비밀번호가 일치합니다.");
-		mv.addObject("successLink", "/yomul/myprofile_update/");
+		mv.addObject("successLink", "/yomul/mypage/myprofile_update/");
 		mv.addObject("failMsg", "비밀번호가 일치하지 않습니다.");
 		mv.addObject("bodyMsg", "프로필을 수정하려면 비밀번호를 입력하세요.");
 		mv.addObject("btnName", "확인");
-		mv.addObject("cancleLink", "/yomul/myprofile_info");
+		mv.addObject("cancleLink", "/yomul/mypage/myprofile_info");
 		return mv;
 	}
 
@@ -228,10 +228,15 @@ public class MyPageController {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		member.setPw(pw);
 		member.setHashsalt(memberService.getHashsalt(member));
-		System.out.println(member.toStringJson());
 		member.setPw(Security.pwHashing(pw, member.getHashsalt()));
+
+		int result = memberService.checkPW(member);
+		if (result == 1) {
+			session.setAttribute("pwChk", result);
+		}
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("result", memberService.getLoginResult(member) != null ? 1 : 0);
+		map.put("result", result);
 		return Commons.parseJson(map);
 	}
 
@@ -241,18 +246,25 @@ public class MyPageController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/mypage/myprofile_update", method = RequestMethod.POST)
+	@RequestMapping(value = "/mypage/myprofile_update/", method = RequestMethod.GET)
 	public ModelAndView myprofile_update(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("user/mypage/myprofile_update");
 
 		HttpSession session = request.getSession();
-		MemberVO member = (MemberVO) session.getAttribute("member");
-		MemberVO vo = memberService.getMyProfileInfo(member);
-
-		mv.addObject("headerType", "myprofile");
-		mv.addObject("member", vo);
-		mv.addObject("file", memberService.getMyProfileImg(vo));
-		return mv;
+		System.out.println(session.getAttribute("pwChk"));
+		if (session.getAttribute("pwChk") == null) {
+			System.out.println("123123");
+			mv.setViewName("redirect:/mypage/myprofile_info");
+			return mv;
+		}else {
+			MemberVO member = (MemberVO) session.getAttribute("member");
+			MemberVO vo = memberService.getMyProfileInfo(member);
+			
+			mv.addObject("headerType", "myprofile");
+			mv.addObject("member", vo);
+			mv.addObject("file", memberService.getMyProfileImg(vo));
+			return mv;
+		}
 	}
 
 	/**
