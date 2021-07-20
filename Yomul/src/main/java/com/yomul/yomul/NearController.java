@@ -60,6 +60,8 @@ public class NearController {
 		List<NearVO> list = nearService.selectNearList(vo);
 		String keyword[] = { "부동산", "카페", "요가", "휴대폰", "마사지", "미용실", "왁싱" };
 		
+		
+		
 		mv.addObject("keyword", keyword);
 		mv.addObject("list", list);
 	
@@ -88,19 +90,20 @@ public class NearController {
 	}
 
 	@RequestMapping(value = "/near_write_proc", method = RequestMethod.POST)
-	public ModelAndView near_write_proc(NearVO vo, @RequestParam("uploadFile") List<MultipartFile> files, HttpServletRequest request,
+	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request,
 			HttpSession session) {
 
 		ModelAndView mv = new ModelAndView();
 		int fileCount = fileUploadService.getUploadedCount(files);
 		String articleNo = nearDAO.getWriteNumber();
+		System.out.println("fileCount ==> " + fileCount);
 		if (fileCount != 0) {
 			String url = fileUploadService.restore(files, request, articleNo);
+			System.out.println("url" + url );
 			mv.addObject("url", url);
 		}
 		mv.addObject("fileCount", fileCount);
 		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
-		System.out.println("vo.getCheck 값 ==> " + vo.getChatCheck());
 		int result = nearDAO.getNearWrite(vo);
 
 		if (result == 1) {
