@@ -47,21 +47,30 @@ public class AdminController {
 	/*
 	 * FAQ
 	 */
-	// 목록보기
+	//목록 ajax
+	@ResponseBody
+	@RequestMapping(value = "admin_faq_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String admin_faq_list_ajax(int page, String search, HttpServletRequest request) {
+		return Commons.parseJson(faqService.getAdminFaqList(page, search));
+	}
+	
+	//목록보기
 	@RequestMapping(value = "admin_faq_list", method = RequestMethod.GET)
-	public ModelAndView adminFaqList() {
+	public ModelAndView adminFaqList(String page, String search) {
 		ModelAndView mv = new ModelAndView();
-		ArrayList<FaqVO> list = faqService.getAdminFaqList();
-
 		mv.setViewName("admin/customer_center/faq/admin_faq_list");
-		mv.addObject("list", list);
-
+		
+		page = page == null ? "1" : page;
+		mv.addObject("page", page);
+		mv.addObject("search", search);
+		mv.addObject("totalPage", faqService.getTotalPageFaq(search));
+		
 		return mv;
 	}
 
 	// 글쓰기 페이지 열기
 	@RequestMapping(value = "admin_faq_write", method = RequestMethod.GET)
-	public ModelAndView adminFaqWrite() {
+	public ModelAndView adminFaqWrite() { 
 		ModelAndView mv = new ModelAndView();
 		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보
 
@@ -87,7 +96,7 @@ public class AdminController {
 		}
 		return mv;
 	}
-
+	
 	@RequestMapping(value = "admin_faq_update", method = RequestMethod.GET)
 	public String adminFaqUpdate() {
 		return "admin/customer_center/faq/admin_faq_update";

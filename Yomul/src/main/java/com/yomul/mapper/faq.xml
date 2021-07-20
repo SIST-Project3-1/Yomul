@@ -6,8 +6,7 @@
 <mapper namespace="mapper.faq">
 	<!-- 관리자 FAQ 글쓰기 데이터 저장 -->
 	<insert id="getAdminFaqWrite" parameterType="com.yomul.vo.FaqVO">
-		INSERT
-		INTO 
+		INSERT INTO 
 		YOMUL_FAQ_ARTICLES
 		(
 			NO
@@ -27,14 +26,34 @@
 	</insert>
 	
 	<!-- 관리자 FAQ 목록 가져오기 -->
-	<select id="getAdminFaqList" resultType="com.yomul.vo.FaqVO">
-		SELECT 
-		* 
-		FROM 
-		V_Y_FAQ_ARTICLES 
-		ORDER BY 
-		NO 
-		DESC
+	<select id="getAdminFaqList" parameterType="map" resultType="com.yomul.vo.FaqVO">
+		SELECT *
+		FROM ( SELECT ROWNUM AS RNO, NO, CATEGORY_NO, CATEGORY, WRITER, TITLE, CONTENT
+		        FROM ( SELECT TO_NUMBER(SUBSTR(NO, 3)) NO_NUM, NO, CATEGORY_NO, CATEGORY, WRITER, TITLE, CONTENT
+		               FROM V_Y_FAQ_ARTICLES
+		               WHERE
+		               CATEGORY LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
+		               OR
+		               TITLE LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
+		               OR
+		               CONTENT LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
+		               ORDER BY NO_NUM DESC
+		               )
+        )
+		WHERE
+		RNO > 10 * (#{page} - 1) 
+		<![CDATA[	AND RNO <= 10 * #{page}			]]>
 	</select>
 	
+	<!-- FAQ 페이지 수 구하기 -->
+	<select id="getTotalPageFaq" parameterType="string" resultType="_int">
+		SELECT CEIL(COUNT(*)/10)
+		FROM  V_Y_FAQ_ARTICLES
+		WHERE
+		CATEGORY LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
+		OR
+		TITLE LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
+		OR
+		CONTENT LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
+	</select>
 </mapper>

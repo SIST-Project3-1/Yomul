@@ -21,8 +21,13 @@ public class FaqServiceImpl implements FaqService{
 	}
 
 	@Override
-	public ArrayList<FaqVO> getAdminFaqList() {
-		return faqDAO.getAdminFaqList();
+	public ArrayList<FaqVO> getAdminFaqList(int page, String search) {
+		return faqDAO.getAdminFaqList(page, search);
+	}
+
+	@Override
+	public int getTotalPageFaq(String search) {
+		return faqDAO.getTotalPageFaq(search);
 	}
 
 
