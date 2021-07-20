@@ -21,6 +21,18 @@ public class VendorServiceImpl implements VendorService {
 	public String vendorSignUp(VendorVO vo) {
 		return vendorDAO.vendorSingUp(vo);
 	}
+	
+	// 업체 탈퇴 신청
+	@Override
+	public int withdrawalVendor(String owner) {
+		return vendorDAO.withdrawalVendor(owner);
+	}
+	
+	// 업체 탈퇴 신청 취소
+	@Override
+	public int cancelWithdrawalVendor(String owner) {
+		return vendorDAO.cancelWithdrawalVendor(owner);
+	}
 
 	// 업체 정보 수정
 	@Override
@@ -105,5 +117,14 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public String getVendorOwner(String no) {
 		return vendorDAO.getVendorOwner(no);
+	}
+	
+	// 사용자 번호로 업체인지 확인
+	@Override
+	public boolean isVendor(String no) {
+		if(vendorDAO.getVendorNoByOwner(no).equals("")) {
+			return false;
+		}
+		return true;
 	}
 }

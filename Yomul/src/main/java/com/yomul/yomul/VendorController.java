@@ -50,10 +50,15 @@ public class VendorController {
 		String result = "";
 		FileVO fvo = null;
 		
-		String uno = "M3"; // 임시 테스트용
+		// 로그인한 회원 정보 구하기
+		MemberVO member = (MemberVO) request.getSession().getAttribute("member");
+		
+		// 로그인되어 있지 않을 경우 등록 실패
+		if(member == null) {
+			return "0";
+		}
+		String uno = member.getNo();
 		vo.setOwner(uno);
-//		HttpSession session = request.getSession();
-//		vo.setNo((String)session.getAttribute("id"));
 		
 		// DB에 업체 정보 저장 / 반환 값은 저장된 업체 번호
 		result = vendorService.vendorSignUp(vo);
@@ -67,6 +72,81 @@ public class VendorController {
 			
 			fileUtils.uploadFile(fvo, file, request);
 		}
+		
+		return String.valueOf(result);
+	}
+	
+	//업체 탈퇴 신청 페이지
+	@RequestMapping(value="/vendor_withdrawal", method=RequestMethod.GET)
+	public String vendor_withdrawal(HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		// 로그인 필요
+		if(member == null) {
+			return "redirect:/login";
+		}
+		
+		return "user/near/vendor_withdrawal";
+	}
+	
+	// 업체 탈퇴 신청 처리
+	@ResponseBody
+	@RequestMapping(value="/vendor_withdrawal_proc", method=RequestMethod.GET)
+	public String vendor_withdrawal_proc(HttpSession session) {
+		int result = 0;
+		
+		// 로그인한 회원 정보 구하기
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		// 로그인되어 있지 않을 경우 -1 반환
+		if(member == null) {
+			return "-1";
+		}
+		
+		// 업체 회원이 아닐 경우 -2 반환
+		String uno = member.getNo();
+		if(!vendorService.isVendor(uno)) {
+			return "-2";
+		}
+		
+		// 해당 회원 번호의 업체 탈퇴 신청 / 1일 경우 성공, 0일 경우(이미 탈퇴 신청한 경우) 실패
+		result = vendorService.withdrawalVendor(uno);
+		
+		return String.valueOf(result);
+	}
+	
+	//업체 탈퇴 신청 취소 페이지
+	@RequestMapping(value="/vendor_withdrawal_cancel", method=RequestMethod.GET)
+	public String vendor_withdrawal_cancel(HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		// 로그인 필요
+		if(member == null) {
+			return "redirect:/login";
+		}
+		
+		return "user/near/vendor_withdrawal_cancel";
+	}
+	
+	// 업체 탈퇴 신청 취소 처리
+	@ResponseBody
+	@RequestMapping(value="/vendor_withdrawal_cancel_proc", method=RequestMethod.GET)
+	public String vendor_withdrawal_cancel_proc(HttpSession session) {
+		int result = 0;
+		
+		// 로그인한 회원 정보 구하기
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		// 로그인되어 있지 않을 경우 -1 반환
+		if(member == null) {
+			return "-1";
+		}
+		
+		// 업체 번호 구하기
+		String uno = member.getNo();
+		
+		// 해당 회원 번호의 업체 탈퇴 신청 / 1일 경우 성공, 0일 경우 실패
+		result = vendorService.cancelWithdrawalVendor(uno);
 		
 		return String.valueOf(result);
 	}
