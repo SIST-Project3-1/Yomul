@@ -91,8 +91,9 @@ public class NearController {
 	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request,
 			HttpSession session) {
 
-		ModelAndView mv = new ModelAndView();
+		ModelAndView mv = new ModelAndView();		
 		int fileCount = fileUploadService.getUploadedCount(files);
+		vo.setFiles(fileCount); 
 		String articleNo = nearDAO.getWriteNumber();
 		
 		if (fileCount != 0) {
@@ -144,10 +145,11 @@ public class NearController {
 			NearVO vo = nearService.getNearInfo(no);
 			mv.addObject("vo", vo);
 			
-			//로그인 세션 값 불러오기
-			String id = (String)session.getAttribute("id");
-			if(id !=null) {
-				mv.addObject("id", id);
+			//로그인 사용자 체크 세션 값 불러오기
+			String loginNo = (String)session.getAttribute("no");
+			if(loginNo !=null) {
+				System.out.println("id ----> " + loginNo );
+				mv.addObject("loginNo", loginNo);
 			}
 		
 			// 게시글 파일이 있을 경우 불러오기 //null 값 들어가면 오류!
