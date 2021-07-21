@@ -9,5 +9,9 @@ public interface FaqService {
 
 	int getAdminFaqWrite(FaqVO faq);
 	
-	ArrayList<FaqVO> getAdminFaqList();
+	ArrayList<FaqVO> getAdminFaqList(int page, String search);
+	
+	int getTotalPageFaq(String search);
+	
+	
 }

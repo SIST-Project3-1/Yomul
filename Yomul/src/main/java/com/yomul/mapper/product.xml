@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.product">
+
+	<!-- 물건 목록 불러오기 -->
+	<select id="getProductList" parameterType="com.yomul.vo.ProductVO" resultType="com.yomul.vo.ProductVO">
+		SELECT 
+			  P.NO
+			, P.TITLE
+			, P.CONTENT
+			, L.LIKES
+			, C.COMMENTS
+		FROM
+			  YOMUL_PRODUCTS P
+			, (
+				SELECT
+					COUNT(*) LIKES 
+				FROM
+					YOMUL_LIKES 
+				WHERE
+					ARTICLE_NO = 'P2'
+			) L
+			, (
+				SELECT
+					COUNT(*) COMMENTS 
+				FROM
+					YOMUL_COMMENTS 
+				WHERE
+					ARTICLE_NO = 'P2'
+			) C
+	</select>
+
+</mapper>

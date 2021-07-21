@@ -13,3 +13,4 @@ config.js
 *.properties
 Yomul/target/*
 Yomul/target/*.xml
+Yomul/.tern-project
