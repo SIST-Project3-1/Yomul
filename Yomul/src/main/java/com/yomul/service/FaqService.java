@@ -12,11 +12,13 @@ public interface FaqService {
 	ArrayList<FaqVO> getAdminFaqList(int page, String search);
 	
 	int getTotalPageFaq(String search);
+	
+	FaqVO getAdminFaqUpdateData(String no);
 
 	ArrayList<CategoryVO> updateFaqCategories(int category_no);
 
-	FaqVO getAdminFaqUpdateData(String no);
-
 	int getAdminFaqUpdate(FaqVO faq);
 
+	int getAdminFaqDelete(FaqVO faq);
+	
 }

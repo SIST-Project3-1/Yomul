@@ -36,11 +36,18 @@ div.admin_faq_write .head .form-select {
 	border: 2px solid lightgray;
 	border-radius: 20px;
 }
-
-.form-select {
-	margin-bottom: 5px;
+#title_alert{
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
 }
-
+#title_alert >input{
+	width: 90px;
+	height: 35px;
+	text-align:center;
+	margin-right: 5px;
+}
 div.admin_faq_write .body textarea {
 	width: 900px;
 	height: 400px;
@@ -89,6 +96,7 @@ div.admin_faq_write div.admin_faq_write_btn .fqaWrite {
 					<h1>FAQ 글 수정</h1>
 					<h4>게시한 FAQ 글을 수정해 주세요</h4>
 					<div id="title_alert">
+						<input type="hidden" name="no" id="no" class="no" value="${faq.no}">
 						<select id="category" name="category_no" class="form-select" aria-label="Default select example" required>
 							<option value="${faq.category_no}" selected>${faq.category}</option>
 							<c:forEach var="category" items="${categories}">
@@ -98,8 +106,8 @@ div.admin_faq_write div.admin_faq_write_btn .fqaWrite {
 						<script type="text/javascript">
 							$("option[value='${category.no}']").prop("selected", true);
 						</script>
-						<input type="text" name="title" id="title" class="title" value="${faq.title}" required>
 					</div>
+					<input type="text" name="title" id="title" class="title" value="${faq.title}" required>
 				</div>
 				<div class="body">
 					<textarea name="content" id="content" class="content" required>${faq.content}</textarea>

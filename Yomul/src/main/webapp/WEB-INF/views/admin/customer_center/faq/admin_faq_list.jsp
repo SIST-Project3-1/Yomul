@@ -94,14 +94,33 @@ function getFaqList(page, search) {
 				html += '	<td><span>Q.&nbsp;</span>' + faq.title + '</td>';
 				html += '	<td><span>A.&nbsp;</span>' + faq.content + '</td>';
 				html += '	<td><a class="btn btn-yomul" href="admin_faq_update?no='+ faq.no +'" role="button">수정</a></td>';
-				html += '	<td><a class="btn btn-yomul" href="#" role="button">삭제</a></td>';
+				html += '	<td><button type="button" class="btn btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="'+ faq.no +'">삭제</button></td>';
 				html += '</tr>';
 			}
 			$("tbody").html(html);
 		}
 	});
-}  
+} 
 
+// 게시글 삭제
+function deleteFaq(){
+	$.ajax({
+		url : "/yomul/admin_faq_delete_proc",
+		method : "get",
+		data : {
+			no : $("#modal-no").text()
+		},
+		success : function(result) {
+			var json = JSON.parse(result);
+			if(json.result == 1){
+				alert("글 삭제 성공");
+				location.reload();
+			}else{
+				alert("글 삭제 실패");
+			}
+		}
+	});
+}
 </script>
 </head>
 <body>
@@ -150,6 +169,34 @@ function getFaqList(page, search) {
 					</div>
 				</div>
 			</div>
+			
+			<!-- 삭제 Modal -->
+		    <div class="modal fade" id="deleteModal" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">
+								<span id="modal-no" class="modal-no"></span>번 글을 삭제하시겠습니까?
+							</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-dark" data-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-yomul" onclick="deleteFaq()">삭제</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script type="text/javascript">
+			$('#deleteModal').on('show.bs.modal', function(event){
+				var button = $(event.relatedTarget);
+				var no = button.data('no');
+				var modal = $(this);
+				modal.find('.modal-no').text(no);
+			});
+			</script>
 			
 			<!-- 페이지네이션 -->
 			<div class="pagenation">

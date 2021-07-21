@@ -30,11 +30,6 @@ public class FaqServiceImpl implements FaqService{
 	public int getTotalPageFaq(String search) {
 		return faqDAO.getTotalPageFaq(search);
 	}
-
-	@Override
-	public ArrayList<CategoryVO> updateFaqCategories(int  category_no) {
-		return faqDAO.updateFaqCategories(category_no);
-	}
 	
 	@Override
 	public FaqVO getAdminFaqUpdateData(String no) {
@@ -42,8 +37,18 @@ public class FaqServiceImpl implements FaqService{
 	}
 
 	@Override
+	public ArrayList<CategoryVO> updateFaqCategories(int  category_no) {
+		return faqDAO.updateFaqCategories(category_no);
+	}
+
+	@Override
 	public int getAdminFaqUpdate(FaqVO faq) {
 		return faqDAO.getAdminFaqUpdate(faq);
+	}
+
+	@Override
+	public int getAdminFaqDelete(FaqVO faq) {
+		return faqDAO.getAdminFaqDelete(faq) == 1 ? 1 : 0;
 	}
 
 

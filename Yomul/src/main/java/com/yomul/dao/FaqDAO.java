@@ -40,20 +40,25 @@ public class FaqDAO extends DAO {
 		return sqlSession.selectOne(nameSpace + ".getTotalPageFaq", search);
 	}
 	
-	// 관리자 FAQ 글수정 카테고리 목록 구하기
+	// 관리자 FAQ 글 수정 데이터 불러오기
+	public FaqVO getAdminFaqUpdateData(String no) {
+		return sqlSession.selectOne(nameSpace + ".getAdminFaqUpdateData", no);
+	}
+	
+	// 관리자 FAQ 글 수정 카테고리 목록 구하기
 	public ArrayList<CategoryVO> updateFaqCategories(int category_no) {
 		List<CategoryVO> list = sqlSession.selectList(nameSpace + ".updateFaqCategories", category_no);
 		return (ArrayList<CategoryVO>) list;
 	}
-	
-	// 관리자 FAQ 글수정 데이터 불러오기
-	public FaqVO getAdminFaqUpdateData(String no) {
-		return sqlSession.selectOne(nameSpace + ".getAdminFaqUpdateData", no);
-	}
 		
-	// 관리자 FAQ 글수정 데이터 저장
+	// 관리자 FAQ 글 수정 데이터 저장
 	public int getAdminFaqUpdate(FaqVO faq) {
 		return sqlSession.update(nameSpace + ".getAdminFaqUpdate", faq);
+	}
+	
+	// 관리자 FAQ 글 삭제
+	public int getAdminFaqDelete(FaqVO faq) {
+		return sqlSession.delete(nameSpace + ".getAdminFaqDelete", faq);
 	}
 	
 }

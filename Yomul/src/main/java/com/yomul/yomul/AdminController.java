@@ -97,7 +97,7 @@ public class AdminController {
 		return mv;
 	}
 	
-	//글수정 페이지
+	// 글 수정 페이지
 	@RequestMapping(value = "admin_faq_update", method = RequestMethod.GET)
 	public ModelAndView adminFaqUpdate(String no) {
 		ModelAndView mv = new ModelAndView();
@@ -112,7 +112,7 @@ public class AdminController {
 		return mv;
 	}
 	
-	// 글수정 데이터 저장
+	// 글 수정 데이터 저장
 	@RequestMapping(value = "admin_faq_update_proc", method = RequestMethod.GET)
 	public ModelAndView adminFaqUpdateProc(FaqVO faq, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
@@ -120,13 +120,24 @@ public class AdminController {
 
 		faq.setWriter(member.getNo());
 
-		int result = faqService.getAdminFaqWrite(faq);
+		int result = faqService.getAdminFaqUpdate(faq);
 		if (result == 1) {
 			mv.setViewName("redirect:/admin_faq_list");
 		} else {
 			// mv.setViewName("error"); 에러페이지
 		}
 		return mv;
+	}
+	
+	// 글 삭제
+	@RequestMapping(value = "/admin_faq_delete_proc", method = RequestMethod.GET)
+	public String adminFaqDelete(FaqVO faq) {
+		int result = faqService.getAdminFaqDelete(faq);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+
+		return Commons.parseJson(map);
 	}
 
 	@RequestMapping(value = "admin_notice_list", method = RequestMethod.GET)

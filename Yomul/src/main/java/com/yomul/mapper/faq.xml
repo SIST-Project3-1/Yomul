@@ -61,18 +61,36 @@
 	<select id="getAdminFaqUpdateData" parameterType="map" resultType="com.yomul.vo.FaqVO">
 		SELECT *
 		FROM V_Y_FAQ_ARTICLES
-		WHERE NO=#{no}
+		WHERE NO = #{no}
 	</select>
 	
 	<!-- 관리자 FAQ 글수정 카테고리 목록 조회 -->
 	<select id="updateFaqCategories" parameterType="_int" resultType="com.yomul.vo.CategoryVO">
 		SELECT *
 		FROM YOMUL_FAQ_CATEGORIES
-        WHERE NOT NO = #{no}
+        WHERE
+        NOT NO = #{no}
 	</select>
 	
-	<!-- 관리자 FAQ 수정하기 -->
-	<update id="getAdminFaqUpdate" parameterType="map">
-	
+	<!-- 관리자 FAQ 글 수정 -->
+	<update id="getAdminFaqUpdate" parameterType="com.yomul.vo.FaqVO">
+		UPDATE
+		YOMUL_FAQ_ARTICLES
+		SET
+		CATEGORY = #{category_no}
+		, WRITER = #{writer}
+		, TITLE = #{title}
+		, CONTENT = #{content}
+		WHERE
+		NO = #{no}
 	</update>
+	
+	<!-- 관리자 FAQ 글 삭제 -->
+	<delete id="getAdminFaqDelete" parameterType="com.yomul.vo.FaqVO">
+		DELETE
+		FROM
+		YOMUL_FAQ_ARTICLES
+		WHERE
+		NO = #{no}
+	</delete>
 </mapper>
