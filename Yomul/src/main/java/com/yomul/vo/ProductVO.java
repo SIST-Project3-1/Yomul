@@ -11,6 +11,15 @@ public class ProductVO extends VO {
 	private int hits = -1;
 	private int likes = -1;
 	private int comments = -1;
+	private String writer;
+
+	public String getWriter() {
+		return writer;
+	}
+
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
 
 	public String getNo() {
 		return no;

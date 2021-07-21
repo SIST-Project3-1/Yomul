@@ -13,7 +13,11 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductDAO productDAO;
-
+	
+	@Override	
+	public int getProductWrite(ProductVO pvo) {
+		return productDAO.getProductWrite(pvo)== 1? 1:0;
+	}
 	@Override
 	public ArrayList<ProductVO> getProductList(ProductVO vo) {
 		return productDAO.getProductList(vo);

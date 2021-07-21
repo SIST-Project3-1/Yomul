@@ -34,7 +34,7 @@
 			) C
 	</select>
 		<!-- 공지사항 작성 -->
-	<insert id="product_write" parameterType="com.yomul.vo.ProductVO">
+	<insert id="getProductWrite" parameterType="com.yomul.vo.ProductVO">
 	
 	INSERT INTO YOMUL_PRODUCTS
 	(
