@@ -18,5 +18,10 @@ public class ProductServiceImpl implements ProductService {
 	public ArrayList<ProductVO> getProductList(ProductVO product, String page) {
 		return productDAO.getProductList(product, page);
 	}
+
+	@Override
+	public ProductVO getProductInfo(String no) {
+		return productDAO.getProductInfo(no);
+	}
 	
 }

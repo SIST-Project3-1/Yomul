@@ -22,4 +22,8 @@ public class ProductDAO extends DAO {
 		return (ArrayList<ProductVO>) list;
 	}
 
+	public ProductVO getProductInfo(String no) {
+		return sqlSession.selectOne(namespace + ".getProductInfo", no);
+	}
+
 }

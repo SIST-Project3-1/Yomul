@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yomul.service.MemberService;
 import com.yomul.service.ProductService;
 import com.yomul.util.Commons;
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
 
 @Controller
@@ -16,6 +18,8 @@ public class HomeController {
 
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private MemberService memberService;
 
 	@RequestMapping(value = "product_write", method = RequestMethod.GET)
 	public String product_write() {
@@ -28,8 +32,14 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "product_info", method = RequestMethod.GET)
-	public String product_info() {
-		return "user/home/product_info";
+	public ModelAndView product_info(String no) {
+		ModelAndView mv = new ModelAndView("user/home/product_info");
+		ProductVO product = productService.getProductInfo(no);
+		MemberVO member = new MemberVO();
+		member.setNo(product.getSeller());
+		mv.addObject("product", product);
+		mv.addObject("profileImg", memberService.getMyProfileImg(member));
+		return mv;
 	}
 
 	/**

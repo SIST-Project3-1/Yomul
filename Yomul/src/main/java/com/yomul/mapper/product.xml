@@ -6,6 +6,34 @@
 
 <mapper namespace="mapper.product">
 
+	<!-- 물건 내용 상세보기 -->
+	<select id="getProductInfo" parameterType="string" resultType="com.yomul.vo.ProductVO">
+		SELECT
+			  P.NO
+			, P.CATEGORY_NO
+			, PC.CONTENT CATEGORY_CONTENT
+			, P.SELLER
+			, M.NICKNAME SELLER_NICKNAME
+			, P.TITLE
+			, P.CONTENT
+			, P.PRICE
+			, P.STATE
+			, P.HITS
+			, P.PDATE
+			, P.LOCATION
+		FROM
+			YOMUL_PRODUCTS P
+			JOIN
+			YOMUL_PRODUCT_CATEGORIES PC
+			ON
+			P.CATEGORY_NO = PC.NO
+			JOIN
+			YOMUL_MEMBERS M
+			ON P.SELLER = M.NO
+		WHERE
+			P.NO = #{no}
+	</select>
+
 	<!-- 물건 목록 불러오기 -->
 	<select id="getProductList" parameterType="map" resultType="com.yomul.vo.ProductVO">
 		SELECT
