@@ -77,26 +77,27 @@ public class FileUtils {
 		return count;
 	}
 
-	public String restore(List<MultipartFile> multipartFile, HttpServletRequest request, String articleNo) {
+	public String restore(List<MultipartFile> multipartFile, HttpServletRequest request, String articleNo,FileVO fvo) {
 		String url = null;
-		final String PREFIX_URL = "resources/upload/";
 		try {
 			// 파일 정보
 			for (MultipartFile mf : multipartFile) {
 				// 원파일명
 				String originFilename = mf.getOriginalFilename();
-				// 변환 파일명
-				String extName = originFilename.substring(originFilename.lastIndexOf("."), originFilename.length());
 				// 파일 크기
 				Long size = mf.getSize();
 
-				// 서버에서 저장 할 파일 이름
-				String saveFileName = genSaveFileName(articleNo, extName);
+				//vo애 담기
+				fvo.setFilename(mf.getOriginalFilename());
+				fvo.setArticle_no(articleNo);
+				
+				// 서버에서 저장 할 파일 이름 // 이 부분 변경
+				String saveFileName = genSaveFileName(articleNo);
 				// db에 저장
+				fileService.uploadFile(fvo);
 				dao.getNearFile(saveFileName, originFilename);
 				 
 				System.out.println("originFilename : " + originFilename);
-				System.out.println("extensionName : " + extName);
 				System.out.println("size : " + size);
 				System.out.println("saveFileName : " + saveFileName);
 

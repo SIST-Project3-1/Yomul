@@ -167,7 +167,7 @@
 						});
 					});
 					$("#updateNear").on("click", function() {
-						$(location).attr("href","/yomul/admin_near_delete?no=${vo.no}");
+						$(location).attr("href","/yomul/near_update/${vo.no }");
 					});
 				</script>
 			</c:if>

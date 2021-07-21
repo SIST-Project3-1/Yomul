@@ -77,11 +77,8 @@
 	</insert>
 	
 	<!-- 내 근처 글 번호 가져오기 -->
-	<select id="getWriteNumber" resultType="string">
-		SELECT
-			MAX(NO) 
-		FROM
-			YOMUL_NEAR_ARTICLES
+	<select id="getArticeNo" resultType="string">
+		SELECT 'N'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL FROM DUAL
 	</select>
 	
 	<!-- 내 근처 글쓰기 시 파일 등록 -->

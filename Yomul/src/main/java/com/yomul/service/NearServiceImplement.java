@@ -69,4 +69,12 @@ public class NearServiceImplement implements NearService {
 		
 		return nearDAO.selectNearCardList(vo,word);
 	}
+
+	@Override
+	public String getArticeNo() {
+	
+		return nearDAO.getArticeNo();
+	}
+	
+	
 }

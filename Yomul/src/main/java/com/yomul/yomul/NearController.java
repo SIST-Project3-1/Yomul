@@ -83,22 +83,28 @@ public class NearController {
 
 	// 내 근처 글 쓰기 (동네구인구직, 과외/클래스, 농수산물, 중고차)
 	@RequestMapping(value = "/near_write", method = RequestMethod.GET)
-	public String near_write() {
-		return "user/near/near_write";
+	public ModelAndView near_write() {
+		ModelAndView mv = new ModelAndView();
+		String articleNo = nearService.getArticeNo();
+		System.out.println("artilcNo ---> " + articleNo );
+		
+		mv.setViewName("user/near/near_write");
+		
+		return mv;
 	}
 
 	@RequestMapping(value = "/near_write_proc", method = RequestMethod.POST)
 	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request,
-			HttpSession session) {
+			HttpSession session, FileVO fvo) {
 
+		
 		ModelAndView mv = new ModelAndView();		
 		int fileCount = fileUploadService.getUploadedCount(files);
 		vo.setFiles(fileCount); 
-		String articleNo = nearDAO.getWriteNumber();
 		
 		if (fileCount != 0) {
-			String url = fileUploadService.restore(files, request, articleNo);
-			mv.addObject("url", url);
+			//String url = fileUploadService.restore(files, request);
+			//mv.addObject("url", url);
 		}
 		
 		mv.addObject("fileCount", fileCount);
@@ -148,7 +154,6 @@ public class NearController {
 			//로그인 사용자 체크 세션 값 불러오기
 			String loginNo = (String)session.getAttribute("no");
 			if(loginNo !=null) {
-				System.out.println("id ----> " + loginNo );
 				mv.addObject("loginNo", loginNo);
 			}
 		
