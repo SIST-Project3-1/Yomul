@@ -1008,7 +1008,15 @@ WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
 SELECT P.NO, CATEGORY_NO, PC.CONTENT CATEGORY_CONTENT, SELLER, M.NICKNAME SELLER_NICKNAME, TITLE, P.CONTENT, PRICE, STATE, HITS, PDATE, P.LOCATION
 FROM YOMUL_PRODUCTS P JOIN YOMUL_PRODUCT_CATEGORIES PC ON P.CATEGORY_NO = PC.NO 
   JOIN YOMUL_MEMBERS M ON P.SELLER = M.NO
-WHERE P.NO = 'P1';
+WHERE P.NO = 'P34';
+
+-- 물건 좋아요
+SELECT COUNT(*) FROM YOMUL_LIKES WHERE ARTICLE_NO = 'P34' AND MEMBER_NO = 'M1';
+DELETE FROM YOMUL_LIKES WHERE ARTICLE_NO = 'P34' AND MEMBER_NO = 'M1';
+INSERT INTO YOMUL_LIKES(ARTICLE_NO, MEMBER_NO) VALUES('P34', 'M1');
+
+-- 물건 북마크
+
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 -- 사용자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
