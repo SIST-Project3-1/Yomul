@@ -45,7 +45,7 @@
 					html += '<div class="card" style="width: 18rem;">';
 					html += ' 	<img src="/yomul/image/' + product.img +'" class="card-img-top">';
 					html += ' 	<div class="card-body">';
-					html += '	 	<a href="/yomul/product_info'+ product.no +'">';
+					html += '	 	<a href="/yomul/product_info?no='+ product.no +'">';
 					html += '		    <h5 class="card-title">' + product.title + '</h5>';
 					html += '		    <p class="card-text">' + product.content + '</p>';
 					html += '	 	</a>';
