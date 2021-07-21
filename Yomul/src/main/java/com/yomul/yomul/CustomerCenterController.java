@@ -125,8 +125,8 @@ public class CustomerCenterController {
 	 * @param vo
 	 * @return
 	 */
-	@RequestMapping(value = "/customer_qna/{no}/{pw}", method = RequestMethod.GET)
-	public ModelAndView qnaInfo(@PathVariable("no") String no, @PathVariable("pw") String pw) {
+	@RequestMapping(value = "/customer_qna_secret", method = RequestMethod.GET)
+	public ModelAndView qnaInfo(String no, String pw) {
 		ModelAndView mv = new ModelAndView("user/customer_center/qna/qna_info");
 		QnaVO vo = new QnaVO();
 		vo.setNo(no);
@@ -160,7 +160,7 @@ public class CustomerCenterController {
 		mv.addObject("url", "/yomul/customer_qna_check_proc");
 		mv.addObject("method", "POST");
 		mv.addObject("successMsg", "비밀번호가 일치합니다.");
-		mv.addObject("successLink", "/yomul/customer_qna/\"+json.vo.no+\"/\"+json.vo.pw+\"");
+		mv.addObject("successLink", "/yomul/customer_qna_secret?no=\"+json.vo.no+\"&pw=\"+json.vo.pw+\"");
 		mv.addObject("failMsg", "비밀번호가 일치하지 않습니다.");
 		mv.addObject("formData", formData);
 		mv.addObject("bodyMsg", "문의내역을 확인하려면 비밀번호를 입력해주세요.");
@@ -181,6 +181,7 @@ public class CustomerCenterController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("vo", vo);
 		map.put("result", customerCenterService.checkPw(vo));
+		System.out.println(Commons.parseJson(map));
 		return Commons.parseJson(map);
 	}
 

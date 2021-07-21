@@ -28,14 +28,6 @@ html, body{
     position:absolute;
     left:0;
     margin-left:60px;
-
-}
-.pw_tool {
-    display: box;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    align-items: center;
    
 }
 
@@ -44,35 +36,6 @@ html, body{
     display:inline-block ;
     right:0;
     padding-right: 25px;
-}
-
-
-.pw_cs_btn{
-    display:inline-flex;
-    width: 132px;
-    height: 45px;
-    box-sizing: border-box;
-    margin: 0 5px;
-    background-color: #fff;
-    border: 1px solid #35c5f0;
-    border-radius: 4px;
-}
-
-.pw_s_btn{
-    width: auto;
-    box-sizing: border-box;
-    margin: 0;
-    padding:11px 5px 12px;
-    border: none;
-    background-color: transparent;
-    text-align: center;
-    white-space: nowrap;
-    font: inherit;
-    font-size: 15px;
-    line-height: 20px;
-    font-weight: 700;
-    color:#35c5f0;
-    transition: opacity .1s;
 }
 
 .pw_w_btn{
@@ -89,25 +52,6 @@ html, body{
 
 }
 
-.editor-command-list-pc-button{
-    display : inline-block;
-    width: 45px;
-    height: 45px;
-    margin: 0 2px;
-    padding:0;
-    border: none;
-    background:none;
-
-}
-
-.pw_tool>span{
-    display: inline-block;
-    height: 13px;
-    width: 1px;
-    background-color: #dadce0;
-    margin: 0 12px;
-    vertical-align: 15px;
-}
 
 /*컨텐츠영역*/
 
