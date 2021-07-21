@@ -52,37 +52,55 @@
 
 	// 비밀번호 체크
 	function pwCheck() {
-		if ($("#pw").val() != "" && $("#pw_chk").val() == $("#pw").val()) {
+		if ($("#pw").val().length < 8 || $("#pw_chk").val().length < 8) {
+			$("#pw_chk").siblings(".valid-feedback").css("display", "none");
+			$("#pw_chk").siblings(".invalid-feedback.length").css("display", "block");
+
+			if ($("#pw").val() == "" || $("#pw_chk").val() != $("#pw").val()) {
+				$("#pw_chk").siblings(".invalid-feedback.chk").css("display", "block");
+			} else {
+				$("#pw_chk").siblings(".invalid-feedback.chk").css("display", "none");
+			}
+			pwCheckFlag = false;
+		} else {
 			$("#pw_chk").siblings(".valid-feedback").css("display", "block");
 			$("#pw_chk").siblings(".invalid-feedback").css("display", "none");
 			pwCheckFlag = true;
-		} else {
-			$("#pw_chk").siblings(".valid-feedback").css("display", "none");
-			$("#pw_chk").siblings(".invalid-feedback").css("display", "block");
-			pwCheckFlag = false;
 		}
 	}
 
 	// 닉네임 중복 확인
 	function nicknameCheck() {
-		$.ajax({
-			url : "/yomul/nickname_check",
-			method : "POST",
-			data : {
-				"nickname" : $("#nickname").val()
-			},
-			success : function(result) {
-				if (result == 1) {
-					$("#nickname").siblings(".valid-feedback").css("display", "none");
-					$("#nickname").siblings(".invalid-feedback").css("display", "block");
-					nicknameCheckFlag = false;
-				} else {
-					$("#nickname").siblings(".valid-feedback").css("display", "block");
-					$("#nickname").siblings(".invalid-feedback").css("display", "none");
-					nicknameCheckFlag = true;
+		var nickname = $("#nickname").val();
+		if (nickname.length < 2) {
+			$("#nickname").siblings(".valid-feedback").css("display", "none");
+			$("#nickname").siblings(".invalid-feedback.min-length").css("display", "block");
+			$("#nickname").siblings(".invalid-feedback.max-length").css("display", "none");
+		} else if (nickname.length > 15) {
+			$("#nickname").siblings(".valid-feedback").css("display", "none");
+			$("#nickname").siblings(".invalid-feedback.max-length").css("display", "block");
+			$("#nickname").siblings(".invalid-feedback.min-length").css("display", "none");
+
+		} else {
+			$.ajax({
+				url : "/yomul/nickname_check",
+				method : "POST",
+				data : {
+					"nickname" : $("#nickname").val()
+				},
+				success : function(result) {
+					if (result == 1) {
+						$("#nickname").siblings(".valid-feedback").css("display", "none");
+						$("#nickname").siblings(".invalid-feedback.chk").css("display", "block");
+						nicknameCheckFlag = false;
+					} else {
+						$("#nickname").siblings(".valid-feedback").css("display", "block");
+						$("#nickname").siblings(".invalid-feedback").css("display", "none");
+						nicknameCheckFlag = true;
+					}
 				}
-			}
-		});
+			});
+		}
 	}
 
 	// 전체 동의
@@ -182,14 +200,17 @@
 					<label for="pw_chk">비밀번호 확인</label>
 					<input id="pw_chk" class="w-100 form-control" type="password" onkeyup="pwCheck()" required>
 					<div class="valid-feedback">비밀번호가 일치합니다.</div>
-					<div class="invalid-feedback">비밀번호가 일치하지 않습니다.</div>
+					<div class="invalid-feedback chk">비밀번호가 일치하지 않습니다.</div>
+					<div class="invalid-feedback length">비밀번호를 8자 이상 입력해주세요.</div>
 				</div>
 				<div class="form-group">
 					<label for="nickname">별명</label>
 					<small id="nicknameHelp" class="form-text text-muted">다른 유저와 겹치지 않는 별명을 입력해주세요.(2~15자)</small>
 					<input id="nickname" name="nickname" class="w-100 form-control" type="text" onkeyup="nicknameCheck()" required>
 					<div class="valid-feedback">사용할 수 있는 닉네임입니다.</div>
-					<div class="invalid-feedback">사용할 수 없는 닉네임입니다.</div>
+					<div class="invalid-feedback chk">사용할 수 없는 닉네임입니다.</div>
+					<div class="invalid-feedback min-length">닉네임의 길이가 너무 짧습니다.</div>
+					<div class="invalid-feedback max-length">닉네임의 길이가 너무 깁니다.</div>
 				</div>
 				<p>약관 동의</p>
 				<div class="form-group border rounded pt-3 pl-2 pb-1 pr-3">
@@ -203,7 +224,8 @@
 					<div class="form-check">
 						<label class="form-check-label">
 							<input id="check_1" name="check_1" type="checkbox" class="form-check-input" required>
-							만 14세 이상입니다. <span class="text-yomul">(필수)</span>
+							만 14세 이상입니다.
+							<span class="text-yomul">(필수)</span>
 						</label>
 						<div class="invalid-feedback">필수 약관에 동의해주세요.</div>
 					</div>
@@ -228,7 +250,8 @@
 					<div class="form-check">
 						<label class="form-check-label">
 							<input id="subscribe" name="subscribe" type="checkbox" class="form-check-input">
-							이벤트, 프로모션 알림 메일 및 SMS 수신 <span>(선택)</span>
+							이벤트, 프로모션 알림 메일 및 SMS 수신
+							<span>(선택)</span>
 						</label>
 					</div>
 				</div>

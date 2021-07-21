@@ -11,6 +11,12 @@ public interface VendorService {
 	// 업체 등록, 저장에 성공한 경우 업체 번호 반환, 실패한 경우 "0" 반환
 	public String vendorSignUp(VendorVO vo);
 	
+	// 업체 탈퇴 신청
+	public int withdrawalVendor(String owner);
+	
+	// 업체 탈퇴 신청 취소
+	public int cancelWithdrawalVendor(String owner);
+	
 	// 업체 정보 수정
 	public int updateVendorInfo(VendorVO vo);
 	
@@ -43,4 +49,7 @@ public interface VendorService {
 	
 	// 업체 번호로 주인 사용자 번호 조회
 	public String getVendorOwner(String no);
+	
+	// 사용자 번호로 업체인지 확인
+	public boolean isVendor(String no);
 }

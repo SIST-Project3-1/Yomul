@@ -2,7 +2,9 @@ package com.yomul.dao;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,16 @@ public class FaqDAO extends DAO {
 	}
 	
 	//관리자 FAQ 목록 가져로기
-	public ArrayList<FaqVO> getAdminFaqList() {
-		List<FaqVO> list = sqlSession.selectList(nameSpace + ".getAdminFaqList");
+	public ArrayList<FaqVO> getAdminFaqList(int page, String search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
+		map.put("search", search);
+		List<FaqVO> list = sqlSession.selectList(nameSpace + ".getAdminFaqList", map);
 		return (ArrayList<FaqVO>) list;
 	}
 	
+	//관리자 FAQ 전체 페이지 수 구하기
+	public int getTotalPageFaq(String search) {
+		return sqlSession.selectOne(nameSpace + ".getTotalPageFaq", search);
+	}
 }

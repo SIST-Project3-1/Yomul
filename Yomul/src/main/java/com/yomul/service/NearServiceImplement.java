@@ -45,4 +45,28 @@ public class NearServiceImplement implements NearService {
 	public int deleteNear(MemberVO member, NearVO near) {
 		return nearDAO.deleteNear(member, near);
 	}
+
+	@Override
+	public int getNearFile(String saveFileName, String originFilename) {
+		
+		return nearDAO.getNearFile(saveFileName, originFilename);
+	}
+
+	@Override
+	public int getUpdate(NearVO vo) {
+		
+		return 0;
+	}
+
+	@Override
+	public int getDelete(int no) {
+		
+		return 0;
+	}
+
+	@Override
+	public List<NearVO> selectNearCardList(NearVO vo, String word) {
+		
+		return nearDAO.selectNearCardList(vo,word);
+	}
 }

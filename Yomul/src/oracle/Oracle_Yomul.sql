@@ -112,7 +112,7 @@ CREATE TABLE YOMUL_CHATS(
     NO VARCHAR2(10), -- 채팅 번호 
     CHAT_FROM VARCHAR2(10) CONSTRAINT NN_Y_C_CHAT_FROM NOT NULL, -- 채팅 발신자
     CHAT_TO VARCHAR2(10) CONSTRAINT NN_Y_C_CHAT_TO NOT NULL, -- 채팅 수신자
-    CONTENT VARCHAR2(500) CONSTRAINT NN_Y_C_CONTENT NOT NULL, -- 채팅 내용
+    CONTENT VARCHAR2(3000) CONSTRAINT NN_Y_C_CONTENT NOT NULL, -- 채팅 내용
     CDATE DATE DEFAULT SYSDATE CONSTRAINT NN_Y_C_CDATE NOT NULL, -- 채팅 전송 시간
     IMG VARCHAR2(100), -- 전송 이미지
     CONSTRAINT PK_Y_CH_NO PRIMARY KEY(NO) ,
@@ -158,6 +158,7 @@ CREATE TABLE YOMUL_VENDORS(
     INFO VARCHAR2(200) CONSTRAINT NN_Y_V_INFO NOT NULL, --정보 
     TEL VARCHAR2(30) CONSTRAINT NN_Y_V_TEL NOT NULL, --전화번호 
     ADDR VARCHAR2(50) CONSTRAINT NN_Y_V_ADDR NOT NULL, --주소
+	WITHDRAWAL NUMBER(1) DEFAULT 0 CONSTRAINT C_Y_V_WITHDRAWAL CHECK (WITHDRAWAL IN(0, 1)) CONSTRAINT NN_Y_V_WITHDRAWAL NOT NULL, -- 탈퇴 요청 여부
     CONSTRAINT PK_Y_V_NO PRIMARY KEY (NO),
     CONSTRAINT FK_Y_V_OWNER FOREIGN KEY (OWNER) REFERENCES YOMUL_MEMBERS(NO)
 );
@@ -360,7 +361,7 @@ WITH READ ONLY;
 -- 업체 정보 뷰 생성(업체 정보 + 소식 수 + 단골 수 + 후기 수 + 이미지명)
 CREATE NOFORCE VIEW V_Y_VENDORS
 AS
-SELECT V.NO, V.OWNER, V.NAME, V.CATEGORY, V.INFO, V.TEL, V.ADDR, N.NEWS, C.CUSTOMERS, R.REVIEWS, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME IMG
+SELECT V.NO, V.OWNER, V.NAME, V.CATEGORY, V.INFO, V.TEL, V.ADDR, V.WITHDRAWAL, N.NEWS, C.CUSTOMERS, R.REVIEWS, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME IMG
 FROM YOMUL_VENDORS V, V_Y_VENDORS_NEWS N, V_Y_VENDORS_CUSTOMERS C, V_Y_VENDORS_REVIEWS R, YOMUL_FILES F
 WHERE V.NO = N.NO AND V.NO = C.NO AND V.NO = R.NO AND V.NO = F.ARTICLE_NO(+);
 
@@ -644,7 +645,23 @@ INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'
 INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 3, 'M1', '제목3', '내용3');
 INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 4, 'M1', '제목4', '내용4');
 INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 5, 'M1', '제목5', '내용5');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 6, 'M1', '제목6', '내용6');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 7, 'M1', '제목7', '내용7');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 8, 'M1', '제목8', '내용8');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 9, 'M1', '제목9', '내용9');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 10, 'M1', '제목10', '내용10');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 3, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 4, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 5, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
 INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 6, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 7, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 8, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 9, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 10, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, 'M1', '제목일거에요', '내용일거에요');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, 'M1', '제목이겠죠', '내용이겠죠');
 
 
 -- 공지사항 데이터 생성
@@ -864,6 +881,38 @@ from (select rownum as rno, no, member_no, nickname, profileImg, content, hits, 
 		order by to_number(substr(r.no, 2)) desc)
 	WHERE ROWNUM <= 10 * 1)
 WHERE rno > 10 * (1 - 1);
+
+-- 채팅 데이터 생성
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT, CDATE) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M1', 'M3', '경찰청 철창살은 외철창살이고 검찰청 철창살은 쌍철창살이다.', TO_DATE('2021-07-01 12:30', 'YYYY-MM-DD HH24:MI'));
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT, CDATE) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M1', 'M3', '고려고교 교복은 고급교복이고 고려고교 교복은 고급원단을 사용했다.', TO_DATE('2021-07-01 13:44', 'YYYY-MM-DD HH24:MI'));
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT, CDATE) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M3', 'M1', '뻗은가지 굽은가지 구부러진 가지 가지가지의 가지 올라가지 늦가지 찐가지 달린가지 조롱조롱 맺힌 가지 열린 가지 달린 가지 도롱도롱 달란 가지 젊은 가지 늙은 가지 나물할 가지 냉국 탈 가지 가지각색 가여놓아도 나 못 먹긴 마찬가지.', TO_DATE('2021-07-01 14:34', 'YYYY-MM-DD HH24:MI'));
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT, CDATE) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M1', 'M3', '산 사람들과 선 사람 둘과 선사시대 사람들 속에 속해있는 사람들 속에서 선사람 둘을 솎아낼까. 선 사람 둘과 산 사람들과 선사시대 사람들 속에 섞여있는 선 사람들 속에 안 선 사람을 더 섞을까. 선사시대 사람들과 산 사람들과 선 사람 둘이 전부 서서 서로가 서로를 서로 솎아내려 할 때 선사시대 사람은 선 사람이나 안 선 사람이나 선한 사람이나 안 선 상태로 서로 손을 잡고 3433년 3월 13일 신시와 3시 33분 33초를 서로의 눈을 보며 말하자고 했다.', TO_DATE('2021-07-01 14:35', 'YYYY-MM-DD HH24:MI'));
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT, CDATE) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M3', 'M1', '스위스에서 오셔서 산새들이 속삭이는 산림 숲속에서 수사슴을 샅샅이 수색해 식사하고 산 속 샘물로 세수하며 사는 삼십 삼살 샴쌍둥이 미세스 스미스씨와 미스터 심슨씨는 삼성 설립 사장의 회사 자산 상속자인 사촌의 사돈 김상속씨의 숫기있고 숭글숭글한 숫색시 삼성소속 식산업 종사자 김삼순씨를 만나서 삼성 수산물 운송수송 수색 실장에게 스위스에서 수사슴을 샅샅이 수색했던 것을 인정받아 스위스 수산물 운송 수송 과정에서 상해 삭힌 냄새가 나는 수산물을 수색해내는 삼성 소속 수산물 운송수송 수색 사원이 돼서 살신성인으로 쉴새없이 수색하다 산성수에 손이 산화되어 수술실에서 수술하게 됐는데 쉽사리 수술이 잘 안 돼서 심신에 좋은 산삼을 달여 슈르릅 들이켰더니 힘이 샘솟아 다시 몸사려 수색하다 삼성 소속 식산업 종사자 김삼순씨와 셋이서 삼삼오오 삼월 삼십 삼일 세시 삼십 삼분 삼십 삼초에 쉰 세살 김식사씨네 시내 스시식당에 식사하러 가서 싱싱한 샥스핀 스시와 삼색샤시참치스시를 살사소스와 슥슥삭삭 샅샅이 비빈 것과 스위스산 소세지를 샤샤샥 싹쓸어 입속에 쑤셔넣어 살며시 삼키고 스산한 새벽 세시 삼십 삼분 삼십 삼초에 산림 숲속으로 사라졌다는 스위스에서온 스미스씨 이야기', TO_DATE('2021-07-01 14:40', 'YYYY-MM-DD HH24:MI'));
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT, CDATE) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M1', 'M3', '더 어려운 버전도 있다! 스위스에서 오셔서 산새들이 속삭이는 산림 숲속의 수사슴과 샘 속 송사리 새끼를 샅샅이 수색해 식사하고 산 속 고인돌 사이 샘물로 세수하며 살아가는 삼십 삼살 샴쌍둥이 미세스 스미스씨와 미스터 심슨씨는 삼성 설립 사장의 자상한 회사 자산 상속자인 사촌의 사돈이면서 수하물 수송 솜씨를 자랑하는 심삼속씨와 숫기있고 숭글숭글한 숫색시 삼성소속 식산업 종사자 심삼순씨를 만나서 삼성 소속 수산물 운송수송 수속 및 수색 담당 실장에게 스위스에서 수사슴을 수색했던 것을 인정받아 스위스산 수산물 운송 수송 과정에서 상해 삭힌 냄새가 나는 수산물을 샅샅이 수색해내는 삼성 수산물 운송수송 소속 수색 사원이 되자 산 속을 맨발바닥 두 손바닥 열 발가락 닳게 방방곡곡 뒤져 깊은 숲 산기슭 속 수풀 깊숙이 팔꿈치를 꿈틀꿈틀거려 찾아낸 스위스연방 지도 지리지를 들고 풀숲 샘물 속 수산물을 쉴새없이 수색하다 삼림 산성수 수색 담당 신상순 씨가 실수로 수송한 삼림 산성수 통 삼 톤에 의해 손가락 세 가닥과 열 발가락이 산화되어 응급실 수술실에서 응급수술하게 되었는데 수술실 실수로 쉽사리 수술이 잘 안되어 수술실 식사로 나온 산양삼삼계탕을 삼키지 못하자 심신에 좋다는 산삼을 달인 달콤한 홍삼산삼차를 슈르릅 들이켰더니 힘이 샘물 솟듯이 솟아 신상순 씨의 삼림 산성수 수송 수속 중 일어난 수술 건을 과실치사상죄로 고소하였지만 산성수 수색 담당 신상순 씨의 삼촌인 삼성 소속 식산업 종사자 심삼순씨의 사과로 셋이서 삼삼오오 삼월 삼십일일 세 시 삼십분 삼십 삼초에 쉰 세 살 김식사씨네 시내 스시식당에 시스루 룩으로 식사하러 가서 신선한 샥스핀 스시와 싱싱한 삼색샤시참치스시를 살사소스에 살살 슥삭슥삭 비빈 것과 스위스산 소세지 세 접시를 샤사샥 싹슬어 입속에 쑤셔넣어 살며시 삼키고 스산한 새벽 세시 십삼분 삼십 삼초에 숲 속 산림 산기슭 구석 풀숲 속으로 사라졌다.', TO_DATE('2021-07-01 16:50', 'YYYY-MM-DD HH24:MI'));
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT, CDATE) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M1', 'M3', '경찰청 철창살은 외철창살이고 검찰청 철창살은 쌍철창살이다.', TO_DATE('2021-07-02 12:30', 'YYYY-MM-DD HH24:MI'));
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT, CDATE) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M1', 'M2', '경찰청 철창살은 외철창살이고 검찰청 철창살은 쌍철창살이다.', TO_DATE('2021-07-03 12:31', 'YYYY-MM-DD HH24:MI'));
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT, CDATE) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M1', 'M3', '경찰청 철창살은 외철창살이고 검찰청 철창살은 쌍철창살이다.', TO_DATE('2021-07-04 12:33', 'YYYY-MM-DD HH24:MI'));
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT, CDATE) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M1', 'M4', '경찰청 철창살은 외철창살이고 검찰청 철창살은 쌍철창살이다.', TO_DATE('2021-07-05 12:35', 'YYYY-MM-DD HH24:MI'));
+
+-- 채팅하기
+INSERT INTO YOMUL_CHATS(NO, CHAT_FROM, CHAT_TO, CONTENT) VALUES('CH'||YOMUL_CHATS_NO_SEQ.NEXTVAL, 'M1', 'M3', '경찰청 철창살은 외철창살이고 검찰청 철창살은 쌍철창살이다.');
+
+-- 채팅 대상 조회
+SELECT CHAT_FROM, MAX(CDATE) CDATE
+FROM ( SELECT CHAT_TO AS CHAT_FROM, CDATE
+            FROM YOMUL_CHATS
+            WHERE CHAT_FROM = 'M1'
+            UNION
+            SELECT CHAT_FROM AS CHAT_FROM, CDATE FROM YOMUL_CHATS WHERE CHAT_TO = 'M1')
+GROUP BY CHAT_FROM
+ORDER BY CDATE DESC;
+
+-- 채팅 내역 조회
+SELECT NO, CHAT_FROM, CHAT_TO, CONTENT, TO_CHAR(CDATE, 'YYYY"년" MM"월" DD"일" HH24:MM:SS') CDATE
+FROM YOMUL_CHATS
+WHERE (CHAT_FROM = 'M1' AND CHAT_TO = 'M3') OR (CHAT_FROM = 'M3' AND CHAT_TO = 'M1')
+ORDER BY CDATE;
+
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 
 -- 사용자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
@@ -900,8 +949,33 @@ SELECT N.NO, V.NO AS VNO, V.NAME AS WRITER, N.TITLE, N.CATEGORY, N.PRICE, N.HP, 
 FROM V_Y_NEAR_ARTICLES N, YOMUL_VENDORS V
 WHERE N.WRITER = V.OWNER AND N.NO = 'n2';
 
+-- 내 근처 글 삭제
+DELETE FROM YOMUL_NEAR_ARTICLES WHERE NO = 'n2' AND 'ADMIN' = 'ADMIN';
+
 -- 공지사항 작성
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT) VALUES('N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL, 'M1', '테스트', '공지내용');
+
+-- 공지사항 수정
+UPDATE YOMUL_NOTICES SET WRITER='M1', TITLE='테스트', CONTENT='공지내용' WHERE NO='N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL;
+
+-- 공지사항 삭제
+DELETE FROM YOMUL_NOTICES WHERE NO='N'||YOMUL_NOTICES_NO_SEQ.NEXTVAL;
+
+-- 관리자 FAQ 목록 
+SELECT *
+FROM ( SELECT ROWNUM AS RNO, NO, CATEGORY_NO, CATEGORY, WRITER, TITLE, CONTENT
+        FROM ( SELECT TO_NUMBER(SUBSTR(NO, 3)) NO_NUM, NO, CATEGORY_NO, CATEGORY, WRITER, TITLE, CONTENT
+               FROM V_Y_FAQ_ARTICLES
+               WHERE
+               CATEGORY LIKE ('%' || '제목1' || '%')
+               OR
+               TITLE LIKE ('%' || '제목1' || '%')
+               OR
+               CONTENT LIKE ('%' || '제목1' || '%')
+               ORDER BY NO_NUM DESC
+               )
+        )
+WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
 
 -- QnA 불러오기
 SELECT *

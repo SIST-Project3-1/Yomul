@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.stereotype.Repository;
+import org.springframework.util.NumberUtils;
 
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 
@@ -63,6 +64,15 @@ public class NearDAO extends DAO {
 	// 내 근처 홈 글 보기, 최근 3개
 	public List<NearVO> getList(NearVO vo) {
 		return sqlSession.selectList(nameSpace + ".selectNearList");
+	}
+	
+	// 내 근처 카드 형식 글 보기
+	public List<NearVO> selectNearCardList(NearVO vo, String word) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("word", word);
+		params.put("vo", vo);
+		List<NearVO> list = sqlSession.selectList(nameSpace + ".selectNearCardList", params);
+		return list;
 	}
 
 	// 내 근처 게시글 상세 보기
