@@ -19,8 +19,13 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.getProductWrite(pvo)== 1? 1:0;
 	}
 	@Override
-	public ArrayList<ProductVO> getProductList(ProductVO vo) {
-		return productDAO.getProductList(vo);
+	public ArrayList<ProductVO> getProductList(ProductVO product, String page) {
+		return productDAO.getProductList(product, page);
+	}
+
+	@Override
+	public ProductVO getProductInfo(String no) {
+		return productDAO.getProductInfo(no);
 	}
 	
 }

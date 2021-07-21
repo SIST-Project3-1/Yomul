@@ -52,4 +52,7 @@ public interface VendorService {
 	
 	// 사용자 번호로 업체인지 확인
 	public boolean isVendor(String no);
+	
+	// 사용자 번호로 업체 번호 조회
+	public String getVendorNo(String no);
 }
