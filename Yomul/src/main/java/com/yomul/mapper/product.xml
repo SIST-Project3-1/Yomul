@@ -92,5 +92,30 @@
 				RNO > 10 * (#{page} - 1) 
 <![CDATA[	AND RNO <= 10 * #{page}			]]>
 	</select>
-
+		<!-- 공지사항 작성 -->
+	<insert id="product_write" parameterType="com.yomul.vo.ProductVO">
+	
+	INSERT INTO YOMUL_PRODUCTS
+	(
+		  NO
+		, CATEGORY_NO
+		, SELLER
+		, TITLE
+		, CONTENT
+		, PRICE
+	) 
+	VALUES
+	(
+		'P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL
+		, #{category_no}
+		, #{seller}
+		, #{title}
+		, #{content}
+		, #{price}
+		
+	)
+		
+	</insert>
+	
+	
 </mapper>

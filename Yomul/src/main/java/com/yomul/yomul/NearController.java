@@ -165,9 +165,11 @@ public class NearController {
 			HashMap<String, Integer> commentPageInfo = Commons.getPageInfo(commentCount, 10);
 			mv.addObject("commentPageInfo", commentPageInfo);
 
-			// 단골 정보 불러오기
-			int vendorCustomerCount = vendorService.getVendorCustomerCount(vo.getVno());
-			mv.addObject("vendorCustomerCount", vendorCustomerCount);
+			// 업체 게시글일 경우 단골 정보 불러오기
+			if(vo.getVno() != null) {
+				int vendorCustomerCount = vendorService.getVendorCustomerCount(vo.getVno());
+				mv.addObject("vendorCustomerCount", vendorCustomerCount);
+			}
 
 		} else { // 게시글이 없을 경우 에러페이지 이동
 			mv.setViewName("redirect:/user/error");
