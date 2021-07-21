@@ -20,15 +20,16 @@
 	}
 
 	$(document).ready(function() {
-		$('#category').change(function() {
-			$('#category').css('color', 'black');
+
+		$("#content").change(function() {
+			if ($("#category option:selected").val() == "default") {
+				$("#submit").prop("disabled", true);
+			}
+		});
+		$("#category").change(function() {
+			$("#submit").removeAttr("disabled");
 		});
 
-		if ($('#file')[0].files.length === 0) {
-			$('#file_btn').attr("disabled", "disabled");
-		} else {
-			$('#file_btn').removeAttr("disabled");
-		}
 	});
 </script>
 
@@ -51,12 +52,12 @@
 
 					<img id="profile_img_img" class="rounded-circle mb-3"
 						src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }'
-						style="width: 400px; height: 400px;">
-					<input type="file" class="custom-file-input" id="profile_img"
-						name="profile_img" aria-describedby="profile_img"
-						onchange="fileUpload(this)" multiple>
-					<label class="btn-yomul" for="profile_img"
-						data-browse="업로드" style="padding:10px;border:2px solid white;border-radius:20px;">이미지업로드</label>
+						style="width: 400px; height: 400px;"> <input type="file"
+						class="custom-file-input" id="profile_img" name="profile_img"
+						aria-describedby="profile_img" onchange="fileUpload(this)"
+						multiple> <label class="btn-yomul" for="profile_img"
+						data-browse="업로드"
+						style="padding: 10px; border: 2px solid white; border-radius: 20px;">이미지업로드</label>
 
 				</div>
 
@@ -69,8 +70,8 @@
 					<div>
 						<label>카테고리</label> <select name="category" id="category"
 							class="near-write-category" required>
-							<option value="카테고리" disabled selected hidden>카테고리를 설정해
-								주세요</option>
+							<option value="default" disabled selected hidden>카테고리를
+								설정해 주세요</option>
 							<option value="동네구인구직">동네구인구직</option>
 							<option value="과외/클래스">과외/클래스</option>
 							<option value="농수산물">농수산물</option>
@@ -87,11 +88,11 @@
 					</div>
 					<div>
 						<textarea placeholder="이웃들에게 홍보하고 싶은 내용을 입력해주세요" required
-							name="content"></textarea>
+							name="content" id="content"></textarea>
 					</div>
 					<input type="checkbox" class="near-write-checkbox" name="chatCheck"
 						value="1"> 채팅 안 받기
-					<button type="submit">완료</button>
+					<button type="submit" id="submit">완료</button>
 				</div>
 			</form>
 		</div>
