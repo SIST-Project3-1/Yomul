@@ -91,6 +91,8 @@ CREATE TABLE YOMUL_PRODUCTS(
     PRICE NUMBER(20) CONSTRAINT NN_Y_P_PRICE NOT NULL CONSTRAINT C_Y_P_PRICE CHECK (PRICE >= 0), -- 가격
     STATE VARCHAR2(20) DEFAULT 'SELLING' CONSTRAINT NN_Y_P_STATE NOT NULL CONSTRAINT C_Y_P_STATE CHECK (STATE IN('SELLING', 'SOLD')), -- 물건 상태
     HITS NUMBER(10) DEFAULT 0 CONSTRAINT NN_Y_P_HITS NOT NULL CONSTRAINT C_Y_P_HITS CHECK (HITS >= 0), -- 조회수
+    PDATE DATE DEFAULT SYSDATE CONSTRAINT NN_Y_P_PDATE NOT NULL, -- 등록일자
+    LOCATION VARCHAR2(200) CONSTRAINT NN_Y_P_LOCATION NOT NULL, -- 판매 지역
     CONSTRAINT PK_Y_P_NO PRIMARY KEY(NO),
     CONSTRAINT FK_Y_P_M_SELLER FOREIGN KEY (SELLER) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE,
     CONSTRAINT FK_Y_P_PC_CATEGORY_NO FOREIGN KEY (CATEGORY_NO) REFERENCES YOMUL_PRODUCT_CATEGORIES(NO) ON DELETE CASCADE
@@ -154,7 +156,7 @@ CREATE TABLE YOMUL_VENDORS(
     ADDR VARCHAR2(50) CONSTRAINT NN_Y_V_ADDR NOT NULL, --주소
 	WITHDRAWAL NUMBER(1) DEFAULT 0 CONSTRAINT C_Y_V_WITHDRAWAL CHECK (WITHDRAWAL IN(0, 1)) CONSTRAINT NN_Y_V_WITHDRAWAL NOT NULL, -- 탈퇴 요청 여부
     CONSTRAINT PK_Y_V_NO PRIMARY KEY (NO),
-    CONSTRAINT FK_Y_V_OWNER FOREIGN KEY (OWNER) REFERENCES YOMUL_MEMBERS(NO)
+    CONSTRAINT FK_Y_V_OWNER FOREIGN KEY (OWNER) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
 );
 
 -- 내 근처 게시글
@@ -180,8 +182,8 @@ CREATE TABLE YOMUL_VENDOR_CUSTOMERS(
     VENDOR_NO VARCHAR2(10), --업체번호
     CUSTOMER_NO VARCHAR2(10), --회원번호
     CONSTRAINT PK_Y_VC PRIMARY KEY(VENDOR_NO, CUSTOMER_NO),
-    CONSTRAINT FK_Y_VC_VNO FOREIGN KEY (VENDOR_NO) REFERENCES YOMUL_VENDORS(NO),
-    CONSTRAINT FK_Y_VC_CNO FOREIGN KEY (CUSTOMER_NO) REFERENCES YOMUL_MEMBERS(NO)
+    CONSTRAINT FK_Y_VC_VNO FOREIGN KEY (VENDOR_NO) REFERENCES YOMUL_VENDORS(NO) ON DELETE CASCADE,
+    CONSTRAINT FK_Y_VC_CNO FOREIGN KEY (CUSTOMER_NO) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
 );
 
 -- 업체 후기 (회원번호 이용하여 단골 프필이미지, 닉네임 가져오기)
@@ -193,8 +195,8 @@ CREATE TABLE YOMUL_VENDOR_REVIEWS(
     HITS NUMBER(10) DEFAULT 0 CONSTRAINT NN_Y_VR_HITS NOT NULL CONSTRAINT C_Y_VR_HITS CHECK (HITS >= 0), --조회수
     VDATE DATE DEFAULT SYSDATE CONSTRAINT NN_Y_VR_VDATE NOT NULL, --날짜
     CONSTRAINT PK_Y_VR_NO PRIMARY KEY (NO),
-    CONSTRAINT FK_Y_VR_VENDOR_NO FOREIGN KEY (VENDOR_NO) REFERENCES YOMUL_VENDORS(NO),
-    CONSTRAINT FK_Y_VR_MEMBER_NO FOREIGN KEY (MEMBER_NO) REFERENCES YOMUL_MEMBERS(NO)
+    CONSTRAINT FK_Y_VR_VENDOR_NO FOREIGN KEY (VENDOR_NO) REFERENCES YOMUL_VENDORS(NO) ON DELETE CASCADE,
+    CONSTRAINT FK_Y_VR_MEMBER_NO FOREIGN KEY (MEMBER_NO) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
 );
 
 -- 공지사항
@@ -932,66 +934,84 @@ INSERT INTO YOMUL_PRODUCT_CATEGORIES(NO, CONTENT) VALUES(14, '도서/티켓/음�
 INSERT INTO YOMUL_PRODUCT_CATEGORIES(NO, CONTENT) VALUES(15, '식물');
 
 -- 물건 등록
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800);
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
+INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
 
 -- 물건 목록 가져오기
-SELECT P.NO, P.TITLE, P.CONTENT, L.LIKES, C.COMMENTS
-FROM YOMUL_PRODUCTS P, (SELECT COUNT(*) LIKES FROM YOMUL_LIKES WHERE ARTICLE_NO = 'P2') L
-,(SELECT COUNT(*) COMMENTS FROM YOMUL_COMMENTS WHERE ARTICLE_NO = 'P2') C;
+SELECT *
+FROM ( SELECT ROWNUM AS RNO, P.*
+          FROM ( SELECT P.NO, P.TITLE, P.CONTENT, NVL(L.LIKES, 0) LIKES, NVL(C.COMMENTS, 0) COMMENTS, IMG
+                      FROM YOMUL_PRODUCTS P
+                                LEFT OUTER JOIN (SELECT ARTICLE_NO, COUNT(*) LIKES FROM YOMUL_LIKES GROUP BY ARTICLE_NO) L ON P.NO = L.ARTICLE_NO
+                                LEFT OUTER JOIN (SELECT ARTICLE_NO, COUNT(*) COMMENTS FROM YOMUL_COMMENTS GROUP BY ARTICLE_NO) C ON P.NO = C.ARTICLE_NO
+                                LEFT OUTER JOIN (SELECT ARTICLE_NO || '_' || NO || '_' || FILENAME IMG, ARTICLE_NO FROM YOMUL_FILES) F ON P.NO = F.ARTICLE_NO
+                      ORDER BY TO_NUMBER(SUBSTR(P.NO, 2)) DESC) P)
+WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
+
+-- 물건 상세보기
+SELECT P.NO, CATEGORY_NO, PC.CONTENT CATEGORY_CONTENT, SELLER, M.NICKNAME SELLER_NICKNAME, TITLE, P.CONTENT, PRICE, STATE, HITS, PDATE, P.LOCATION
+FROM YOMUL_PRODUCTS P JOIN YOMUL_PRODUCT_CATEGORIES PC ON P.CATEGORY_NO = PC.NO 
+  JOIN YOMUL_MEMBERS M ON P.SELLER = M.NO
+WHERE P.NO = 'P34';
+
+-- 물건 좋아요
+SELECT COUNT(*) FROM YOMUL_LIKES WHERE ARTICLE_NO = 'P34' AND MEMBER_NO = 'M1';
+DELETE FROM YOMUL_LIKES WHERE ARTICLE_NO = 'P34' AND MEMBER_NO = 'M1';
+INSERT INTO YOMUL_LIKES(ARTICLE_NO, MEMBER_NO) VALUES('P34', 'M1');
+
+-- 물건 북마크
+
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
-
 -- 사용자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
 
 -- 관리자 페이지 시작----------------------------------------------------------------------------------------------------------------------------------
-
 
 -- 회원 검색 페이지당 10개씩
 SELECT RNO, NO, EMAIL, NICKNAME, PHONE, MDATE, WITHDRAWAL

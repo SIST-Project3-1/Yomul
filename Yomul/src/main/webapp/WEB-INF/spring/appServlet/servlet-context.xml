@@ -40,6 +40,7 @@
 	<beans:bean id="noticeService" class="com.yomul.service.NoticeServiceImpl"></beans:bean>
 	<beans:bean id="faqService" class="com.yomul.service.FaqServiceImpl"></beans:bean>
 	<beans:bean id="chatService" class="com.yomul.service.ChatServiceImpl"></beans:bean>
+	<beans:bean id="productService" class="com.yomul.service.ProductServiceImpl"></beans:bean>
 
 	<!-- Utility Object -->
 	<beans:bean id="fileUtils" class="com.yomul.util.FileUtils"></beans:bean>

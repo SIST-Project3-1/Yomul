@@ -17,7 +17,7 @@ public class MemberVO extends VO {
 	private int withdrawal = -1;
 	private String mdate;
 	private String subscribe;
-	private String profileImg;
+	private String profileImg = "default.jpg";
 
 	public String getEmail() {
 		return email;

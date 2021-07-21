@@ -6,6 +6,40 @@
 
 <mapper namespace="mapper.like">
 
+	<!-- 좋아요 여부 확인 -->
+	<select id="isLiked" parameterType="com.yomul.vo.LikeVO" resultType="_int">
+		SELECT
+			COUNT(*)
+		FROM
+			YOMUL_LIKES
+		WHERE
+				ARTICLE_NO = #{article_no}
+			AND MEMBER_NO = #{member_no}
+	</select>
+	
+	<!-- 좋아요 취소 -->
+	<delete id="unLike" parameterType="com.yomul.vo.LikeVO">
+		DELETE FROM
+			YOMUL_LIKES
+		WHERE
+				ARTICLE_NO = #{article_no}
+			AND MEMBER_NO = #{member_no}
+	</delete>
+	
+	<!-- 좋아요 -->
+	<insert id="like" parameterType="com.yomul.vo.LikeVO">
+		INSERT INTO YOMUL_LIKES
+		(
+			  ARTICLE_NO
+			, MEMBER_NO
+		)
+		VALUES
+		(
+			  #{article_no}
+			, #{member_no}
+		)
+	</insert>
+	
 	<!-- 좋아요 추가 -->
 	<insert id="insertLike" parameterType="java.util.HashMap">
 		insert into yomul_likes(article_no, member_no)
