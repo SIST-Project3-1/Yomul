@@ -6,5 +6,5 @@ import com.yomul.vo.ProductVO;
 
 public interface ProductService {
 
-	ArrayList<ProductVO> getProductList(ProductVO vo);
+	ArrayList<ProductVO> getProductList(ProductVO product, String page);
 }

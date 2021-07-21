@@ -7,31 +7,62 @@
 <mapper namespace="mapper.product">
 
 	<!-- 물건 목록 불러오기 -->
-	<select id="getProductList" parameterType="com.yomul.vo.ProductVO" resultType="com.yomul.vo.ProductVO">
-		SELECT 
-			  P.NO
-			, P.TITLE
-			, P.CONTENT
-			, L.LIKES
-			, C.COMMENTS
+	<select id="getProductList" parameterType="map" resultType="com.yomul.vo.ProductVO">
+		SELECT
+			*
 		FROM
-			  YOMUL_PRODUCTS P
-			, (
+		(
+			SELECT
+				  ROWNUM AS RNO
+				, P.*
+			FROM
+			(
 				SELECT
-					COUNT(*) LIKES 
+					P.NO
+					, P.TITLE
+					, P.CONTENT
+					, NVL(L.LIKES, 0) LIKES
+					, NVL(C.COMMENTS, 0) COMMENTS
+					, IMG
 				FROM
-					YOMUL_LIKES 
-				WHERE
-					ARTICLE_NO = 'P2'
-			) L
-			, (
-				SELECT
-					COUNT(*) COMMENTS 
-				FROM
-					YOMUL_COMMENTS 
-				WHERE
-					ARTICLE_NO = 'P2'
-			) C
+					YOMUL_PRODUCTS P
+					LEFT OUTER JOIN
+					(
+						SELECT
+							  ARTICLE_NO
+							, COUNT(*) LIKES
+						FROM
+							YOMUL_LIKES
+						GROUP BY
+							ARTICLE_NO
+					) L 
+					ON P.NO = L.ARTICLE_NO
+					LEFT OUTER JOIN
+					(
+					SELECT
+						  ARTICLE_NO
+						, COUNT(*) COMMENTS
+					FROM
+						YOMUL_COMMENTS
+					GROUP BY
+						ARTICLE_NO
+					) C
+					ON P.NO = C.ARTICLE_NO
+					LEFT OUTER JOIN
+					(
+						SELECT
+							  ARTICLE_NO || '_' || NO || '_' || FILENAME IMG
+							, ARTICLE_NO
+						FROM YOMUL_FILES
+					) F
+					ON P.NO = F.ARTICLE_NO
+				ORDER BY
+					TO_NUMBER(SUBSTR(P.NO, 2)) DESC
+			) P
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
 	</select>
 
 </mapper>

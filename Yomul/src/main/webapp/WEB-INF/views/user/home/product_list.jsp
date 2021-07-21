@@ -7,33 +7,71 @@
 <title>리스</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+
+<script type="text/javascript">
+	var page = 1;
+	var ajaxFlag = true;
+
+	$(document).ready(function() {
+		getData(page);
+	});
+
+	// 스크롤 페이징
+	$(window).scroll(function() {
+		var scroll = $(window).scrollTop();
+		var dHeight = $(document).height();
+		var wHeight = $(window).height();
+		if (ajaxFlag && (scroll + 800 >= dHeight - wHeight)) {
+			getData(++page);
+		}
+	});
+
+	// 문의 목록 불러오기
+	function getData(page) {
+		$.ajax({
+			url : "/yomul/product_list_ajax",
+			method : "get",
+			data : {
+				"page" : page
+			},
+			success : function(json) {
+				if (json.length == 0) {
+					ajaxFlag = false;
+				}
+				var html = "";
+				for (var i = 0; i < json.length; i++) {
+					product = json[i];
+					html += '<div class="near-card-form-card">';
+					html += '<div class="card" style="width: 18rem;">';
+					html += ' 	<img src="/yomul/image/' + product.img +'" class="card-img-top">';
+					html += ' 	<div class="card-body">';
+					html += '	 	<a href="/yomul/product_info'+ product.no +'">';
+					html += '		    <h5 class="card-title">' + product.title + '</h5>';
+					html += '		    <p class="card-text">' + product.content + '</p>';
+					html += '	 	</a>';
+					html += ' 	</div>';
+					html += ' 	<div class="near-card-form-bottom">';
+					html += '	    <label>좋아요 ' + product.likes + '</label>';
+					html += '		<label>·</label>';
+					html += '		<label>댓글 ' + product.comments + '</label>';
+					html += ' 	</div>';
+					html += '</div>';
+					html += '</div>';
+				}
+				$("#near_card_form").append(html);
+			}
+		});
+	}
+</script>
+
+
 </head>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
-	<div id="near_card_form" class="near-card-form-content">
-		<% for(int i=0;i<15;i++){ %>
-		<div class="near-card-form-card">
-			<div class="card" style="width: 18rem;">
-			 	<img src="/yomul/image/이미지준비중.jpg" class="card-img-top">
-			 	<div class="card-body">
-				 	<a href="/yomul/product_info">
-					    <h5 class="card-title">타이틀입니다</h5>
-					    <p class="card-text">내용입니다내용입니다내용입니다내용입니내용입니다
-						내용입니다내용입니다내용입니다내용입니다내용입니다내용입니다내내용입니다용입니다...</p>
-				 	</a>
-			 	</div>
-			 	<div class="near-card-form-bottom">
-				    <label>좋아요 13</label>
-					<label>·</label>
-					<label>댓글 44</label>
-			 	</div>
-			</div>
-		</div>
-		<% } %>
-	</div>
+	<div id="near_card_form" class="near-card-form-content"></div>
 
 	<!-- FOOTER -->
 	<%@ include file="../footer.jsp"%>
