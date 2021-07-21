@@ -130,6 +130,7 @@ public class AdminController {
 	}
 	
 	// 글 삭제
+	@ResponseBody
 	@RequestMapping(value = "/admin_faq_delete_proc", method = RequestMethod.GET)
 	public String adminFaqDelete(FaqVO faq) {
 		int result = faqService.getAdminFaqDelete(faq);
