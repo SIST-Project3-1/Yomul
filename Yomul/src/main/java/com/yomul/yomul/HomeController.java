@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yomul.service.FavoriteService;
 import com.yomul.service.FileService;
 import com.yomul.service.LikeService;
 import com.yomul.service.MemberService;
@@ -21,6 +22,7 @@ import com.yomul.service.ProductService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.CategoryVO;
+import com.yomul.vo.FavoriteVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.LikeVO;
 import com.yomul.vo.MemberVO;
@@ -37,13 +39,15 @@ public class HomeController {
 	private LikeService likeService;
 	@Autowired
 	private FileService fileService;
-	
-	//글삭제 
+	@Autowired
+	private FavoriteService favoriteService;
+
+	// 글삭제
 	@ResponseBody
 	@RequestMapping(value = "/product_delete", method = RequestMethod.GET)
 	public String product_delete(ProductVO pvo, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
-		return String.valueOf(productService.getDelete(member,pvo));
+		return String.valueOf(productService.getDelete(member, pvo));
 	}
 
 	// 글작성 열기
@@ -131,11 +135,17 @@ public class HomeController {
 			like.setArticle_no(no);
 			like.setMember_no(member.getNo());
 			mv.addObject("isLiked", likeService.isLiked(like));
+
+			FavoriteVO favorite = new FavoriteVO();
+			favorite.setMember_no(member.getNo());
+			favorite.setProduct_no(no);
+			mv.addObject("isFavorite", favoriteService.isFavorite(favorite) == 1 ? true : false);
 		}
 
 		mv.addObject("product", product);
 		mv.addObject("profileImg", memberService.getMyProfileImg(seller));
 		mv.addObject("likeCount", likeService.getLikeCount(no));
+		mv.addObject("favoriteCount", favoriteService.getFavoriteCount(no));
 
 		return mv;
 	}
@@ -160,6 +170,30 @@ public class HomeController {
 			return val == 1 ? "2" : "0";
 		} else { // 좋아요를 누르지 않앗으면 좋아요
 			val = likeService.like(like);
+			return val == 1 ? "3" : "0";
+		}
+	}
+
+	/**
+	 * 찜 처리
+	 * 
+	 * @param like
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "product_favorite", method = RequestMethod.GET)
+	public String product_favorite(FavoriteVO vo, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		vo.setMember_no(member.getNo());
+
+		int isLiked = favoriteService.isFavorite(vo);
+		int val;
+		if (isLiked == 1) { // 찜을 눌렀으면 좋아요 취소
+			val = favoriteService.unFavorite(vo);
+			return val == 1 ? "2" : "0";
+		} else { // 찜을 누르지 않앗으면 좋아요
+			val = favoriteService.favorite(vo);
 			return val == 1 ? "3" : "0";
 		}
 	}
