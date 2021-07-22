@@ -77,10 +77,6 @@
 			<div class="near-info-left-title">
 				<h6>${vo.category }</h6>
 				<h3>${vo.title }</h3>
-				<c:if test="${id == vo.writer }">
-					<a href="near_update/${vo.no }">수정</a>
-					<a href="#">삭제</a>
-				</c:if>
 			</div>
 
 			<!--  이미지  -->
@@ -160,8 +156,11 @@
 				<label>가격</label>
 				<label>${vo.price }원</label>
 			</div>
-			<a href="/yomul/chat" class="btn near-info-inquiry <c:if test="${vo.chatCheck != 1 }">disabled</c:if>">채팅문의</a>
-			<c:if test="${sessionScope.member.authority == 'ADMIN'}">
+			<a href="/yomul/chat" class="btn near-info-inquiry <c:if test="${vo.chatCheck != 0 }">disabled</c:if>">채팅문의</a>
+			<c:if test="${sessionScope.member.authority == 'ADMIN'|| loginNo == vo.writer}">
+			
+			
+				<button id="updateNear" type="button" class="btn btn-outline-yomul mt-3">글 수정</button>
 				<button id="deleteNear" type="button" class="btn btn-outline-yomul mt-3">글 삭제</button>
 
 				<script type="text/javascript">
@@ -178,6 +177,9 @@
 								}
 							}
 						});
+					});
+					$("#updateNear").on("click", function() {
+						$(location).attr("href","/yomul/near_update/${vo.no }");
 					});
 				</script>
 			</c:if>
