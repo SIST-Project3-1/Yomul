@@ -45,9 +45,7 @@ public class HomeController {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		return String.valueOf(productService.getDelete(member,pvo));
 	}
-	
-	
-	
+
 	// 글작성 열기
 	@RequestMapping(value = "product_write", method = RequestMethod.GET)
 	public ModelAndView product_write() {
@@ -112,10 +110,15 @@ public class HomeController {
 		return "user/home/product_update";
 	}
 
+	/**
+	 * 물품 정보보기
+	 * 
+	 * @param no
+	 * @return
+	 */
 	@RequestMapping(value = "product_info", method = RequestMethod.GET)
 	public ModelAndView product_info(String no, HttpSession session) {
 		ModelAndView mv = new ModelAndView("user/home/product_info");
-
 		MemberVO member = (MemberVO) session.getAttribute("member");
 
 		ProductVO product = productService.getProductInfo(no);
@@ -123,13 +126,16 @@ public class HomeController {
 		MemberVO seller = new MemberVO();
 		seller.setNo(product.getSeller());
 
+		if (member != null) {
+			LikeVO like = new LikeVO();
+			like.setArticle_no(no);
+			like.setMember_no(member.getNo());
+			mv.addObject("isLiked", likeService.isLiked(like));
+		}
+
 		mv.addObject("product", product);
 		mv.addObject("profileImg", memberService.getMyProfileImg(seller));
-
-		LikeVO like = new LikeVO();
-		like.setArticle_no(no);
-		like.setMember_no(member.getNo());
-		mv.addObject("isLiked", likeService.isLiked(like));
+		mv.addObject("likeCount", likeService.getLikeCount(no));
 
 		return mv;
 	}
@@ -143,18 +149,19 @@ public class HomeController {
 	@ResponseBody
 	@RequestMapping(value = "product_like", method = RequestMethod.GET)
 	public String product_like(LikeVO like, HttpSession session) {
-		String result = "";
 		MemberVO member = (MemberVO) session.getAttribute("member");
 
 		like.setMember_no(member.getNo());
 
 		boolean isLiked = likeService.isLiked(like);
+		int val;
 		if (isLiked) { // 좋아요를 눌렀으면 좋아요 취소
-			result = String.valueOf(likeService.unLike(like));
+			val = likeService.unLike(like);
+			return val == 1 ? "2" : "0";
 		} else { // 좋아요를 누르지 않앗으면 좋아요
-			result = String.valueOf(likeService.like(like));
+			val = likeService.like(like);
+			return val == 1 ? "3" : "0";
 		}
-		return result;
 	}
 
 	/**
