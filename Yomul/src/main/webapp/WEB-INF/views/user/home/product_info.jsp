@@ -1,12 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>${product.title}</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
-<link rel="stylesheet" href="http://localhost:9000/yomul/resources/css/product_info.css">
+<link rel="stylesheet" href="/yomul/resources/css/product_info.css">
+<script type="text/javascript">
+	$(document).
+</script>
 </head>
 <body>
 	<!-- HEADER -->
@@ -14,27 +18,28 @@
 
 	<!--  BODY  -->
 	<form>
-	
+
 		<div class="pi_contaner">
 			<div class="pi_contentWarp">
 				<div class="pi_haeder">
 					<div class="pi_category">
-						<p>디지털기기</p>
+						<p>${product.category_content}</p>
 					</div>
-					<h1 class="pi_htitle">맥북 프로 13인치 터치바</h1>
+					<h1 class="pi_htitle">${product.title}</h1>
 					<div class="pi_hbottom">
 						<a class="pi_user" href="#">
 							<div class="pi_userimg">
-								<img src="" alt="">
+								<img src="/yomul/upload/${profileImg.getSavedFilename()}" style="max-width: 100%;">
 							</div>
-							<div class="pi_username">한그림</div>
-							<div class="pi_userhometwon">강남구 논현1동</div>
+							<div class="pi_username">${product.seller_nickname}</div>
+							<div class="pi_userhometwon">${product.location}</div>
 						</a>
 						<div class="mo_a_bo_gi">
 							<button class="mo_a_bo_gibtn">모아보기</button>
 						</div>
 					</div>
-				</div><!--pi_haeder-->
+				</div>
+				<!--pi_haeder-->
 
 				<div class="contentW">
 					<div class="pi_imgbolck">
@@ -42,28 +47,35 @@
 							<img src="" alt="">
 						</div>
 					</div>
-					<p>블라블라블라블라</p>
+					<p>${product.content}</p>
 				</div>
-			</div><!--pi_contentWarp-->
+			</div>
+			<!--pi_contentWarp-->
 
 
 			<div class="pi_sidebar">
 				<div class="pi_sticky">
 					<div class="pi_stickyCover">
 						<div class="content-detail-sidebar">
-							<button class="content-detail-sidebar-button content-detail-sidebar-button--white" aria-pressed="false" title="좋아요" type="button">
-								<svg class="content-detail-sidebar__icon-blue icon" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">
+							<!-- 좋아요 버튼 -->
+							<button id="btn_like" class="content-detail-sidebar-button content-detail-sidebar-button--white" aria-pressed="false" title="좋아요" type="button">
+								<c:choose>
+									<c:when test="${isLiked}">
+										<svg class="content-detail-sidebar__icon-blue icon" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">
 									<path d="M23.22 7.95c.4 4.94-2.92 9.71-10.92 13.85a.47.47 0 0 1-.42 0C3.88 17.66.56 12.9.96 7.93 1.54 2.48 8.28.3 12.1 4.7c3.8-4.4 10.55-2.22 11.13 3.25z"></path>
 								</svg>
-								<svg class="content-detail-sidebar__icon-inactive icon" width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">
-									<path fill="currentColor" d="M22.971 7.638c-.548-5.17-7.119-7.135-10.57-2.488a.5.5 0 0 1-.802 0C8.148.503 1.577 2.469 1.029 7.625.642 12.451 3.897 17.183 12 21.436c8.104-4.252 11.36-8.984 10.972-13.798zm.996-.093c.428 5.319-3.137 10.446-11.738 14.899a.5.5 0 0 1-.46 0C3.169 17.99-.395 12.864.034 7.532.656 1.67 7.904-.683 12 4.052 16.096-.683 23.344 1.67 23.967 7.545z">
-
-									</path>
+									</c:when>
+									<c:when test="${!isLiked}">
+										<svg class="content-detail-sidebar__icon-inactive icon" width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">
+									<path fill="currentColor" d="M22.971 7.638c-.548-5.17-7.119-7.135-10.57-2.488a.5.5 0 0 1-.802 0C8.148.503 1.577 2.469 1.029 7.625.642 12.451 3.897 17.183 12 21.436c8.104-4.252 11.36-8.984 10.972-13.798zm.996-.093c.428 5.319-3.137 10.446-11.738 14.899a.5.5 0 0 1-.46 0C3.169 17.99-.395 12.864.034 7.532.656 1.67 7.904-.683 12 4.052 16.096-.683 23.344 1.67 23.967 7.545z"></path>
 								</svg>
+									</c:when>
+								</c:choose>
 							</button>
 							<span class="content-detail-sidebar-counter">323</span>
 							<button class="content-detail-sidebar-button content-detail-sidebar-button--white" aria-pressed="false" title="스크랩" type="button">
-								<svg class="content-detail-sidebar__icon-blue icon" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="0.5" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet"><path d="M11.53 18.54l-8.06 4.31A1 1 0 0 1 2 21.97V3.5A1.5 1.5 0 0 1 3.5 2h17A1.5 1.5 0 0 1 22 3.5v18.47a1 1 0 0 1-1.47.88l-8.06-4.31a1 1 0 0 0-.94 0z">
+								<svg class="content-detail-sidebar__icon-blue icon" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="0.5" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">
+									<path d="M11.53 18.54l-8.06 4.31A1 1 0 0 1 2 21.97V3.5A1.5 1.5 0 0 1 3.5 2h17A1.5 1.5 0 0 1 22 3.5v18.47a1 1 0 0 1-1.47.88l-8.06-4.31a1 1 0 0 0-.94 0z">
 
 									</path>
 								</svg>
@@ -97,8 +109,9 @@
 					</div>
 				</div>
 			</div>
-		</div><!--pi_contaner-->
-				
+		</div>
+		<!--pi_contaner-->
+
 
 
 	</form>

@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.ReviewVO;
 import com.yomul.vo.VendorVO;
 
 @Repository
@@ -23,6 +24,16 @@ public class VendorDAO extends DAO{
 		}
 			
 		return sqlSession.selectOne(nameSpace + ".selectVendorNoByOwner", vo.getOwner());
+	}
+	
+	// 업체 탈퇴 신청
+	public int withdrawalVendor(String owner) {
+		return sqlSession.update(nameSpace + ".withdrawalVendor", owner);
+	}
+	
+	// 업체 탈퇴 신청
+	public int cancelWithdrawalVendor(String owner) {
+		return sqlSession.update(nameSpace + ".cancelWithdrawalVendor", owner);
 	}
 	
 	// 업체 정보 수정
@@ -43,6 +54,26 @@ public class VendorDAO extends DAO{
 		} catch (NullPointerException e) { // 0명일 시 널 포인터 예외 발생 
 			return 0;
 		}
+	}
+	
+	// 업체 후기 목록 조회
+	public ArrayList<ReviewVO> getVendorReviewList(HashMap<String, Object> params) {
+		List<ReviewVO> list = sqlSession.selectList(nameSpace + ".selectVendorReviewList", params);
+		return (ArrayList<ReviewVO>) list;
+	}
+	
+	// 업체 후기 상세 보기
+	public ReviewVO getVendorReviewInfo(String no) {
+		try {
+			return sqlSession.selectOne(nameSpace + ".selectVendorReviewInfo", no);
+		} catch (NullPointerException e) {
+			return null;
+		}
+	}
+	
+	// 업체 후기 조회수 업데이트
+	public int updateVendorReviewHits(String no) {
+		return sqlSession.update(nameSpace + ".updateVendorReviewHits", no);
 	}
 	
 	// 업체 정보 조회
@@ -79,6 +110,24 @@ public class VendorDAO extends DAO{
 		} catch (Exception e) { // 등록에 실패하면(이미 등록되어 있으면) 등록 취소하고 0 반환
 			sqlSession.delete(nameSpace + ".deleteVendorCustomer", params);
 			return 0;
+		}
+	}
+	
+	// 업체 번호로 업체 주인 사용자 번호 구하기
+	public String getVendorOwner(String no) {
+		try {
+			return sqlSession.selectOne(nameSpace + ".selectOwnerNoByVendorNo", no);
+		} catch (NullPointerException e) {
+			return "";
+		}
+	}
+	
+	// 사용자 번호로 업체 여부 확인
+	public String getVendorNoByOwner(String no) {
+		try {
+			return sqlSession.selectOne(nameSpace + ".selectVendorNoByOwner", no);
+		} catch (NullPointerException e) {
+			return "";
 		}
 	}
 }

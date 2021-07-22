@@ -60,7 +60,7 @@ public class JoinController {
 	@ResponseBody
 	@RequestMapping(value = "/nickname_check", method = RequestMethod.POST)
 	public String nickname_check(String nickname) {
-		if (nickname.equals("") || nickname.length() <= 1) {
+		if (nickname.equals("") || nickname.length() <= 1 || nickname.length() > 15) {
 			return "1";
 		}
 		return String.valueOf(memberService.nicknameCheck(nickname));

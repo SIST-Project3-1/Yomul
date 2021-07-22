@@ -67,7 +67,7 @@ public class Commons {
 		}
 		
 		// 맨 뒤 버튼 유무
-		if(page == totalPage) {
+		if(page == totalPage || count == 0) {
 			info.put("last", 0);
 		}else {
 			info.put("last", 1);

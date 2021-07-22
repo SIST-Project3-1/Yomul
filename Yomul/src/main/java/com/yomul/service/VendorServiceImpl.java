@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yomul.dao.VendorDAO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.ReviewVO;
 import com.yomul.vo.VendorVO;
 
 @Service("VendorService")
@@ -19,6 +20,18 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public String vendorSignUp(VendorVO vo) {
 		return vendorDAO.vendorSingUp(vo);
+	}
+	
+	// 업체 탈퇴 신청
+	@Override
+	public int withdrawalVendor(String owner) {
+		return vendorDAO.withdrawalVendor(owner);
+	}
+	
+	// 업체 탈퇴 신청 취소
+	@Override
+	public int cancelWithdrawalVendor(String owner) {
+		return vendorDAO.cancelWithdrawalVendor(owner);
 	}
 
 	// 업체 정보 수정
@@ -41,6 +54,27 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public int getVendorCustomerCount(String no) {
 		return vendorDAO.getVendorCustomerCount(no);
+	}
+	
+	// 업체 후기 목록 조회
+	@Override
+	public ArrayList<ReviewVO> getVendorReviewList(String no, int page) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("vno", no);
+		params.put("page", page);
+		
+		return vendorDAO.getVendorReviewList(params);
+	}
+	
+	// 업체 후기 상세보기
+	@Override
+	public ReviewVO getVendorReviewInfo(String no) {
+		return vendorDAO.getVendorReviewInfo(no);
+	}
+	
+	// 업체 후기 조회수 업데이트
+	public int updateVendorReviewHits(String no) {
+		return vendorDAO.updateVendorReviewHits(no);
 	}
 	
 	// 업체 단골 등록
@@ -77,5 +111,26 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public VendorVO getVendorInfo(String no) {
 		return vendorDAO.getVendorInfo(no);
+	}
+	
+	// 업체 번호로 주인 사용자 번호 조회
+	@Override
+	public String getVendorOwner(String no) {
+		return vendorDAO.getVendorOwner(no);
+	}
+	
+	// 사용자 번호로 업체인지 확인
+	@Override
+	public boolean isVendor(String no) {
+		if(vendorDAO.getVendorNoByOwner(no).equals("")) {
+			return false;
+		}
+		return true;
+	}
+	
+	// 사용자 번호로 업체 번호 조회
+	@Override
+	public String getVendorNo(String no) {
+		return vendorDAO.getVendorNoByOwner(no);
 	}
 }

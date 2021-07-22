@@ -40,5 +40,6 @@ public interface MemberService {
 
 	int kakaoRegister(MemberVO vo);
 
-	MemberVO kakaoLogin(MemberVO vo);
+	int checkPW(MemberVO vo);
+
 }

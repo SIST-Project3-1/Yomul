@@ -6,6 +6,50 @@
 
 <mapper namespace="mapper.near">
 
+	<!-- 내 근처 글 삭제 -->
+	<delete id="deleteNear" parameterType="map">
+		DELETE FROM
+			YOMUL_NEAR_ARTICLES
+		WHERE
+				NO = #{near.no}
+			AND 'ADMIN' = #{member.authority}
+	</delete>
+
+	<!-- 내 근처 글 목록 가져오기 -->
+	<select id="getNearList" parameterType="map" resultType="com.yomul.vo.NearVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT 
+				  ROWNUM AS RNO
+				, NA.*
+			FROM
+			(
+				SELECT
+					    NA.NO
+					  , TITLE
+					  , NA.CATEGORY
+					  , PRICE
+					  , NDATE
+					  , V.NO AS VNO
+					  , V.NAME AS WRITER
+				FROM
+					YOMUL_NEAR_ARTICLES NA 
+						LEFT JOIN
+							YOMUL_VENDORS V
+						ON
+							NA.WRITER = V.OWNER
+				ORDER BY
+					TO_NUMBER(SUBSTR(NO, 2, 10)) DESC
+			) NA
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1)
+<![CDATA[	AND RNO <= 10 * #{page}]]>
+	</select>
+
+
 	<!-- 내 근처 글쓰기 -->
 	<insert id="getNearWrite" parameterType="com.yomul.vo.NearVO">
 		INSERT INTO YOMUL_NEAR_ARTICLES
@@ -21,7 +65,7 @@
 		)
 		VALUES
 		(
-			  'N'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL
+			  'n'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL
 			, #{writer}
 			, #{title}
 			, #{category}
@@ -41,7 +85,7 @@
 	</select>
 	
 	<!-- 내 근처 글쓰기 시 파일 등록 -->
-	<insert id="getNearFile" parameterType="map">
+	<insert id="getNearFile" parameterType="map" >
 		INSERT INTO YOMUL_FILES
 		(
 			  ARTICLE_NO
@@ -63,12 +107,31 @@
 		<![CDATA[where rownum <= 3]]>
 	</select>
 	
+	<!-- 내 근처 near_card_form 글 보기 -->
+	<select id="selectNearCardList" resultType="com.yomul.vo.NearVO" parameterType="map">
+		select no, title, content, writer, ndate from yomul_near_articles 
+		<include refid="search"/>
+		order by ndate desc
+	</select>
+	<!-- 검색 쿼리 -->
+	<sql id="search">
+    <!-- 검색어가 존재하는 경우만 쿼리 실행 -->
+    <if test="word != null and word != ''.toString() ">
+ 		 where ( 
+	        title like '%'||#{word}||'%' or
+	        content like '%'||#{word}||'%' or 
+	        writer like '%'||#{word}||'%'
+        )
+    </if>
+</sql>
+	
+	
 	
 	<!-- 내 근처 게시글 상세보기 -->
 	<select id="selectNearInfo" resultType="com.yomul.vo.NearVO" parameterType="java.lang.String">
-		select n.no, v.no as vno, v.name as writer, n.title, n.category, n.price, n.hp, n.content, n.ndate, n.chatcheck, n.hits, n.files
-		from v_y_near_articles n, yomul_vendors v
-		where n.writer = v.owner and n.no = #{no}
+		select no, writer, mimg, vno, vname, vimg, title, category, price, hp, content, ndate, chatcheck, hits, files
+		from v_y_near_articles
+		where no = #{no}
 	</select>
 	
 	<!-- 내 근처 게시글 조회 수 업데이트 -->

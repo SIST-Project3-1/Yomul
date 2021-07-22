@@ -22,6 +22,15 @@ public class MemberDAO extends DAO {
 	private static String namespace = "mapper.member";
 
 	/**
+	 * 비밀번호 일치 확인
+	 * @param vo
+	 * @return
+	 */
+	public int checkPW(MemberVO vo) {
+		return sqlSession.selectOne(namespace + ".checkPW", vo);
+	}
+
+	/**
 	 * 회원 탈퇴 처리
 	 * 
 	 * @param vo
@@ -40,7 +49,7 @@ public class MemberDAO extends DAO {
 	public int cancleWithdrawal(MemberVO vo) {
 		return sqlSession.update(namespace + ".cancleWithdrawal", vo);
 	}
-	
+
 	/**
 	 * 카카오톡 연동하기
 	 * 
@@ -49,16 +58,6 @@ public class MemberDAO extends DAO {
 	 */
 	public int kakaoRegister(MemberVO vo) {
 		return sqlSession.update(namespace + ".kakaoRegister", vo);
-	}
-
-	/**
-	 * 카카오톡으로 로그인하기
-	 * 
-	 * @param vo
-	 * @return
-	 */
-	public MemberVO kakaoLogin(MemberVO vo) {
-		return sqlSession.selectOne(namespace + ".kakaoLogin", vo);
 	}
 
 	/**
@@ -168,7 +167,12 @@ public class MemberDAO extends DAO {
 		return sqlSession.selectOne(namespace + ".nicknamecheck", nickname);
 	}
 
-	// 로그인 처리
+	/**
+	 * 로그인 처리
+	 * 
+	 * @param vo
+	 * @return
+	 */
 	public MemberVO getLoginResult(MemberVO vo) {
 		return sqlSession.selectOne(namespace + ".getLoginResult", vo);
 

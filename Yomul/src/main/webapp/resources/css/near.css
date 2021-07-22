@@ -695,6 +695,7 @@
     padding:50px 0;
 }
 .vendor-reviews-card {
+	width: 18rem !important;
 	margin:20px;	
 }
 .vendor-reviews-card img{
@@ -748,7 +749,6 @@
 	near_card_form.jsp
 */
 .near-card-form-content {
-	border:1px red solid;
 	width:75%;
 	margin:auto;
 	display:flex;

@@ -6,6 +6,17 @@
 
 <mapper namespace="mapper.member">
 
+	<!-- 비밀번호 일치 확인 -->
+	<select id="checkPW" parameterType="com.yomul.vo.MemberVO" resultType="_int">
+		SELECT
+			COUNT(*)
+		FROM
+			YOMUL_MEMBERS
+		WHERE
+				EMAIL = #{email}
+			AND PW = #{pw}
+	</select>
+
 	<!-- 회원 탈퇴 신청 -->
 	<update id="withdrawal" parameterType="com.yomul.vo.MemberVO">
 		UPDATE
@@ -36,18 +47,6 @@
 			NO = #{no}
 	</update>
 	
-	<!-- 카카오톡으로 로그인하기 -->
-	<select id="kakaoLogin" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
-		SELECT
-			  NO
-			, NICKNAME
-			, AUTHORITY
-		FROM
-			YOMUL_MEMBERS
-		WHERE
-			KAKAO_ID = #{kakao_id}
-	</select>
-	
 	<!-- Hastsalt 가져오기 -->
 	<select id="getHashsalt" parameterType="com.yomul.vo.MemberVO" resultType="string">
 		SELECT HASHSALT
@@ -57,9 +56,24 @@
 	
 	<!-- 로그인 -->
 	<select id="getLoginResult" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
-		SELECT NO, NICKNAME, AUTHORITY
-		from YOMUL_MEMBERS
-		where email = #{email} and pw = #{pw}
+		SELECT
+			  NO
+			, NICKNAME
+			, EMAIL
+			, PROFILEIMG
+			, AUTHORITY
+		FROM
+			V_Y_MEMBERS
+		WHERE
+		<choose>
+		<when test="kakao_id != null">
+			KAKAO_ID = #{kakao_id}
+		</when>
+		<when test="kakao_id == null">
+				EMAIL= #{email}
+			AND PW = #{pw}
+		</when>
+		</choose>
 	</select>
 
 	<!-- 회원 삭제 -->
@@ -174,7 +188,21 @@
 	
 	<!-- 프로필 정보 수정 -->
 	<insert id="setmyprofileinfo" parameterType="com.yomul.vo.MemberVO">
-		UPDATE YOMUL_MEMBERS SET NICKNAME = #{nickname}, PHONE = #{phone}, GENDER = #{gender}, INTRO = #{intro} WHERE NO = #{no}
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			  NICKNAME = #{nickname}
+			 <if test="phone != null">
+			, PHONE = #{phone}
+			 </if>
+			<if test="gender != null">
+			, GENDER = #{gender}
+			</if>
+			<if test="intro != null">
+			, INTRO = #{intro}
+			</if>
+		WHERE
+			NO = #{no}
 	</insert>
 	
 	<!-- 구매내역 수 가져오기 -->

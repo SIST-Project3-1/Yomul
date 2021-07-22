@@ -25,7 +25,7 @@ function fileUpload(fis) {
 	<%@ include file="../header.jsp"%>
 
 	<!-- MYPAGE HEADER -->
-	<%@include file="vendor_header.jsp"%>
+	<c:import url="vendor_header.jsp" />
 	<script type="text/javascript">
 		$("#vendor_header_profile").addClass("active").removeClass("text-muted").css("color", "rgb(255, 99, 95)");
 		$("#vendor_header_profile_update").addClass("active").removeClass("text-muted").css("color", "rgb(255, 99, 95)");
