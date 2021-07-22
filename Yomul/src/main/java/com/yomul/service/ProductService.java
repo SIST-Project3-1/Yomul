@@ -7,6 +7,8 @@ import com.yomul.vo.ProductVO;
 
 public interface ProductService {
 	
+	int getDelete(int no);
+	
 	int getProductWrite(ProductVO pvo);
 
 	String getProductSequence();

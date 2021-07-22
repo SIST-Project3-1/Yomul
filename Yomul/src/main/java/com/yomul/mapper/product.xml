@@ -5,6 +5,15 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.product">
+	
+	<!-- 물건 삭제 -->
+	<delete id="deleteNear" parameterType="map">
+		DELETE FROM
+			YOMUL_PRODUCTS
+		WHERE
+			NO = #{near.no}
+	     And 'ADMIN' = #{member.authority}
+	</delete>
 
 	<!-- 물건 시퀀스 불러오기 -->
 	<select id="getProductSequence" resultType="string">

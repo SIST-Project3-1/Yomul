@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.CategoryVO;
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
 
 @Repository
@@ -19,6 +20,20 @@ public class ProductDAO extends DAO {
 	private SqlSessionTemplate sqlSession;
 	
 	private static String namespace = "mapper.product";
+	
+	/**
+	 * 상품 삭제
+	 * @param member
+	 * @param product
+	 * @return
+	 */
+	public int deleteProduct(MemberVO member, ProductVO product) {
+		Map<String,Object>params = new HashMap<String,Object>();
+		params.put("member", member);
+		params.put("product", product);
+		
+		return sqlSession.delete(namespace + "deleteNear",params);
+	}
 	
 	//글작성 no 시퀀스 불러오기
 	public String getProductSequence() {

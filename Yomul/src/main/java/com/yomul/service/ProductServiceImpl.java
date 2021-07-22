@@ -12,8 +12,14 @@ import com.yomul.vo.ProductVO;
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
 
+	
 	@Autowired
 	private ProductDAO productDAO;
+	
+	@Override
+	public int getDelete(int no) {
+		return 0;
+	}
 	
 	@Override
 	public String getProductSequence() {

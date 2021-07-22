@@ -202,17 +202,16 @@
 
 				<!--포토박스-->
 				<div class="pw_ptBox">
-					<button class="pw_pbBtn">
+					<div class="pw_pbBtn">
 						<p class="pw_pbDragP">
 							<span class="pw_pbDrag"> "드래그 앤 드롭이나 추가하기 버튼으로" <br>
 							</span> "커버 사진을 업로드해주세요."
 						</p>
-
-						<p class="pw_pbSize">* 권장 사이즈: 1920 x 1080, 최소 1400 x 930(3:2
-							비율)</p>
-						<div class="pw_ptCover">커버 사진 추가하기</div>
-
-					</button>
+						<input type="file" name="file" id="validatedProductFile" lang="kor">
+						
+						<p class="pw_pbSize">* 권장 사이즈: 1920 x 1080, 최소 1400 x 930(3:2비율)</p>
+					<!--<lavel class="pw_ptCover" for="validatedProductFile">커버 사진 추가하기</lavel>-->	
+					</div>
 				</div>
 				<!-- pw_ptBox -->
 
