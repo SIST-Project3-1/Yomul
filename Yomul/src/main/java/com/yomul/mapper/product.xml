@@ -6,6 +6,26 @@
 
 <mapper namespace="mapper.product">
 
+	<!-- 물건 시퀀스 불러오기 -->
+	<select id="getProductSequence" resultType="string">
+		SELECT 
+			'P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL
+		FROM
+			DUAL
+	
+	</select>
+	
+	<!-- 물건 카테고리 불러오기 -->
+	<select id="getProductCategories" resultType="com.yomul.vo.CategoryVO">
+		SELECT
+			  NO
+			, CONTENT
+		FROM
+			  YOMUL_PRODUCT_CATEGORIES
+		ORDER BY
+			  NO
+					
+	</select>
 	<!-- 물건 내용 상세보기 -->
 	<select id="getProductInfo" parameterType="string" resultType="com.yomul.vo.ProductVO">
 		SELECT
@@ -92,7 +112,7 @@
 				RNO > 10 * (#{page} - 1) 
 <![CDATA[	AND RNO <= 10 * #{page}			]]>
 	</select>
-		<!-- 공지사항 작성 -->
+		<!--상품등록 글쓰기 작성 -->
 	<insert id="getProductWrite" parameterType="com.yomul.vo.ProductVO">
 	
 	INSERT INTO YOMUL_PRODUCTS
@@ -103,15 +123,17 @@
 		, TITLE
 		, CONTENT
 		, PRICE
+		, LOCATION
 	) 
 	VALUES
 	(
-		'P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL
+		  #{no}
 		, #{category_no}
 		, #{seller}
 		, #{title}
 		, #{content}
 		, #{price}
+		, #{location}
 		
 	)
 		

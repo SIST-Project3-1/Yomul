@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yomul.dao.ProductDAO;
+import com.yomul.vo.CategoryVO;
 import com.yomul.vo.ProductVO;
 
 @Service("productService")
@@ -14,6 +15,15 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductDAO productDAO;
 	
+	@Override
+	public String getProductSequence() {
+		return productDAO.getProductSequence();
+	}
+	
+	@Override
+	public ArrayList<CategoryVO> getProductCategories() {
+		return productDAO.getProductCategories();
+	}
 	@Override	
 	public int getProductWrite(ProductVO pvo) {
 		return productDAO.getProductWrite(pvo)== 1? 1:0;

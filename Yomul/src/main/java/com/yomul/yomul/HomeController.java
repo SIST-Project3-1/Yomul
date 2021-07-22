@@ -1,5 +1,8 @@
 package com.yomul.yomul;
 
+
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +13,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.LikeService;
-import com.yomul.service.LikeServiceImpl;
 import com.yomul.service.MemberService;
 import com.yomul.service.ProductService;
 import com.yomul.util.Commons;
+import com.yomul.vo.CategoryVO;
 import com.yomul.vo.LikeVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
 
 @Controller
 public class HomeController {
-
+	
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -28,9 +31,41 @@ public class HomeController {
 	@Autowired
 	private LikeService likeService;
 
+	//글작성 열기
 	@RequestMapping(value = "product_write", method = RequestMethod.GET)
-	public String product_write() {
-		return "user/home/product_write";
+	public ModelAndView product_write() {
+		ModelAndView mv = new ModelAndView();
+		
+		ArrayList<CategoryVO> Pcategories = productService.getProductCategories(); //파일업로드.? 데이터베이스 에서 카테고리 가져오는 sql 구문 작성 
+		
+		//Select 카테고리 목록 from yomul_products 
+		//	select no, content from yomul_faq_categories order by no asc
+		//	select no, content from YOMUL_PRODUCT_CATEGORIES order by no asc
+		
+		mv.setViewName("user/home/product_write");
+		mv.addObject("categories",Pcategories);
+		
+		return mv;
+		
+	}//사용자 q& 카테고리 작성 나눠져 있는거 참고 
+	
+	//글작성한걸 처리하는proc 만들 
+	@RequestMapping(value = "product_write_proc", method = RequestMethod.POST)
+	public ModelAndView product_write_proc(ProductVO pvo, HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		
+		pvo.setSeller(member.getNo());
+		pvo.setNo(productService.getProductSequence());
+		
+		int result = productService.getProductWrite(pvo);
+		if(result == 1) {
+			mv.setViewName("redirect:product_list");//작성한 게시물 몇번인지 알아야 info일 경
+		}else {
+			
+		}
+		
+		return mv;
 	}
 
 	@RequestMapping(value = "product_update", method = RequestMethod.GET)
@@ -110,5 +145,6 @@ public class HomeController {
 	public String index() {
 		return "user/home/product_list";
 	}
-
+	
+	
 }
