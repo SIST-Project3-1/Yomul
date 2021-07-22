@@ -77,33 +77,29 @@ public class FileUtils {
 		return count;
 	}
 
-	public String restore(List<MultipartFile> multipartFile, HttpServletRequest request, String articleNo) {
+	public String restore(String articleNo ,List<MultipartFile> multipartFile, HttpServletRequest request) {
 		String url = null;
-		final String PREFIX_URL = "resources/upload/";
 		try {
 			// 파일 정보
 			for (MultipartFile mf : multipartFile) {
 				// 원파일명
 				String originFilename = mf.getOriginalFilename();
-				// 변환 파일명
-				String extName = originFilename.substring(originFilename.lastIndexOf("."), originFilename.length());
 				// 파일 크기
 				Long size = mf.getSize();
 
-				// 서버에서 저장 할 파일 이름
-				String saveFileName = genSaveFileName(articleNo, extName);
+				// 서버에서 저장 할 파일 이름 // 이 부분 변경
+				String saveFileName = articleNo;
 				// db에 저장
 				dao.getNearFile(saveFileName, originFilename);
 				 
 				System.out.println("originFilename : " + originFilename);
-				System.out.println("extensionName : " + extName);
 				System.out.println("size : " + size);
 				System.out.println("saveFileName : " + saveFileName);
 
-				writeFile(mf, saveFileName, request);
-				url = saveFileName;
+				writeFile(mf, originFilename, request);
+				url = originFilename;
 
-				System.out.println("url :" + url);
+
 			}
 
 		} catch (IOException e) {
@@ -113,12 +109,13 @@ public class FileUtils {
 		return url;
 	}
 
-	// 중복되지 않게 현재 시간 붙여서 파일 이름 생성
-	public String genSaveFileName(String articleNo, String extName) {
-		String fileName = articleNo + "_" + (++SEQUENCE) + "_" + extName;
-
-		return fileName;
-	}
+	/*
+	 * // 중복되지 않게 현재 시간 붙여서 파일 이름 생성 public String genSaveFileName(String articleNo,
+	 * String extName) { String fileName = articleNo + "_" + (++SEQUENCE) + "_" +
+	 * extName;
+	 * 
+	 * return fileName; }
+	 */
 
 	public String genSaveFileName(String extName) {
 
@@ -136,7 +133,7 @@ public class FileUtils {
 	}
 
 	// 파일을 실제로 저장
-	private boolean writeFile(MultipartFile mf, String saveFileName, HttpServletRequest request) throws IOException {
+	private boolean writeFile(MultipartFile mf, String originFilename, HttpServletRequest request) throws IOException {
 		final String SAVE_PATH = request.getSession().getServletContext().getRealPath("/resources/upload");
 		System.out.println("save_path ===> " + SAVE_PATH);
 		boolean result = false;
@@ -144,7 +141,7 @@ public class FileUtils {
 		byte[] data = mf.getBytes();
 		System.out.println("data : " + data);
 
-		FileOutputStream fos = new FileOutputStream(SAVE_PATH + "/" + saveFileName);
+		FileOutputStream fos = new FileOutputStream(SAVE_PATH + "/" + originFilename);
 		fos.write(data);
 		fos.close();
 
