@@ -98,8 +98,7 @@ public class NearController {
 		ModelAndView mv = new ModelAndView();		
 		int fileCount = fileUploadService.getUploadedCount(files);
 		String articleNo = nearService.getArticeNo();
-		System.out.println("artilcNo ---> " + articleNo );
-		
+	
 		if (fileCount != 0) {
 			url = fileUploadService.restore(articleNo,files, request);
 		}
@@ -127,6 +126,7 @@ public class NearController {
 	@RequestMapping(value = "/near_update_proc", method = RequestMethod.POST)
 	public ModelAndView near_update_proc() {
 		ModelAndView mv = new ModelAndView();
+		
 		mv.setViewName("redirect:/near_home");
 		return mv;
 	}

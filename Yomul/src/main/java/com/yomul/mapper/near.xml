@@ -124,11 +124,9 @@
     </if>
 </sql>
 	
-	
-	
 	<!-- 내 근처 게시글 상세보기 -->
 	<select id="selectNearInfo" resultType="com.yomul.vo.NearVO" parameterType="java.lang.String">
-		select no, writer, mimg, vno, vname, vimg, title, category, price, hp, content, ndate, chatcheck, hits, files
+		select no, writer, mimg, vno, vname, vimg, title, category, price, hp, content, ndate, chatcheck, hits, files, mainFile
 		from v_y_near_articles
 		where no = #{no}
 	</select>

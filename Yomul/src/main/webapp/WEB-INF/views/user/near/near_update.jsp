@@ -36,7 +36,7 @@ function fileUpload(fis) {
 					 -->
 
 					<img id="profile_img_img" class="rounded-circle mb-3"
-						src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }'
+						src='/yomul/upload/${vo.mainFile }'
 						style="width: 400px; height: 400px;"> <input type="file"
 						class="custom-file-input" id="profile_img" name="profile_img"
 						aria-describedby="profile_img" onchange="fileUpload(this)"
