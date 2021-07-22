@@ -80,33 +80,44 @@
 			</div>
 
 			<!--  이미지  -->
-			<c:if test="${vo.files != 0 }">
-				<div class="near-info-left-img">
-					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-						<ol class="carousel-indicators">
-							<c:forEach begin="1" end="${articleImages.size() }" varStatus="status">
-								<li data-target="#carouselExampleIndicators" data-slide-to="<c:choose><c:when test="${status.first }">0</c:when><c:otherwise>1</c:otherwise></c:choose>"
-									class="<c:if test="${status.first }">active</c:if>"></li>
-							</c:forEach>
-						</ol>
+			<c:choose>
+				<c:when test="${vo.files == 0 }">
+					<div class="near-info-left-img">
 						<div class="carousel-inner" style="width: 500px; height: 500px;">
-							<c:forEach var="articleImg" items="${articleImages }" varStatus="status">
-								<div class="carousel-item <c:if test="${status.first }">active</c:if>">
-									<img src="/yomul/upload/${articleImg }" class="d-block w-100" style="width: 500px; height: 500px;">
-								</div>
-							</c:forEach>
+							<div class="carousel-item active">
+								<img src="/yomul/upload/default.jpg" class="d-block w-100" style="width: 500px; height: 500px;">
+							</div>
 						</div>
-						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="sr-only">Previous</span>
-						</a>
-						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="sr-only">Next</span>
-						</a>
 					</div>
-				</div>
-			</c:if>
+				</c:when>
+				<c:otherwise>
+					<div class="near-info-left-img">
+						<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+							<ol class="carousel-indicators">
+								<c:forEach begin="1" end="${articleImages.size() }" varStatus="status">
+									<li data-target="#carouselExampleIndicators" data-slide-to="<c:choose><c:when test="${status.first }">0</c:when><c:otherwise>1</c:otherwise></c:choose>"
+										class="<c:if test="${status.first }">active</c:if>"></li>
+								</c:forEach>
+							</ol>
+							<div class="carousel-inner" style="width: 500px; height: 500px;">
+								<c:forEach var="articleImg" items="${articleImages }" varStatus="status">
+									<div class="carousel-item <c:if test="${status.first }">active</c:if>">
+										<img src="/yomul/upload/${articleImg }" class="d-block w-100" style="width: 500px; height: 500px;">
+									</div>
+								</c:forEach>
+							</div>
+							<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a>
+							<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</div>
+					</div>
+				</c:otherwise>
+			</c:choose>
 
 			<!--  내용  -->
 			<div class="near-info-left-content">
