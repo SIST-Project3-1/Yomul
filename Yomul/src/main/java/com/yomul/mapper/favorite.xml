@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.favorite">
+
+	<!-- 찜 수 확인 -->
+	<select id="getFavoriteCount" parameterType="string" resultType="_int" >
+		SELECT
+			COUNT(*)
+		FROM
+			YOMUL_FAVORITE_LISTS
+		WHERE
+			PRODUCT_NO = #{no}
+	</select>
+
+	<!-- 찜 여부 확인 -->
+	<select id="isFavorite" parameterType="com.yomul.vo.FavoriteVO" resultType="_int">
+		SELECT
+			COUNT(*)
+		FROM
+			YOMUL_FAVORITE_LISTS
+		WHERE
+				PRODUCT_NO = #{product_no}
+			AND MEMBER_NO = #{member_no}
+	</select>
+	
+	<!-- 찜 취소 -->
+	<delete id="unFavorite" parameterType="com.yomul.vo.FavoriteVO">
+		DELETE FROM
+			YOMUL_FAVORITE_LISTS
+		WHERE
+				PRODUCT_NO = #{product_no}
+			AND MEMBER_NO = #{member_no}
+	</delete>
+	
+	<!-- 찜 -->
+	<insert id="favorite" parameterType="com.yomul.vo.FavoriteVO">
+		INSERT INTO YOMUL_FAVORITE_LISTS
+		(
+			  PRODUCT_NO
+			, MEMBER_NO
+		)
+		VALUES
+		(
+			  #{product_no}
+			, #{member_no}
+		)
+	</insert>
+
+</mapper>

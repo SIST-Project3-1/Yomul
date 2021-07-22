@@ -1007,7 +1007,10 @@ DELETE FROM YOMUL_LIKES WHERE ARTICLE_NO = 'P34' AND MEMBER_NO = 'M1';
 INSERT INTO YOMUL_LIKES(ARTICLE_NO, MEMBER_NO) VALUES('P34', 'M1');
 
 -- 물건 북마크
-
+SELECT COUNT(*) FROM YOMUL_FAVORITE_LISTS WHERE PRODUCT_NO = 'P49';
+SELECT COUNT(*) FROM YOMUL_FAVORITE_LISTS WHERE PRODUCT_NO = 'P34' AND MEMBER_NO = 'M1';
+DELETE FROM YOMUL_FAVORITE_LISTS WHERE PRODUCT_NO = 'P34' AND MEMBER_NO = 'M1';
+INSERT INTO YOMUL_FAVORITE_LISTS(PRODUCT_NO, MEMBER_NO) VALUES('P34', 'M1');
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 -- 사용자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
