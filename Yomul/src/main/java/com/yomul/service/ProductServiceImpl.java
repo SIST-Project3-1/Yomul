@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yomul.dao.ProductDAO;
 import com.yomul.vo.CategoryVO;
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
 
 @Service("productService")
@@ -17,8 +18,8 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDAO productDAO;
 	
 	@Override
-	public int getDelete(int no) {
-		return 0;
+	public int getDelete(MemberVO member, ProductVO pvo) {
+		return productDAO.deleteProduct(member, pvo);
 	}
 	
 	@Override

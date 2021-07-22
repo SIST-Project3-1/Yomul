@@ -17,7 +17,7 @@
 	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
-	<form action="product_write_proc" method="post">
+	<form action="product_write_proc" method="post" enctype="multipart/form-data">
 		<div class="pw_wrap">
 			<div class="pw_header">
 				<div class="pw_toolBar">

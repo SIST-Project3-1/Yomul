@@ -7,12 +7,12 @@
 <mapper namespace="mapper.product">
 	
 	<!-- 물건 삭제 -->
-	<delete id="deleteNear" parameterType="map">
+	<delete id="deleteProduct" parameterType="map">
 		DELETE FROM
 			YOMUL_PRODUCTS
 		WHERE
-			NO = #{near.no}
-	     And 'ADMIN' = #{member.authority}
+			NO = #{product.no}
+	     And SELLER = #{member.no}
 	</delete>
 
 	<!-- 물건 시퀀스 불러오기 -->

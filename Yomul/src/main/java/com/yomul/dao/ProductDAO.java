@@ -28,11 +28,13 @@ public class ProductDAO extends DAO {
 	 * @return
 	 */
 	public int deleteProduct(MemberVO member, ProductVO product) {
+		System.out.println(member.toStringJson());
+		System.out.println(product.toStringJson());
 		Map<String,Object>params = new HashMap<String,Object>();
 		params.put("member", member);
 		params.put("product", product);
 		
-		return sqlSession.delete(namespace + "deleteNear",params);
+		return sqlSession.delete(namespace + ".deleteProduct",params);
 	}
 	
 	//글작성 no 시퀀스 불러오기
