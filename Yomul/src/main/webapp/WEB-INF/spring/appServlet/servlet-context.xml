@@ -65,7 +65,7 @@
 		</interceptor>
 		<!-- 채팅페이지 로그인 필요 -->
 		<interceptor>
-			<mapping path="/chat*" />
+			<mapping path="/*chat*" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 		<!-- 글쓰기 로그인 필요 -->

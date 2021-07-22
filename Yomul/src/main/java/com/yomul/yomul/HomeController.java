@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yomul.service.ChatService;
 import com.yomul.service.FavoriteService;
 import com.yomul.service.FileService;
 import com.yomul.service.LikeService;
@@ -22,6 +23,7 @@ import com.yomul.service.ProductService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.CategoryVO;
+import com.yomul.vo.ChatVO;
 import com.yomul.vo.FavoriteVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.LikeVO;
@@ -41,6 +43,8 @@ public class HomeController {
 	private FileService fileService;
 	@Autowired
 	private FavoriteService favoriteService;
+	@Autowired
+	private ChatService chatService;
 
 	// 글삭제
 	@ResponseBody
@@ -196,6 +200,24 @@ public class HomeController {
 			val = favoriteService.favorite(vo);
 			return val == 1 ? "3" : "0";
 		}
+	}
+
+	/**
+	 * 채팅 처리
+	 * 
+	 * @param like
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "product_chat", method = RequestMethod.GET)
+	public String product_chat(ChatVO vo, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		vo.setChat_from(member.getNo());
+
+		int result = chatService.chat(vo);
+
+		return String.valueOf(result);
 	}
 
 	/**
