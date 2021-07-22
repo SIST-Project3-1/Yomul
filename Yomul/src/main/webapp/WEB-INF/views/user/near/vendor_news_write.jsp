@@ -37,7 +37,7 @@
 					<span class="">사진 올리기</span>
 					<span class="">(*최대 10장까지)</span>
 				</button>
-				<input type="file" id="file" style="display:none" >
+				<input type="file" id="file" name="files" class="d-none">
 			</div>
 			
 			<!-- 글 작성 -->
@@ -45,16 +45,16 @@
 				<form name="near_write" action="#" method="post">
 					<div>
 						<label>제목</label>
-						<input type="text" placeholder="제목을 입력해 주세요" required>
+						<input type="text" name="title" placeholder="제목을 입력해 주세요" required>
 					</div>
 					<div>
 						<label>가격</label>
-						<input type="text" placeholder="가격 (선택사항)">
+						<input type="text" name="price" placeholder="가격 (선택사항)">
 					</div>
 					<div>
-						<textarea placeholder="단골들에게 홍보하고 싶은 내용을 입력해주세요" required></textarea>
+						<textarea name="content" placeholder="단골들에게 홍보하고 싶은 내용을 입력해주세요" required></textarea>
 					</div>
-					<input type="checkbox" class="near-write-checkbox">  채팅 안 받기
+					<input type="checkbox" name="chatCheck" class="near-write-checkbox">  채팅 안 받기
 					<button type="submit">완료</button>
 				</form>
 			</div>

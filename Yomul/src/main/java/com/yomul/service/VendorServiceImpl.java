@@ -127,4 +127,10 @@ public class VendorServiceImpl implements VendorService {
 		}
 		return true;
 	}
+	
+	// 사용자 번호로 업체 번호 조회
+	@Override
+	public String getVendorNo(String no) {
+		return vendorDAO.getVendorNoByOwner(no);
+	}
 }
