@@ -17,6 +17,15 @@ public class NearVO extends VO {
 	private String hp; // 게시글 전화번호
 	private String content; // 게시글 내용
 	private String ndate; // 게시글 등록 일자
+	private String mainFile; // 게시글 대표 이미지
+
+	public String getMainFile() {
+		return mainFile;
+	}
+
+	public void setMainFile(String mainFile) {
+		this.mainFile = mainFile;
+	}
 
 	public String getNo() {
 		return no;

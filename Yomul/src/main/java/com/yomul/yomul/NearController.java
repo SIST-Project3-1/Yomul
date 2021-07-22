@@ -55,14 +55,14 @@ public class NearController {
 
 	@RequestMapping(value = "/near_home", method = RequestMethod.GET)
 	public ModelAndView near_home(NearVO vo) {
-
+		
 		ModelAndView mv = new ModelAndView();
+		//내근처 게시글 데이터 가져오기
 		List<NearVO> list = nearService.selectNearList(vo);
 		String keyword[] = { "부동산", "카페", "요가", "휴대폰", "마사지", "미용실", "왁싱" };
 		
 		mv.addObject("keyword", keyword);
-		mv.addObject("list", list);
-	
+		mv.addObject("list", list);		
 		mv.setViewName("user/near/near_home");
 
 		return mv;
@@ -83,33 +83,33 @@ public class NearController {
 
 	// 내 근처 글 쓰기 (동네구인구직, 과외/클래스, 농수산물, 중고차)
 	@RequestMapping(value = "/near_write", method = RequestMethod.GET)
-	public String near_write() {
-		return "user/near/near_write";
+	public ModelAndView near_write() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("user/near/near_write");
+		
+		return mv;
 	}
 
 	@RequestMapping(value = "/near_write_proc", method = RequestMethod.POST)
 	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request,
-			HttpSession session) {
-
-		ModelAndView mv = new ModelAndView();
+			HttpSession session, FileVO fvo) {
+		
+		String url = null;
+		ModelAndView mv = new ModelAndView();		
 		int fileCount = fileUploadService.getUploadedCount(files);
-		String articleNo = nearDAO.getWriteNumber();
+		String articleNo = nearService.getArticeNo();
+		System.out.println("artilcNo ---> " + articleNo );
 		
 		if (fileCount != 0) {
-			String url = fileUploadService.restore(files, request, articleNo);
-			mv.addObject("url", url);
+			url = fileUploadService.restore(articleNo,files, request);
 		}
 		
 		mv.addObject("fileCount", fileCount);
 		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
-		int result = nearDAO.getNearWrite(vo);
+		nearDAO.getNearWrite(vo,url);
 
-		if (result == 1) {
-			mv.setViewName("redirect:/near_home");
-		} else {
-			// mv.setViewName("error"); 에러페이지
-		}
-
+		mv.setViewName("redirect:/near_home");
+	
 		return mv;
 	}
 
@@ -144,10 +144,10 @@ public class NearController {
 			NearVO vo = nearService.getNearInfo(no);
 			mv.addObject("vo", vo);
 			
-			//로그인 세션 값 불러오기
-			String id = (String)session.getAttribute("id");
-			if(id !=null) {
-				mv.addObject("id", id);
+			//로그인 사용자 체크 세션 값 불러오기
+			String loginNo = (String)session.getAttribute("no");
+			if(loginNo !=null) {
+				mv.addObject("loginNo", loginNo);
 			}
 		
 			// 게시글 파일이 있을 경우 불러오기 //null 값 들어가면 오류!
