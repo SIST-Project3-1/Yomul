@@ -26,7 +26,7 @@
 		var reloadChat = setInterval(function() {
 			getChatHistory(chat_to);
 			getChatList(true);
-		}, 100);
+		}, 1000);
 
 		// 채팅하기
 		$("#form_chat").on("submit", function(e) {
@@ -83,7 +83,7 @@
 					html += '	<div>';
 					html += '		<img class="rounded-circle" src="https://via.placeholder.com/50">';
 					html += '		<span class="ml-2">';
-					html += '			<strong>' + chat.chat_from + '</strong>';
+					html += '			<strong>' + chat.chat_from_nickname + '</strong>';
 					html += '		</span>';
 					html += '	</div>';
 					html += '</button>';
