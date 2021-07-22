@@ -33,25 +33,38 @@
 	<!-- 채팅한 유저 목록 가져오기 -->
 	<select id="getChatList" parameterType="string" resultType="com.yomul.vo.ChatVO">
 		SELECT
-			  CHAT_FROM
-			, MAX(CDATE) CDATE
+			  C.CHAT_FROM
+			, C.CDATE
+			, M.NICKNAME CHAT_FROM_NICKNAME
 		FROM
 		(
-			SELECT
-				  CHAT_TO AS CHAT_FROM
-				, CDATE
+			SELECT 
+				  CHAT_FROM
+				, MAX(CDATE) CDATE
 			FROM
+			(
+				SELECT
+					  CHAT_TO AS CHAT_FROM
+					, CDATE
+					FROM
 				YOMUL_CHATS
-			WHERE
-				CHAT_FROM = #{no}
-			UNION
-			SELECT
-				  CHAT_FROM AS CHAT_FROM
-				, CDATE FROM YOMUL_CHATS
-			WHERE CHAT_TO = #{no}
-		)
-		GROUP BY
-			CHAT_FROM
+				WHERE
+					CHAT_FROM = #{no}
+				UNION
+					SELECT
+						  CHAT_FROM AS CHAT_FROM
+						, CDATE
+					FROM
+						YOMUL_CHATS
+					WHERE
+						CHAT_TO = #{no}
+			)
+			GROUP BY CHAT_FROM
+		) C
+		JOIN
+			YOMUL_MEMBERS M
+		ON
+			C.CHAT_FROM = M.NO
 		ORDER BY
 			CDATE DESC
 	</select>
