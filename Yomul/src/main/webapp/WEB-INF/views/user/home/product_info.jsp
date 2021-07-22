@@ -57,6 +57,26 @@
 						</a>
 						<div class="mo_a_bo_gi">
 							<button class="mo_a_bo_gibtn">모아보기</button>
+							
+							<c:if test="${sessionScope.member.no == product.seller}">
+							<button id="deleteProduct" type="button" class="mo_a_bo_gibtn">글 삭제</button>
+									<script type="text/javascript">
+										$("#deleteProduct").on("click", function() {
+											$.ajax({
+												url : "/yomul/product_delete?no=${product.no}",
+												method : "GET",
+												success : function(result) {
+													if (result == 1) {
+														alert("글을 삭제했습니다.");
+														location.href = "/yomul/product_list";
+													} else {
+														alert("삭제에 실패했습니다.");
+													}
+												}
+											});
+										});
+									</script>
+								</c:if>
 						</div>
 					</div>
 				</div>
@@ -120,7 +140,7 @@
 							</button>
 							<span class="content-detail-sidebar-counter">1,151</span>
 							<hr class="content-detail-sidebar-hr">
-							<button class="content-detail-sidebar-button content-detail-sidebar-button--gray" aria-pressed="false" title="댓글" type="button">
+							<button class="content-detail-sidebar-button content-detail-sidebar-button--gray" aria-pressed="false" title="채팅" type="button">
 								<svg class="icon" width="24" height="24" viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet">
 									<path fill="currentColor" fill-rule="nonzero"
 										d="M13.665 18.434l.53-.066C19.69 17.679 23 14.348 23 10c0-4.942-4.235-8.5-11-8.5S1 5.058 1 10c0 4.348 3.31 7.68 8.804 8.368l.531.066L12 21.764l1.665-3.33zm-3.985.926C3.493 18.585 0 14.69 0 10 0 4.753 4.373.5 12 .5S24 4.753 24 10c0 4.69-3.493 8.585-9.68 9.36l-1.647 3.293c-.374.75-.974.744-1.346 0L9.68 19.36z">

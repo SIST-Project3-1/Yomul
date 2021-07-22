@@ -3,11 +3,12 @@ package com.yomul.service;
 import java.util.ArrayList;
 
 import com.yomul.vo.CategoryVO;
+import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
 
 public interface ProductService {
 	
-	int getDelete(int no);
+	int getDelete(MemberVO member, ProductVO pvo);
 	
 	int getProductWrite(ProductVO pvo);
 
