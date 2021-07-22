@@ -17,8 +17,8 @@ public class NearServiceImplement implements NearService {
 	private NearDAO nearDAO;
 
 	@Override
-	public int getNearWrite(NearVO vo) {
-		return nearDAO.getNearWrite(vo);
+	public int getNearWrite(NearVO vo, String url) {
+		return nearDAO.getNearWrite(vo, url);
 	}
 
 	@Override
@@ -75,6 +75,8 @@ public class NearServiceImplement implements NearService {
 	
 		return nearDAO.getArticeNo();
 	}
+
+	
 	
 	
 }

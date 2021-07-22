@@ -45,8 +45,11 @@ public class NearDAO extends DAO {
 		return (ArrayList<NearVO>) list;
 	}
 
-	public int getNearWrite(NearVO vo) {
-		return sqlSession.insert(nameSpace + ".getNearWrite", vo);
+	public int getNearWrite(NearVO vo, String url) {
+		Map<String, Object>params = new HashMap<String, Object>();
+		params.put("vo", vo);
+		params.put("url", url);
+		return sqlSession.insert(nameSpace + ".getNearWrite", params);
 	}
 
 	public int getNearFile(String saveFileName, String originFilename) {
@@ -88,5 +91,5 @@ public class NearDAO extends DAO {
 	public int updateNearHits(String no) {
 		return sqlSession.update(nameSpace + ".updateNearHits", no);
 	}
-
+	
 }
