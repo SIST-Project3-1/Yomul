@@ -123,6 +123,12 @@
         )
     </if>
 </sql>
+
+	<!-- 내 근처 글 수정 -->
+	<update id="getUpdate" parameterType="map">
+		update yomul_near_articles set title= #{vo.title},price= #{vo.price},hp= #{vo.hp},content= #{vo.content},chatCheck= #{vo.chatCheck} 
+		where no = #{no}
+	</update>
 	
 	<!-- 내 근처 게시글 상세보기 -->
 	<select id="selectNearInfo" resultType="com.yomul.vo.NearVO" parameterType="java.lang.String">

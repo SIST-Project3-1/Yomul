@@ -101,6 +101,8 @@ public class NearController {
 	
 		if (fileCount != 0) {
 			url = fileUploadService.restore(articleNo,files, request);
+		}else {
+			url = "default.jpg";
 		}
 		
 		mv.addObject("fileCount", fileCount);
@@ -123,11 +125,12 @@ public class NearController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/near_update_proc", method = RequestMethod.POST)
-	public ModelAndView near_update_proc() {
+	@RequestMapping(value = "/near_update_proc/{no}", method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView near_update_proc(NearVO vo,@PathVariable("no") String no ) {
 		ModelAndView mv = new ModelAndView();
+		nearService.getUpdate(vo,no);
+		mv.setViewName("redirect:/near_home");			
 		
-		mv.setViewName("redirect:/near_home");
 		return mv;
 	}
 
