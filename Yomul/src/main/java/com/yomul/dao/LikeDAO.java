@@ -23,6 +23,7 @@ public class LikeDAO extends DAO {
 	 * @return
 	 */
 	public int isLiked(LikeVO vo) {
+		System.out.println(vo.toStringJson());
 		return sqlSession.selectOne(nameSpace + ".isLiked", vo);
 	}
 

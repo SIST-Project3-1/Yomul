@@ -37,16 +37,14 @@ public class HomeController {
 	private LikeService likeService;
 	@Autowired
 	private FileService fileService;
-	
-	//글삭제 
+
+	// 글삭제
 	@RequestMapping(value = "/product_delete", method = RequestMethod.GET)
 	public String product_delete(ProductVO pvo, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		return String.valueOf(productService.deletProduct(member.product));
 	}
-	
-	
-	
+
 	// 글작성 열기
 	@RequestMapping(value = "product_write", method = RequestMethod.GET)
 	public ModelAndView product_write() {
@@ -66,67 +64,72 @@ public class HomeController {
 
 	}// 사용자 q& 카테고리 작성 나눠져 있는거 참고
 
-	//글작성한걸 처리하는proc 만들 
-		@RequestMapping(value = "product_write_proc", method = RequestMethod.POST)
-		public ModelAndView product_write_proc(ProductVO pvo, HttpSession session) {
-			ModelAndView mv = new ModelAndView();
-			MemberVO member = (MemberVO) session.getAttribute("member");
-			
-			pvo.setSeller(member.getNo());
-			pvo.setNo(productService.getProductSequence());
-			
-			int result = productService.getProductWrite(pvo);
-			if(result == 1) {
-				mv.setViewName("redirect:product_list");//작성한 게시물 몇번인지 알아야 info일 경
-			}else {
-				
-			}
-			
-			return mv;
+	// 글작성한걸 처리하는proc 만들
+	@RequestMapping(value = "product_write_proc", method = RequestMethod.POST)
+	public ModelAndView product_write_proc(ProductVO pvo, HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		pvo.setSeller(member.getNo());
+		pvo.setNo(productService.getProductSequence());
+
+		int result = productService.getProductWrite(pvo);
+		if (result == 1) {
+			mv.setViewName("redirect:product_list");// 작성한 게시물 몇번인지 알아야 info일 경
+		} else {
+
 		}
 
-		/**
-		 *  글작성 파일업로
-		 * @return
-		 * @throws IOException
-		 * @throws IllegalStateException
-		 */
-		@RequestMapping(value = "product_write_file", method = RequestMethod.POST) 
-		public String product_write_proc(ProductVO pvo,  HttpServletRequest request) throws IllegalStateException, IOException{
-			
-			//작성될 글 번호 가져오기
-			pvo.setNo(productService.getProductSequence());
-			int result = productService.getProductWrite(pvo);
-			
-			if (result == 1 && pvo.getFile().getSize() != 0) {// 글작성에 성공하면 파일 업로드
-				// 파일객체 생성
-				FileVO fileVO = new FileVO();
-				fileVO.setArticle_no(pvo.getNo());
-				fileVO.setNo(1);
-				fileVO.setFilename(pvo.getFile().getOriginalFilename());
-				String filename = fileVO.getSavedFilename();
+		return mv;
+	}
 
-				// DB에 파일 생성
-				result = fileService.uploadFile(fileVO);
-					if (result == 1) {// 서버에 파일생성
-						File file = new File(FileUtils.getUploadPath(request), filename);
-						pvo.getFile().transferTo(file);
-					}
+	/**
+	 * 글작성 파일업로
+	 * 
+	 * @return
+	 * @throws IOException
+	 * @throws IllegalStateException
+	 */
+	@RequestMapping(value = "product_write_file", method = RequestMethod.POST)
+	public String product_write_proc(ProductVO pvo, HttpServletRequest request) throws IllegalStateException, IOException {
+
+		// 작성될 글 번호 가져오기
+		pvo.setNo(productService.getProductSequence());
+		int result = productService.getProductWrite(pvo);
+
+		if (result == 1 && pvo.getFile().getSize() != 0) {// 글작성에 성공하면 파일 업로드
+			// 파일객체 생성
+			FileVO fileVO = new FileVO();
+			fileVO.setArticle_no(pvo.getNo());
+			fileVO.setNo(1);
+			fileVO.setFilename(pvo.getFile().getOriginalFilename());
+			String filename = fileVO.getSavedFilename();
+
+			// DB에 파일 생성
+			result = fileService.uploadFile(fileVO);
+			if (result == 1) {// 서버에 파일생성
+				File file = new File(FileUtils.getUploadPath(request), filename);
+				pvo.getFile().transferTo(file);
 			}
-
-			return String.valueOf(result);
 		}
-		
-		
+
+		return String.valueOf(result);
+	}
+
 	@RequestMapping(value = "product_update", method = RequestMethod.GET)
 	public String product_update() {
 		return "user/home/product_update";
 	}
 
+	/**
+	 * 물품 정보보기
+	 * 
+	 * @param no
+	 * @return
+	 */
 	@RequestMapping(value = "product_info", method = RequestMethod.GET)
 	public ModelAndView product_info(String no, HttpSession session) {
 		ModelAndView mv = new ModelAndView("user/home/product_info");
-
 		MemberVO member = (MemberVO) session.getAttribute("member");
 
 		ProductVO product = productService.getProductInfo(no);
@@ -134,13 +137,16 @@ public class HomeController {
 		MemberVO seller = new MemberVO();
 		seller.setNo(product.getSeller());
 
+		if (member != null) {
+			LikeVO like = new LikeVO();
+			like.setArticle_no(no);
+			like.setMember_no(member.getNo());
+			mv.addObject("isLiked", likeService.isLiked(like));
+		}
+
 		mv.addObject("product", product);
 		mv.addObject("profileImg", memberService.getMyProfileImg(seller));
-
-		LikeVO like = new LikeVO();
-		like.setArticle_no(no);
-		like.setMember_no(member.getNo());
-		mv.addObject("isLiked", likeService.isLiked(like));
+		mv.addObject("likeCount", likeService.getLikeCount(no));
 
 		return mv;
 	}
@@ -154,18 +160,19 @@ public class HomeController {
 	@ResponseBody
 	@RequestMapping(value = "product_like", method = RequestMethod.GET)
 	public String product_like(LikeVO like, HttpSession session) {
-		String result = "";
 		MemberVO member = (MemberVO) session.getAttribute("member");
 
 		like.setMember_no(member.getNo());
 
 		boolean isLiked = likeService.isLiked(like);
+		int val;
 		if (isLiked) { // 좋아요를 눌렀으면 좋아요 취소
-			result = String.valueOf(likeService.unLike(like));
+			val = likeService.unLike(like);
+			return val == 1 ? "2" : "0";
 		} else { // 좋아요를 누르지 않앗으면 좋아요
-			result = String.valueOf(likeService.like(like));
+			val = likeService.like(like);
+			return val == 1 ? "3" : "0";
 		}
-		return result;
 	}
 
 	/**
