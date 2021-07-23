@@ -49,9 +49,8 @@
 <![CDATA[	AND RNO <= 10 * #{page}]]>
 	</select>
 
-
 	<!-- 내 근처 글쓰기 -->
-	<insert id="getNearWrite" parameterType="com.yomul.vo.NearVO">
+	<insert id="getNearWrite" parameterType="map">
 		INSERT INTO YOMUL_NEAR_ARTICLES
 		(
 			  NO
@@ -62,26 +61,26 @@
 			, HP
 			, CONTENT
 			, CHATCHECK
+			, MAINFILE
+			
 		)
 		VALUES
 		(
 			  'n'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL
-			, #{writer}
-			, #{title}
-			, #{category}
-			, #{price}
-			, #{hp}
-			, #{content}
-			, #{chatCheck}
+			, #{vo.writer}
+			, #{vo.title}
+			, #{vo.category}
+			, #{vo.price}
+			, #{vo.hp}
+			, #{vo.content}
+			, #{vo.chatCheck}
+			, #{url}
 		)
 	</insert>
 	
 	<!-- 내 근처 글 번호 가져오기 -->
-	<select id="getWriteNumber" resultType="string">
-		SELECT
-			MAX(NO) 
-		FROM
-			YOMUL_NEAR_ARTICLES
+	<select id="getArticeNo" resultType="string">
+		SELECT 'n'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL FROM DUAL
 	</select>
 	
 	<!-- 내 근처 글쓰기 시 파일 등록 -->
@@ -99,17 +98,17 @@
 			, #{originFilename}
 		)
 	</insert>
-	
+
 	<!-- 내 근처 홈 화면 글 보기 -->
 	<select id="selectNearList" resultType="com.yomul.vo.NearVO">
-		select * from (select no, title, content, writer, ndate from yomul_near_articles order by ndate desc) 
+		select * from (select no, title, content, writer, ndate , mainFile from yomul_near_articles order by ndate desc) 
 		<!-- 부등호 인식 -->
 		<![CDATA[where rownum <= 3]]>
 	</select>
 	
 	<!-- 내 근처 near_card_form 글 보기 -->
 	<select id="selectNearCardList" resultType="com.yomul.vo.NearVO" parameterType="map">
-		select no, title, content, writer, ndate from yomul_near_articles 
+		select no, title, content, writer, ndate, mainFile from yomul_near_articles 
 		<include refid="search"/>
 		order by ndate desc
 	</select>
@@ -129,9 +128,9 @@
 	
 	<!-- 내 근처 게시글 상세보기 -->
 	<select id="selectNearInfo" resultType="com.yomul.vo.NearVO" parameterType="java.lang.String">
-		select n.no, v.no as vno, v.name as writer, n.title, n.category, n.price, n.hp, n.content, n.ndate, n.chatcheck, n.hits, n.files
-		from v_y_near_articles n, yomul_vendors v
-		where n.writer = v.owner and n.no = #{no}
+		select no, writer, mimg, vno, vname, vimg, title, category, price, hp, content, ndate, chatcheck, hits, files
+		from v_y_near_articles
+		where no = #{no}
 	</select>
 	
 	<!-- 내 근처 게시글 조회 수 업데이트 -->

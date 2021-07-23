@@ -55,6 +55,7 @@ function writeComment() {
 				alert("댓글 작성에 실패했습니다.");
 			}else { // 작성 성공
 				clickCommentPage(1);
+				$("input").val("");
 			}
 		}
 	});
@@ -230,21 +231,23 @@ function checkFile(input) {
 	<div class="near-info-chat-title">
 		<h3>댓글</h3><h3 id="comment_count">${commentPageInfo.count }</h3>
 	</div>
-	<form id="write_comment_form" class="near-info-chat-writer" novalidate>
-		<img src="http://localhost:9000/yomul/upload/${sessionScope.member.profileImg }">
-		<div>
-			<input type="text" id="comment_text" name="content" placeholder="댓글을 남겨 보세요." required>
-			<div class="near-info-chat-button">
-				<button class="comment-feed__form__photo" type="button" onclick="document.getElementById('comment_file').click();">
-					<svg width="24" height="20" viewBox="0 0 24 20" preserveAspectRatio="xMidYMid meet">
-						<path fill="#292929" fill-rule="nonzero" d="M3.22 20C1.446 20 0 18.547 0 16.765V6.176c0-1.782 1.446-3.235 3.22-3.235h3.118L7.363.377A.586.586 0 0 1 7.903 0h8.195c.24.003.453.152.54.377l1.024 2.564h3.118c1.774 0 3.22 1.453 3.22 3.235v10.589C24 18.547 22.554 20 20.78 20H3.22zm0-1.176h17.56a2.037 2.037 0 0 0 2.05-2.06V6.177c0-1.15-.904-2.058-2.05-2.058h-3.512a.585.585 0 0 1-.54-.368l-1.024-2.574H8.296L7.27 3.75a.585.585 0 0 1-.54.368H3.22a2.037 2.037 0 0 0-2.05 2.058v10.589c0 1.15.904 2.059 2.05 2.059zM12 17.059c-3.064 0-5.561-2.51-5.561-5.588 0-3.08 2.497-5.589 5.561-5.589s5.561 2.51 5.561 5.589c0 3.079-2.497 5.588-5.561 5.588zm0-1.177a4.392 4.392 0 0 0 4.39-4.411A4.392 4.392 0 0 0 12 7.059a4.392 4.392 0 0 0-4.39 4.412A4.392 4.392 0 0 0 12 15.882z"></path>
-					</svg>
-				</button>
-				<input type="file" id="comment_file" name="file" class="d-none" accept=".gif, .jpg, .jpeg, .png">
-				<button type="button" id="btn_write_comment" class="comment-feed__form__submit">등록</button>
+	<c:if test="${not empty sessionScope.member }">
+		<form id="write_comment_form" class="near-info-chat-writer" novalidate>
+			<img src="http://localhost:9000/yomul/upload/${sessionScope.member.profileImg }">
+			<div>
+				<input type="text" id="comment_text" name="content" placeholder="댓글을 남겨 보세요." required>
+				<div class="near-info-chat-button">
+					<button class="comment-feed__form__photo" type="button" onclick="document.getElementById('comment_file').click();">
+						<svg width="24" height="20" viewBox="0 0 24 20" preserveAspectRatio="xMidYMid meet">
+							<path fill="#292929" fill-rule="nonzero" d="M3.22 20C1.446 20 0 18.547 0 16.765V6.176c0-1.782 1.446-3.235 3.22-3.235h3.118L7.363.377A.586.586 0 0 1 7.903 0h8.195c.24.003.453.152.54.377l1.024 2.564h3.118c1.774 0 3.22 1.453 3.22 3.235v10.589C24 18.547 22.554 20 20.78 20H3.22zm0-1.176h17.56a2.037 2.037 0 0 0 2.05-2.06V6.177c0-1.15-.904-2.058-2.05-2.058h-3.512a.585.585 0 0 1-.54-.368l-1.024-2.574H8.296L7.27 3.75a.585.585 0 0 1-.54.368H3.22a2.037 2.037 0 0 0-2.05 2.058v10.589c0 1.15.904 2.059 2.05 2.059zM12 17.059c-3.064 0-5.561-2.51-5.561-5.588 0-3.08 2.497-5.589 5.561-5.589s5.561 2.51 5.561 5.589c0 3.079-2.497 5.588-5.561 5.588zm0-1.177a4.392 4.392 0 0 0 4.39-4.411A4.392 4.392 0 0 0 12 7.059a4.392 4.392 0 0 0-4.39 4.412A4.392 4.392 0 0 0 12 15.882z"></path>
+						</svg>
+					</button>
+					<input type="file" id="comment_file" name="file" class="d-none" accept=".gif, .jpg, .jpeg, .png">
+					<button type="button" id="btn_write_comment" class="comment-feed__form__submit">등록</button>
+				</div>
 			</div>
-		</div>
-	</form>
+		</form>
+	</c:if>
 	<div id="comment_content_box" class="near-info-chat-content">
 		<c:forEach var="cvo" items="${comments }">
 			<div>

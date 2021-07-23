@@ -30,7 +30,7 @@
 					}
 				});
 				return false;
-			})
+			});
 		});
 	</script>
 </c:if>

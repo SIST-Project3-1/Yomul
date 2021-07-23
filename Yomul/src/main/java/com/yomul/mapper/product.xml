@@ -5,33 +5,148 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.product">
+	
+	<!-- 물건 삭제 -->
+	<delete id="deleteProduct" parameterType="map">
+		DELETE FROM
+			YOMUL_PRODUCTS
+		WHERE
+			NO = #{product.no}
+	     And SELLER = #{member.no}
+	</delete>
 
-	<!-- 물건 목록 불러오기 -->
-	<select id="getProductList" parameterType="com.yomul.vo.ProductVO" resultType="com.yomul.vo.ProductVO">
+	<!-- 물건 시퀀스 불러오기 -->
+	<select id="getProductSequence" resultType="string">
 		SELECT 
+			'P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL
+		FROM
+			DUAL
+	
+	</select>
+	
+	<!-- 물건 카테고리 불러오기 -->
+	<select id="getProductCategories" resultType="com.yomul.vo.CategoryVO">
+		SELECT
+			  NO
+			, CONTENT
+		FROM
+			  YOMUL_PRODUCT_CATEGORIES
+		ORDER BY
+			  NO
+					
+	</select>
+	<!-- 물건 내용 상세보기 -->
+	<select id="getProductInfo" parameterType="string" resultType="com.yomul.vo.ProductVO">
+		SELECT
 			  P.NO
+			, P.CATEGORY_NO
+			, PC.CONTENT CATEGORY_CONTENT
+			, P.SELLER
+			, M.NICKNAME SELLER_NICKNAME
 			, P.TITLE
 			, P.CONTENT
-			, L.LIKES
-			, C.COMMENTS
+			, P.PRICE
+			, P.STATE
+			, P.HITS
+			, P.PDATE
+			, P.LOCATION
 		FROM
-			  YOMUL_PRODUCTS P
-			, (
-				SELECT
-					COUNT(*) LIKES 
-				FROM
-					YOMUL_LIKES 
-				WHERE
-					ARTICLE_NO = 'P2'
-			) L
-			, (
-				SELECT
-					COUNT(*) COMMENTS 
-				FROM
-					YOMUL_COMMENTS 
-				WHERE
-					ARTICLE_NO = 'P2'
-			) C
+			YOMUL_PRODUCTS P
+			JOIN
+			YOMUL_PRODUCT_CATEGORIES PC
+			ON
+			P.CATEGORY_NO = PC.NO
+			JOIN
+			YOMUL_MEMBERS M
+			ON P.SELLER = M.NO
+		WHERE
+			P.NO = #{no}
 	</select>
 
+	<!-- 물건 목록 불러오기 -->
+	<select id="getProductList" parameterType="map" resultType="com.yomul.vo.ProductVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				  ROWNUM AS RNO
+				, P.*
+			FROM
+			(
+				SELECT
+					P.NO
+					, P.TITLE
+					, P.CONTENT
+					, NVL(L.LIKES, 0) LIKES
+					, NVL(C.COMMENTS, 0) COMMENTS
+					, IMG
+				FROM
+					YOMUL_PRODUCTS P
+					LEFT OUTER JOIN
+					(
+						SELECT
+							  ARTICLE_NO
+							, COUNT(*) LIKES
+						FROM
+							YOMUL_LIKES
+						GROUP BY
+							ARTICLE_NO
+					) L 
+					ON P.NO = L.ARTICLE_NO
+					LEFT OUTER JOIN
+					(
+					SELECT
+						  ARTICLE_NO
+						, COUNT(*) COMMENTS
+					FROM
+						YOMUL_COMMENTS
+					GROUP BY
+						ARTICLE_NO
+					) C
+					ON P.NO = C.ARTICLE_NO
+					LEFT OUTER JOIN
+					(
+						SELECT
+							  ARTICLE_NO || '_' || NO || '_' || FILENAME IMG
+							, ARTICLE_NO
+						FROM YOMUL_FILES
+					) F
+					ON P.NO = F.ARTICLE_NO
+				ORDER BY
+					TO_NUMBER(SUBSTR(P.NO, 2)) DESC
+			) P
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
+	</select>
+		<!--상품등록 글쓰기 작성 -->
+	<insert id="getProductWrite" parameterType="com.yomul.vo.ProductVO">
+	
+	INSERT INTO YOMUL_PRODUCTS
+	(
+		  NO
+		, CATEGORY_NO
+		, SELLER
+		, TITLE
+		, CONTENT
+		, PRICE
+		, LOCATION
+	) 
+	VALUES
+	(
+		  #{no}
+		, #{category_no}
+		, #{seller}
+		, #{title}
+		, #{content}
+		, #{price}
+		, #{location}
+		
+	)
+		
+	</insert>
+	
+	
 </mapper>

@@ -1,7 +1,5 @@
 package com.yomul.yomul;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,12 +25,8 @@ public class ChatController {
 	 * @return
 	 */
 	@RequestMapping(value = "/chat", method = RequestMethod.GET)
-	public ModelAndView chat(HttpSession session) {
+	public ModelAndView chat() {
 		ModelAndView mv = new ModelAndView("user/chat/chat");
-
-		MemberVO member = (MemberVO) session.getAttribute("member");
-
-		mv.addObject("chatList", chatService.getChatList(member));
 		return mv;
 	}
 

@@ -6,17 +6,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>물건등록</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
-<link rel="stylesheet" href="http://localhost:9000/yomul/resources/css/product_write.css">
+<link rel="stylesheet"
+	href="http://localhost:9000/yomul/resources/css/product_write.css">
 </head>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
-	<form>
+	<form action="product_write_proc" method="post" enctype="multipart/form-data">
 		<div class="pw_wrap">
 			<div class="pw_header">
 				<div class="pw_toolBar">
@@ -69,11 +70,11 @@
 						</h1>
 					</div>
 					<!--pw_logo-->
-					
+
 					<!-- pw_tool -->
 					<div class="pw_sbtn">
-					
-						<button class="pw_w_btn">글쓰기</button>
+
+						<button type="submit" class="pw_w_btn">글쓰기</button>
 					</div>
 				</div>
 				<!-- pw_toolBar -->
@@ -84,35 +85,34 @@
 			<!--contents 영역-->
 			<div class="pw_contentBox">
 				<details>
-					<summary>
-						<div class="pw_section_header">
-							<button class="pw_SHbtn">
-								<div class="pw_sh_left">
-									<div class="pw_shicon">
-										<svg class="icon" width="26" height="26" viewBox="0 0 26 26"
-											preserveAspectRatio="xMidYMid meet">
+					<summary class="pw_section_header pw_SHbtn">
+
+						<div class="pw_sh_left">
+							<div class="pw_shicon">
+								<svg class="icon" width="26" height="26" viewBox="0 0 26 26"
+									preserveAspectRatio="xMidYMid meet">
 										<rect width="26" height="26" fill="#F8C332" rx="10"></rect>
 										<g fill="none" stroke="#FFF">
 											<path stroke-linejoin="round" stroke-width="1.2"
-												d="M15.06 8.65l-6.9 6.88L7 18.98l3.45-1.15 6.9-6.9-2.3-2.28z"></path>
+										d="M15.06 8.65l-6.9 6.88L7 18.98l3.45-1.15 6.9-6.9-2.3-2.28z"></path>
 											<path stroke-width="1.2"
-												d="M15.04 8.64l1.45-1.45a.65.65 0 01.93 0l1.37 1.38a.65.65 0 010 .92l-1.45 1.45"></path>
+										d="M15.04 8.64l1.45-1.45a.65.65 0 01.93 0l1.37 1.38a.65.65 0 010 .92l-1.45 1.45"></path>
 											<path d="M8.27 15.2l2.48 2.47"></path>
 										</g>
 									</svg>
-									</div>
-									<div class="pw_shtitle">필수 정보 입력</div>
-								</div>
-								<div class="pw_sh_right">
-									<svg class="editor-top-section-expand-icon" width="1em"
-										height="1em" viewBox="0 0 16 16"
-										preserveAspectRatio="xMidYMid meet">
-								<path fill="currentColor" fill-rule="evenodd"
-											d="M2.87 4L1.33 5.5 8 12l6.67-6.5L13.13 4 8 9z"></path>
-							</svg>
-								</div>
-							</button>
+							</div>
+							<div class="pw_shtitle">필수 정보 입력</div>
 						</div>
+
+						<div class="pw_sh_right">
+							<svg class="editor-top-section-expand-icon" width="1em"
+								height="1em" viewBox="0 0 16 16"
+								preserveAspectRatio="xMidYMid meet">
+								<path fill="currentColor" fill-rule="evenodd"
+									d="M2.87 4L1.33 5.5 8 12l6.67-6.5L13.13 4 8 9z"></path>
+							</svg>
+						</div>
+
 					</summary>
 
 					<div class="pw_oftenW">
@@ -125,13 +125,13 @@
 									<div class="pw_owCategorybox">
 										<div class="pw_owCover">
 											<div class="pw_owSelect">
-												<select>
+											
+												<select name="category_no">
 													<option selected value disabled>선택해주세요</option>
-													<option>어레이리스트에 담긴 내용을</option>
-													<option>포문을 통해</option>
-													<option>여기에 출력 해야하눈데</option>
-													<option>구럼 내용은 어디서 입력하지</option>
-													<option>내용 추가도 넣어야겠네 ㅅㅂ</option>
+											<c:forEach var="category" items="${categories}">
+													<option value="${category.no}">${category.content}</option><!--  카테고리라는 어레이스트를 받아와서 하나씩받아온거에대한 변수명을 카테고리라고 설정 카테고리엔오와 카테고리콘텐츠를 이용해서 데이터를 뽑아온 것		-->										
+												</c:forEach>										
+										
 												</select> <span class="pw_owIcon"> <svg class="icon"
 														width="10" height="10" style="fill: currentColor"
 														preserveAspectRatio="xMidYMid meet">
@@ -156,9 +156,11 @@
 									<div class="pw_owCategorybox">
 										<div class="pw_owCover">
 											<div class="pw_owtext">
-												<input type="text" placeholder="가격을 입력하세요"> <span
-													class="pw_owIcon2"> ₩ </span>
+												<input type="text" id="price" name="price" placeholder="가격을 입력하세요"> 
+												<span class="pw_owIcon2"> ₩ </span>
 											</div>
+											
+											
 											<!--pw_owSelect-->
 										</div>
 										<!--pw_owCover-->
@@ -168,32 +170,53 @@
 								</div>
 								<!--pw_owformPAY-->
 							</div>
+							<div class="pw_owformCover">
+								<div class="pw_owformPAY">
+									<div class="pw_owlabel">
+										동네입력 <span class="pw_owlabel1">*</span>
+									</div>
+									<div class="pw_owCategorybox">
+										<div class="pw_owCover">
+											<div class="pw_owtext">
+												<input type="text" id="location" name="location" placeholder="지역을 입력하세요"> 	
+											</div>
+
+											<!--pw_owSelect-->
+										</div>
+										<!--pw_owCover-->
+										<div class="info">필수 입력 항목입니다.</div>
+									</div>
+									<!--pw_owCategorybox-->
+								</div>
+								<!--pw_owformPAY-->
+							</div>
+							
 
 						</div>
 						<!--pw_owContentbox-->
 
 					</div>
 					<!--pw_oftenW-->
+
 				</details>
 
 				<!--포토박스-->
 				<div class="pw_ptBox">
-					<button class="pw_pbBtn">
+					<div class="pw_pbBtn">
 						<p class="pw_pbDragP">
 							<span class="pw_pbDrag"> "드래그 앤 드롭이나 추가하기 버튼으로" <br>
 							</span> "커버 사진을 업로드해주세요."
 						</p>
-
-						<p class="pw_pbSize">* 권장 사이즈: 1920 x 1080, 최소 1400 x 930(3:2
-							비율)</p>
-						<div class="pw_ptCover">커버 사진 추가하기</div>
-
-					</button>
+						<input type="file" name="file" id="validatedProductFile" lang="kor">
+						
+						<p class="pw_pbSize">* 권장 사이즈: 1920 x 1080, 최소 1400 x 930(3:2비율)</p>
+					<!--<lavel class="pw_ptCover" for="validatedProductFile">커버 사진 추가하기</lavel>-->	
+					</div>
 				</div>
 				<!-- pw_ptBox -->
 
 				<div class="pw_textBox">
-					<input type="text" placeholder="제목을 입력하세요">
+					<input type="text" name="title" id="title" placeholder="제목을 입력하세요">
 					<div class="pw_tbLimit">
 						"0"
 						<!---->
@@ -201,8 +224,8 @@
 						<!---->
 						"30"
 					</div>
-					<div class= "pw_editorWrap">
-						<textarea placeholder="내용을입력하세요"></textarea>
+					<div class="pw_editorWrap">
+						<textarea  name="content" id="content" placeholder="내용을입력하세요"></textarea>
 					</div>
 				</div>
 				<!--pw_textBox -->
@@ -210,7 +233,7 @@
 			</div>
 			<!--pw_contentBox -->
 
-		<!--pw_wrap -->
+			<!--pw_wrap -->
 	</form>
 	<!-- FOOTER -->
 	<%@ include file="../footer.jsp"%>

@@ -40,6 +40,8 @@
 	<beans:bean id="noticeService" class="com.yomul.service.NoticeServiceImpl"></beans:bean>
 	<beans:bean id="faqService" class="com.yomul.service.FaqServiceImpl"></beans:bean>
 	<beans:bean id="chatService" class="com.yomul.service.ChatServiceImpl"></beans:bean>
+	<beans:bean id="productService" class="com.yomul.service.ProductServiceImpl"></beans:bean>
+	<beans:bean id="favoriteService" class="com.yomul.service.FavoriteServiceImpl"></beans:bean>
 
 	<!-- Utility Object -->
 	<beans:bean id="fileUtils" class="com.yomul.util.FileUtils"></beans:bean>
@@ -63,7 +65,7 @@
 		</interceptor>
 		<!-- 채팅페이지 로그인 필요 -->
 		<interceptor>
-			<mapping path="/chat*" />
+			<mapping path="/*chat*" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 		<!-- 글쓰기 로그인 필요 -->

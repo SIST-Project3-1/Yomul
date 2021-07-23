@@ -77,10 +77,6 @@
 			<div class="near-info-left-title">
 				<h6>${vo.category }</h6>
 				<h3>${vo.title }</h3>
-				<c:if test="${id == vo.writer }">
-					<a href="near_update/${vo.no }">수정</a>
-					<a href="#">삭제</a>
-				</c:if>
 			</div>
 
 			<!--  이미지  -->
@@ -132,24 +128,39 @@
 
 		<!--  작성자 정보  -->
 		<div class="near-info-right" id="near_info_right">
-			<input type="hidden" id="vendor_no" value="${vo.vno }">
-			<div class="near-info-right-writer">
-				<a href="/yomul/vendor_profile_info/${vo.vno }" class="vendor_info">
-					<img src="http://localhost:9000/yomul/upload/default.jpg">
-					<label>${vo.writer }</label>
-				</a>
-				<button type="button" id="btn_regular" value="false">
-					<p>+</p>
-					단골
-					<p id="vcCount">${vendorCustomerCount }</p>
-				</button>
-			</div>
+			<c:choose>
+				<c:when test="${empty vo.vno }">
+					<div class="near-info-right-writer">
+						<a href="/yomul/vendor_profile_info/${vo.vno }" class="vendor_info">
+							<img src="http://localhost:9000/yomul/upload/${vo.mimg }">
+							<label>${vo.writer }</label>
+						</a>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<input type="hidden" id="vendor_no" value="${vo.vno }">
+					<div class="near-info-right-writer">
+						<a href="/yomul/vendor_profile_info/${vo.vno }" class="vendor_info">
+							<img src="http://localhost:9000/yomul/upload/${vo.vimg }">
+							<label>${vo.vname }</label>
+						</a>
+						<button type="button" id="btn_regular" value="false">
+							<p>+</p>
+							단골
+							<p id="vcCount">${vendorCustomerCount }</p>
+						</button>
+					</div>
+				</c:otherwise>
+			</c:choose>
 			<div class="near-info-right-price">
 				<label>가격</label>
 				<label>${vo.price }원</label>
 			</div>
-			<a href="/yomul/chat" class="btn near-info-inquiry <c:if test="${vo.chatCheck != 1 }">disabled</c:if>">채팅문의</a>
-			<c:if test="${sessionScope.member.authority == 'ADMIN'}">
+			<a href="/yomul/chat" class="btn near-info-inquiry <c:if test="${vo.chatCheck != 0 }">disabled</c:if>">채팅문의</a>
+			<c:if test="${sessionScope.member.authority == 'ADMIN'|| loginNo == vo.writer}">
+			
+			
+				<button id="updateNear" type="button" class="btn btn-outline-yomul mt-3">글 수정</button>
 				<button id="deleteNear" type="button" class="btn btn-outline-yomul mt-3">글 삭제</button>
 
 				<script type="text/javascript">
@@ -166,6 +177,9 @@
 								}
 							}
 						});
+					});
+					$("#updateNear").on("click", function() {
+						$(location).attr("href","/yomul/near_update/${vo.no }");
 					});
 				</script>
 			</c:if>
