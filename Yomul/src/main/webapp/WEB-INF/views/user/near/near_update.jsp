@@ -30,13 +30,13 @@ function fileUpload(fis) {
 			<!-- 선택한 사진 전체 미리보기 -->
 			<div class="near-write-preview"></div>
 			<!-- 사진 -->
-			<form action="near_update_proc" method="POST" enctype="multipart/form-data">
+			<form action="/yomul/near_update_proc/${vo.no }" method="POST" enctype="multipart/form-data">
 				<div class="near-write-img">
 					<!-- <input type="file" name="uploadFile" id="uploadFile" multiple>
 					 -->
 
 					<img id="profile_img_img" class="rounded-circle mb-3"
-						src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }'
+						src='/yomul/upload/${vo.mainFile }'
 						style="width: 400px; height: 400px;"> <input type="file"
 						class="custom-file-input" id="profile_img" name="profile_img"
 						aria-describedby="profile_img" onchange="fileUpload(this)"
