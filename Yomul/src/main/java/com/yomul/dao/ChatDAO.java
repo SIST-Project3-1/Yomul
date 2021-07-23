@@ -29,7 +29,8 @@ public class ChatDAO extends DAO {
 	 * @return
 	 */
 	public ArrayList<ChatVO> getChatList(MemberVO member) {
-		List<ChatVO> list = sqlSession.selectList(nameSpace + ".getChatList", member.getNo());
+		String no = member.getNo();
+		List<ChatVO> list = sqlSession.selectList(nameSpace + ".getChatList", no);
 		return (ArrayList<ChatVO>) list;
 	}
 

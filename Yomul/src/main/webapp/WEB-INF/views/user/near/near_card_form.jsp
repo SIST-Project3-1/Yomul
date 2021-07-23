@@ -35,12 +35,7 @@
 		<c:forEach var="vo" items="${list }">
 			<div class="near-card-form-card">
 				<div class="card" style="width: 18rem;">
-					<c:if test="${fvo.getFilename() != null }">
-						<img src="/yomul/upload/${fvo.getFilename }">
-					</c:if>
-					<c:if test="${fvo.getFilename() == null }">
-						<img src="http://localhost:9000/yomul/upload/default.jpg">
-					</c:if>
+						<img src="/yomul/upload/${vo.mainFile }">
 					<div class="card-body">
 						<a href="near_info/${vo.no }">
 							<h5 class="card-title">${vo.title }</h5>

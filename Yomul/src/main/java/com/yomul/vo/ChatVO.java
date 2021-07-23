@@ -4,7 +4,9 @@ public class ChatVO extends VO {
 
 	private String no;
 	private String chat_from;
+	private String chat_from_nickname;
 	private String chat_to;
+	private String chat_to_nickname;
 	private String content;
 	private String cdate;
 
@@ -46,5 +48,21 @@ public class ChatVO extends VO {
 
 	public void setCdate(String cdate) {
 		this.cdate = cdate;
+	}
+
+	public String getChat_from_nickname() {
+		return chat_from_nickname;
+	}
+
+	public void setChat_from_nickname(String chat_from_nickname) {
+		this.chat_from_nickname = chat_from_nickname;
+	}
+
+	public String getChat_to_nickname() {
+		return chat_to_nickname;
+	}
+
+	public void setChat_to_nickname(String chat_to_nickname) {
+		this.chat_to_nickname = chat_to_nickname;
 	}
 }

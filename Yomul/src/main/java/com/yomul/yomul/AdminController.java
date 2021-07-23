@@ -73,7 +73,7 @@ public class AdminController {
 	@RequestMapping(value = "admin_faq_write", method = RequestMethod.GET)
 	public ModelAndView adminFaqWrite() { 
 		ModelAndView mv = new ModelAndView();
-		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보
+		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보 //요기서 처음 생
 
 		mv.setViewName("admin/customer_center/faq/admin_faq_write");
 		mv.addObject("categories", categories);
@@ -83,13 +83,13 @@ public class AdminController {
 
 	// 글쓰기 데이터 저장
 	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
-	public ModelAndView adminFaqWriteProc(FaqVO faq, HttpSession session) {
+	public ModelAndView adminFaqWriteProc(FaqVO faq, HttpSession session) { // 파라미터 받아오기vo 세션은 작성자가 누군지 알기위해
 		ModelAndView mv = new ModelAndView();
-		MemberVO member = (MemberVO) session.getAttribute("member");
+		MemberVO member = (MemberVO) session.getAttribute("member");//작성자를 가져오기 위해서 member을 적어
 
-		faq.setWriter(member.getNo());
+		faq.setWriter(member.getNo());// 회원 넘버만 필요해서 가죠온것 faq vo타입으로 넣어야함 와이 faq vo타입으로 저장하기우해set get -- 작성자 저장하는 부
 
-		int result = faqService.getAdminFaqWrite(faq);
+		int result = faqService.getAdminFaqWrite(faq);//글의저장하는 로직 -> 오라클로 가는 
 		if (result == 1) {
 			mv.setViewName("redirect:/admin_faq_list");
 		} else {

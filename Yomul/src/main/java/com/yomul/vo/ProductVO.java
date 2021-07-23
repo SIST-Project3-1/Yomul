@@ -1,5 +1,7 @@
 package com.yomul.vo;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 public class ProductVO extends VO {
 	private String no; // 물품 번호
 	private int category_no = -1; // 카테고리 번호
@@ -16,6 +18,16 @@ public class ProductVO extends VO {
 	private int likes = -1; // 좋아요 수
 	private int comments = -1; // 댓글 수
 	private String img = "default.jpg"; // 대표 이미지
+	private CommonsMultipartFile file; //첨부파
+	
+
+	public CommonsMultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(CommonsMultipartFile file) {
+		this.file = file;
+	}
 
 	public String getNo() {
 		return no;
