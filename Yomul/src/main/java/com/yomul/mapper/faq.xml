@@ -18,7 +18,7 @@
 		VALUES
 		(
 			'FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL
-			, #{categoryNo}
+			, #{category_no}
 			, #{writer}
 			, #{title}
 			, #{content}
@@ -48,7 +48,7 @@
 	<!-- FAQ 페이지 수 구하기 -->
 	<select id="getTotalPageFaq" parameterType="string" resultType="_int">
 		SELECT CEIL(COUNT(*)/10)
-		FROM  V_Y_FAQ_ARTICLES
+		FROM V_Y_FAQ_ARTICLES
 		WHERE
 		CATEGORY LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
 		OR
@@ -56,4 +56,41 @@
 		OR
 		CONTENT LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
 	</select>
+	
+	<!-- 관리자 FAQ 수정할 데이터 가져오기 -->
+	<select id="getAdminFaqUpdateData" parameterType="map" resultType="com.yomul.vo.FaqVO">
+		SELECT *
+		FROM V_Y_FAQ_ARTICLES
+		WHERE NO = #{no}
+	</select>
+	
+	<!-- 관리자 FAQ 글수정 카테고리 목록 조회 -->
+	<select id="updateFaqCategories" parameterType="_int" resultType="com.yomul.vo.CategoryVO">
+		SELECT *
+		FROM YOMUL_FAQ_CATEGORIES
+        WHERE
+        NOT NO = #{no}
+	</select>
+	
+	<!-- 관리자 FAQ 글 수정 -->
+	<update id="getAdminFaqUpdate" parameterType="com.yomul.vo.FaqVO">
+		UPDATE
+		YOMUL_FAQ_ARTICLES
+		SET
+		CATEGORY = #{category_no}
+		, WRITER = #{writer}
+		, TITLE = #{title}
+		, CONTENT = #{content}
+		WHERE
+		NO = #{no}
+	</update>
+	
+	<!-- 관리자 FAQ 글 삭제 -->
+	<delete id="getAdminFaqDelete" parameterType="com.yomul.vo.FaqVO">
+		DELETE
+		FROM
+		YOMUL_FAQ_ARTICLES
+		WHERE
+		NO = #{no}
+	</delete>
 </mapper>
