@@ -993,6 +993,22 @@ SELECT COUNT(*) FROM YOMUL_FAVORITE_LISTS WHERE PRODUCT_NO = 'P49';
 SELECT COUNT(*) FROM YOMUL_FAVORITE_LISTS WHERE PRODUCT_NO = 'P34' AND MEMBER_NO = 'M1';
 DELETE FROM YOMUL_FAVORITE_LISTS WHERE PRODUCT_NO = 'P34' AND MEMBER_NO = 'M1';
 INSERT INTO YOMUL_FAVORITE_LISTS(PRODUCT_NO, MEMBER_NO) VALUES('P34', 'M1');
+select *from yomul_near_articles;
+-- 업체 소식 추가
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 10000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 20000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 30000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 30000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 30000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 40000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 50000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 60000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 60000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 60000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 60000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 110000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 120000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 130000, '010-1111-1111', '내용~');
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 -- 사용자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
