@@ -61,7 +61,10 @@ public class NoticeDAO extends DAO {
 		List<NoticeVO> list = sqlSession.selectList(namespace + ".getNoticeList", map);
 		return (ArrayList<NoticeVO>) list;
 	}
-
+	// 공지사항 상세 조회
+	public NoticeVO getNoticeInfo(String no) {
+		return sqlSession.selectOne(namespace + ".selectNoticeInfo", no);
+	}
 	/**
 	 * 총 페이지 수 가져오기
 	 * 

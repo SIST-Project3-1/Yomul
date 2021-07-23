@@ -34,5 +34,8 @@ public class NoticeServiceImpl implements NoticeService {
 	public int getTotalPageCount() {
 		return noticeDAO.getTotalPageCount();
 	}
-
+	@Override
+	public NoticeVO getNoticeInfo(int no) {
+		return noticeDAO.getNoticeInfo("N" + no);
+	}
 }

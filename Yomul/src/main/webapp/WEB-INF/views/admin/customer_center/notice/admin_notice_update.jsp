@@ -75,7 +75,7 @@ div.admin_notice_update div.notice_update_btn #noticeUpdate {
 		<form name="noticeUpdate" method="post" action="admin_notice_update_proc">
 			<div class="admin_notice_update">
 				<div class="head">
-					<h1>공지사항 작성</h1>
+					<h1>공지사항 수정</h1>
 					<h4>공지사항을 수정해주세요</h4>
 					<hr>
 					<input type="text" name="title" id="title" class="title" placeholder="제목을 입력해주세요" required>

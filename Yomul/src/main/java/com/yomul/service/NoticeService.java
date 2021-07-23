@@ -11,4 +11,5 @@ public interface NoticeService {
 	int deleteNotice(NoticeVO vo);
 	ArrayList<NoticeVO> getNoticeList(String page);
 	int getTotalPageCount();
+	NoticeVO getNoticeInfo(int no);
 }

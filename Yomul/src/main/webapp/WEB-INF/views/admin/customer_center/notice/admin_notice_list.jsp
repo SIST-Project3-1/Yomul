@@ -57,7 +57,7 @@ div.list #btn-yomul {
 	});
 	
 	function loadPagination(page) {
-		var total = ${totalPage};
+		var total = ${total};
 		var start = (page % 10 == 0) ? (Math.floor(page / 10) - 1) * 10 + 1 : Math.floor(page / 10) * 10 + 1;
 		var end = (start + 9 > total) ? total : page + 9;
 		var html = "";

@@ -70,6 +70,15 @@
 		RNO > 10 * (#{page} - 1) 
 <![CDATA[	AND RNO <= 10 * #{page}			]]>
 	</select>
+
+	<!-- 공지사항 상세 조회 -->
+	<select id="selectNoticeInfo" resultType="com.yomul.vo.NoticeVO"
+		parameterType="java.lang.String">
+		SELECT TITLE, CONTENT, NDATE
+		FROM YOMUL_NOTICES
+		WHERE NO = #{no}
+	</select>
+
 	<!-- 공지사항 페이지 수 가져오기 -->
 	<select id="gettotalpagecount" parameterType="string"
 		resultType="_int">

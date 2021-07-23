@@ -120,34 +120,50 @@ public class AdminController {
 		return mv;
 	}
 	// 공지사항 상세
-//	@RequestMapping(value = "admin_notices/{no}", method = RequestMethod.GET)
-//	public ModelAndView noticeList(@PathVariable("no") int no) {
-//		ModelAndView mv = new ModelAndView();
-//		NoticeVO vo = noticeService.getNoticeInfo(no);
-//
-//		// 해당 공지사항이 없을 경우 에러페이지 이동
-//		if (vo == null) {
-//			mv.setViewName("redirect:/error");
-//		} else {
-//			ArrayList<String> files = fileService.getNoticeFiles(no);
-//
-//			mv.setViewName("admin/customer_center/notice/notice_info");
-//			mv.addObject("vo", vo);
-//			mv.addObject("files", files);
-//		}
-//
-//		return mv;
-//	}
+	@RequestMapping(value = "admin_notice/{no}", method = RequestMethod.GET)
+	public ModelAndView noticeList(@PathVariable("no") int no) {
+		ModelAndView mv = new ModelAndView();
+		NoticeVO vo = noticeService.getNoticeInfo(no);
 
+		// 해당 공지사항이 없을 경우 에러페이지 이동
+		if (vo == null) {
+			mv.setViewName("redirect:/error");
+		} else {
+			ArrayList<String> files = fileService.getNoticeFiles(no);
 
-	@RequestMapping(value = "admin_notice_info", method = RequestMethod.GET)
-	public String adminNoticeInfo() {
-		return "admin/customer_center/notice/admin_notice_info";
+			mv.setViewName("admin/customer_center/notice/admin_notice_info");
+			mv.addObject("vo", vo);
+			mv.addObject("files", files);
+		}
+
+		return mv;
 	}
 
+//
+//	@RequestMapping(value = "admin_notice_info", method = RequestMethod.GET)
+//	public String adminNoticeInfo() {
+//		return "admin/customer_center/notice/admin_notice_info";
+//	}
+
+	//공지사항 업데이트
 	@RequestMapping(value = "admin_notice_update", method = RequestMethod.GET)
 	public String adminNoticeUpdate() {
 		return "admin/customer_center/notice/admin_notice_update";
+	}
+	/**
+	 * 공지사항 업데이트 처리
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/admin_notice_update_proc", method = RequestMethod.POST)
+	public String adminNoticeUpdate_proc(NoticeVO vo) {
+		vo.setWriter("M1");
+		int result = noticeService.updateNotice(vo);
+		if (result == 1) {
+			return "redirect:/admin_notice_list";
+		} else {
+			return "redirect:/admin_notice_update";
+		}
 	}
 
 	/**
