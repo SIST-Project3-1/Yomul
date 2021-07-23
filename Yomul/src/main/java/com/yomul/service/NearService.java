@@ -20,7 +20,7 @@ public interface NearService {
 	List<NearVO> selectNearCardList(NearVO vo, String word);
 
 	// 내 근처 글 수정
-	int getUpdate(NearVO vo);
+	int getUpdate(NearVO vo, String no);
 	
 	// 내 근처 글 삭제
 	int getDelete(int no);
