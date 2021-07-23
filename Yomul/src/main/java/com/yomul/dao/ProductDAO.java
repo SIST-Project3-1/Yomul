@@ -15,45 +15,66 @@ import com.yomul.vo.ProductVO;
 
 @Repository
 public class ProductDAO extends DAO {
-	
+
 	@Autowired
 	private SqlSessionTemplate sqlSession;
-	
+
 	private static String namespace = "mapper.product";
-	
+
+	/**
+	 * 물건 목록 가져오기
+	 * 
+	 * @return
+	 */
+	public ArrayList<ProductVO> getProductList(int page, String search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
+		map.put("search", search);
+		List<ProductVO> list = sqlSession.selectList(namespace + ".getProductList2", map);
+		return (ArrayList<ProductVO>) list;
+	}
+
+	/**
+	 * 총 페이지 수 가져오기
+	 * 
+	 * @param search
+	 * @return
+	 */
+	public int getTotalPageCount(String search) {
+		return sqlSession.selectOne(namespace + ".getTotalPageCount", search);
+	}
+
 	/**
 	 * 상품 삭제
+	 * 
 	 * @param member
 	 * @param product
 	 * @return
 	 */
 	public int deleteProduct(MemberVO member, ProductVO product) {
-		System.out.println(member.toStringJson());
-		System.out.println(product.toStringJson());
-		Map<String,Object>params = new HashMap<String,Object>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("member", member);
 		params.put("product", product);
-		
-		return sqlSession.delete(namespace + ".deleteProduct",params);
+		return sqlSession.delete(namespace + ".deleteProduct", params);
 	}
-	
-	//글작성 no 시퀀스 불러오기
+
+	// 글작성 no 시퀀스 불러오기
 	public String getProductSequence() {
 		return sqlSession.selectOne(namespace + ".getProductSequence");
 	}
 
-	//글작성 카테고리
-	public ArrayList<CategoryVO> getProductCategories(){
+	// 글작성 카테고리
+	public ArrayList<CategoryVO> getProductCategories() {
 		List<CategoryVO> list = sqlSession.selectList(namespace + ".getProductCategories");
-		return (ArrayList<CategoryVO>)list;
-		//sqlSession.selectList의 리턴 타입이 List여서 List를 붙이고 그 후 ArrayList를 위해return에서 형변환 
+		return (ArrayList<CategoryVO>) list;
+		// sqlSession.selectList의 리턴 타입이 List여서 List를 붙이고 그 후 ArrayList를 위해return에서 형변환
 	}
-	
-	//글작성 데이터 저장
+
+	// 글작성 데이터 저장
 	public int getProductWrite(ProductVO pvo) {
-		return sqlSession.insert(namespace +".getProductWrite",pvo);
+		return sqlSession.insert(namespace + ".getProductWrite", pvo);
 	}
-	
+
 	public ArrayList<ProductVO> getProductList(ProductVO product, String page) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("no", product.getNo());
