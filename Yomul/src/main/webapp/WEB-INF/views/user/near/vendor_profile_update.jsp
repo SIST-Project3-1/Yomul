@@ -35,9 +35,18 @@ function fileUpload(fis) {
 	<section id="myprofile_update" class="container col-md-6 mt-3 border p-3">
 		<div class="d-flex justify-content-between mb-3">
 			<h1 class="d-inline">프로필 수정</h1>
-			<a href="/yomul/withdrawal" class="text-black-50 text-decoration-none" style="line-height: 56px;">
-				<small>탈퇴하기</small>
-			</a>
+			<c:choose>
+				<c:when test="${vo.withdrawal == 0 }">
+					<a href="/yomul/vendor_withdrawal" class="text-black-50 text-decoration-none" style="line-height: 56px;">
+						<small>탈퇴하기</small>
+					</a>
+				</c:when>
+				<c:otherwise>
+					<a href="/yomul/vendor_withdrawal_cancel" class="text-black-50 text-decoration-none" style="line-height: 56px;">
+						<small>탈퇴취소</small>
+					</a>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<form name="vendor_profile_update_form" action="/yomul/vendor_profile_update_proc" method="post" enctype="multipart/form-data">
 			<div class="form-group row">

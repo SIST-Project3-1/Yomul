@@ -266,7 +266,7 @@ public class VendorController {
 		return Commons.parseJson(list);
 	}
 		
-	//업체 소식 보기
+	//업체 소식 목록
 	@RequestMapping(value = "/vendor_news_list/{no}", method = RequestMethod.GET)
 	public ModelAndView vendor_news_list(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_news_list");
@@ -282,6 +282,17 @@ public class VendorController {
 		mv.addObject("owner", owner);
 		mv.addObject("list", list);
 		return mv;
+	}
+	
+	// 업체 소식 목록 페이지네이션 ajax
+	@ResponseBody
+	@RequestMapping(value = "/vendor_news_pagination", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String vendor_news_pagination(String no, int page) {
+		// 입력된 페이지의 단골 목록 구하기
+		ArrayList<NearVO> list = vendorService.getVendorNewsList(no, page);
+		
+		// 결과를 json 형식으로 반환
+		return Commons.parseJson(list);
 	}
 	
 	//업체 소식 작성
