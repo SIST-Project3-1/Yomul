@@ -59,7 +59,7 @@
 					var product = result[i];
 					html += '<tr>';
 					html += '	<td class="align-middle">' + product.no + '</td>';
-					html += '	<td class="align-middle">' + product.title + '</td>';
+					html += '	<td class="align-middle"><a href="/yomul/product_info?no=' + product.no + '">' + product.title + '</a></td>';
 					html += '	<td class="align-middle">' + product.seller_nickname + '</td>';
 					html += '	<td class="align-middle">' + product.pdate + '</td>';
 					html += '	<td class="align-middle">';
