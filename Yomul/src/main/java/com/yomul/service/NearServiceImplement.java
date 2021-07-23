@@ -53,9 +53,9 @@ public class NearServiceImplement implements NearService {
 	}
 
 	@Override
-	public int getUpdate(NearVO vo) {
+	public int getUpdate(NearVO vo, String no) {
 		
-		return 0;
+		return nearDAO.getUpdate(vo,no);
 	}
 
 	@Override

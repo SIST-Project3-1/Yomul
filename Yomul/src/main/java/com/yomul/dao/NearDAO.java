@@ -92,4 +92,11 @@ public class NearDAO extends DAO {
 		return sqlSession.update(nameSpace + ".updateNearHits", no);
 	}
 	
+	public int getUpdate(NearVO vo, String no) {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("no", no);
+		params.put("vo", vo);
+		return sqlSession.update(nameSpace + ".getUpdate", params);
+	}
+	
 }

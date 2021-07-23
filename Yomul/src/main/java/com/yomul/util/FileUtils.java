@@ -29,8 +29,6 @@ public class FileUtils {
 	@Autowired
 	private NearDAO dao;
 
-	private static long SEQUENCE = 0L;
-
 	// 저장하는 파일 이름을 구하는 함수
 	public static String getFileName(String articleNo, MultipartFile file) {
 		return articleNo + "_1_" + file.getOriginalFilename();
@@ -91,15 +89,9 @@ public class FileUtils {
 				String saveFileName = articleNo;
 				// db에 저장
 				dao.getNearFile(saveFileName, originFilename);
-				 
-				System.out.println("originFilename : " + originFilename);
-				System.out.println("size : " + size);
-				System.out.println("saveFileName : " + saveFileName);
-
+				// 파일 생성
 				writeFile(mf, originFilename, request);
 				url = originFilename;
-
-
 			}
 
 		} catch (IOException e) {
@@ -135,12 +127,9 @@ public class FileUtils {
 	// 파일을 실제로 저장
 	private boolean writeFile(MultipartFile mf, String originFilename, HttpServletRequest request) throws IOException {
 		final String SAVE_PATH = request.getSession().getServletContext().getRealPath("/resources/upload");
-		System.out.println("save_path ===> " + SAVE_PATH);
 		boolean result = false;
-
 		byte[] data = mf.getBytes();
-		System.out.println("data : " + data);
-
+		
 		FileOutputStream fos = new FileOutputStream(SAVE_PATH + "/" + originFilename);
 		fos.write(data);
 		fos.close();

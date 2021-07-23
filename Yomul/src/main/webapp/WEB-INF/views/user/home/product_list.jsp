@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리스</title>
+<title>요물 물건 목록</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
 
