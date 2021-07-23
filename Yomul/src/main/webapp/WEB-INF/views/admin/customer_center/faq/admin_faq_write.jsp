@@ -88,7 +88,7 @@ $(document).ready(function(){
 					<h1>FAQ 글쓰기</h1>
 					<h4>게시할 FAQ 글을 써주세요</h4>
 				<div id="title_alert">
-					<select id="category" name="categoryNo" class="form-select" aria-label="Default select example" required>
+					<select id="category" name="category_no" class="form-select" aria-label="Default select example" required>
 						<option value="" disabled selected hidden>카테고리</option>
 						<c:forEach var="category" items="${categories}">
 							<option value="${category.no}">${category.content}</option>

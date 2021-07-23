@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yomul.dao.FaqDAO;
+import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 
 @Service("faqService")
@@ -28,6 +29,26 @@ public class FaqServiceImpl implements FaqService{
 	@Override
 	public int getTotalPageFaq(String search) {
 		return faqDAO.getTotalPageFaq(search);
+	}
+	
+	@Override
+	public FaqVO getAdminFaqUpdateData(String no) {
+		return faqDAO.getAdminFaqUpdateData(no);
+	}
+
+	@Override
+	public ArrayList<CategoryVO> updateFaqCategories(int  category_no) {
+		return faqDAO.updateFaqCategories(category_no);
+	}
+
+	@Override
+	public int getAdminFaqUpdate(FaqVO faq) {
+		return faqDAO.getAdminFaqUpdate(faq);
+	}
+
+	@Override
+	public int getAdminFaqDelete(FaqVO faq) {
+		return faqDAO.getAdminFaqDelete(faq) == 1 ? 1 : 0;
 	}
 
 

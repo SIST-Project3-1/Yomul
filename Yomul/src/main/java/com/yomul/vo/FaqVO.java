@@ -1,20 +1,12 @@
 package com.yomul.vo;
 
 public class FaqVO extends VO {
-	private int categoryNo; // 카테고리
+	private int category_no = -1; // 카테고리
 	private String category; // 카테고리
 	private String no; // 번호
 	private String title; // 제목
 	private String content; // 내용
 	private String writer; // 작성자
-	
-	public int getCategoryNo() {
-		return categoryNo;
-	}
-
-	public void setCategoryNo(int categoryNo) {
-		this.categoryNo = categoryNo;
-	}
 
 	public String getCategory() {
 		return category;
@@ -55,5 +47,13 @@ public class FaqVO extends VO {
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	
+
+	public int getCategory_no() {
+		return category_no;
+	}
+
+	public void setCategory_no(int category_no) {
+		this.category_no = category_no;
+	}
+
 }

@@ -6,13 +6,63 @@
 
 <mapper namespace="mapper.product">
 	
+	<!-- 관리자 회원 목록 가져오기 -->
+	<select id="getProductList2" parameterType="map" resultType="com.yomul.vo.ProductVO">
+		SELECT
+			  RNO
+			, NO
+			, TITLE
+			, SELLER
+			, PDATE
+			, SELLER_NICKNAME
+		FROM
+		(
+			SELECT
+				  ROWNUM AS RNO
+				, P.*
+			FROM
+			(
+				SELECT
+					  TO_NUMBER(SUBSTR(P.NO, 2)) AS NO_NUM
+					, P.NO
+					, TITLE
+					, SELLER
+					, PDATE
+					, M.NICKNAME SELLER_NICKNAME
+				FROM
+					YOMUL_PRODUCTS P JOIN YOMUL_PRODUCT_CATEGORIES PC ON P.CATEGORY_NO = PC.NO JOIN YOMUL_MEMBERS M ON P.SELLER = M.NO
+				WHERE
+						LOWER(P.TITLE) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+					OR  LOWER(P.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+					OR  LOWER(PC.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				ORDER BY
+					NO_NUM DESC
+			) P
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
+	</select>
+	
+	<!-- 회원 목록 페이지 수 가져오기 -->
+	<select id="getTotalPageCount" parameterType="string" resultType="_int">
+		SELECT
+			CEIL(COUNT(*)/10) TOTAL_PAGE
+		FROM
+			YOMUL_PRODUCTS P JOIN YOMUL_PRODUCT_CATEGORIES PC ON P.CATEGORY_NO = PC.NO
+		WHERE
+				LOWER(P.TITLE) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+			OR  LOWER(P.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+			OR  LOWER(PC.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+	</select>
+	
 	<!-- 물건 삭제 -->
 	<delete id="deleteProduct" parameterType="map">
 		DELETE FROM
 			YOMUL_PRODUCTS
 		WHERE
 			NO = #{product.no}
-	     And SELLER = #{member.no}
+	     And (SELLER = #{member.no} OR 'ADMIN' = #{member.authority})
 	</delete>
 
 	<!-- 물건 시퀀스 불러오기 -->
