@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.ProductVO;
 
 public interface MemberService {
 	int withdrawal(MemberVO vo);
@@ -42,4 +43,5 @@ public interface MemberService {
 
 	int checkPW(MemberVO vo);
 
+	ArrayList<ProductVO> getMyFavoriteList(MemberVO member, String page);
 }

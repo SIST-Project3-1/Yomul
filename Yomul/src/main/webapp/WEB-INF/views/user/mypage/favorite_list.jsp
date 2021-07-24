@@ -7,6 +7,60 @@
 <title>찜 목록</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+<script type="text/javascript">
+	var page = 1;
+	var ajaxFlag = true;
+
+	$(document).ready(function() {
+		getData(page);
+	});
+
+	$(window).scroll(function() {
+		var scroll = $(window).scrollTop();
+		var dHeight = $(document).height();
+		var wHeight = $(window).height();
+		if (ajaxFlag && (scroll + 200 >= dHeight - wHeight)) {
+			getData(++page);
+		}
+	});
+
+	function getData(page) {
+		$.ajax({
+			url : "/yomul/mypage/favorite_list_ajax",
+			method : "get",
+			data : {
+				"page" : page
+			},
+			success : function(json) {
+				if (json.length == 0) {
+					ajaxFlag = false;
+				}
+				var html = "";
+				for (var i = 0; i < json.length; i++) {
+					var favorite = json[i];
+					html += '<a href="/yomul/product_info?no='+favorite.no+'" class="text-decoration-none text-dark">';
+					html += '<div class="rounded border p-2 m-2">';
+					html += '	<div class="row">';
+					html += '		<div class="col-md-4 text-center">';
+					html += '			<img class="rounded-circle mb-3" src="/yomul/upload/'+favorite.img+'" style="width: 200px; height: 200px;">';
+					html += '		</div>';
+					html += '		<div class="col-md my-auto">';
+					html += '			<h4 class="mb-3">' + favorite.title + '</h4>';
+					html += '			<div class="mb-3">';
+					html += '				<span>Hwisaek</span>';
+					html += '				<span class="border mx-2"></span>';
+					html += '				<span>' + favorite.price + '원</span>';
+					html += '			</div>';
+					html += '		</div>';
+					html += '	</div>';
+					html += '</div>';
+					html += '</a>';
+				}
+				$("#favorite_list_content").append(html);
+			}
+		});
+	}
+</script>
 </head>
 <body>
 	<!-- HEADER -->
@@ -22,51 +76,9 @@
 	<!--  BODY  -->
 	<section id="favorite_list" class="mt-3">
 		<!--  상세 내역 -->
-		<div class="container rounded border p-4 mt-3">
-			<div>
-				<div class="rounded border p-2 m-2">
-					<div class="row">
-						<div class="col-md-4 text-center">
-							<img class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 200px; height: 200px;">
-						</div>
-						<div class="col-md my-auto">
-							<h4 class="mb-3">맛있고 좋은 비싼 단감</h4>
-							<div class="mb-3">
-								<span>Hwisaek</span> <span class="border mx-2"></span><span>39800원</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="rounded border p-2 m-2">
-					<div class="row">
-						<div class="col-md-4 text-center">
-							<img class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 200px; height: 200px;">
-						</div>
-						<div class="col-md my-auto">
-							<h4 class="mb-3">가성비 원탑 ACER 노트북 거의 새거</h4>
-							<div class="mb-3">
-								<span>abc123</span> <span class="border mx-2"></span><span>500000원</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="rounded border p-2 m-2">
-					<div class="row">
-						<div class="col-md-4 text-center">
-							<img class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 200px; height: 200px;">
-						</div>
-						<div class="col-md my-auto">
-							<h4 class="mb-3">무겁고 비싸지만 계산기는 잘 되는 맥북 중고</h4>
-							<div class="mb-3">
-								<span>애플수집가</span> <span class="border mx-2"></span><span>999000원</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<div id="favorite_list_content" class="container p-4 mt-3"></div>
 	</section>
-	
+
 	<!-- FOOTER -->
 	<%@ include file="../footer.jsp"%>
 </body>
