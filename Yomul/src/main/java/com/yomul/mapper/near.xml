@@ -6,6 +6,53 @@
 
 <mapper namespace="mapper.near">
 
+	<!-- 내가 쓴 글 목록 가져오기 -->
+	<select id="getMyArticleList" parameterType="map" resultType="com.yomul.vo.NearVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				  ROWNUM AS RNO
+				, NA.*
+			FROM
+			(
+				SELECT
+					  NA.NO
+					, WRITER
+					, M.NICKNAME WRITER_NICKNAME
+					, TITLE
+					, CONTENT
+					, NDATE
+					, HITS
+					, COMMENTS
+				FROM
+					YOMUL_NEAR_ARTICLES NA
+					JOIN YOMUL_MEMBERS M
+					ON NA.WRITER = M.NO
+					LEFT OUTER JOIN
+					(
+						SELECT
+							  ARTICLE_NO
+							, COUNT(*) COMMENTS
+						FROM
+							YOMUL_COMMENTS
+						GROUP BY
+							ARTICLE_NO
+					) C 
+					ON NA.NO = C.ARTICLE_NO
+				WHERE 
+						NA.WRITER = #{member.no}
+					AND NA.VENDOR IS NULL
+				ORDER BY
+					TO_NUMBER(SUBSTR(NA.NO, 2)) DESC
+			) NA
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1)
+<![CDATA[	AND RNO <= 10 * #{page}]]>
+	</select>
+
 	<!-- 내 근처 글 삭제 -->
 	<delete id="deleteNear" parameterType="map">
 		DELETE FROM
