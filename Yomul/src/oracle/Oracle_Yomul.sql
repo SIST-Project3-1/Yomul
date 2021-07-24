@@ -4,6 +4,9 @@
 -- DB 초기화
 -- 뷰 삭제
 DROP VIEW V_Y_MEMBERS;
+DROP VIEW V_Y_LIKE_COUNT;
+DROP VIEW V_Y_FILE_COUNT;
+DROP VIEW V_Y_REPORT_COUNT;
 DROP VIEW V_Y_COMMENTS;
 DROP VIEW V_Y_COMMENTS_LIKE_COUNT;
 DROP VIEW V_Y_COMMENTS_REPORT_COUNT;
@@ -305,30 +308,36 @@ SELECT M.NO, M.EMAIL, M.PW, M.NICKNAME, M.PHONE, M.GENDER, M.INTRO, M.AUTHORITY,
 FROM YOMUL_MEMBERS M, YOMUL_FILES F
 WHERE M.NO = F.ARTICLE_NO(+);
 
--- 댓글 좋아요 수 뷰 생성
-CREATE NOFORCE VIEW V_Y_COMMENTS_LIKE_COUNT
+-- 좋아요 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_LIKE_COUNT
 AS
-SELECT C.NO, COUNT(L.ARTICLE_NO) LIKES
-FROM YOMUL_COMMENTS C, YOMUL_LIKES L
-WHERE C.NO = L.ARTICLE_NO(+)
-GROUP BY C.NO, L.ARTICLE_NO
+SELECT ARTICLE_NO NO, COUNT(ARTICLE_NO) LIKES
+FROM YOMUL_LIKES
+GROUP BY ARTICLE_NO
 WITH READ ONLY;
 
--- 댓글 신고 수 뷰 생성
-CREATE NOFORCE VIEW V_Y_COMMENTS_REPORT_COUNT
+-- 파일 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_FILE_COUNT
 AS
-SELECT C.NO, COUNT(R.ARTICLE_NO) REPORTS
-FROM YOMUL_COMMENTS C, YOMUL_REPORTS R
-WHERE C.NO = R.ARTICLE_NO(+)
-GROUP BY C.NO, R.ARTICLE_NO
+SELECT ARTICLE_NO NO, COUNT(ARTICLE_NO) FILES
+FROM YOMUL_FILES
+GROUP BY ARTICLE_NO
+WITH READ ONLY;
+
+-- 신고 수 뷰 생성
+CREATE NOFORCE VIEW V_Y_REPORT_COUNT
+AS
+SELECT ARTICLE_NO NO, COUNT(ARTICLE_NO) REPORTS
+FROM YOMUL_REPORTS
+GROUP BY ARTICLE_NO
 WITH READ ONLY;
 
 -- 댓글 정보 뷰 생성(댓글 + 좋아요 수 + 신고 수 + 이미지)
 CREATE NOFORCE VIEW V_Y_COMMENTS
 AS
 SELECT C.NO, C.ARTICLE_NO, C.WRITER, C.CONTENT, C.WDATE, L.LIKES, R.REPORTS, F.ARTICLE_NO||'_'||F.NO||'_'||F.FILENAME IMG
-FROM YOMUL_COMMENTS C, V_Y_COMMENTS_LIKE_COUNT L, V_Y_COMMENTS_REPORT_COUNT R, YOMUL_FILES F
-WHERE C.NO = L.NO AND C.NO = R.NO AND C.NO = F.ARTICLE_NO(+);
+FROM YOMUL_COMMENTS C, V_Y_LIKE_COUNT L, V_Y_REPORT_COUNT R, YOMUL_FILES F
+WHERE C.NO = L.NO(+) AND C.NO = R.NO(+) AND C.NO = F.ARTICLE_NO(+);
 
 -- 업체 소식 수 뷰 생성
 CREATE NOFORCE VIEW V_Y_VENDORS_NEWS
@@ -371,57 +380,27 @@ SELECT F.NO, F.CATEGORY CATEGORY_NO, C.CONTENT AS CATEGORY, F.WRITER, F.TITLE, F
 FROM YOMUL_FAQ_ARTICLES F, YOMUL_FAQ_CATEGORIES C
 WHERE F.CATEGORY = C.NO;
 
--- QNA 파일 수 뷰 생성
-CREATE NOFORCE VIEW V_Y_QNA_FILES
-AS
-SELECT Q.NO, COUNT(F.ARTICLE_NO) FILES
-FROM YOMUL_QNA_ARTICLES Q, YOMUL_FILES F
-WHERE Q.NO = F.ARTICLE_NO(+)
-GROUP BY Q.NO, F.ARTICLE_NO
-WITH READ ONLY;
-
 -- QNA 뷰 생성(qna + 카테고리 + 이미지 수)
 CREATE NOFORCE VIEW V_Y_QNA_ARTICLES
 AS
 SELECT Q.NO, Q.NAME, Q.EMAIL, Q.PW, Q.HASHSALT, Q.WDATE, Q.CATEGORY CATEGORY_NO, C.CONTENT CATEGORY, Q.TITLE, Q.CONTENT, Q.HITS, 
 	Q.RDATE, Q.RWRITER, Q.RCONTENT, Q.SECRET, F.FILES
-FROM YOMUL_QNA_ARTICLES Q, YOMUL_QNA_CATEGORIES C, V_Y_QNA_FILES F
-WHERE Q.CATEGORY = C.NO AND Q.NO = F.NO;
+FROM YOMUL_QNA_ARTICLES Q, YOMUL_QNA_CATEGORIES C, V_Y_FILE_COUNT F
+WHERE Q.CATEGORY = C.NO AND Q.NO = F.NO(+);
 
--- 내 근처 게시글 이미지 수 뷰 생성
-CREATE NOFORCE VIEW V_Y_NEAR_FILES
-AS
-SELECT N.NO, COUNT(F.ARTICLE_NO) AS FILES
-FROM YOMUL_NEAR_ARTICLES N, YOMUL_FILES F
-WHERE N.NO = F.ARTICLE_NO(+)
-GROUP BY N.NO, F.ARTICLE_NO
-WITH READ ONLY;
-
--- 내 근처 게시글 뷰 생성(내 근처 게시글 + 작성자/업체 프로필 이미지 + 이미지 수)
+-- 내 근처 게시글 뷰 생성(내 근처 게시글 + 작성자/업체 프로필 이미지 + 이미지 수 + 좋아요 수 + 신고 수)
 CREATE NOFORCE VIEW V_Y_NEAR_ARTICLES
 AS
-SELECT N.NO, M.NICKNAME WRITER, M.PROFILEIMG MIMG, V.NO VNO, V.NAME VNAME, V.IMG VIMG, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS, F.FILES
-FROM YOMUL_NEAR_ARTICLES N, V_Y_MEMBERS M, V_Y_VENDORS V, V_Y_NEAR_FILES F
-WHERE N.NO = F.NO AND N.WRITER = M.NO AND N.VENDOR = V.NO(+);
-select no, writer, vno, vname, title, category, price, hp, content, ndate, chatcheck, hits, files
-		FROM v_y_near_articles n
-		WHERE NO = 'n2';
-
--- 공지사항 이미지 수 뷰 생성
-CREATE NOFORCE VIEW V_Y_NOTICE_FILES
-AS
-SELECT N.NO, COUNT(F.ARTICLE_NO) AS FILES
-FROM YOMUL_NOTICES N, YOMUL_FILES F
-WHERE N.NO = F.ARTICLE_NO(+)
-GROUP BY N.NO, F.ARTICLE_NO
-WITH READ ONLY;
+SELECT N.NO, M.NICKNAME WRITER, M.PROFILEIMG MIMG, V.NO VNO, V.NAME VNAME, V.IMG VIMG, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS, F.FILES, L.LIKES, R.REPORTS
+FROM YOMUL_NEAR_ARTICLES N, V_Y_MEMBERS M, V_Y_VENDORS V, V_Y_FILE_COUNT F, V_Y_LIKE_COUNT L, V_Y_REPORT_COUNT R
+WHERE N.NO = F.NO(+) AND N.WRITER = M.NO AND N.VENDOR = V.NO(+) AND N.NO = L.NO(+) AND N.NO = R.NO(+);
 
 -- 공지사항 뷰 생성(공지사항 + 이미지 수)
 CREATE NOFORCE VIEW V_Y_NOTICES
 AS
 SELECT N.NO, N.WRITER, N.TITLE, N.CONTENT, N.NDATE, N.HITS, F.FILES
-FROM YOMUL_NOTICES N, V_Y_NOTICE_FILES F
-WHERE N.NO = F.NO;
+FROM YOMUL_NOTICES N, V_Y_FILE_COUNT F
+WHERE N.NO = F.NO(+);
 
 -- 뷰 생성 끝 ---------------------------------------------------------------------------------------------------------------------------------------
 
@@ -1014,6 +993,22 @@ SELECT COUNT(*) FROM YOMUL_FAVORITE_LISTS WHERE PRODUCT_NO = 'P49';
 SELECT COUNT(*) FROM YOMUL_FAVORITE_LISTS WHERE PRODUCT_NO = 'P34' AND MEMBER_NO = 'M1';
 DELETE FROM YOMUL_FAVORITE_LISTS WHERE PRODUCT_NO = 'P34' AND MEMBER_NO = 'M1';
 INSERT INTO YOMUL_FAVORITE_LISTS(PRODUCT_NO, MEMBER_NO) VALUES('P34', 'M1');
+select *from yomul_near_articles;
+-- 업체 소식 추가
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 10000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 20000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 30000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 30000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 30000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 40000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 50000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 60000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 60000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 60000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 60000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 110000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 120000, '010-1111-1111', '내용~');
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 130000, '010-1111-1111', '내용~');
 
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 -- 사용자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------

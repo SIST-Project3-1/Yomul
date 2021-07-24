@@ -23,7 +23,7 @@ function clickOk() {
 			}else { // 탈퇴 신청 완료
 				alert("탈퇴 신청이 완료되었습니다.");
 			}
-			history.back();
+			location.href = "/yomul/vendor_profile_update";
 		}
 	});
 }
