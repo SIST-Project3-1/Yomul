@@ -27,6 +27,7 @@ import com.yomul.vo.CommentVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
+import com.yomul.vo.ProductVO;
 
 @Controller
 public class MyPageController {
@@ -212,6 +213,19 @@ public class MyPageController {
 		return mv;
 	}
 
+	/**
+	 * 찜 목록 AJAX
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage/favorite_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String favorite_list_ajax(String page, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		ArrayList<ProductVO> favoriteList = memberService.getMyFavoriteList(member, page);
+		return Commons.parseJson(favoriteList);
+	}
+	
 	/**
 	 * 프로필 수정 비밀번호 확인 페이지
 	 * 

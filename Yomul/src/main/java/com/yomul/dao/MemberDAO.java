@@ -5,24 +5,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.ProductVO;
 
 //반환형이 int인 경우 성공하면 1, 성공 못하면 0, SQL 에러나면 -1, 자바에서 에러나면 -2
 @Repository
 public class MemberDAO extends DAO {
 
-	@Autowired
-	private SqlSessionTemplate sqlSession;
-
 	private static String namespace = "mapper.member";
 
 	/**
+	 * 찜 목록 가져오기
+	 * 
+	 * @param member
+	 * @param page
+	 * @return
+	 */
+	public ArrayList<ProductVO> getMyFavoriteList(MemberVO member, String page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member", member);
+		params.put("page", page);
+		List<ProductVO> list = sqlSession.selectList(namespace + ".getMyFavoriteList", params);
+		return (ArrayList<ProductVO>) list;
+	}
+
+	/**
 	 * 비밀번호 일치 확인
+	 * 
 	 * @param vo
 	 * @return
 	 */

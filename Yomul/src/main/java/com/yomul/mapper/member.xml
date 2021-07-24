@@ -6,6 +6,63 @@
 
 <mapper namespace="mapper.member">
 
+
+	<!-- 찜 목록 가져오기 -->
+	<select id="getMyFavoriteList" parameterType="map" resultType="com.yomul.vo.ProductVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				  ROWNUM AS RNO
+				, FL.*
+			FROM
+			(
+				SELECT
+					  FL.PRODUCT_NO NO
+					, P.TITLE
+					, P.PRICE
+					, M.NICKNAME SELLER_NICKNAME
+					, F.IMG
+				FROM
+				(
+					SELECT
+						PRODUCT_NO
+					FROM
+						YOMUL_FAVORITE_LISTS
+					WHERE
+						MEMBER_NO = #{member.no}
+					ORDER BY
+						FDATE DESC
+				) FL JOIN
+					YOMUL_PRODUCTS P
+				ON FL.PRODUCT_NO = P.NO JOIN
+					YOMUL_MEMBERS M 
+				ON P.SELLER = M.NO LEFT OUTER JOIN
+					(
+						SELECT
+							  IMG
+							, ARTICLE_NO
+						FROM
+						(
+							SELECT
+								  ARTICLE_NO || '_' || NO || '_' || FILENAME IMG
+								, ARTICLE_NO
+							FROM
+								YOMUL_FILES
+							WHERE
+								NO = 1
+							ORDER BY
+								NO
+						)
+					) F ON P.NO = F.ARTICLE_NO
+			) FL
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
+	</select>
+	
 	<!-- 비밀번호 일치 확인 -->
 	<select id="checkPW" parameterType="com.yomul.vo.MemberVO" resultType="_int">
 		SELECT
