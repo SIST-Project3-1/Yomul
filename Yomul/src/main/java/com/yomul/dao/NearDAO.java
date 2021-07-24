@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.NumberUtils;
 
-import com.yomul.vo.FileVO;
+import org.springframework.stereotype.Repository;
+
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 
@@ -15,6 +14,20 @@ import com.yomul.vo.NearVO;
 public class NearDAO extends DAO {
 
 	private static String nameSpace = "mapper.near";
+
+	/**
+	 * 내가 쓴 글 불러오기
+	 * 
+	 * @param member
+	 * @return
+	 */
+	public ArrayList<NearVO> getMyArticleList(MemberVO member, String page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member", member);
+		params.put("page", page);
+		List<NearVO> list = sqlSession.selectList(nameSpace + ".getMyArticleList", params);
+		return (ArrayList<NearVO>) list;
+	}
 
 	/**
 	 * 내 근처 글 삭제
@@ -46,7 +59,7 @@ public class NearDAO extends DAO {
 	}
 
 	public int getNearWrite(NearVO vo, String url) {
-		Map<String, Object>params = new HashMap<String, Object>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("vo", vo);
 		params.put("url", url);
 		return sqlSession.insert(nameSpace + ".getNearWrite", params);
@@ -68,11 +81,11 @@ public class NearDAO extends DAO {
 	public List<NearVO> getList(NearVO vo) {
 		return sqlSession.selectList(nameSpace + ".selectNearList");
 	}
-	
+
 	public String getArticeNo() {
 		return sqlSession.selectOne(nameSpace + ".getArticeNo");
 	}
-	
+
 	// 내 근처 카드 형식 글 보기
 	public List<NearVO> selectNearCardList(NearVO vo, String word) {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -91,12 +104,12 @@ public class NearDAO extends DAO {
 	public int updateNearHits(String no) {
 		return sqlSession.update(nameSpace + ".updateNearHits", no);
 	}
-	
+
 	public int getUpdate(NearVO vo, String no) {
-		Map<String,Object> params = new HashMap<String,Object>();
+		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("no", no);
 		params.put("vo", vo);
 		return sqlSession.update(nameSpace + ".getUpdate", params);
 	}
-	
+
 }

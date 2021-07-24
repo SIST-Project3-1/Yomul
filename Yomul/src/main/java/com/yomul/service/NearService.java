@@ -36,4 +36,6 @@ public interface NearService {
 	int deleteNear(MemberVO member, NearVO near);
 	
 	String getArticeNo();
+	
+	ArrayList<NearVO> getMyArticleList(MemberVO member, String page);
 }

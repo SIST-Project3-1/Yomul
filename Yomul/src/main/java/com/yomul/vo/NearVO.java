@@ -3,7 +3,8 @@ package com.yomul.vo;
 public class NearVO extends VO {
 
 	private String no; // 게시글 번호
-	private String writer; // 작성자 닉네임
+	private String writer; // 작성자 번호
+	private String writer_nickname; // 작성자 닉네임
 	private String mimg; // 작성자 프로필 이미지
 	private String vno; // 작성 업체 번호
 	private String vname; // 작성 업체명
@@ -14,6 +15,7 @@ public class NearVO extends VO {
 	private int files = 0; // 이미지 수
 	private int likes = 0; // 좋아요 수
 	private int reports = 0; // 신고 수
+	private int comments = 0;// 댓글 수
 	private String title; // 게시글 제목
 	private String category; // 게시글 카테고리
 	private String hp; // 게시글 전화번호
@@ -36,26 +38,26 @@ public class NearVO extends VO {
 	public void setNo(String no) {
 		this.no = no;
 	}
-	
+
 	public String getWriter() {
 		return writer;
 	}
-	
+
 	public void setWriter(String writer) {
 		this.writer = writer;
 	}
-	
+
 	public String getMimg() {
-		if(mimg.equals("__")) { // 파일이 없을 경우 기본 이미지
+		if (mimg.equals("__")) { // 파일이 없을 경우 기본 이미지
 			return "default.jpg";
 		}
 		return mimg;
 	}
-	
+
 	public void setMimg(String mimg) {
 		this.mimg = mimg;
 	}
-	
+
 	public String getVno() {
 		return vno;
 	}
@@ -71,14 +73,14 @@ public class NearVO extends VO {
 	public void setVname(String vname) {
 		this.vname = vname;
 	}
-	
+
 	public String getVimg() {
-		if(vimg.equals("") || vimg.equals("__")) { // 파일이 없을 경우 기본 이미지
+		if (vimg.equals("") || vimg.equals("__")) { // 파일이 없을 경우 기본 이미지
 			return "default.jpg";
 		}
 		return vimg;
 	}
-	
+
 	public void setVimg(String vimg) {
 		this.vimg = vimg;
 	}
@@ -92,14 +94,14 @@ public class NearVO extends VO {
 	}
 
 	public int getChatCheck() {
-		
+
 		return chatCheck;
 	}
 
 	public void setChatCheck(int chatCheck) {
-		if((Integer)chatCheck == null) {
+		if ((Integer) chatCheck == null) {
 			chatCheck = 0;
-		}else {
+		} else {
 			this.chatCheck = chatCheck;
 		}
 	}
@@ -174,6 +176,22 @@ public class NearVO extends VO {
 
 	public void setNdate(String ndate) {
 		this.ndate = ndate;
+	}
+
+	public String getWriter_nickname() {
+		return writer_nickname;
+	}
+
+	public void setWriter_nickname(String writer_nickname) {
+		this.writer_nickname = writer_nickname;
+	}
+
+	public int getComments() {
+		return comments;
+	}
+
+	public void setComments(int comments) {
+		this.comments = comments;
 	}
 
 }

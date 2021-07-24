@@ -19,12 +19,14 @@ import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
 import com.yomul.service.CommentService;
 import com.yomul.service.MemberService;
+import com.yomul.service.NearService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.util.Security;
 import com.yomul.vo.CommentVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.NearVO;
 
 @Controller
 public class MyPageController {
@@ -34,6 +36,9 @@ public class MyPageController {
 
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	private NearService nearService;
 
 	@Autowired
 	private FileUtils fileUtils;
@@ -116,6 +121,20 @@ public class MyPageController {
 		mv.addObject("headerType", "myarticle");
 		return mv;
 	}
+	
+	/**
+	 * 내가 쓴 글 목록 AJAX
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage/myarticle_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String myarticle_list_ajax(String page, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		ArrayList<NearVO> articleList = nearService.getMyArticleList(member, page);
+		return Commons.parseJson(articleList);
+	}
+
 
 	/**
 	 * 내가 쓴 댓글 보기
