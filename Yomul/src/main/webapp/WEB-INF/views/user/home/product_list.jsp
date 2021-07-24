@@ -43,7 +43,7 @@
 					product = json[i];
 					html += '<div class="near-card-form-card">';
 					html += '<div class="card" style="width: 18rem;">';
-					html += ' 	<img src="/yomul/image/' + product.img +'" class="card-img-top">';
+					html += ' 	<img src="/yomul/upload/' + product.img +'" class="card-img-top">';
 					html += ' 	<div class="card-body">';
 					html += '	 	<a href="/yomul/product_info?no='+ product.no +'">';
 					html += '		    <h5 class="card-title">' + product.title + '</h5>';
