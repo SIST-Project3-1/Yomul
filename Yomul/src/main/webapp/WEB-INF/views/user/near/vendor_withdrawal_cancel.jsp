@@ -21,7 +21,7 @@ function clickOk() {
 			}else { // 탈퇴 신청 취소 완료
 				alert("업체 탈퇴 취소가 완료되었습니다.");
 			}
-			history.back();
+			location.href = "/yomul/vendor_profile_update";
 		}
 	});
 }

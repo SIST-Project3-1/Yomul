@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.NearVO;
 import com.yomul.vo.ReviewVO;
 import com.yomul.vo.VendorVO;
 
@@ -54,6 +55,11 @@ public class VendorDAO extends DAO{
 		} catch (NullPointerException e) { // 0명일 시 널 포인터 예외 발생 
 			return 0;
 		}
+	}
+	
+	public ArrayList<NearVO> getVendorNewsList(HashMap<String, Object> params) {
+		List<NearVO> list = sqlSession.selectList(nameSpace + ".selectVendorNewsList", params);
+		return (ArrayList<NearVO>) list;
 	}
 	
 	// 업체 후기 목록 조회
