@@ -143,4 +143,61 @@
 		where name like('%' || #{name} || '%')
 	</select>
 	
+	<!-- 관리자 업체관리 -->
+	<!-- 업체 목록 페이지 수 가져오기 -->
+	<select id="gettotalpagecount" parameterType="string" resultType="_int">
+		SELECT CEIL(COUNT(*)/10) TOTAL_PAGE
+		FROM YOMUL_VENDORS
+		WHERE
+		LOWER(NAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+		OR  LOWER(CATEGORY) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+		OR  ADDR LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
+	</select>
+	
+	<!-- 업체 목록 가져오기 -->
+	<select id="getVendorList" parameterType="map" resultType="com.yomul.vo.VendorVO">
+		SELECT *
+		FROM
+		(
+			SELECT ROWNUM AS RNO
+				, NO
+				, OWNER
+				, NAME
+				, CATEGORY
+				, TEL
+				, ADDR
+				, WITHDRAWAL
+			FROM
+			(
+				SELECT
+				  TO_NUMBER(SUBSTR(NO, 2)) NO_NUM
+				  , NO
+				  , OWNER
+				  , NAME
+				  , CATEGORY
+				  , TEL
+				  , ADDR
+				  , WITHDRAWAL
+				FROM
+				YOMUL_VENDORS 
+				WHERE
+				LOWER(NAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				OR LOWER(CATEGORY) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				OR ADDR LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
+				ORDER BY
+				NO_NUM DESC
+			)
+		)
+		WHERE
+			RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
+	</select>
+	
+	<!-- 업체 삭제 -->
+	<delete id="deleteVendor" parameterType="com.yomul.vo.VendorVO">
+		DELETE
+		FROM YOMUL_VENDORS 
+		WHERE
+		NO = #{no} AND WITHDRAWAL = 1
+	</delete>
 </mapper>

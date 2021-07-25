@@ -691,7 +691,7 @@ INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'
 INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 10, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
 INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, 'M1', '제목일거에요', '내용일거에요');
 INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, 'M1', '제목이겠죠', '내용이겠죠');
-
+SELECT * FROM YOMUL_FAQ_ARTICLES;
 
 -- 공지사항 데이터 생성
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT, NDATE) VALUES(CONCAT('N', YOMUL_NOTICES_NO_SEQ.NEXTVAL), 'M1', '제목1', '내용1', SYSDATE);
@@ -715,10 +715,45 @@ SELECT * FROM DUAL;
 
 -- 업체 데이터 생성
 INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-		VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M1', '요물학원', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M1', '요물학원', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
 INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-		VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M2', '요물학원2', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M2', '요물학원2', '동네구인구직', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M3', '요물3', '농수산물', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M4', '요물4', '중고차', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M5', '요물학원5', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M6', '요물6', '농수산물', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M7', '요물학원7', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M8', '요물8', '동네구인구직', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M9', '요물학원9', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M10', '요물10', '농수산물', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M11', '요물학원11', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M12', '요물12', '농수산물', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M13', '요물13', '중고차', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M14', '요물14', '과외/클래스', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M15', '요물15', '중고차', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M16', '요물16', '동네구인구직', '요물학원입니다~', '010-1111-1111', '서울시 어디어디~');
+    
+-- 업체 데이터 확인
 SELECT * FROM YOMUL_VENDORS;
+
+-- 업체 탈퇴 신청
+UPDATE YOMUL_VENDORS SET WITHDRAWAL = 1 WHERE NO = 'V1';
+UPDATE YOMUL_VENDORS SET WITHDRAWAL = 1 WHERE NO = 'V3';
+UPDATE YOMUL_VENDORS SET WITHDRAWAL = 1 WHERE NO = 'V12';
 
 -- 내 근처 게시글 생성
 INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '제목입니다~', '중고차', 10000, '010-1111-1111', '내용입니다~', 1);
@@ -1135,7 +1170,33 @@ SELECT
 				LOWER(P.TITLE) LIKE ('%' || LOWER('물') || '%')
 			OR  LOWER(P.CONTENT) LIKE ('%' || LOWER('물') || '%')
 			OR  LOWER(PC.CONTENT) LIKE ('%' || LOWER('물') || '%');
-      
+
+-- 업체 목록 불러오기
+SELECT *
+FROM( SELECT ROWNUM AS RNO, NO, OWNER, NAME, CATEGORY, TEL, ADDR, WITHDRAWAL
+        FROM( SELECT TO_NUMBER(SUBSTR(NO, 2)) NO_NUM, NO, OWNER, NAME, CATEGORY, TEL, ADDR, WITHDRAWAL
+                FROM YOMUL_VENDORS 
+                WHERE
+                LOWER(NAME) LIKE ('%' || LOWER('요물') || '%')
+                OR LOWER(CATEGORY) LIKE ('%' || LOWER('요물') || '%')
+                OR ADDR LIKE ('%' || '요물' || '%')
+                ORDER BY NO_NUM DESC
+            ) 
+	)
+WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
+
+-- 업체관리 총 페이지 수
+SELECT CEIL(COUNT(*)/10) TOTAL_PAGE
+FROM YOMUL_VENDORS
+WHERE
+LOWER(NAME) LIKE ('%' || LOWER('요물') || '%')
+OR LOWER(CATEGORY) LIKE ('%' || LOWER('요물') || '%')
+OR ADDR LIKE ('%' || '요물' || '%');
+
+-- 업체 삭제
+DELETE FROM YOMUL_VENDORS
+WHERE NO = 'V3' AND WITHDRAWAL = 1;
+
 -- 내 근처 글 목록 불러오기
 SELECT *
 FROM ( SELECT ROWNUM AS RNO, NA.*
@@ -1207,3 +1268,7 @@ UPDATE YOMUL_QNA_ARTICLES SET REPLY = 1, RDATE = SYSDATE, RWRITER = 'M1', RTITLE
 
 -- 관리자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
 COMMIT;
+
+
+
+                  
