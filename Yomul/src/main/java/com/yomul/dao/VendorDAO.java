@@ -3,6 +3,7 @@ package com.yomul.dao;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -97,7 +98,6 @@ public class VendorDAO extends DAO{
 		}
 	}
 	
-	
 	// 업체 단골 등록
 	public int addVendorCustomer(HashMap<String, String> params) {
 		return sqlSession.insert(nameSpace + ".insertVendorCustomer", params);
@@ -135,5 +135,27 @@ public class VendorDAO extends DAO{
 		} catch (NullPointerException e) {
 			return "";
 		}
+	}
+	
+	/*
+	 * 관리자 업체관리
+	 */
+	// 총 페이지 수 가져오기
+	public int getTotalPageCount(String search) {
+		return sqlSession.selectOne(nameSpace + ".gettotalpagecount", search);
+	}
+	
+	// 업체 목록 가져오기
+	public ArrayList<VendorVO> getVendorList(int page, String search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
+		map.put("search", search);
+		List<VendorVO> list = sqlSession.selectList(nameSpace + ".getVendorList", map);
+		return (ArrayList<VendorVO>) list;
+	}
+	
+	// 업체 삭제
+	public int deleteVendor(VendorVO vo) {
+		return sqlSession.delete(nameSpace + ".deleteVendor", vo);
 	}
 }

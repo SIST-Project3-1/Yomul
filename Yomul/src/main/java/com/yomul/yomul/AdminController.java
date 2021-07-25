@@ -21,6 +21,7 @@ import com.yomul.service.MemberService;
 import com.yomul.service.NearService;
 import com.yomul.service.NoticeService;
 import com.yomul.service.ProductService;
+import com.yomul.service.VendorService;
 import com.yomul.util.Commons;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
@@ -29,6 +30,7 @@ import com.yomul.vo.NearVO;
 import com.yomul.vo.NoticeVO;
 import com.yomul.vo.ProductVO;
 import com.yomul.vo.QnaVO;
+import com.yomul.vo.VendorVO;
 
 @Controller
 public class AdminController {
@@ -47,6 +49,8 @@ public class AdminController {
 	private NearService nearService;
 	@Autowired
 	private ProductService productService;
+	@Autowired
+	private VendorService vendorService;
 
 	/*
 	 * FAQ
@@ -233,6 +237,42 @@ public class AdminController {
 		return String.valueOf(customerCenterService.replyQnA(member, qna));
 	}
 
+	/*
+	 * 업체 관리 페이지
+	 */
+	@RequestMapping(value = "/admin_vendor_list", method = RequestMethod.GET)
+	public ModelAndView adminVendorList(String page, String search) {
+		ModelAndView mv = new ModelAndView("admin/vendor/admin_vendor_list");
+		page = page == null ? "1" : page;
+		mv.addObject("page", page);
+		mv.addObject("search", search);
+		mv.addObject("totalPage", vendorService.getTotalPageCount(search));
+		return mv;
+	}
+	
+	/*
+	 * 업체 목록 JSON 형태
+	 */
+	@ResponseBody
+	@RequestMapping(value = "admin_vendor_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String admin_vendor_list_ajax(int page, String search, HttpServletRequest request) {
+		return Commons.parseJson(vendorService.getVendorList(page, search));
+	}
+	
+	/*
+	 * 업체 삭제 처리 결과 AJAX
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_delete_vendor", method = RequestMethod.POST)
+	public String admin_delete_vendor(VendorVO vo) {
+		int result = vendorService.deleteVendor(vo);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+
+		return Commons.parseJson(map);
+	}
+	
 	/**
 	 * 회원 관리 페이지
 	 * 

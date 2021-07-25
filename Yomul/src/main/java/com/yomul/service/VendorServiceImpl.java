@@ -144,4 +144,27 @@ public class VendorServiceImpl implements VendorService {
 	public String getVendorNo(String no) {
 		return vendorDAO.getVendorNoByOwner(no);
 	}
+
+	/*
+	 * 관리자 업체관리
+	 */
+	// 총 페이지 수 구하기
+	@Override
+	public int getTotalPageCount(String search) {
+		return vendorDAO.getTotalPageCount(search);
+	}
+
+	// 업체 목록 가져오기
+	@Override
+	public ArrayList<VendorVO> getVendorList(int page, String search) {
+		return vendorDAO.getVendorList(page, search);
+	}
+
+	// 업체 삭제
+	@Override
+	public int deleteVendor(VendorVO vo) {
+		return vendorDAO.deleteVendor(vo) == 1 ? 1 : 0;
+	}
+	
+	
 }
