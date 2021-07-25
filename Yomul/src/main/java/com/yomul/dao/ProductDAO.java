@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.CategoryVO;
@@ -16,10 +14,11 @@ import com.yomul.vo.ProductVO;
 @Repository
 public class ProductDAO extends DAO {
 
-	@Autowired
-	private SqlSessionTemplate sqlSession;
-
 	private static String namespace = "mapper.product";
+
+	public int sellProduct(ProductVO vo) {
+		return sqlSession.update(namespace + ".sellProduct", vo);
+	}
 
 	/**
 	 * 물건 목록 가져오기
