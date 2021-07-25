@@ -59,4 +59,16 @@ public interface VendorService {
 	
 	// 사용자 번호로 업체 번호 조회
 	public String getVendorNo(String no);
+	
+	/*
+	 * 관리자 업체관리
+	 */
+	// 페이지 수 구하기
+	int getTotalPageCount(String search);
+	
+	// 업체 목록 가져오기
+	ArrayList<VendorVO> getVendorList(int page, String search);
+	
+	// 업체 삭제
+	int deleteVendor(VendorVO vo);
 }
