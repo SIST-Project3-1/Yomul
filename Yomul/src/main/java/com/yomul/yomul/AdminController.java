@@ -48,30 +48,30 @@ public class AdminController {
 	/*
 	 * FAQ
 	 */
-	//목록 ajax
+	// 목록 ajax
 	@ResponseBody
 	@RequestMapping(value = "admin_faq_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public String admin_faq_list_ajax(int page, String search, HttpServletRequest request) {
 		return Commons.parseJson(faqService.getAdminFaqList(page, search));
 	}
-	
-	//목록보기
+
+	// 목록보기
 	@RequestMapping(value = "admin_faq_list", method = RequestMethod.GET)
 	public ModelAndView adminFaqList(String page, String search) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("admin/customer_center/faq/admin_faq_list");
-		
+
 		page = page == null ? "1" : page;
 		mv.addObject("page", page);
 		mv.addObject("search", search);
 		mv.addObject("totalPage", faqService.getTotalPageFaq(search));
-		
+
 		return mv;
 	}
 
 	// 글쓰기 페이지 열기
 	@RequestMapping(value = "admin_faq_write", method = RequestMethod.GET)
-	public ModelAndView adminFaqWrite() { 
+	public ModelAndView adminFaqWrite() {
 		ModelAndView mv = new ModelAndView();
 		ArrayList<CategoryVO> categories = customerCenterService.getFaqCategories(); // 카테고리 정보 //요기서 처음 생
 
@@ -85,11 +85,11 @@ public class AdminController {
 	@RequestMapping(value = "admin_faq_write_proc", method = RequestMethod.GET)
 	public ModelAndView adminFaqWriteProc(FaqVO faq, HttpSession session) { // 파라미터 받아오기vo 세션은 작성자가 누군지 알기위해
 		ModelAndView mv = new ModelAndView();
-		MemberVO member = (MemberVO) session.getAttribute("member");//작성자를 가져오기 위해서 member을 적어
+		MemberVO member = (MemberVO) session.getAttribute("member");// 작성자를 가져오기 위해서 member을 적어
 
 		faq.setWriter(member.getNo());// 회원 넘버만 필요해서 가죠온것 faq vo타입으로 넣어야함 와이 faq vo타입으로 저장하기우해set get -- 작성자 저장하는 부
 
-		int result = faqService.getAdminFaqWrite(faq);//글의저장하는 로직 -> 오라클로 가는 
+		int result = faqService.getAdminFaqWrite(faq);// 글의저장하는 로직 -> 오라클로 가는
 		if (result == 1) {
 			mv.setViewName("redirect:/admin_faq_list");
 		} else {
@@ -97,7 +97,7 @@ public class AdminController {
 		}
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "admin_faq_update", method = RequestMethod.GET)
 	public String adminFaqUpdate() {
 		return "admin/customer_center/faq/admin_faq_update";
@@ -106,12 +106,14 @@ public class AdminController {
 	// 공지사항 목록
 	@RequestMapping(value = "admin_notice_list", method = RequestMethod.GET)
 	public ModelAndView adminNoticeList(String page) {
-		if(page==null) {
-			page="1";
+		if (page == null) {
+			page = "1";
 		}
 		ModelAndView mv = new ModelAndView();
 		ArrayList<NoticeVO> list = noticeService.getNoticeList(page);
-
+		for (NoticeVO vo : list) {
+			vo.setNo(vo.getNo().substring(1));
+		}
 		mv.setViewName("admin/customer_center/notice/admin_notice_list");
 		mv.addObject("list", list);
 		mv.addObject("page", page);
@@ -119,6 +121,7 @@ public class AdminController {
 
 		return mv;
 	}
+
 	// 공지사항 상세
 	@RequestMapping(value = "admin_notice/{no}", method = RequestMethod.GET)
 	public ModelAndView noticeList(@PathVariable("no") int no) {
@@ -145,11 +148,12 @@ public class AdminController {
 //		return "admin/customer_center/notice/admin_notice_info";
 //	}
 
-	//공지사항 업데이트
+	// 공지사항 업데이트
 	@RequestMapping(value = "admin_notice_update", method = RequestMethod.GET)
 	public String adminNoticeUpdate() {
 		return "admin/customer_center/notice/admin_notice_update";
 	}
+
 	/**
 	 * 공지사항 업데이트 처리
 	 * 
