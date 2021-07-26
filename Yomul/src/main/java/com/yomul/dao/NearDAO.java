@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
+import com.yomul.vo.VendorVO;
 
 @Repository
 public class NearDAO extends DAO {
@@ -66,12 +67,12 @@ public class NearDAO extends DAO {
 	}
 	
 	// 업체 소식 추가
-	public String insertVendorNews(NearVO vo) {
-		int result = sqlSession.insert(nameSpace + ".insertVendorNews", vo);
-		if(result == 0) { // 저장에 실패한 경우 0 반환
-			return "0";
-		}
-		return getStoredArticleNo(vo.getVno());
+	public int insertVendorNews(VendorVO vendor, NearVO vo, String url) {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("vendor", vendor.getNo());
+		params.put("vo", vo);
+		params.put("url", url);
+		return sqlSession.insert(nameSpace + ".insertVendorNews", params);
 	}
 	
 	// 작성 완료 시 저장된 게시글 번호 불러오기

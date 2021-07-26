@@ -126,9 +126,9 @@
 	</insert>
 	
 	<!-- 내 근처 글쓰기(업체) -->
-	<insert id="insertVendorNews" parameterType="com.yomul.vo.NearVO">
-		insert into yomul_near_articles(no, writer, vendor, title, category, price, hp, content, chatcheck)
-		values('n'||yomul_near_articles_no_seq.nextval, #{writer}, #{vno}, #{title}, #{category}, #{price}, #{hp}, #{content}, #{chatCheck})
+	<insert id="insertVendorNews" parameterType="map">
+		insert into yomul_near_articles(no, writer, vendor, title, category, price, hp, content, chatcheck, mainFile)
+		values('n'||yomul_near_articles_no_seq.nextval, #{vo.writer}, #{vendor}, #{vo.title}, #{vo.category}, #{vo.price}, #{vo.hp}, #{vo.content}, #{vo.chatCheck}, #{url})
 	</insert>
 	
 	<!-- 저장된 게시글 번호 불러오기 -->

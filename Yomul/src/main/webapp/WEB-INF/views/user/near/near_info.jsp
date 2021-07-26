@@ -130,10 +130,16 @@
 			<c:choose>
 				<c:when test="${empty vo.vno }">
 					<div class="near-info-right-writer">
+					<c:if test="${vo.vno == '관리자'}">
+							<img src="http://localhost:9000/yomul/upload/${vo.mimg }">
+							<label>${vo.writer }</label>
+						<c:otherwise>	
 						<a href="/yomul/vendor_profile_info/${vo.vno }" class="vendor_info">
 							<img src="http://localhost:9000/yomul/upload/${vo.mimg }">
 							<label>${vo.writer }</label>
 						</a>
+						</c:otherwise>	
+					</c:if>
 					</div>
 				</c:when>
 				<c:otherwise>
