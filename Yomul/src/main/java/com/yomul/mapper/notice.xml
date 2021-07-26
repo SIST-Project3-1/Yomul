@@ -26,12 +26,11 @@
 	</insert>
 
 	<!-- 공지사항 수정 -->
-	<update id="updateNotice" parameterType="com.yomul.vo.NoticeVO">
+	<update id="updateNotice" parameterType="map">
 		UPDATE YOMUL_NOTICES
 		SET
-		WRITER=#{writer}
-		, TITLE=#{title}
-		, CONTENT=#{content}
+		TITLE=#{vo.title}
+		, CONTENT=#{vo.content}
 
 		WHERE
 		NO=#{no}
@@ -74,7 +73,7 @@
 	<!-- 공지사항 상세 조회 -->
 	<select id="selectNoticeInfo" resultType="com.yomul.vo.NoticeVO"
 		parameterType="java.lang.String">
-		SELECT TITLE, CONTENT, NDATE
+		SELECT TITLE, CONTENT, NDATE, SUBSTR(NO,2) NO
 		FROM YOMUL_NOTICES
 		WHERE NO = #{no}
 	</select>

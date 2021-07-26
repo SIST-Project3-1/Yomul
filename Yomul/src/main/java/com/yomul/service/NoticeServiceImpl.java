@@ -19,8 +19,8 @@ public class NoticeServiceImpl implements NoticeService {
 		return noticeDAO.writeNotice(vo) == 1 ? 1 : 0;
 	}
 	@Override
-	public int updateNotice(NoticeVO vo) {
-		return noticeDAO.updateNotice(vo) == 1 ? 1 : 0;
+	public int updateNotice(NoticeVO vo, int no) {
+		return noticeDAO.updateNotice(vo, no) == 1 ? 1 : 0;
 	}
 	@Override
 	public int deleteNotice(NoticeVO vo) {

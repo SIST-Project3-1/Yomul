@@ -7,7 +7,7 @@ import com.yomul.vo.NoticeVO;
 public interface NoticeService {
 
 	int writeNotice(NoticeVO vo);
-	int updateNotice(NoticeVO vo);
+	int updateNotice(NoticeVO vo, int no);
 	int deleteNotice(NoticeVO vo);
 	ArrayList<NoticeVO> getNoticeList(String page);
 	int getTotalPageCount();

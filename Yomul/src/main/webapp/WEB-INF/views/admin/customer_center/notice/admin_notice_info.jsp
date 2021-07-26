@@ -47,10 +47,10 @@
 			location.href = "../admin_notice_list";
 		});
 		$("#btn_update").click(function() {
-			location.href = "../admin_notice_update";
+			location.href = "../admin_notice_update/${vo.no }";
 		});
 		$("#btn_delete").click(function() {
-			location.href = "../admin_notice_delete";
+			location.href = "../admin_notice_delete/${vo.no }";
 		});
 	});
 </script>

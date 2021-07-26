@@ -127,13 +127,13 @@ public class AdminController {
 	public ModelAndView noticeList(@PathVariable("no") int no) {
 		ModelAndView mv = new ModelAndView();
 		NoticeVO vo = noticeService.getNoticeInfo(no);
-
 		// 해당 공지사항이 없을 경우 에러페이지 이동
 		if (vo == null) {
 			mv.setViewName("redirect:/error");
 		} else {
 			ArrayList<String> files = fileService.getNoticeFiles(no);
 
+			vo.setNo(""+no);
 			mv.setViewName("admin/customer_center/notice/admin_notice_info");
 			mv.addObject("vo", vo);
 			mv.addObject("files", files);
@@ -149,9 +149,14 @@ public class AdminController {
 //	}
 
 	// 공지사항 업데이트
-	@RequestMapping(value = "admin_notice_update", method = RequestMethod.GET)
-	public String adminNoticeUpdate() {
-		return "admin/customer_center/notice/admin_notice_update";
+	@RequestMapping(value = "admin_notice_update/{no}", method = RequestMethod.GET)
+	public ModelAndView adminNoticeUpdate(@PathVariable("no") int no) {
+		ModelAndView mv = new ModelAndView();
+		NoticeVO vo = noticeService.getNoticeInfo(no);
+		mv.addObject("vo", vo);
+		mv.setViewName("admin/customer_center/notice/admin_notice_update");
+		System.out.println(vo.toStringJson());
+		return mv;
 	}
 
 	/**
@@ -160,13 +165,18 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin_notice_update_proc", method = RequestMethod.POST)
-	public String adminNoticeUpdate_proc(NoticeVO vo) {
+	public ModelAndView adminNoticeUpdate_proc(NoticeVO vo, String no) {
+		int k = Integer.parseInt(no);
 		vo.setWriter("M1");
-		int result = noticeService.updateNotice(vo);
+		ModelAndView mv = new ModelAndView();
+		noticeService.updateNotice(vo,k);
+		int result = noticeService.updateNotice(vo, k);
 		if (result == 1) {
-			return "redirect:/admin_notice_list";
+			mv.setViewName("redirect:/admin_notice_list");
+			return mv;
 		} else {
-			return "redirect:/admin_notice_update";
+			mv.setViewName("redirect:/admin_notice_update");
+			return mv;
 		}
 	}
 

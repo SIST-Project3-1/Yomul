@@ -36,8 +36,11 @@ public class NoticeDAO extends DAO {
 	 * @param vo
 	 * @return
 	 */
-	public int updateNotice(NoticeVO vo) {
-		return sqlSession.update(namespace + ".updateNotice", vo);
+	public int updateNotice(NoticeVO vo, int no) {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("no", "N"+no);
+		params.put("vo", vo);
+		return sqlSession.update(namespace + ".updateNotice", params);
 	}
 
 	/**
