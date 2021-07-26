@@ -274,27 +274,6 @@
 							</c:choose>
 
 							<div class="drop-down card-detail-floating__action-wrap card-detail-floating__action-share">
-
-								<!-- 공유 -->
-								<c:if test="${sessionScope.member.authority == 'ADMIN'}">
-									<button id="deleteProduct" type="button" class="">글 삭제</button>
-									<script type="text/javascript">
-										$("#deleteNear").on("click", function() {
-											$.ajax({
-												url : "/yomul/admin_product_delete?no=${vo.no}",
-												method : "GET",
-												success : function(result) {
-													if (result == 1) {
-														alert("글을 삭제했습니다.");
-														location.href = "/yomul/product_list";
-													} else {
-														alert("삭제에 실패했습니다.");
-													}
-												}
-											});
-										});
-									</script>
-								</c:if>
 							</div>
 						</div>
 					</div>
