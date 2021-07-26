@@ -136,15 +136,18 @@ public class NearController {
 
 	// 내 근처 상세보기
 	@RequestMapping(value = "/near_info/{no}", method = RequestMethod.GET)
-	public ModelAndView near_info(@PathVariable("no") String no, HttpSession session) {
+	public ModelAndView near_info(@PathVariable("no") String no, HttpSession session, NearVO vo) {
 		ModelAndView mv = new ModelAndView();
-
+		List<NearVO> list = nearService.viewInfo(vo,no);
+		mv.addObject("list", list);
+		
+		
 		// 조회수 갱신 겸 게시글 유무 확인
 		if (nearService.updateNearHits(no) != 0) {
 			mv.setViewName("user/near/near_info");
 
 			// 게시글 정보 불러오기
-			NearVO vo = nearService.getNearInfo(no);
+			vo = nearService.getNearInfo(no);
 			mv.addObject("vo", vo);
 			
 			//로그인 사용자 체크 세션 값 불러오기

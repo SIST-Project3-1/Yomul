@@ -44,4 +44,8 @@ public interface NearService {
 	String getArticeNo();
 	
 	ArrayList<NearVO> getMyArticleList(MemberVO member, String page);
+	
+	// 내 근처 상세보기
+	List<NearVO> viewInfo(NearVO vo, String no);
+	
 }

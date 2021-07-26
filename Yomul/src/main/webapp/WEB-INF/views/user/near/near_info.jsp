@@ -80,17 +80,9 @@
 			</div>
 
 			<!--  이미지  -->
-			<c:choose>
-				<c:when test="${vo.files == 0 }">
-					<div class="near-info-left-img">
-						<div class="carousel-inner" style="width: 500px; height: 500px;">
-							<div class="carousel-item active">
-								<img src="/yomul/upload/default.jpg" class="d-block w-100" style="width: 500px; height: 500px;">
-							</div>
-						</div>
-					</div>
-				</c:when>
-				<c:otherwise>
+			
+			
+				
 					<div class="near-info-left-img">
 						<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 							<ol class="carousel-indicators">
@@ -100,10 +92,8 @@
 								</c:forEach>
 							</ol>
 							<div class="carousel-inner" style="width: 500px; height: 500px;">
-								<c:forEach var="articleImg" items="${articleImages }" varStatus="status">
-									<div class="carousel-item <c:if test="${status.first }">active</c:if>">
-										<img src="/yomul/upload/${articleImg }" class="d-block w-100" style="width: 500px; height: 500px;">
-									</div>
+								<c:forEach var="vo" items="${list }">
+										<img src="/yomul/upload/${vo.mainFile }" class="d-block w-100" style="width: 500px; height: 500px;">
 								</c:forEach>
 							</div>
 							<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -116,9 +106,7 @@
 							</a>
 						</div>
 					</div>
-				</c:otherwise>
-			</c:choose>
-
+		
 			<!--  내용  -->
 			<div class="near-info-left-content">
 				<p>${vo.content }</p>
