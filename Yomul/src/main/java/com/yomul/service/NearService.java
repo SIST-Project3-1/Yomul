@@ -10,6 +10,12 @@ public interface NearService {
 	// 내근처 글쓰기
 	int getNearWrite(NearVO vo, String url);
 	
+	// 업체 소식 추가
+	String insertVendorNews(NearVO vo);
+	
+	// 해당 유저의 최근 게시글 번호 불러오기
+	String getStoredArticleNo(String no);
+	
 	// 내근처 파일 등록
 	int getNearFile(String saveFileName, String originFilename);
 
