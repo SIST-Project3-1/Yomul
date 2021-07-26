@@ -34,7 +34,7 @@
 		reader.readAsDataURL(fis.files[0]);
 	}
 
-	//업체 등록 버튼 클릭 시
+	/* //업체 등록 버튼 클릭 시
 	function news_write_submit() {
 		var formData = new FormData($("#near_write_form")[0]);
 		$.ajax({
@@ -54,7 +54,7 @@
 				}
 			}
 		});
-	}
+	} */
 </script>
 <body>
 	<!-- HEADER -->
@@ -71,7 +71,7 @@
 
 	<!--  BODY  -->
 	<!--  BODY  -->
-	<form id="near_write_form" method="POST" enctype="multipart/form-data">
+	<form id="near_write_form" method="POST" enctype="multipart/form-data" action="vendor_news_write_proc">
 		<div id="near_write" class="near-write">
 			<div class="near-write-content">
 				<!-- 선택한 사진 전체 미리보기 -->
@@ -97,7 +97,7 @@
 					</div>
 					<div>
 						<label>가격</label> <input type="number" name="price"
-							placeholder="가격 (선택사항)">
+							placeholder="가격 (선택사항)" value=0>
 					</div>
 					<div>
 						<textarea name="content" placeholder="단골들에게 홍보하고 싶은 내용을 입력해주세요"
@@ -106,7 +106,8 @@
 					<input type="checkbox" name="chatCheck" class="near-write-checkbox" value=1>
 					채팅 안 받기 <input multiple="multiple" type="file" id="file"
 						name="filelist[]" class="d-none" onChange="changeFile(this)"  >
-					<button type="button" onclick="news_write_submit()">완료</button>
+					<button type="submit" >완료</button>
+					<!-- onclick="news_write_submit()" -->
 				</div>
 			</div>
 		</div>
