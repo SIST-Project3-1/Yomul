@@ -118,4 +118,19 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.getMyFavoriteList(member, page);
 	}
 
+	@Override
+	public int getSellingcount(String no) {
+		return memberDAO.getSellingcount(no);
+	}
+
+	@Override
+	public int getSoldCount(String no) {
+		return memberDAO.getSoldCount(no);
+	}
+
+	@Override
+	public ArrayList<ProductVO> getSellList(MemberVO member, String page) {
+		return memberDAO.getSellList(member, page);
+	}
+
 }

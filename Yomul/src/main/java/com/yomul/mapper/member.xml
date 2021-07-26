@@ -6,6 +6,73 @@
 
 <mapper namespace="mapper.member">
 
+	<!-- 판매 내역 가져오기 -->
+	<select id="getSellList" parameterType="map" resultType="com.yomul.vo.ProductVO">
+		SELECT 
+			*
+		FROM
+		(
+			SELECT 
+				  ROWNUM RNO
+				, P.*
+			FROM 
+			(
+				SELECT 
+					  TO_CHAR(PDATE, 'YYYY"년" MM"월" DD"일"') PDATE
+					, NO
+					, STATE
+					, TITLE
+					, PRICE
+					, IMG
+				FROM 
+					YOMUL_PRODUCTS P LEFT OUTER JOIN 
+					(
+					SELECT
+						*
+					FROM
+					(
+						SELECT
+							  ROW_NUMBER() OVER (PARTITION BY ARTICLE_NO ORDER BY NO) RANK
+							, ARTICLE_NO || '_' || NO || '_' || FILENAME IMG
+							, ARTICLE_NO 
+						FROM
+							YOMUL_FILES F
+					)
+					WHERE
+						RANK = 1
+					) F ON P.NO = F.ARTICLE_NO
+				WHERE
+					SELLER = #{member.no}
+				ORDER BY
+					TO_NUMBER(SUBSTR(P.NO, 2)) DESC
+			) P
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
+	</select>
+
+	<!-- 판매완료 수 가져오기 -->
+	<select id="getSellingcount" parameterType="string" resultType="_int">
+		SELECT
+			COUNT(*) 
+		FROM
+			YOMUL_PRODUCTS 
+		WHERE
+				SELLER = #{no} 
+			AND STATE = 'SELLING'
+	</select>
+
+	<!-- 판매중 수 가져오기 -->
+	<select id="getSoldCount" parameterType="string" resultType="_int">
+		SELECT 
+			COUNT(*) 
+		FROM 
+			YOMUL_PRODUCTS 
+		WHERE
+				SELLER = #{no}
+			AND STATE = 'SOLD'
+	</select>
 
 	<!-- 찜 목록 가져오기 -->
 	<select id="getMyFavoriteList" parameterType="map" resultType="com.yomul.vo.ProductVO">
@@ -272,7 +339,7 @@
 	<!-- 판매내역 수 가져오기 -->
 	<select id="getsellcount" parameterType="com.yomul.vo.MemberVO" resultType="int">
 		SELECT COUNT(*) 
-		FROM YOMUL_TRADE_HISTORY
+		FROM YOMUL_PRODUCTS
 		 WHERE SELLER = #{no}
 	</select>
 	
