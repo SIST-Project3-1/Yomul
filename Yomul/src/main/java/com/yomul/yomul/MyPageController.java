@@ -284,9 +284,7 @@ public class MyPageController {
 		ModelAndView mv = new ModelAndView("user/mypage/myprofile_update");
 
 		HttpSession session = request.getSession();
-		System.out.println(session.getAttribute("pwChk"));
 		if (session.getAttribute("pwChk") == null) {
-			System.out.println("123123");
 			mv.setViewName("redirect:/mypage/myprofile_info");
 			return mv;
 		}else {

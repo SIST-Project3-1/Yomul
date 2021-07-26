@@ -102,7 +102,6 @@ public class ProductDAO extends DAO {
 	 * @return
 	 */
 	public ArrayList<FileVO> getProductImg(ProductVO product) {
-		System.out.println(product.toStringJson());
 		List<FileVO> list = sqlSession.selectList(namespace + ".getProductImg", product);
 		return (ArrayList<FileVO>) list;
 	}
