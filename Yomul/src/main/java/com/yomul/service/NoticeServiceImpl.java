@@ -23,8 +23,8 @@ public class NoticeServiceImpl implements NoticeService {
 		return noticeDAO.updateNotice(vo, no) == 1 ? 1 : 0;
 	}
 	@Override
-	public int deleteNotice(NoticeVO vo) {
-		return noticeDAO.deleteNotice(vo) == 1 ? 1 : 0;
+	public int deleteNotice(NoticeVO vo, int no) {
+		return noticeDAO.deleteNotice(vo, no) == 1 ? 1 : 0;
 	}
 	@Override
 	public ArrayList<NoticeVO> getNoticeList(String page) {
