@@ -87,4 +87,9 @@ public class NearServiceImplement implements NearService {
 		return nearDAO.getMyArticleList(member, page);
 	}
 
+	@Override
+	public List<NearVO> viewInfo(NearVO vo, String no) {
+		return nearDAO.viewInfo(vo,no);
+	}
+
 }

@@ -2,6 +2,7 @@ package com.yomul.yomul;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -324,11 +326,13 @@ public class VendorController {
 	//업체 소식 작성
 	@ResponseBody
 	@RequestMapping(value="/vendor_news_write_proc", method=RequestMethod.POST)
-	public String vendor_news_write_proc(NearVO vo, ArrayList<MultipartFile> filelist, HttpServletRequest request) {
+	public String vendor_news_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> filelist, HttpServletRequest request) {
 		String result = "";
 		
 		// 로그인한 회원 정보 구하기
 		MemberVO member = (MemberVO) request.getSession().getAttribute("member");
+		
+		System.out.println("member 값 " + member );
 		
 		// 로그인되어 있지 않을 경우 등록 실패
 		if(member == null) {
@@ -354,6 +358,9 @@ public class VendorController {
 		}
 		
 		// 입력된 파일이 있을 경우 파일 저장 및 업로드
+		System.out.println("fileList ==> " + filelist);
+		
+		
 		if(!filelist.isEmpty()) {
 			fileUtils.restore(result, filelist, request);
 		}
