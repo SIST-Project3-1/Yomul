@@ -18,6 +18,7 @@ public class MemberVO extends VO {
 	private String mdate;
 	private String subscribe;
 	private String profileImg = "default.jpg";
+	private String vendor_no; // 업체 번호
 
 	public String getEmail() {
 		return email;
@@ -132,6 +133,14 @@ public class MemberVO extends VO {
 
 	public void setKakao_id(String kakao_id) {
 		this.kakao_id = kakao_id;
+	}
+
+	public String getVendor_no() {
+		return vendor_no;
+	}
+
+	public void setVendor_no(String vendor_no) {
+		this.vendor_no = vendor_no;
 	}
 
 }
