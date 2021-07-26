@@ -10,7 +10,7 @@ public class NearVO extends VO {
 	private String vname; // 작성 업체명
 	private String vimg; // 작성 업체 프로필 이미지
 	private int price = -1; // 게시글 등록 가격
-	private String chatCheck; // 채팅 여부
+	private int chatCheck = 0; // 채팅 여부
 	private int hits = -1; // 조회수
 	private int files = 0; // 이미지 수
 	private int likes = 0; // 좋아요 수
@@ -91,6 +91,19 @@ public class NearVO extends VO {
 
 	public void setPrice(int price) {
 		this.price = price;
+	}
+
+	public int getChatCheck() {
+
+		return chatCheck;
+	}
+
+	public void setChatCheck(String chatCheck) {
+		if (chatCheck.equals("on")) {
+			this.chatCheck = 1;
+		} else {
+			this.chatCheck = 0;
+		}
 	}
 
 	public int getHits() {
@@ -179,14 +192,6 @@ public class NearVO extends VO {
 
 	public void setComments(int comments) {
 		this.comments = comments;
-	}
-
-	public String getChatCheck() {
-		return chatCheck;
-	}
-
-	public void setChatCheck(String chatCheck) {
-		this.chatCheck = chatCheck;
 	}
 
 }
