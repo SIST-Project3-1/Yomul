@@ -50,4 +50,6 @@ public interface MemberService {
 	int getSoldCount(String no);
 	
 	ArrayList<ProductVO> getSellList(MemberVO member, String page);
+	
+	ArrayList<ProductVO> getBuyList(MemberVO member, String page);
 }

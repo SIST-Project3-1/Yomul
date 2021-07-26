@@ -133,4 +133,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.getSellList(member, page);
 	}
 
+	@Override
+	public ArrayList<ProductVO> getBuyList(MemberVO member, String page) {
+		return memberDAO.getBuyList(member, page);
+	}
+
 }
