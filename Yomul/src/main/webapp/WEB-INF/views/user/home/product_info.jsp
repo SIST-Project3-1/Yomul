@@ -147,6 +147,24 @@
 									});
 								</script>
 							</c:if>
+							
+									<c:if test="${sessionScope.member.no == product.seller}">
+								<button id="deleteProduct" type="button" class="mo_a_bo_gibtn">수정하기</button>
+								<script type="text/javascript">
+									$("#").on("click", function() {
+										$.ajax({
+											url : "/yomul/product_info?no=${product.no}",
+											method : "GET",
+											success : function(result) {
+												if (result == 1) {
+													alert("글을 수정하겠습니다.");
+													location.href = "/yomul/product_list";
+												} 
+											}
+										});
+									});
+								</script>
+							</c:if>
 						</div>
 					</div>
 				</div>

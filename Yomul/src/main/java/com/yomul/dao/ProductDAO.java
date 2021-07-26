@@ -91,7 +91,9 @@ public class ProductDAO extends DAO {
 	 */
 	public ArrayList<ProductVO> getProductList(ProductVO product, String page, String search) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("no", product.getNo());
+		if (product != null) {
+			params.put("no", product.getNo());
+		}
 		params.put("page", page);
 		params.put("search", search);
 		List<ProductVO> list = sqlSession.selectList(namespace + ".getProductList", params);
