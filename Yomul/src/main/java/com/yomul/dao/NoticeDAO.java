@@ -49,8 +49,11 @@ public class NoticeDAO extends DAO {
 	 * @param vo
 	 * @return
 	 */
-	public int deleteNotice(NoticeVO vo) {
-		return sqlSession.delete(namespace + ".deleteNotice", vo);
+	public int deleteNotice(NoticeVO vo, int no) {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("no", "N"+no);
+		params.put("vo", vo);
+		return sqlSession.update(namespace + ".deleteNotice", params);
 	}
 
 	/**
