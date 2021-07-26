@@ -102,6 +102,7 @@
 		(
 			  NO
 			, WRITER
+			, WRITER_NICKNAME
 			, TITLE
 			, CATEGORY
 			, PRICE
@@ -115,6 +116,7 @@
 		(
 			  'n'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL
 			, #{vo.writer}
+			, #{vo.writer_nickname}
 			, #{vo.title}
 			, #{vo.category}
 			, #{vo.price}
@@ -173,7 +175,7 @@
 
 	<!-- 내 근처 홈 화면 글 보기 -->
 	<select id="selectNearList" resultType="com.yomul.vo.NearVO">
-		select * from (select no, title, content, writer, ndate , mainFile from yomul_near_articles order by ndate desc) 
+		select * from (select no, title, content, writer, ndate , mainFile, writer_nickname from yomul_near_articles order by ndate desc) 
 		<!-- 부등호 인식 -->
 		<![CDATA[where rownum <= 3]]>
 	</select>
