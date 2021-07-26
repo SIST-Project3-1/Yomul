@@ -7,23 +7,6 @@
 <title>요물 비밀번호 재설정</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#form_reset_password").on("submit", function() {
-			$.ajax({
-				url : "/yomul/reset_password_proc",
-				method : "GET",
-				data : {
-					"email" : $("#email").val()
-				},
-				success : function(result) {
-					alert("AJAX 로 결과를 받아서 출력하세요.");
-				}
-			});
-			return false;
-		});
-	});
-</script>
 </head>
 <body>
 	<!-- HEADER -->
@@ -33,12 +16,15 @@
 	<section id="login">
 		<div class="container col-md-6 mt-3">
 			<h1 class="mb-3">비밀번호 재설정</h1>
-			<form id="form_reset_password">
+			<form id="form_reset_password" action="reset_password_proc" method="get">
 				<div class="form-group">
 					<label for="email">
 						이메일 <small class="text-yomul">임시 비밀번호를 발급하여 이메일로 전송합니다.</small>
 					</label>
-					<input id="email" name="email" class="w-100 form-control" type="email" required>
+					<input  name="from" class="w-100 form-control" type="email" value="아이디" style="display:none;">
+					<input  id="email" name="to" class="w-100 form-control" type="email" required>
+					<input  name="subject" class="w-100 form-control" type="hidden" value="관리자">
+					<input  name="contents" class="w-100 form-control" type="hidden" value="새비밀번호">
 				</div>
 				<button id="btn_submit" class="btn btn-block btn-yomul" type="submit">비밀번호 재설정</button>
 			</form>
