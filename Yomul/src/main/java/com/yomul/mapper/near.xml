@@ -215,4 +215,10 @@
 		set hits = hits + 1
 		where no = #{no}
 	</update>
+	
+	<select id="viewInfo" parameterType="map" resultType="com.yomul.vo.NearVO">
+		select * from yomul_near_articles where no = #{no}
+	</select>
+	
+	
 </mapper>
