@@ -1163,6 +1163,14 @@ INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, 
 INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 120000, '010-1111-1111', '내용~');
 INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M1', 'V1', '소식입니다', '중고차', 130000, '010-1111-1111', '내용~');
 
+-- 업체 소식 수정
+UPDATE YOMUL_NEAR_ARTICLES
+SET CATEGORY = 2, PRICE = 3421, TITLE = '수정테스트', CONTENT = '업체 소식 수정 테스트~', CHATCHECK = 0
+WHERE NO = 'n48';
+
+-- 업체 소식 기존 파일들 불러오기
+SELECT ARTICLE_NO, NO, FILENAME FROM YOMUL_FILES WHERE ARTICLE_NO = 'n49' ORDER BY NO;
+
 -- 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 -- 사용자 페이지 끝----------------------------------------------------------------------------------------------------------------------------------
 

@@ -44,7 +44,7 @@
 				console.log(result);
 				if (result != 0) {
 					alert("소식 등록에 성공했습니다.");
-					location.href = "/yomul/near_info/" + result;
+					location.href = "/yomul/near_info/${news.no}";
 				} else {
 					alert("소식 등록에 실패했습니다.");
 				}
@@ -59,6 +59,8 @@
 
 	<!--  BODY  -->
 	<form id="form-near-update" method="POST" enctype="multipart/form-data">
+		<input type="hidden" name="no" value="${news.no}" readonly required>
+		<input type="hidden" name="hp" value="${news.hp}" readonly>
 		<div id="near-update" class="near-write">
 			<div class="near-write-content">
 				<!-- 선택한 사진 전체 미리보기 -->
@@ -66,7 +68,12 @@
 
 				<!-- 사진 -->
 				<div class="near-write-img">
-					<img id="profile_img_img" class="rounded-circle mb-3" src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }' style="width: 400px; height: 400px;">
+					<c:if test="${imgList.size() ==0 }">
+						<img id="profile_img_img" class="rounded-circle mb-3" src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }' style="width: 400px; height: 400px;">
+					</c:if>
+					<c:forEach var="img" items="${imgList}">
+						<img id="profile_img_img" class="rounded-circle mb-3" src='/yomul/upload/${img.savedFilename}' style="width: 400px; height: 400px;">
+					</c:forEach>
 					<input type="file" class="custom-file-input" id="profile_img" name="profile_img" aria-describedby="profile_img" onchange="fileUpload(this)" multiple>
 					<label class="btn-yomul" for="profile_img" data-browse="업로드" style="padding: 10px; border: 2px solid white; border-radius: 20px;">이미지업로드</label>
 				</div>
@@ -84,7 +91,7 @@
 					<div>
 						<textarea name="content" placeholder="단골들에게 홍보하고 싶은 내용을 입력해주세요" required>${news.content}</textarea>
 					</div>
-					<input type="checkbox" name="chatCheck" class="near-write-checkbox" value=1 ${news.chatCheck == "on" ? "checked" : ""}>
+					<input type="checkbox" name="chatCheck" class="near-write-checkbox" value=1 ${news.chatCheck == 1 ? "checked" : ""}>
 					채팅 안 받기
 					<input multiple="multiple" type="file" id="file" name="filelist[]" class="d-none" onChange="changeFile(this)">
 					<button type="button" onclick="news_update_submit()">완료</button>

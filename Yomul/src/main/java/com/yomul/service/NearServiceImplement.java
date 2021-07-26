@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yomul.dao.NearDAO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 import com.yomul.vo.VendorVO;
@@ -91,6 +92,11 @@ public class NearServiceImplement implements NearService {
 	@Override
 	public List<NearVO> viewInfo(NearVO vo, String no) {
 		return nearDAO.viewInfo(vo,no);
+	}
+
+	@Override
+	public ArrayList<FileVO> getFileList(String no) {
+		return nearDAO.getFileList(no);
 	}
 
 }
