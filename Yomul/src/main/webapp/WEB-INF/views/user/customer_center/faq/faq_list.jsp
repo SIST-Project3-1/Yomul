@@ -80,7 +80,7 @@
 			<div class="mt-4 mb-2">
 			<p>운영시간: 평일 09:00 ~ 18:00</p>
 			</div>
-			<button type="button" id="btn_question" class="btn btn-yomul px-4 py-2">문의하기</button>
+			<a type="button" id="btn_question" class="btn btn-yomul px-4 py-2" href="/yomul/customer_qna/write">문의하기</a>
 		</div>
 		<div class="center">
 			<ul class="list font-weight-bold p-0">
@@ -94,7 +94,7 @@
 				<c:forEach var="fvo" items="${faqlist }" varStatus="status">
 				<li class="faq_info" category="${fvo.category_no }">
 					<a class="text-decoration-none text-reset" data-toggle="collapse" href="#faq${status.index }" aria-expanded="false" aria-controls="#faq${status.index }">${fvo.getTitle() }</a>
-					<p class="collapse mt-2" id="faq${status.index }">${fvo.getContent() }</p>
+					<div class="collapse mt-2" id="faq${status.index }" style="font-weight: normal;">${fvo.getContent() }</div>
 					<hr>
 				</li>
 				</c:forEach>
