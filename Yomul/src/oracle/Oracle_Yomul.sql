@@ -228,7 +228,7 @@ CREATE TABLE YOMUL_FAQ_ARTICLES(
     CATEGORY NUMBER(4) CONSTRAINT NN_Y_FA_CATEGORY NOT NULL, -- 카테고리
     WRITER VARCHAR2(10) CONSTRAINT NN_Y_FA_WRITER NOT NULL, -- 작성자
     TITLE VARCHAR2(100) CONSTRAINT NN_Y_FA_TITLE NOT NULL, -- 제목
-    CONTENT VARCHAR2(500) CONSTRAINT NN_Y_FAQ_ARTICLES_CONTENT NOT NULL, -- 내용
+    CONTENT VARCHAR2(4000) CONSTRAINT NN_Y_FAQ_ARTICLES_CONTENT NOT NULL, -- 내용
     CONSTRAINT PK_Y_FA_NO PRIMARY KEY (NO),
     CONSTRAINT FK_Y_FA_FAQ_CATEGORIES FOREIGN KEY (CATEGORY) REFERENCES YOMUL_FAQ_CATEGORIES(NO) ON DELETE CASCADE,
     CONSTRAINT FK_Y_FA_WRITER FOREIGN KEY (WRITER) REFERENCES YOMUL_MEMBERS(NO) ON DELETE CASCADE
@@ -619,10 +619,9 @@ INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(3, '구매/판매');
 INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(4, '거래 매너');
 INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(5, '이용 제재');
 INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(6, '비즈프로필');
-INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(7, '동네생활');
-INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(8, '내 근처');
-INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(9, '채팅');
-INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(10, '기타');
+INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(7, '내 근처');
+INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(8, '채팅');
+INSERT INTO YOMUL_FAQ_CATEGORIES(NO, CONTENT) VALUES(9, '기타');
 
 -- QNA 카테고리 데이터 생성
 INSERT INTO YOMUL_QNA_CATEGORIES(NO, CONTENT) VALUES(1, '거래 환불/분쟁 및 사기 신고');
@@ -701,29 +700,42 @@ INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, C
 INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
 INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
   
--- FAQ 데이터 생성
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, 'M1', '제목1', '내용1');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, 'M1', '제목2', '내용2');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 3, 'M1', '제목3', '내용3');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 4, 'M1', '제목4', '내용4');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 5, 'M1', '제목5', '내용5');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 6, 'M1', '제목6', '내용6');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 7, 'M1', '제목7', '내용7');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 8, 'M1', '제목8', '내용8');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 9, 'M1', '제목9', '내용9');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 10, 'M1', '제목10', '내용10');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 3, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 4, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 5, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 6, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 7, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 8, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 9, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 10, 'M1', '제목이 이렇게 길면 다 보일까요 안보일까요 어떻게 생각하세요?', '내용이 보일 수도 있고 안 보일 수도 있는건데 뭘 신경쓰세요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, 'M1', '제목일거에요', '내용일거에요');
-INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, 'M1', '제목이겠죠', '내용이겠죠');
+-- FAQ 데이터 생성FAQ 데이터 생성FAQ 데이터 생성
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, 'M1', '당근마켓 운영정책', '<ul><h4>우리 동네의 따뜻한 거래를 위해 다음과 같은 약속을 꼭꼭 지켜주세요.</h4><li>당근마켓의 거래 매너를 잘 지켜주세요.<br></li><li>거래약속은 꼭 지켜주세요.<br></li><li>이왕이면 근처에서 직거래를 해주세요.<br></li><li>타지역 대리인증 등 행위를 엄격히 금지하고 있어요.<br></li>
+<li>판매금지 물품은 판매할 수 없어요.<br></li><li>거래와 관련없는 내용으로 상대방이 원하지 않는 채팅을 보내는 행위를 금지하고 있어요.<br></li><li>광고/홍보는 당근마켓 광고주센터에 등록된 지역 광고만 허용됩니다.<br></li><li>전문판매업자의 게시글은 제한하고 있어요.<br></li><li>최대 2개의 지역에 게시글을 올리고 거래할 수 있어요.<br></li><li>중복 게시글이나 도배는 안 돼요.<br></li><li>카테고리를 준수해주세요.<br></li>
+<li>거래 관련 문제가 생겼을 때는 중고거래 게시판 거래 및 환불 정책을 따르고 있어요.<br></li><li>거래분쟁이 생겼을 때 상대방의 닉네임을 공개하면서 명예를 훼손하는 글을 올리면 안 돼요.</ul>');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, 'M1', '탈퇴는 어떻게 하나요?', '<p style="font-weight:bold;">[마이페이지 > 프로필 > 프로필 수정 > 탈퇴하기]</p> 에서 탈퇴할 수 있어요.탈퇴하면 모든 게시글과 채팅 내용이 삭제되고 복구할 수 없으니 신중하게 탈퇴해 주세요.<br><p style="color:red;">탈퇴 후 7일 간 재가입 할 수 없어요.</p>');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 3, 'M1', '판매자와 채팅은 어떻게 하나요?', '게시글 오른쪽 상단에서 <p style="font-weight:bold;">[채팅문의]</p> 버튼을 찾아 보세요.<br>해당 버튼을 누르면 판매자와 채팅할 수 있는 채팅방으로 이동해요!');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 4, 'M1', '요물(요거 물건이네)에서 지켜야 할 매너', '<h4>기본 매너</h4><br>• 서로 존중해요. 우리 존댓말로 대화해요.<br>• 모두의 시간은 소중합니다. 시간 약속을 꼭 지켜주세요.<br>• 절대로 중간에 연락 끊기는 일이 없도록 해요. (잠수는 절대 안 돼요!)<br><br>
+<h4>구매자 매너</h4><br>• 신중하게 고민한 뒤 판매자와 확실하게 거래 약속을 잡아요.<br>• 질문하기 전에 판매글을 꼼꼼히 읽어 주세요.<br>• 지나치게 가격을 깎지 말아 주세요. 가격제안 할 수 있는 경우에만 가격제안 해주세요. (정말 구매할 마음이 있을 때만 해주실 거죠?)<br><br>
+<h4>판매자 매너</h4><br>• 직접 촬영한 사진으로 판매글을 작성해 주세요.<br>• 물품에 대한 설명을 자세하게 써주세요. 특히, 주요 하자에 대한 내용은 꼭 명시해 주세요. (명시되지 않은 하자는 환불 사유가 돼요.)<br>• 판매하기 전에 깨끗하게 세탁 또는 관리해 주세요. 사용감이 있더라도 청결한 물건은 서로의 기분을 좋게 한답니다.<br><br>
+<h4>커뮤니티 매너</h4><br>• 친분을 과시하지 않기로 해요. 혹시라도 다른 이웃들이 소외되지 않도록 도와주세요.br>• 남녀노소 다양한 이웃이 함께하는 공간이에요. 누군가에게 불편할 수 있는 글들은 올리지 않기로 해요.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 5, 'M1', '이용정지 당한 상대방이 계속 채팅을 보내요!', '이용정지 당한 상대방이 계속 앱을 사용할 수 있어서 의아하게 느껴질 수 있어요.<br>이용정지 되었더라도 기존 채팅방(이용정지 되기 전에 열린 채팅방)에서는 채팅할 수 있어요.<br>이렇게 하는 이유는 이용정지 중인 사용자가 기존 거래 상대방과 환불 등의 이유로 계속 채팅해야 하는 상황이 있을 수 있기 때문이에요.<br>
+물론, 이용정지 상태에서는 신규 채팅방을 열 수 없고 게시글을 작성할 수 없으므로 새로운 거래는 할 수 없어요.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 6, 'M1', '비즈프로필은 어떻게 만드나요?', '<p style="font-weight:bold;">[마이페이지 > 프로필 > 프로필 보기 > 비즈프로필]</p> 을 클릭하면 비즈프로필 가입창으로 이동해요.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 7, 'M1', '내 근처 가이드라인', '<h4>커뮤니티에 어울리는 글을 작성해요.</h4><br><ul><li>관심주제 혹은 동네와 관련된 이야기를 해요.</li><br><li>개인적인 이야기를 반복적으로 올리시는 건 지양해요.</li><br><li>초상권은 소중해요. 자신의 얼굴을 담은 사진이나, 초상권 침해 우려가 있는 사진은 제외하고 올려요.</li></ul>');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 9, 'M1', '요물 뜻이 뭔가요? (왜 요물인가요?)', '요물은 ''요거 물건이네''의 줄임말이에요<br>현재는 직거래 뿐만 아니라 여러분의 근처에서 생기는 다양한 일을 해결할 수 있는 서비스를 꿈꾸고 있어요.<br>당근마켓은 나의 근처 이웃과 소소한 이야기를 나눌 수 있는 친근한 공간이길 원해요.<br>중고거래뿐만 아니라 우리 동네의 숨은 정보도 함께 나누며 미소가 번지는 지역 문화를 만들어 가고 싶어요.<br>모두 함께해 주실 거죠?');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 1, 'M1', '커뮤니티 가이드라인', '당근마켓은 동네 이웃 간의 연결을 도와 따뜻하고 활발한 교류가 있는 지역 사회를 만들기 위해 노력하고 있어요.<br>이웃을 향한 당신의 따뜻한 관심과 애정은 당근마켓의 가장 큰 동력이에요. 당근마켓을 사용하는 이웃 모두가 커뮤니티 가이드라인을 지키며 따뜻한 지역 커뮤니티를 함께 만들어요. 혼자 힘으로는 할 수 없지만, 우리가 함께라면 할 수 있어요!<br>
+당근마켓은 신뢰, 존중, 윤리를 서비스의 중요한 가치라고 생각해요. 우리는 이 가치를 지키기 위해 언제나 최선을 다할 거예요. 더 가깝고 따뜻한 지역 커뮤니티를 위해 동참해주세요.<br><h2>이런 행동은 할 수 없어요.</h3><br><h4>신뢰</h4><ul><li>판매금지물품 판매</li><br><li>중고거래 사기 등 이웃에게 손해를 입히는 행위</li><br><li>허위 정보 게시 등 이웃을 속이거나 기만하는 행위</li></ul><br><h4>존중</h4><ul><li>다양성을 존중하지 않는 차별 및 혐오</li><br>
+<li>거래 불이행 등 불쾌한 거래 경험을 주는 행위</li><br><li>욕설, 괴롭힘 등</li><br><li>불쾌감, 성적 수치심 등을 주는 행위</li><br><li>이웃을 배제하거나 소외시키는 행위</li></ul><br><h4>윤리</h4><ul><li>생명의 소중함을 스스로 버리는 행위(혹은 그에 준하는 모든 행위)</li><br><li>생명을 거래하는 행위</li><br><li>불법 행위</li><br><li>사회 통념상 용인되기 어려운 모든 행위생명의 소중함을 스스로 버리는 행위(혹은 그에 준하는 모든 행위)</li><br>
+<li>생명을 거래하는 행위</li><br><li>불법 행위</li><br><li>사회 통념상 용인되기 어려운 모든 행위</li></ul><br>');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, 'M1', '프로필 사진과 닉네임을 변경하고 싶어요.', '[마이페이지] 를 클릭해 보세요. [프로필 수정] 페이지로 이동해요.<br>[프로필 수정] 페이지에서 사진과 닉네임을 자유롭게 변경할 수 있어요. :)<br>닉네임은 한번 변경하면 <p style="font-weight:bold;">30일 동안</p> 변경할 수 없으니 신중히 변경해 주세요.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 3, 'M1', '택배 거래해도 괜찮나요?', '택배 거래를 할 수도 있어요. 다만 택배 거래보다 직거래를 권장합니다. :)<br>당근마켓은 나의 근처에 있는 동네 이웃과 교류할 수 있는 서비스예요. 당근마켓에서 만나는 모든 이웃은 내 근처에 있어요. 그래서 직거래하기 훨씬 수월해요.<br>
+직거래하면 물건의 상태를 곧바로 확인할 수도 있고, 중고거래의 특성이기도 한 사기 피해를 방지할 수도 있어요.<br><br>택배 거래는 항상 사기 위험이 있으니 부득이하게 택배 거래를 하더라도 유의해 주시길 바랍니다.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 4, 'M1', '요물(요거 물건이네)에서 직거래 잘하는 방법', '<h4>직거래를 잘하기 위해서 지켜야할 점은 무엇이 있을까요?</h4><br><ul><li>공공장소에서 만나 거래해요!</li><br><li>미성년자라면, 반드시 보호자와 함께 해주세요.</li><br><li>모두의 시간은 소중해요. 약속 시간을 꼭 지켜주세요!</li><br><li>만나서 가격을 무리하게 깎지 말아주세요.</li><br><li>거래 후에는 따뜻한 감사 인사로 마무리해요 :)</li></ul>');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 5, 'M1', '어떤 경우에 이용정지 되나요?', '아래와 같은 행위를 하면 당근마켓 운영원칙에 따라 이용정지 될 수 있어요.<br><br><ul><li>거래 불이행 (입금 지연, 거래 물품 미발송, 환불 지연 등)</li><br><li>비매너 (거래 약속 파기, 거래 매너 위반, 비매너 평가 및 경고 누적 등)</li><br><li>성희롱</li><br><li>부적합한 서비스 (서비스 목적에 위반하는 서비스 사용)</li><br><li>채팅 남용</li><br>
+<li>욕설 및 명예훼손</li><br><li>스팸 및 어뷰징 활동</li><br><li>홍보/광고</li><br><li>기타 (당근마켓 운영정책에 위배되는 행위를 한 경우)</li></ul><br><br>만약 거래 상대방이 이용정지 된 사용자라는 안내 문구가 떴다면 그 이유를 찾아 보세요.<br>이용정지 된 이유에 따라 거래를 즉시 중단해야 하는 경우일 수 있어요.<br><br>만약 거래 상대방이 안내 문구가 오류에 의한 것이라거나 잘못 처리됐다는 등의 이야기를 한다면 주의하세요!');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 6, 'M1', '비즈프로필을 삭제하고 싶어요.', '만약에 비즈프로필을 삭제하는 경우, 비즈프로필의 모든 정보가 삭제돼요. 삭제한 정보는 다시 복구할 수 없으니 신중히 결정해 주세요.<br><p style="font-weight:bold;">[마이페이지 > 비즈프로필 > 프로필 수정 > 탈퇴하기]</p> 를 선택해 주세요.<br>진짜 삭제하고 싶은 게 맞는지 다시 확인하고 있어요. 진짜 삭제하고 싶다면 [삭제], 삭제하고 싶지 않다면 [취소] 눌러 주세요.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 7, 'M1', '내 근처 게시글 개수에 제한이 있나요?', '당근마켓의 동네생활 서비스는 남녀노소 다양한 이웃과 함께 따뜻한 교류를 할 수 있는 공간이예요.<br>다양한 이웃의 글이 노출될 수 있도록 게시글 개수에 제한을 두고 있어요.<br><br>1. 하루에 5개의 게시글을 작성할 수 있어요.<br>2. 일주일에 20개의 게시글을 작성할 수 있어요.<br>3. 월간 최대 5개의 지역에서 작성할 수 있어요.<br><br>삭제된 게시글 또한 등록한 게시글 개수에 포함되요.<br>게시글 간의 기준은 현재 시각과 비교해서 특정 요일과는 관계없이 1주일 이내에요.<br>현재 시간으로 부터 1주일 이전 일의 자정부터 현재 시각까지로 확인되어요.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 8, 'M1', '중고거래 게시글이 보이지 않아요.', '당근채팅 채팅방 내에서는 대화를 시작하게 된 게시글이 보이지 않아요.<br>상대방의 닉네임을 확인해주시고 거래 글에 대한 내용을 확인하시려면 모바일 당근마켓 앱 내의 채팅을 이용해주세요.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 9, 'M1', '신고를 취소하고 싶어요. 어떻게 취소하나요?', '사용자 신고라면 직접 신고를 취소할 수 있어요.<br>사용자를 신고한 상태에서 다시 신고 화면에 들어가 주세요. [신고 취소하기] 버튼이 보일 거예요.<br><p style="font-weight:bold;">[신고한 사용자 프로필 접속 > 오른쪽 상단 점 3개 버튼 클릭 > 신고하기 > 신고 취소하기]<p><br>게시글에 대한 신고나 비매너 평가는 직접 취소할 수 없어요.<br>게시글의 제목 또는 상대방의 닉네임과 함께 고객센터에 문의 남겨 주세요.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 3, 'M1', '형편없는 물건을 판매해요.', '요물은 판매금지 물품 이외의 물건에 대해서는 직접적으로 제재하지 않아요.<br><br>하지만 사용할 수 없을 정도의 물건은 판매하지 않는 것이 좋아요. <br>물건의 상태가 좋지 않다면 구매자로부터 환불 요구를 받을 가능성도 커져요.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 2, 'M1', '가입한 적 없는데 계정이 있다고 나와요!', '요물은 이메일 기반으로 가입할 수 있습니다.<br>지금 사용하고 있는 이메일을 이전에 사용하셨던 분이 생성한 계정이 있기 때문이에요.<br>요물에 처음 가입하는 경우라면 첫 화면에서 [회원가입] 버튼을 클릭해 주세요.<br>이전에 사용하셨던 분이 생성한 계정은 자동으로 삭제되며 새로운 계정을 만들 수 있습니다.<br><br>관련해서 추가 문의 사항이 있다면 여기를 클릭하여 고객센터에 문의 남겨 주시길 바랍니다.<br>스마트폰(핸드폰)을 바꿔서 로그인을 다시 해야 하는 상황이라면 여기를 클릭하여 자세한 내용을 확인해 주세요.');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 4, 'M1', '판매금지 물품', '<ul><li>가품∙이미테이션 (상표권, 저작권 침해 물품, 특정 브랜드의 스타일을 모방한 물품)</li><br><li>주류(무알콜 주류 포함), 담배, 전자담배, 모의총포 및 그 부속품 일체 (ex. 라이터, 비비탄 총알 등 청소년 유해물건)</li><br><li>경유, LPG, 휘발유 등의 유류 거래</li><br><li>반려동물 (무료분양, 열대어 포함)</li><br><li>한약∙의약품 ∙ 의료기기∙마약류 (청소년 유해약물∙유해화학물질)</li><br><li>반영구 화장 등 면허나 자격 없는 자의 불법 유사 의료 행위 홍보/모집글</li><br>
+<li>수제 음식물∙건강기능식품 : 직접 만들거나 가공한 음식, 건강기능식품(지자체 및 영업 신고를 한 사람만 판매할 수 있음)</li><br><li>유통기한이 지난 제품</li><br><li>도수 있는 안경∙선글라스 (온라인 판매 불법)</li><br><li>콘택트 렌즈, 써클 렌즈 (온라인 판매 불법)</li><br><li>반복/다량 판매하는 핸드메이드 제품</li><br><li>화장품 샘플 (온라인 판매 불법)</li><br><li>음란물 (청소년 유해 매체물)</li><br><li>촬영 여부를 상대방이 알기 어려운 카메라 혹은 그밖에 유사한 기능을 갖춘 기계장치(불법 카메라 등)</li><br><li>성생활용품</li><br><li>개인정보 (게임 계정 포함)</li><br><li>조건부 무료나눔</li><br><li>렌탈 제품</li></ul>');
+INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'||YOMUL_FAQ_ARTICLES_NO_SEQ.NEXTVAL, 7, 'M1', '내 근처 운영정책', '<h3>따뜻한 내 근처 커뮤니티를 만들기 위한 약속을 지켜주세요.</h3><ul><li>내 근처 우리 동네 근처 사장님과 단골을 위한 공간이에요. 동네인증한 이웃만 게시글과 댓글을 남길 수 있어요.</li><br><li>카테고리와 주제에 맞는 글을 작성해 주세요.</li><br><li>광고/홍보, 부동산, 구인구직 등의 게시글은 동네홍보 게시판이나 비즈프로필의 소식 발행 기능을 이용해주세요.</li><br><li>닉네임 등으로 간접적으로 홍보하는 게시글도 올릴 수 없어요.</li><br>
+<li>클래스 참가자/ 레슨 학생 모집글은 동네홍보 게시판을 이용해주세요. 홍보성 이벤트도 동네생활에 올릴 수 없어요. (단, 클래스/수업을 같이 들을 이웃을 모집하는 것은 가능해요.)</li><br><li>우리동네 사장님이시라면, 당근마켓 내 비즈프로필 을 등록하고 사용해보세요.</li></ul><br><h3>서비스 이용제한</h3><br>위 약속을 포함하여 아래의 경우라면 정상적으로 당근마켓을 사용하는 사용자 보호를 위해 사전 안내 없이 서비스 이용이 한시적 또는 영구적으로 제한될 수 있어요. <br><ul><li>외부 관계법령을 위반한 경우</li><br><li>앱 시스템 및 다른 사용자의 정상적인 앱 사용을 방해하는 활동을 한 경우</li><br><li>범죄 행위(사기, 성범죄, 폭력 등) 기록이 있거나 확인되는 경우</li></ul><br><br>
+위 운영정책은 당근 이웃과의 즐겁고 따뜻한 공간을 만들기 위한 최소한의 장치예요.<br><br>앞으로도 계속 찾게 되고, 오래 사용하고 싶은 당근마켓이 되도록 더욱 노력하겠습니다.');
 SELECT * FROM YOMUL_FAQ_ARTICLES;
 
 -- 공지사항 데이터 생성
