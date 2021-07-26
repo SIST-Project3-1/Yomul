@@ -96,7 +96,7 @@
 							placeholder="제목을 입력해 주세요" required>
 					</div>
 					<div>
-						<label>가격</label> <input type="text" name="price"
+						<label>가격</label> <input type="number" name="price"
 							placeholder="가격 (선택사항)">
 					</div>
 					<div>

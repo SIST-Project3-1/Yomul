@@ -7,52 +7,92 @@
 <title>소식 수정</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+<script>
+	//이미지 미리보기 
+	function fileUpload(fis) {
+		var str = fis.value;
+		// 이미지를 변경한다.
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$('#profile_img_img').attr('src', e.target.result);
+			$("#near-write-preview").append("<img src='" + e.target.result + "' class='img-fluid rounded-circle' style='min-width:150px; min-height:150px'>");
+		}
+		reader.readAsDataURL(fis.files[0]);
+	}
+
+	//이미지 선택 시 버튼을 선택된 이미지 추가
+	function changeFile(fis) {
+		var reader = new FileReader();
+
+		reader.onload = function(e) {
+			$("#near-write-preview").append("<img src='" + e.target.result + "' class='img-fluid rounded-circle' style='min-width:150px; min-height:150px'>");
+		}
+		reader.readAsDataURL(fis.files[0]);
+	}
+
+	//업체 등록 버튼 클릭 시
+	function news_update_submit() {
+		var formData = new FormData($("#form-near-update")[0]);
+		$.ajax({
+			url : "/yomul/vendor_news_update_proc",
+			method : "POST",
+			data : formData,
+			enctype : "multipart/form-data",
+			contentType : false,
+			processData : false,
+			success : function(result) {
+				console.log(result);
+				if (result != 0) {
+					alert("소식 등록에 성공했습니다.");
+					location.href = "/yomul/near_info/" + result;
+				} else {
+					alert("소식 등록에 실패했습니다.");
+				}
+			}
+		});
+	}
+</script>
 </head>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
-	<div id="near_update" class="near-write">
-		<div class="near-write-content">
-			<!-- 선택한 사진 전체 미리보기 -->
-			<div class="near-write-preview">
-		
-			</div>
-			
-			<!-- 사진 -->
-			<div class="near-write-img">
-				<button type="button" onclick="document.getElementById('file').click();">
-					<svg  class="" width="48" height="48" viewBox="0 0 48 48" fill="currentColor" preserveAspectRatio="xMidYMid meet">
-					<path d="M11.952 9.778l2.397-5.994A1.778 1.778 0 0 1 16 2.667h16c.727 0 1.38.442 1.65 1.117l2.398 5.994h10.174c.982 0 1.778.796 1.778 1.778v32c0 .981-.796 1.777-1.778 1.777H1.778A1.778 1.778 0 0 1 0 43.556v-32c0-.982.796-1.778 1.778-1.778h10.174zM24 38c6.075 0 11-4.925 11-11s-4.925-11-11-11-11 4.925-11 11 4.925 11 11 11z"></path>
-					</svg>
-					<span class="">사진 올리기</span>
-					<span class="">(*최대 10장까지)</span>
-				</button>
-				<input type="file" id="file" style="display:none" >
-			</div>
-			
-			<!-- 글 작성 -->
-			<div class="near-write-form" >
-				<form name="near_write" action="#" method="post">
+	<form id="form-near-update" method="POST" enctype="multipart/form-data">
+		<div id="near-update" class="near-write">
+			<div class="near-write-content">
+				<!-- 선택한 사진 전체 미리보기 -->
+				<div class="near-write-preview" id="near-write-preview"></div>
+
+				<!-- 사진 -->
+				<div class="near-write-img">
+					<img id="profile_img_img" class="rounded-circle mb-3" src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }' style="width: 400px; height: 400px;">
+					<input type="file" class="custom-file-input" id="profile_img" name="profile_img" aria-describedby="profile_img" onchange="fileUpload(this)" multiple>
+					<label class="btn-yomul" for="profile_img" data-browse="업로드" style="padding: 10px; border: 2px solid white; border-radius: 20px;">이미지업로드</label>
+				</div>
+
+				<!-- 글 작성 -->
+				<div class="near-write-form">
 					<div>
 						<label>제목</label>
-						<input type="text" value="요거 물건이네 오픈~!" required>
+						<input type="text" name="title" placeholder="제목을 입력해 주세요" value="${news.title}" required>
 					</div>
 					<div>
 						<label>가격</label>
-						<input type="text" value="22,000">
+						<input type="number" name="price" placeholder="가격 (선택사항)" value="${news.price}">
 					</div>
 					<div>
-						<textarea required>안녕하세요. 요거 물건이네 소식입니다. 우리 업체는 어쩌구 저쩌구 많이 이용해주시고 악플은 사절합니다.</textarea>
+						<textarea name="content" placeholder="단골들에게 홍보하고 싶은 내용을 입력해주세요" required>${news.content}</textarea>
 					</div>
-					<input type="checkbox" class="near-write-checkbox">  채팅 안 받기
-					<button type="submit">완료</button>
-				</form>
+					<input type="checkbox" name="chatCheck" class="near-write-checkbox" value=1 ${news.chatCheck == "on" ? "checked" : ""}>
+					채팅 안 받기
+					<input multiple="multiple" type="file" id="file" name="filelist[]" class="d-none" onChange="changeFile(this)">
+					<button type="button" onclick="news_update_submit()">완료</button>
+				</div>
 			</div>
 		</div>
-	</div>
-	
+	</form>
+
 	<!-- FOOTER -->
 	<%@ include file="../footer.jsp"%>
 </body>

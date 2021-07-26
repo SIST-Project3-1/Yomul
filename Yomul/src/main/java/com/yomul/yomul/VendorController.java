@@ -394,13 +394,65 @@ public class VendorController {
 	}
 
 	// 업체 소식 수정
-	@RequestMapping(value = "/vendor_news_update", method = RequestMethod.GET)
-	public ModelAndView vendor_news_update() {
+	@RequestMapping(value = "/vendor_news_update/{no}", method = RequestMethod.GET)
+	public ModelAndView vendor_news_update(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_news_update");
+		
+		NearVO news = nearService.getNearInfo(no);
+		
 		mv.addObject("headerType", "news");
+		mv.addObject("news", news);
 		return mv;
 	}
 
+	
+	/**
+	 * 업체 소식 수정 처리
+	 * @param vo
+	 * @param filelist
+	 * @param request
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/vendor_news_update_proc", method = RequestMethod.POST)
+	public ModelAndView vendor_news_update_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> filelist, HttpServletRequest request,
+			HttpSession session) {
+		String url = "";
+		ModelAndView mv = new ModelAndView();
+
+		// 로그인한 회원 정보 구하기
+		MemberVO member = (MemberVO) request.getSession().getAttribute("member");
+		// 파일 갯수 구하기
+		int fileCount = fileUtils.getUploadedCount(filelist);
+		// 게시글 번호
+		String articleNo = nearService.getArticeNo();
+
+		// 입력된 파일이 있을 경우 파일 저장 및 업로드
+		if (fileCount != 0) {
+			url = fileUtils.restore(articleNo, filelist, request);
+		} else {
+			url = "default.jpg";
+		}
+
+		String uno = member.getNo();
+
+		// 업체 정보
+		VendorVO vendor = vendorService.getVendorInfo(uno);
+
+		// input에 없는 데이터도 넣기 위해서 vo 값 받아오기
+		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
+		vo.setCategory(vendor.getCategory());
+		vo.setHp(vendor.getTel());
+		// DB에 업체 정보 저장!!
+		nearService.insertVendorNews(vendor, vo, url);
+
+		mv.setViewName("/yomul/near_home");
+
+		return mv;
+
+	}
+	
 	// 업체 후기
 	@RequestMapping(value = "/vendor_reviews/{no}", method = RequestMethod.GET)
 	public ModelAndView vendor_reviews(@PathVariable("no") String no) {
