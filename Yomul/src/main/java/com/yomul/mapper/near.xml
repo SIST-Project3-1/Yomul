@@ -6,6 +6,21 @@
 
 <mapper namespace="mapper.near">
 
+	<!-- 내 근처 글의 파일 목록 가져오기 -->
+	<select id="getFileList" parameterType="string" resultType="com.yomul.vo.FileVO">
+		SELECT 
+			  ARTICLE_NO
+			, NO
+			, FILENAME
+		FROM
+			YOMUL_FILES
+		WHERE
+			ARTICLE_NO = #{no}
+		ORDER BY
+			NO
+	</select>
+	
+
 	<!-- 내가 쓴 글 목록 가져오기 -->
 	<select id="getMyArticleList" parameterType="map" resultType="com.yomul.vo.NearVO">
 		SELECT
@@ -200,8 +215,16 @@
 
 	<!-- 내 근처 글 수정 -->
 	<update id="getUpdate" parameterType="map">
-		update yomul_near_articles set title= #{vo.title},price= #{vo.price},hp= #{vo.hp},content= #{vo.content},chatCheck= #{vo.chatCheck} 
-		where no = #{no}
+		update
+			yomul_near_articles 
+		set
+			  title = #{vo.title}
+			, price = #{vo.price}
+			, hp = #{vo.hp}
+			, content = #{vo.content}
+			, chatCheck = #{vo.chatCheck} 
+		where
+			no = #{no}
 	</update>
 	
 	<!-- 내 근처 게시글 상세보기 -->
