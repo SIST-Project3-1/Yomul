@@ -29,6 +29,7 @@ import com.yomul.vo.FileVO;
 import com.yomul.vo.LikeVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
+import com.yomul.vo.TradeHistoryVO;
 
 @Controller
 public class HomeController {
@@ -152,6 +153,22 @@ public class HomeController {
 		mv.addObject("favoriteCount", favoriteService.getFavoriteCount(no));
 
 		return mv;
+	}
+
+	/**
+	 * 물건 판매 처리
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/sell_product", method = RequestMethod.POST)
+	public String sell_product(TradeHistoryVO vo, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		if (member == null) {
+			return "0";
+		}
+		return String.valueOf(productService.sellProduct(vo));
 	}
 
 	/**

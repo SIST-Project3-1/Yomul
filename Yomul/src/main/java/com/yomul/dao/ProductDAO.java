@@ -11,6 +11,7 @@ import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
+import com.yomul.vo.TradeHistoryVO;
 
 @Repository
 public class ProductDAO extends DAO {
@@ -22,7 +23,8 @@ public class ProductDAO extends DAO {
 	 * 
 	 * @param vo
 	 * @return
-	public int sellProduct(ProductVO vo) {
+	 */
+	public int sellProduct(TradeHistoryVO vo) {
 		return sqlSession.update(namespace + ".sellProduct", vo);
 	}
 

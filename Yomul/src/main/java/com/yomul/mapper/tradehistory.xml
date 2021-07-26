@@ -5,4 +5,19 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.tradehistory">
+
+	<insert id="sellProduct" parameterType="com.yomul.vo.TradeHistoryVO">
+		INSERT INTO YOMUL_TRADE_HISTORY
+		(
+			  NO
+			, PRODUCT_NO
+			, BUYER
+		)
+		VALUES
+		(
+			  'TH'||YOMUL_TRADE_HISTORY_NO_SEQ.NEXTVAL
+			, #{product_no}
+			, #{buyer}
+		)
+	</insert>
 </mapper>

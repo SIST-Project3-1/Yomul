@@ -7,13 +7,13 @@
 <mapper namespace="mapper.product">
 
 	<!-- 물건 상태를 SOLD로 변경 -->
-	<update id="sellProduct" parameterType="com.yomul.vo.ProductVO">
+	<update id="sellProduct" parameterType="com.yomul.vo.TradeHistoryVO">
 		UPDATE
 			YOMUL_PRODUCTS 
 		SET
 			STATE = 'SOLD'
 		WHERE
-			NO = #{no}
+			NO = #{product_no}
 	</update>
 	
 	<!-- 관리자 회원 목록 가져오기 -->
