@@ -382,13 +382,14 @@ public class VendorController {
 
 		// input에 없는 데이터도 넣기 위해서 vo 값 받아오기
 		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
+		vo.setWriter_nickname(((MemberVO) session.getAttribute("member")).getNickname());
 		vo.setCategory(vendor.getCategory());
 		vo.setHp(vendor.getTel());
-		// DB에 업체 정보 저장!!
-		nearService.insertVendorNews(vendor, vo, url);
 
-		mv.setViewName("/yomul/near_home");
-
+		// DB에 업체 정보 저장!! 
+		nearService.insertVendorNews(vendor,vo,url);
+		mv.setViewName("redirect:/near_home");
+	
 		return mv;
 
 	}
