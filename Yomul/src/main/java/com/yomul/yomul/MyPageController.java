@@ -182,10 +182,27 @@ public class MyPageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/mypage/buy_list", method = RequestMethod.GET)
-	public ModelAndView buy_list() {
+	public ModelAndView buy_list(HttpSession session) {
 		ModelAndView mv = new ModelAndView("user/mypage/buy_list");
+
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
 		mv.addObject("headerType", "buy_list");
+		mv.addObject("buyCount", memberService.getBuyCount(member));
 		return mv;
+	}
+	
+	/**
+	 * 구매 내역 AJAX
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage/buy_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String buy_list_ajax(String page, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		ArrayList<ProductVO> buyList = memberService.getBuyList(member, page);
+		return Commons.parseJson(buyList);
 	}
 
 	/**
@@ -217,7 +234,7 @@ public class MyPageController {
 		ArrayList<ProductVO> sellList = memberService.getSellList(member, page);
 		return Commons.parseJson(sellList);
 	}
-	
+
 	/**
 	 * 찜 목록 페이지
 	 * 
