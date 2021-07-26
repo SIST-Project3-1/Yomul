@@ -5,6 +5,66 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.product">
+
+	<!-- 물건 상태를 SOLD로 변경 -->
+	<update id="sellProduct" parameterType="com.yomul.vo.TradeHistoryVO">
+		UPDATE
+			YOMUL_PRODUCTS 
+		SET
+			STATE = 'SOLD'
+		WHERE
+			NO = #{product_no}
+	</update>
+	
+	<!-- 관리자 회원 목록 가져오기 -->
+	<select id="getProductList2" parameterType="map" resultType="com.yomul.vo.ProductVO">
+		SELECT
+			  RNO
+			, NO
+			, TITLE
+			, SELLER
+			, PDATE
+			, SELLER_NICKNAME
+		FROM
+		(
+			SELECT
+				  ROWNUM AS RNO
+				, P.*
+			FROM
+			(
+				SELECT
+					  TO_NUMBER(SUBSTR(P.NO, 2)) AS NO_NUM
+					, P.NO
+					, TITLE
+					, SELLER
+					, PDATE
+					, M.NICKNAME SELLER_NICKNAME
+				FROM
+					YOMUL_PRODUCTS P JOIN YOMUL_PRODUCT_CATEGORIES PC ON P.CATEGORY_NO = PC.NO JOIN YOMUL_MEMBERS M ON P.SELLER = M.NO
+				WHERE
+						LOWER(P.TITLE) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+					OR  LOWER(P.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+					OR  LOWER(PC.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				ORDER BY
+					NO_NUM DESC
+			) P
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
+	</select>
+	
+	<!-- 회원 목록 페이지 수 가져오기 -->
+	<select id="getTotalPageCount" parameterType="string" resultType="_int">
+		SELECT
+			CEIL(COUNT(*)/10) TOTAL_PAGE
+		FROM
+			YOMUL_PRODUCTS P JOIN YOMUL_PRODUCT_CATEGORIES PC ON P.CATEGORY_NO = PC.NO
+		WHERE
+				LOWER(P.TITLE) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+			OR  LOWER(P.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+			OR  LOWER(PC.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+	</select>
 	
 	<!-- 물건 삭제 -->
 	<delete id="deleteProduct" parameterType="map">
@@ -12,7 +72,7 @@
 			YOMUL_PRODUCTS
 		WHERE
 			NO = #{product.no}
-	     And SELLER = #{member.no}
+	     And (SELLER = #{member.no} OR 'ADMIN' = #{member.authority})
 	</delete>
 
 	<!-- 물건 시퀀스 불러오기 -->
@@ -33,8 +93,22 @@
 			  YOMUL_PRODUCT_CATEGORIES
 		ORDER BY
 			  NO
-					
 	</select>
+	
+	<!-- 물건 이미지 가져오기 -->
+	<select id="getProductImg" parameterType="com.yomul.vo.ProductVO" resultType="com.yomul.vo.FileVO">
+		SELECT
+			  ARTICLE_NO
+			, NO
+			, FILENAME 
+		FROM
+			YOMUL_FILES 
+		WHERE 
+			ARTICLE_NO = #{no}
+		ORDER BY 
+			NO
+	</select>
+	
 	<!-- 물건 내용 상세보기 -->
 	<select id="getProductInfo" parameterType="string" resultType="com.yomul.vo.ProductVO">
 		SELECT
@@ -67,53 +141,54 @@
 	<select id="getProductList" parameterType="map" resultType="com.yomul.vo.ProductVO">
 		SELECT
 			*
-		FROM
+		FROM 
 		(
-			SELECT
+			SELECT 
 				  ROWNUM AS RNO
 				, P.*
-			FROM
+			FROM 
 			(
-				SELECT
-					P.NO
+				SELECT 
+					  P.NO
 					, P.TITLE
 					, P.CONTENT
 					, NVL(L.LIKES, 0) LIKES
 					, NVL(C.COMMENTS, 0) COMMENTS
 					, IMG
-				FROM
-					YOMUL_PRODUCTS P
-					LEFT OUTER JOIN
+				FROM 
+						 YOMUL_PRODUCTS P  
+					LEFT OUTER JOIN 
 					(
 						SELECT
 							  ARTICLE_NO
-							, COUNT(*) LIKES
+							, COUNT(*) LIKES 
 						FROM
-							YOMUL_LIKES
+							YOMUL_LIKES 
 						GROUP BY
 							ARTICLE_NO
-					) L 
-					ON P.NO = L.ARTICLE_NO
-					LEFT OUTER JOIN
+					) L ON P.NO = L.ARTICLE_NO
+					LEFT OUTER JOIN 
 					(
-					SELECT
-						  ARTICLE_NO
-						, COUNT(*) COMMENTS
-					FROM
-						YOMUL_COMMENTS
-					GROUP BY
-						ARTICLE_NO
-					) C
-					ON P.NO = C.ARTICLE_NO
-					LEFT OUTER JOIN
+						SELECT 
+							  ARTICLE_NO
+							, COUNT(*) COMMENTS 
+						FROM 
+							YOMUL_COMMENTS 
+						GROUP BY 
+							ARTICLE_NO
+					) C ON P.NO = C.ARTICLE_NO
+					LEFT OUTER JOIN 
 					(
-						SELECT
+						SELECT 
 							  ARTICLE_NO || '_' || NO || '_' || FILENAME IMG
-							, ARTICLE_NO
-						FROM YOMUL_FILES
-					) F
-					ON P.NO = F.ARTICLE_NO
-				ORDER BY
+							, ARTICLE_NO 
+						FROM 
+							YOMUL_FILES
+					) F ON P.NO = F.ARTICLE_NO
+				WHERE
+						LOWER(P.TITLE) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+					OR  LOWER(P.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				ORDER BY 
 					TO_NUMBER(SUBSTR(P.NO, 2)) DESC
 			) P
 		)

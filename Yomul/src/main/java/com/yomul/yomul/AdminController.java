@@ -21,13 +21,17 @@ import com.yomul.service.FileService;
 import com.yomul.service.MemberService;
 import com.yomul.service.NearService;
 import com.yomul.service.NoticeService;
+import com.yomul.service.ProductService;
+import com.yomul.service.VendorService;
 import com.yomul.util.Commons;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 import com.yomul.vo.NoticeVO;
+import com.yomul.vo.ProductVO;
 import com.yomul.vo.QnaVO;
+import com.yomul.vo.VendorVO;
 
 @Controller
 public class AdminController {
@@ -44,6 +48,10 @@ public class AdminController {
 	private FileService fileService;
 	@Autowired
 	private NearService nearService;
+	@Autowired
+	private ProductService productService;
+	@Autowired
+	private VendorService vendorService;
 
 	/*
 	 * FAQ
@@ -69,7 +77,7 @@ public class AdminController {
 		return mv;
 	}
 
-	// 글쓰기 페이지 열기
+	// 글쓰기 페이지
 	@RequestMapping(value = "admin_faq_write", method = RequestMethod.GET)
 	public ModelAndView adminFaqWrite() {
 		ModelAndView mv = new ModelAndView();
@@ -98,9 +106,48 @@ public class AdminController {
 		return mv;
 	}
 
+	// 글 수정 페이지
 	@RequestMapping(value = "admin_faq_update", method = RequestMethod.GET)
-	public String adminFaqUpdate() {
-		return "admin/customer_center/faq/admin_faq_update";
+	public ModelAndView adminFaqUpdate(String no) {
+		ModelAndView mv = new ModelAndView();
+		
+		FaqVO faq = faqService.getAdminFaqUpdateData(no);
+		ArrayList<CategoryVO> categories = faqService.updateFaqCategories(faq.getCategory_no()); // 카테고리 정보
+		
+		mv.setViewName("admin/customer_center/faq/admin_faq_update");
+		mv.addObject("categories", categories);
+		mv.addObject("faq", faq);
+		
+		return mv;
+	}
+	
+	// 글 수정 데이터 저장
+	@RequestMapping(value = "admin_faq_update_proc", method = RequestMethod.GET)
+	public ModelAndView adminFaqUpdateProc(FaqVO faq, HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		faq.setWriter(member.getNo());
+
+		int result = faqService.getAdminFaqUpdate(faq);
+		if (result == 1) {
+			mv.setViewName("redirect:/admin_faq_list");
+		} else {
+			// mv.setViewName("error"); 에러페이지
+		}
+		return mv;
+	}
+	
+	// 글 삭제
+	@ResponseBody
+	@RequestMapping(value = "/admin_faq_delete_proc", method = RequestMethod.GET)
+	public String adminFaqDelete(FaqVO faq) {
+		int result = faqService.getAdminFaqDelete(faq);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+
+		return Commons.parseJson(map);
 	}
 
 	// 공지사항 목록
@@ -253,6 +300,42 @@ public class AdminController {
 		return String.valueOf(customerCenterService.replyQnA(member, qna));
 	}
 
+	/*
+	 * 업체 관리 페이지
+	 */
+	@RequestMapping(value = "/admin_vendor_list", method = RequestMethod.GET)
+	public ModelAndView adminVendorList(String page, String search) {
+		ModelAndView mv = new ModelAndView("admin/vendor/admin_vendor_list");
+		page = page == null ? "1" : page;
+		mv.addObject("page", page);
+		mv.addObject("search", search);
+		mv.addObject("totalPage", vendorService.getTotalPageCount(search));
+		return mv;
+	}
+	
+	/*
+	 * 업체 목록 JSON 형태
+	 */
+	@ResponseBody
+	@RequestMapping(value = "admin_vendor_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String admin_vendor_list_ajax(int page, String search, HttpServletRequest request) {
+		return Commons.parseJson(vendorService.getVendorList(page, search));
+	}
+	
+	/*
+	 * 업체 삭제 처리 결과 AJAX
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_delete_vendor", method = RequestMethod.POST)
+	public String admin_delete_vendor(VendorVO vo) {
+		int result = vendorService.deleteVendor(vo);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+
+		return Commons.parseJson(map);
+	}
+	
 	/**
 	 * 회원 관리 페이지
 	 * 
@@ -298,6 +381,56 @@ public class AdminController {
 	}
 
 	/**
+	 * 물건 관리 페이지
+	 * 
+	 * @param page
+	 * @param search
+	 * @return
+	 */
+	@RequestMapping(value = "admin_product_list", method = RequestMethod.GET)
+	public ModelAndView admin_product_list(String page, String search) {
+		ModelAndView mv = new ModelAndView("admin/product/admin_product_list");
+		page = page == null ? "1" : page;
+		mv.addObject("page", page);
+		mv.addObject("search", search);
+		mv.addObject("totalPage", productService.getTotalPageCount(search));
+		return mv;
+	}
+
+	/**
+	 * 물건 목록 JSON 형태
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "admin_product_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String admin_product_list_ajax(int page, String search) {
+		return Commons.parseJson(productService.getProductList(page, search));
+	}
+
+	@RequestMapping(value = "admin_product_info", method = RequestMethod.GET)
+	public String adminProductInfo() {
+		return "admin/product/admin_product_info";
+	}
+
+	/**
+	 * 물건 삭제 처리 결과 AJAX
+	 * 
+	 * @param no
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_delete_product", method = RequestMethod.POST)
+	public String admin_delete_product(ProductVO vo, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		int result = productService.getDelete(member, vo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+
+		return Commons.parseJson(map);
+	}
+
+	/**
 	 * 내 근처 관리
 	 * 
 	 * @return
@@ -318,16 +451,6 @@ public class AdminController {
 	public String admin_near_delete_ajax(NearVO near, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		return String.valueOf(nearService.deleteNear(member, near));
-	}
-
-	@RequestMapping(value = "admin_product_list", method = RequestMethod.GET)
-	public String adminProductList() {
-		return "admin/product/admin_product_list";
-	}
-
-	@RequestMapping(value = "admin_product_info", method = RequestMethod.GET)
-	public String adminProductInfo() {
-		return "admin/product/admin_product_info";
 	}
 
 	@RequestMapping(value = "admin_town_list", method = RequestMethod.GET)

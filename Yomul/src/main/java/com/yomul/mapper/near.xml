@@ -6,6 +6,53 @@
 
 <mapper namespace="mapper.near">
 
+	<!-- 내가 쓴 글 목록 가져오기 -->
+	<select id="getMyArticleList" parameterType="map" resultType="com.yomul.vo.NearVO">
+		SELECT
+			*
+		FROM
+		(
+			SELECT
+				  ROWNUM AS RNO
+				, NA.*
+			FROM
+			(
+				SELECT
+					  NA.NO
+					, WRITER
+					, M.NICKNAME WRITER_NICKNAME
+					, TITLE
+					, CONTENT
+					, NDATE
+					, HITS
+					, COMMENTS
+				FROM
+					YOMUL_NEAR_ARTICLES NA
+					JOIN YOMUL_MEMBERS M
+					ON NA.WRITER = M.NO
+					LEFT OUTER JOIN
+					(
+						SELECT
+							  ARTICLE_NO
+							, COUNT(*) COMMENTS
+						FROM
+							YOMUL_COMMENTS
+						GROUP BY
+							ARTICLE_NO
+					) C 
+					ON NA.NO = C.ARTICLE_NO
+				WHERE 
+						NA.WRITER = #{member.no}
+					AND NA.VENDOR IS NULL
+				ORDER BY
+					TO_NUMBER(SUBSTR(NA.NO, 2)) DESC
+			) NA
+		)
+		WHERE
+				RNO > 10 * (#{page} - 1)
+<![CDATA[	AND RNO <= 10 * #{page}]]>
+	</select>
+
 	<!-- 내 근처 글 삭제 -->
 	<delete id="deleteNear" parameterType="map">
 		DELETE FROM
@@ -77,6 +124,31 @@
 			, #{url}
 		)
 	</insert>
+	
+	<!-- 내 근처 글쓰기(업체) -->
+	<insert id="insertVendorNews" parameterType="com.yomul.vo.NearVO">
+		insert into yomul_near_articles(no, writer, vendor, title, category, price, hp, content, chatcheck)
+		values('n'||yomul_near_articles_no_seq.nextval, #{writer}, #{vno}, #{title}, #{category}, #{price}, #{hp}, #{content}, #{chatCheck})
+	</insert>
+	
+	<!-- 저장된 게시글 번호 불러오기 -->
+	<select id="selectStoredArticleNo" resultType="java.lang.String" parameterType="java.util.HashMap">
+		select no
+		from (select no
+			from yomul_near_articles
+			where 
+			<choose>
+				<when test='no.startsWith("M")'>
+					writer
+				</when>
+				<otherwise>
+					vendor
+				</otherwise>
+			</choose>
+				= #{no}
+			order by no desc)
+		where rownum = 1
+	</select>
 	
 	<!-- 내 근처 글 번호 가져오기 -->
 	<select id="getArticeNo" resultType="string">

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>요물 물건 관리</title>
+<title>요물 업체 관리</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
 <script>
@@ -12,7 +12,7 @@
 		var page = ${page};
 		var search = '${search!=null?search:""}';
 		
-		loadProductList(page, search);
+		loadVendorList(page, search);
 		loadPagination(page, search);
 
 		// 하단 버튼 클릭
@@ -30,7 +30,7 @@
 		var html = "";
 		for (var i = start; i <= end && i <= total; i++) {
 			html += '<li id="' + i + '" class="page-item">';
-			html += '<a class="page-link" href="/yomul/admin_product_list?page=' + i + '&search=' + search + '">' + i + '</a>';
+			html += '<a class="page-link" href="/yomul/admin_vendor_list?page=' + i + '&search=' + search + '">' + i + '</a>';
 			html += '</li>';
 		}
 		$("#page-prev").after(html);
@@ -41,9 +41,9 @@
 	}
 
 	// 회원 목록 로드
-	function loadProductList(page, search) {
+	function loadVendorList(page, search) {
 		$.ajax({
-			url : "/yomul/admin_product_list_ajax",
+			url : "/yomul/admin_vendor_list_ajax",
 			method : "GET",
 			data : {
 				"page" : page
@@ -56,14 +56,20 @@
 			success : function(result) {
 				var html = "";
 				for (var i = 0; i < result.length; i++) {
-					var product = result[i];
+					var vendor = result[i];
 					html += '<tr>';
-					html += '	<td class="align-middle">' + product.no + '</td>';
-					html += '	<td class="align-middle"><a href="/yomul/product_info?no=' + product.no + '">' + product.title + '</a></td>';
-					html += '	<td class="align-middle">' + product.seller_nickname + '</td>';
-					html += '	<td class="align-middle">' + product.pdate + '</td>';
 					html += '	<td class="align-middle">';
-					html += '		<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="' + product.no + '" '+ (product.withdrawal == 0 ? 'disabled' : '') +'>삭제</button>';
+					html += '		<input type="radio" name="no" value="'+vendor.no+'"></input>';
+					html += '	</td>';
+					html += '	<td class="align-middle">' + vendor.no + '</td>';
+					html += '	<td class="align-middle">' + vendor.owner + '</td>';
+					html += '	<td class="align-middle">' + vendor.name + '</td>';
+					html += '	<td class="align-middle">' + vendor.category + '</td>';
+					html += '	<td class="align-middle">' + vendor.tel + '</td>';
+					html += '	<td class="align-middle">' + vendor.addr + '</td>';
+					html += '	<td class="align-middle">' + vendor.customers + '</td>';
+					html += '	<td class="align-middle">';
+					html += '		<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="' + vendor.no + '" '+ (vendor.withdrawal == 0 ? 'disabled' : '') +'>탈퇴</button>';
 					html += '	</td>';
 					html += '</tr>';
 				}
@@ -73,10 +79,10 @@
 	}
 
 	// 회원 삭제
-	function deleteProduct() {
+	function deleteVendor() {
 
 		$.ajax({
-			url : "/yomul/admin_delete_product",
+			url : "/yomul/admin_delete_vendor",
 			method : "POST",
 			data : {
 				no : $("#modal-no").text()
@@ -84,10 +90,10 @@
 			success : function(result) {
 				var json = JSON.parse(result);
 				if (json.result == 1) {
-					alert("물건 삭제 성공");
+					alert("회원 삭제 성공");
 					location.reload();
 				} else {
-					alert("물건 삭제 실패");
+					alert("회원 삭제 실패");
 				}
 			}
 		});
@@ -99,17 +105,17 @@
 	<%@ include file="../admin_header.jsp"%>
 
 	<!--  BODY  -->
-	<section id="admin_product_list">
+	<section id="admin_member_list">
 		<div class="container">
-			<h2 class="my-3 mx-0">물건 관리</h2>
+			<h2 class="my-3 mx-0">업체 관리</h2>
 
 			<!-- 검색창 -->
-			<form action="/yomul/admin_product_list" method="get">
+			<form action="/yomul/admin_vendor_list" method="get">
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 20; left: 23px; top: 8px;"></label>
 					</div>
-					<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search" value="${search}">
+					<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search" value="${search }">
 				</div>
 			</form>
 
@@ -117,10 +123,15 @@
 			<table class="table table-hover text-center">
 				<thead>
 					<tr>
-						<th scope="col" class="align-middle">번호</th>
-						<th scope="col" class="align-middle">제품</th>
-						<th scope="col" class="align-middle">작성자</th>
-						<th scope="col" class="align-middle">등록일</th>
+						<th scope="col" class="align-middle"></th>
+						<th scope="col" class="align-middle">업체번호</th>
+						<th scope="col" class="align-middle">회원번호</th>
+						<th scope="col" class="align-middle">업체명</th>
+						<th scope="col" class="align-middle">카테고리</th>
+						<th scope="col" class="align-middle">전화번호</th>
+						<th scope="col" class="align-middle">주소</th>
+						<th scope="col" class="align-middle">단골</th>
+						<th scope="col" class="align-middle">탈퇴</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -147,14 +158,27 @@
 		</ul>
 	</nav>
 
+	<br>
+	<br>
+	<nav class="navbar navbar-expand-sm bg-white fixed-bottom bg-white border-top">
+		<div class="collapse navbar-collapse" id="navbarText"></div>
+		<ul class="navbar-nav">
+			<li class="nav-item">
+				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_product_list">소식 보기</button>
+			</li>
+			<li class="nav-item">
+				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_town_list">후기 보기</button>
+			</li>
+		</ul>
+	</nav>
+
 	<!-- Modal -->
 	<div class="modal fade" id="deleteModal" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						<span id="modal-no" class="modal-no"></span>
-						번 물건을 삭제하시겠습니까?
+						<span id="modal-no" class="modal-no"></span>번 업체를 삭제하시겠습니까?
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -162,7 +186,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-outline-dark" data-dismiss="modal">취소</button>
-					<button type="button" class="btn btn-yomul" onclick="deleteProduct()">삭제</button>
+					<button type="button" class="btn btn-yomul" onclick="deleteVendor()">삭제</button>
 				</div>
 			</div>
 		</div>

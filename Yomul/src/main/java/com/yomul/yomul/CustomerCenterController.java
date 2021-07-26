@@ -181,7 +181,6 @@ public class CustomerCenterController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("vo", vo);
 		map.put("result", customerCenterService.checkPw(vo));
-		System.out.println(Commons.parseJson(map));
 		return Commons.parseJson(map);
 	}
 

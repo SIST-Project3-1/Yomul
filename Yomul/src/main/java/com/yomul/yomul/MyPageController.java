@@ -19,12 +19,15 @@ import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
 import com.yomul.service.CommentService;
 import com.yomul.service.MemberService;
+import com.yomul.service.NearService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.util.Security;
 import com.yomul.vo.CommentVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.NearVO;
+import com.yomul.vo.ProductVO;
 
 @Controller
 public class MyPageController {
@@ -34,6 +37,9 @@ public class MyPageController {
 
 	@Autowired
 	private CommentService commentService;
+
+	@Autowired
+	private NearService nearService;
 
 	@Autowired
 	private FileUtils fileUtils;
@@ -118,6 +124,19 @@ public class MyPageController {
 	}
 
 	/**
+	 * 내가 쓴 글 목록 AJAX
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage/myarticle_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String myarticle_list_ajax(String page, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		ArrayList<NearVO> articleList = nearService.getMyArticleList(member, page);
+		return Commons.parseJson(articleList);
+	}
+
+	/**
 	 * 내가 쓴 댓글 보기
 	 * 
 	 * @return
@@ -163,10 +182,27 @@ public class MyPageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/mypage/buy_list", method = RequestMethod.GET)
-	public ModelAndView buy_list() {
+	public ModelAndView buy_list(HttpSession session) {
 		ModelAndView mv = new ModelAndView("user/mypage/buy_list");
+
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
 		mv.addObject("headerType", "buy_list");
+		mv.addObject("buyCount", memberService.getBuyCount(member));
 		return mv;
+	}
+	
+	/**
+	 * 구매 내역 AJAX
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage/buy_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String buy_list_ajax(String page, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		ArrayList<ProductVO> buyList = memberService.getBuyList(member, page);
+		return Commons.parseJson(buyList);
 	}
 
 	/**
@@ -175,10 +211,28 @@ public class MyPageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/mypage/sell_list", method = RequestMethod.GET)
-	public ModelAndView sell_list() {
+	public ModelAndView sell_list(HttpSession session) {
 		ModelAndView mv = new ModelAndView("user/mypage/sell_list");
+
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
 		mv.addObject("headerType", "buy_list");
+		mv.addObject("sellingCount", memberService.getSellingcount(member.getNo()));
+		mv.addObject("soldCount", memberService.getSoldCount(member.getNo()));
 		return mv;
+	}
+
+	/**
+	 * 판매 내역 AJAX
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage/sell_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String sell_list_ajax(String page, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		ArrayList<ProductVO> sellList = memberService.getSellList(member, page);
+		return Commons.parseJson(sellList);
 	}
 
 	/**
@@ -191,6 +245,19 @@ public class MyPageController {
 		ModelAndView mv = new ModelAndView("user/mypage/favorite_list");
 		mv.addObject("headerType", "buy_list");
 		return mv;
+	}
+
+	/**
+	 * 찜 목록 AJAX
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage/favorite_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String favorite_list_ajax(String page, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		ArrayList<ProductVO> favoriteList = memberService.getMyFavoriteList(member, page);
+		return Commons.parseJson(favoriteList);
 	}
 
 	/**
@@ -251,15 +318,13 @@ public class MyPageController {
 		ModelAndView mv = new ModelAndView("user/mypage/myprofile_update");
 
 		HttpSession session = request.getSession();
-		System.out.println(session.getAttribute("pwChk"));
 		if (session.getAttribute("pwChk") == null) {
-			System.out.println("123123");
 			mv.setViewName("redirect:/mypage/myprofile_info");
 			return mv;
-		}else {
+		} else {
 			MemberVO member = (MemberVO) session.getAttribute("member");
 			MemberVO vo = memberService.getMyProfileInfo(member);
-			
+
 			mv.addObject("headerType", "myprofile");
 			mv.addObject("member", vo);
 			mv.addObject("file", memberService.getMyProfileImg(vo));

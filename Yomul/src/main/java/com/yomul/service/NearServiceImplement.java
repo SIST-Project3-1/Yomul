@@ -22,6 +22,17 @@ public class NearServiceImplement implements NearService {
 	}
 
 	@Override
+	public String insertVendorNews(NearVO vo) {
+		return nearDAO.insertVendorNews(vo);
+	}
+	
+	// 해당 유저의 최근 게시글 번호 불러오기
+	@Override
+	public String getStoredArticleNo(String no) {
+		return nearDAO.getStoredArticleNo(no);
+	}
+	
+	@Override
 	public NearVO getNearInfo(String no) {
 		return nearDAO.getNearInfo(no);
 	}
@@ -48,35 +59,32 @@ public class NearServiceImplement implements NearService {
 
 	@Override
 	public int getNearFile(String saveFileName, String originFilename) {
-		
 		return nearDAO.getNearFile(saveFileName, originFilename);
 	}
 
 	@Override
 	public int getUpdate(NearVO vo, String no) {
-		
-		return nearDAO.getUpdate(vo,no);
+		return nearDAO.getUpdate(vo, no);
 	}
 
 	@Override
 	public int getDelete(int no) {
-		
 		return 0;
 	}
 
 	@Override
 	public List<NearVO> selectNearCardList(NearVO vo, String word) {
-		
-		return nearDAO.selectNearCardList(vo,word);
+		return nearDAO.selectNearCardList(vo, word);
 	}
 
 	@Override
 	public String getArticeNo() {
-	
 		return nearDAO.getArticeNo();
 	}
 
-	
-	
-	
+	@Override
+	public ArrayList<NearVO> getMyArticleList(MemberVO member, String page) {
+		return nearDAO.getMyArticleList(member, page);
+	}
+
 }

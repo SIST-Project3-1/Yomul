@@ -9,6 +9,7 @@ import com.yomul.dao.MemberDAO;
 import com.yomul.util.Security;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.ProductVO;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
@@ -110,6 +111,31 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int checkPW(MemberVO vo) {
 		return memberDAO.checkPW(vo) == 1 ? 1 : 0;
+	}
+
+	@Override
+	public ArrayList<ProductVO> getMyFavoriteList(MemberVO member, String page) {
+		return memberDAO.getMyFavoriteList(member, page);
+	}
+
+	@Override
+	public int getSellingcount(String no) {
+		return memberDAO.getSellingcount(no);
+	}
+
+	@Override
+	public int getSoldCount(String no) {
+		return memberDAO.getSoldCount(no);
+	}
+
+	@Override
+	public ArrayList<ProductVO> getSellList(MemberVO member, String page) {
+		return memberDAO.getSellList(member, page);
+	}
+
+	@Override
+	public ArrayList<ProductVO> getBuyList(MemberVO member, String page) {
+		return memberDAO.getBuyList(member, page);
 	}
 
 }

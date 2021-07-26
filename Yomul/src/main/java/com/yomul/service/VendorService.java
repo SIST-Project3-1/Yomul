@@ -3,6 +3,7 @@ package com.yomul.service;
 import java.util.ArrayList;
 
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.NearVO;
 import com.yomul.vo.ReviewVO;
 import com.yomul.vo.VendorVO;
 
@@ -25,6 +26,9 @@ public interface VendorService {
 	
 	// 업체 단골 수 확인
 	public int getVendorCustomerCount(String no);
+	
+	// 업체 소식 목록 조회
+	public ArrayList<NearVO> getVendorNewsList(String no, int page);
 	
 	// 업체 후기 목록 조회
 	public ArrayList<ReviewVO> getVendorReviewList(String no, int page);
@@ -55,4 +59,16 @@ public interface VendorService {
 	
 	// 사용자 번호로 업체 번호 조회
 	public String getVendorNo(String no);
+	
+	/*
+	 * 관리자 업체관리
+	 */
+	// 페이지 수 구하기
+	int getTotalPageCount(String search);
+	
+	// 업체 목록 가져오기
+	ArrayList<VendorVO> getVendorList(int page, String search);
+	
+	// 업체 삭제
+	int deleteVendor(VendorVO vo);
 }

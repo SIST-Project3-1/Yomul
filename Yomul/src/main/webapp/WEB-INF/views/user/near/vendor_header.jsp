@@ -21,7 +21,7 @@
 		<ul class="nav nav-tabs nav-justified mt-2">
 			<li class="nav-item"><a id="vendor_header_news_list" class="nav-link text-muted" href="/yomul/vendor_news_list/${no }">소식 목록</a></li>
 			<c:if test="${(sessionScope.member != null) && (owner == sessionScope.member.no) }">
-				<li class="nav-item"><a id="vendor_header_news_insert" class="nav-link text-muted" href="/yomul/vendor_news_insert">소식 작성</a></li>
+				<li class="nav-item"><a id="vendor_header_news_insert" class="nav-link text-muted" href="/yomul/vendor_news_write">소식 작성</a></li>
 			</c:if>
 		</ul>
 	</c:when>

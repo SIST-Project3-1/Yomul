@@ -10,6 +10,31 @@
 <link rel="stylesheet" href="/yomul/resources/css/product_info.css">
 <script type="text/javascript">
 	$(document).ready(function() {
+		<c:if test="${sessionScope.member.no == product.seller}">
+		// 판매 버튼
+		$("#form_sellProduct").on("submit", function(e) {
+			e.preventDefault();
+
+			$.ajax({
+				url : "sell_product",
+				method : "post",
+				data : new FormData(this), // 필수
+				processData : false, // 필수 
+				contentType : false, // 필수
+				success : function(result) {
+					if (result == 1) {
+						alert("판매 완료");
+						location.href = "/yomul/product_list";
+					} else {
+						alert("판매 처리 실패");
+					}
+				}
+			});
+			return false;
+		});
+		</c:if>
+
+		// 좋아요 버튼
 		$("#btn_like").on("click", function(e) {
 			$.ajax({
 				url : "/yomul/product_like",
@@ -31,6 +56,7 @@
 			return false;
 		});
 
+		// 찜하기 버튼
 		$("#btn_favorite").on("click", function(e) {
 			$.ajax({
 				url : "/yomul/product_favorite",
@@ -52,6 +78,7 @@
 			return false;
 		});
 
+		// 채팅 버튼
 		$("#btn_chat").on("click", function(e) {
 			$.ajax({
 				url : "/yomul/product_chat",
@@ -90,13 +117,16 @@
 					<div class="pi_hbottom">
 						<a class="pi_user" href="#">
 							<div class="pi_userimg">
-								<img src="/yomul/upload/${profileImg.getSavedFilename()}" style="max-width: 100%;">
+								<img src="/yomul/upload/${profileImg.savedFilename != null ? profileImg.savedFilename : 'default.jpg'}" style="max-width: 100%;">
 							</div>
 							<div class="pi_username">${product.seller_nickname}</div>
 							<div class="pi_userhometwon">${product.location}</div>
 						</a>
 						<div class="mo_a_bo_gi">
 							<button class="mo_a_bo_gibtn">모아보기</button>
+							<c:if test="${sessionScope.member.no == product.seller}">
+								<button type="button" class="mo_a_bo_gibtn" data-toggle="modal" data-target="#sellProductModal">판매처리</button>
+							</c:if>
 
 							<c:if test="${sessionScope.member.no == product.seller}">
 								<button id="deleteProduct" type="button" class="mo_a_bo_gibtn">글 삭제</button>
@@ -124,9 +154,11 @@
 
 				<div class="contentW">
 					<div class="pi_imgbolck">
-						<div class="pi_imgbolck2">
-							<img src="" alt="">
-						</div>
+						<c:forEach var="img" items="${productImgList}">
+							<div class="pi_imgbolck2">
+								<img src="/yomul/upload/${img.savedFilename}" alt="">
+							</div>
+						</c:forEach>
 					</div>
 					<p>${product.content}</p>
 				</div>
@@ -246,7 +278,6 @@
 									</script>
 								</c:if>
 							</div>
-							<span class="content-detail-sidebar-counter">45</span>
 						</div>
 					</div>
 				</div>
@@ -254,9 +285,60 @@
 		</div>
 		<!--pi_contaner-->
 
-
-
 	</form>
+
+	<c:if test="${sessionScope.member.no == product.seller}">
+		<!-- 판매 Modal -->
+		<div class="modal fade" id="sellProductModal" tabindex="-1" aria-labelledby="sellProductModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">물건 판매</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form id="form_sellProduct">
+						<div class="modal-body">
+							<input type="hidden" name="product_no" value="${product.no }">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+							<button type="submit" class="btn btn-yomul">판매 완료</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$('#sellProductModal').on('show.bs.modal', function(event) {
+				var button = $(event.relatedTarget);
+				var recipient = button.data('whatever');
+				var modal = $(this);
+
+				$.ajax({
+					url : "/yomul/chat_list_ajax",
+					method : "POST",
+					async : false,
+					success : function(json) {
+						var html = "";
+						for (var i = 0; i < json.length; i++) {
+							chat = json[i];
+							html += '<div class="custom-control custom-radio">';
+							html += '	<input type="radio" id="customRadio2" name="buyer" class="custom-control-input" value="'+chat.chat_from+'" required>';
+							html += '	<label class="custom-control-label" for="customRadio2">' + chat.chat_from_nickname + '</label>';
+							html += '</div>';
+						}
+
+						$(".modal-body").append(html);
+					}
+				});
+				// modal.find('.modal-title').text('New message to ' + recipient);
+				// modal.find('.modal-body input').val(recipient);
+			});
+		</script>
+	</c:if>
+
 	<!-- FOOTER -->
 	<%@ include file="../footer.jsp"%>
 </body>

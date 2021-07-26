@@ -12,6 +12,7 @@ public class VendorVO extends VO {
 	private int news; // 소식 수
 	private int customers; // 단골 수
 	private int reviews; // 후기 수
+	private int withdrawal; // 탈퇴 신청 여부
 	
 	public String getNo() {
 		return no;
@@ -55,7 +56,6 @@ public class VendorVO extends VO {
 	public void setAddr(String addr) {
 		this.addr = addr;
 	}
-	
 	public String getImg() {
 		if(img.equals("__")) { // 파일이 없을 경우 기본 이미지
 			return "default.jpg";
@@ -82,6 +82,12 @@ public class VendorVO extends VO {
 	}
 	public void setReviews(int reviews) {
 		this.reviews = reviews;
+	}
+	public int getWithdrawal() {
+		return withdrawal;
+	}
+	public void setWithdrawal(int withdrawal) {
+		this.withdrawal = withdrawal;
 	}
 	
 }

@@ -29,6 +29,7 @@ import com.yomul.vo.FileVO;
 import com.yomul.vo.LikeVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
+import com.yomul.vo.TradeHistoryVO;
 
 @Controller
 public class HomeController {
@@ -73,46 +74,45 @@ public class HomeController {
 
 	}// 사용자 q& 카테고리 작성 나눠져 있는거 참고
 
-		/**
-		 *  글작성 파일업로드
-		 * @return
-		 * @throws IOException
-		 * @throws IllegalStateException
-		 */
-		@RequestMapping(value = "product_write_proc", method = RequestMethod.POST) 
-		public ModelAndView product_write_proc(ProductVO pvo,  HttpServletRequest request, HttpSession session) throws IllegalStateException, IOException{
-			ModelAndView mv = new ModelAndView();
-			MemberVO member = (MemberVO) session.getAttribute("member");
+	/**
+	 * 글작성 파일업로드
+	 * 
+	 * @return
+	 * @throws IOException
+	 * @throws IllegalStateException
+	 */
+	@RequestMapping(value = "product_write_proc", method = RequestMethod.POST)
+	public ModelAndView product_write_proc(ProductVO pvo, HttpServletRequest request, HttpSession session) throws IllegalStateException, IOException {
+		ModelAndView mv = new ModelAndView();
+		MemberVO member = (MemberVO) session.getAttribute("member");
 
-			pvo.setSeller(member.getNo());
-			
-			//작성될 글 번호 가져오기 & 시퀸스 번호로 글 작성 진
-			pvo.setNo(productService.getProductSequence());
-			int result = productService.getProductWrite(pvo);
-			
-			if (result == 1 && pvo.getFile().getSize() != 0) {// 글작성에 성공하면 파일 업로드
-				// 파일객체 생성
-				FileVO fileVO = new FileVO();
-				fileVO.setArticle_no(pvo.getNo());
-				fileVO.setNo(1);
-				fileVO.setFilename(pvo.getFile().getOriginalFilename());
-				String filename = fileVO.getSavedFilename();
+		pvo.setSeller(member.getNo());
 
-				// DB에 파일 생성
-				result = fileService.uploadFile(fileVO);
-					if (result == 1) {// 서버에 파일생성
-						mv.setViewName("redirect:product_list");// 작성한 게시물 몇번인지 알아야 info일 경
-						File file = new File(FileUtils.getUploadPath(request), filename);
-						pvo.getFile().transferTo(file);
-					}
-					
+		// 작성될 글 번호 가져오기 & 시퀸스 번호로 글 작성 진
+		pvo.setNo(productService.getProductSequence());
+		int result = productService.getProductWrite(pvo);
+
+		if (result == 1 && pvo.getFile().getSize() != 0) {// 글작성에 성공하면 파일 업로드
+			// 파일객체 생성
+			FileVO fileVO = new FileVO();
+			fileVO.setArticle_no(pvo.getNo());
+			fileVO.setNo(1);
+			fileVO.setFilename(pvo.getFile().getOriginalFilename());
+			String filename = fileVO.getSavedFilename();
+
+			// DB에 파일 생성
+			result = fileService.uploadFile(fileVO);
+			if (result == 1) {// 서버에 파일생성
+				mv.setViewName("redirect:product_list");// 작성한 게시물 몇번인지 알아야 info일 경
+				File file = new File(FileUtils.getUploadPath(request), filename);
+				pvo.getFile().transferTo(file);
 			}
 
-			return mv;
 		}
-		
-		
-		
+
+		return mv;
+	}
+
 	@RequestMapping(value = "product_update", method = RequestMethod.GET)
 	public String product_update() {
 		return "user/home/product_update";
@@ -147,11 +147,28 @@ public class HomeController {
 		}
 
 		mv.addObject("product", product);
+		mv.addObject("productImgList", productService.getProductImg(product));
 		mv.addObject("profileImg", memberService.getMyProfileImg(seller));
 		mv.addObject("likeCount", likeService.getLikeCount(no));
 		mv.addObject("favoriteCount", favoriteService.getFavoriteCount(no));
 
 		return mv;
+	}
+
+	/**
+	 * 물건 판매 처리
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/sell_product", method = RequestMethod.POST)
+	public String sell_product(TradeHistoryVO vo, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		if (member == null) {
+			return "0";
+		}
+		return String.valueOf(productService.sellProduct(vo));
 	}
 
 	/**
@@ -226,8 +243,9 @@ public class HomeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/product_list", method = RequestMethod.GET)
-	public ModelAndView product_list() {
+	public ModelAndView product_list(String search) {
 		ModelAndView mv = new ModelAndView("user/home/product_list");
+		mv.addObject("search", search);
 		return mv;
 	}
 
@@ -239,8 +257,8 @@ public class HomeController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/product_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public String product_list_ajax(ProductVO product, String page) {
-		return Commons.parseJson(productService.getProductList(product, page));
+	public String product_list_ajax(ProductVO product, String page, String search) {
+		return Commons.parseJson(productService.getProductList(product, page, search));
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)

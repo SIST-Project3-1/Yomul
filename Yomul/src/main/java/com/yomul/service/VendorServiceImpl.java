@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yomul.dao.VendorDAO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.NearVO;
 import com.yomul.vo.ReviewVO;
 import com.yomul.vo.VendorVO;
 
@@ -54,6 +55,16 @@ public class VendorServiceImpl implements VendorService {
 	@Override
 	public int getVendorCustomerCount(String no) {
 		return vendorDAO.getVendorCustomerCount(no);
+	}
+	
+	// 업체 소식 목록 조회
+	@Override
+	public ArrayList<NearVO> getVendorNewsList(String no, int page) {
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		params.put("no", no);
+		params.put("page", page);
+		
+		return vendorDAO.getVendorNewsList(params);
 	}
 	
 	// 업체 후기 목록 조회
@@ -133,4 +144,27 @@ public class VendorServiceImpl implements VendorService {
 	public String getVendorNo(String no) {
 		return vendorDAO.getVendorNoByOwner(no);
 	}
+
+	/*
+	 * 관리자 업체관리
+	 */
+	// 총 페이지 수 구하기
+	@Override
+	public int getTotalPageCount(String search) {
+		return vendorDAO.getTotalPageCount(search);
+	}
+
+	// 업체 목록 가져오기
+	@Override
+	public ArrayList<VendorVO> getVendorList(int page, String search) {
+		return vendorDAO.getVendorList(page, search);
+	}
+
+	// 업체 삭제
+	@Override
+	public int deleteVendor(VendorVO vo) {
+		return vendorDAO.deleteVendor(vo) == 1 ? 1 : 0;
+	}
+	
+	
 }

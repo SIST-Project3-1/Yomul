@@ -17,12 +17,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.CommentService;
 import com.yomul.service.FileService;
+import com.yomul.service.NearService;
 import com.yomul.service.VendorService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
 import com.yomul.vo.CommentVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
+import com.yomul.vo.NearVO;
 import com.yomul.vo.ReviewVO;
 import com.yomul.vo.VendorVO;
 
@@ -30,6 +32,8 @@ import com.yomul.vo.VendorVO;
 public class VendorController {
 	@Autowired
 	private VendorService vendorService;
+	@Autowired
+	private NearService nearService;
 	@Autowired
 	private CommentService commentService;
 	@Autowired
@@ -265,24 +269,97 @@ public class VendorController {
 		return Commons.parseJson(list);
 	}
 		
-	//업체 소식 보기
+	//업체 소식 목록
 	@RequestMapping(value = "/vendor_news_list/{no}", method = RequestMethod.GET)
 	public ModelAndView vendor_news_list(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_news_list");
 		
+		// 업체 소식 목록 조회
+		ArrayList<NearVO> list = vendorService.getVendorNewsList(no, 1);
 		
+		// 업체 소유자 구하기
+		String owner = vendorService.getVendorOwner(no);
 		
 		mv.addObject("headerType", "news");
 		mv.addObject("no", no);
+		mv.addObject("owner", owner);
+		mv.addObject("list", list);
+		return mv;
+	}
+	
+	// 업체 소식 목록 페이지네이션 ajax
+	@ResponseBody
+	@RequestMapping(value = "/vendor_news_pagination", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String vendor_news_pagination(String no, int page) {
+		// 입력된 페이지의 단골 목록 구하기
+		ArrayList<NearVO> list = vendorService.getVendorNewsList(no, page);
+		
+		// 결과를 json 형식으로 반환
+		return Commons.parseJson(list);
+	}
+	
+	//업체 소식 작성
+	@RequestMapping(value = "/vendor_news_write", method = RequestMethod.GET)
+	public ModelAndView vendor_news_write(HttpSession session) {
+		ModelAndView mv = new ModelAndView("user/near/vendor_news_write");
+		
+		// 로그인한 업체 정보 구하기
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		String uno = member.getNo();
+		String vno = vendorService.getVendorNo(uno); // 업체 번호
+		String owner = vendorService.getVendorOwner(vno); // 업체 주인 번호
+		
+		// 업체 회원이 아닐 경우 에러페이지 이동
+		if(vno.equals("")) {
+			mv.setViewName("redirect:/error");
+			return mv;
+		}
+		
+		mv.addObject("headerType", "news");
+		mv.addObject("no", vno);
+		mv.addObject("owner", owner);
 		return mv;
 	}
 	
 	//업체 소식 작성
-	@RequestMapping(value = "/vendor_news_insert", method = RequestMethod.GET)
-	public ModelAndView vendor_news_insert() {
-		ModelAndView mv = new ModelAndView("user/near/vendor_news_insert");
-		mv.addObject("headerType", "news");
-		return mv;
+	@ResponseBody
+	@RequestMapping(value="/vendor_news_write_proc", method=RequestMethod.POST)
+	public String vendor_news_write_proc(NearVO vo, ArrayList<MultipartFile> filelist, HttpServletRequest request) {
+		String result = "";
+		
+		// 로그인한 회원 정보 구하기
+		MemberVO member = (MemberVO) request.getSession().getAttribute("member");
+		
+		// 로그인되어 있지 않을 경우 등록 실패
+		if(member == null) {
+			return "0";
+		}
+		String uno = member.getNo();
+		
+		// 업체 정보
+		VendorVO vendor = vendorService.getVendorInfo(uno);
+		
+		// 업체 정보 입력
+		vo.setWriter(uno);
+		vo.setVno(vendor.getNo());
+		vo.setCategory(vendor.getCategory());
+		vo.setHp(vendor.getTel());
+		
+		// DB에 업체 정보 저장
+		result = nearService.insertVendorNews(vo);
+		
+		// db 저장에 실패한 경우 0 반환
+		if(result.equals("0")) {
+			return result;
+		}
+		
+		// 입력된 파일이 있을 경우 파일 저장 및 업로드
+		if(!filelist.isEmpty()) {
+			fileUtils.restore(result, filelist, request);
+		}
+		
+		// 성공할 경우 게시글 번호 반환
+		return result;
 	}
 	
 	//업체 소식 수정
