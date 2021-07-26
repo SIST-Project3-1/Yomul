@@ -230,22 +230,23 @@
 	
 	<!-- 로그인 -->
 	<select id="getLoginResult" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
-		SELECT
-			  NO
-			, NICKNAME
-			, EMAIL
-			, PROFILEIMG
-			, AUTHORITY
+		SELECT 
+			  M.NO
+			, M.EMAIL
+			, M.NICKNAME
+			, M.AUTHORITY
+			, V.NO VENDOR_NO
 		FROM
-			V_Y_MEMBERS
+			YOMUL_MEMBERS M JOIN 
+			YOMUL_VENDORS V ON M.NO = V.OWNER
 		WHERE
 		<choose>
 		<when test="kakao_id != null">
-			KAKAO_ID = #{kakao_id}
+			M.KAKAO_ID = #{kakao_id}
 		</when>
 		<when test="kakao_id == null">
-				EMAIL= #{email}
-			AND PW = #{pw}
+				M.EMAIL= #{email}
+			AND M.PW = #{pw}
 		</when>
 		</choose>
 	</select>
