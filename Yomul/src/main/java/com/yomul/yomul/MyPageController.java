@@ -37,7 +37,7 @@ public class MyPageController {
 
 	@Autowired
 	private CommentService commentService;
-	
+
 	@Autowired
 	private NearService nearService;
 
@@ -122,7 +122,7 @@ public class MyPageController {
 		mv.addObject("headerType", "myarticle");
 		return mv;
 	}
-	
+
 	/**
 	 * 내가 쓴 글 목록 AJAX
 	 * 
@@ -135,7 +135,6 @@ public class MyPageController {
 		ArrayList<NearVO> articleList = nearService.getMyArticleList(member, page);
 		return Commons.parseJson(articleList);
 	}
-
 
 	/**
 	 * 내가 쓴 댓글 보기
@@ -195,12 +194,30 @@ public class MyPageController {
 	 * @return
 	 */
 	@RequestMapping(value = "/mypage/sell_list", method = RequestMethod.GET)
-	public ModelAndView sell_list() {
+	public ModelAndView sell_list(HttpSession session) {
 		ModelAndView mv = new ModelAndView("user/mypage/sell_list");
+
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
 		mv.addObject("headerType", "buy_list");
+		mv.addObject("sellingCount", memberService.getSellingcount(member.getNo()));
+		mv.addObject("soldCount", memberService.getSoldCount(member.getNo()));
 		return mv;
 	}
 
+	/**
+	 * 판매 내역 AJAX
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/mypage/sell_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String sell_list_ajax(String page, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		ArrayList<ProductVO> sellList = memberService.getSellList(member, page);
+		return Commons.parseJson(sellList);
+	}
+	
 	/**
 	 * 찜 목록 페이지
 	 * 
@@ -225,7 +242,7 @@ public class MyPageController {
 		ArrayList<ProductVO> favoriteList = memberService.getMyFavoriteList(member, page);
 		return Commons.parseJson(favoriteList);
 	}
-	
+
 	/**
 	 * 프로필 수정 비밀번호 확인 페이지
 	 * 
@@ -287,10 +304,10 @@ public class MyPageController {
 		if (session.getAttribute("pwChk") == null) {
 			mv.setViewName("redirect:/mypage/myprofile_info");
 			return mv;
-		}else {
+		} else {
 			MemberVO member = (MemberVO) session.getAttribute("member");
 			MemberVO vo = memberService.getMyProfileInfo(member);
-			
+
 			mv.addObject("headerType", "myprofile");
 			mv.addObject("member", vo);
 			mv.addObject("file", memberService.getMyProfileImg(vo));

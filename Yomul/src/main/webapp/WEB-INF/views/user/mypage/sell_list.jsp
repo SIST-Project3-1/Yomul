@@ -7,6 +7,66 @@
 <title>판매 목록</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+<script type="text/javascript">
+	var page = 1;
+	var ajaxFlag = true;
+
+	$(document).ready(function() {
+		getData(page);
+	});
+
+	$(window).scroll(function() {
+		var scroll = $(window).scrollTop();
+		var dHeight = $(document).height();
+		var wHeight = $(window).height();
+		if (ajaxFlag && (scroll + 200 >= dHeight - wHeight)) {
+			getData(++page);
+		}
+	});
+
+	function getData(page) {
+		$.ajax({
+			url : "/yomul/mypage/sell_list_ajax",
+			method : "get",
+			data : {
+				"page" : page
+			},
+			success : function(json) {
+				if (json.length == 0) {
+					ajaxFlag = false;
+				}
+				var html = "";
+				for (var i = 0; i < json.length; i++) {
+					var product = json[i];
+					html += '<div class="rounded border p-2 my-4">';
+					html += '<h4>';
+					html += '	<span>' + product.pdate + '</span>';
+					html += '	<span>' + product.no + ' </span>';
+					html += '	<span>' + (product.state == "SOLD" ? "판매완료" : "판매중") + '</span>';
+					html += '</h4>';
+					html += '<hr>';
+					html += '<div class="row">';
+					html += '	<div class="col-md-4 text-center">';
+					html += '		<img class="rounded-circle mb-3" src="/yomul/upload/' + (product.img == null ? "default.jpg" : product.img) + '" style="width: 200px; height: 200px;">';
+					html += '	</div>';
+					html += '	<div class="col-md my-auto">';
+					html += '		<a href="/yomul/product_info?no=' + product.no + '" class="text-decoration-none text-dark">';
+					html += '			<h4 class="mb-3">' + product.title + '</h4>';
+					html += '			<div class="mb-3">';
+					html += '				<span>${sessionScope.member.nickname}</span>';
+					html += '				<span class="border mx-2"></span>';
+					html += '				<span>' + product.price + '원</span>';
+					html += '			</div>';
+					html += '		</a>';
+					html += '	</div>';
+					html += '</div>';
+					html += '</div>';
+				}
+				$("#sellListContent").append(html);
+			}
+		});
+	}
+</script>
 </head>
 <body>
 	<!-- HEADER -->
@@ -24,16 +84,7 @@
 		<div class="d-flex justify-content-around container rounded border p-4" style="height: 100%; display: flex; align-items: center;">
 			<div class="text-center">
 				<h3 class="font-weight-bold">판매중</h3>
-				<h5>3</h5>
-			</div>
-			<div>
-				<h2>
-					<i class="bi bi-chevron-right"></i>
-				</h2>
-			</div>
-			<div class="text-center">
-				<h3 class="font-weight-bold">예약중</h3>
-				<h5>2</h5>
+				<h5>${sellingCount}</h5>
 			</div>
 			<div>
 				<h2>
@@ -42,66 +93,22 @@
 			</div>
 			<div class="text-center">
 				<h3 class="font-weight-bold">판매완료</h3>
-				<h5>25</h5>
+				<h5>${soldCount}</h5>
 			</div>
 		</div>
 
 		<!--  상세 내역 -->
-		<div class="container rounded border p-4 mt-3">
-			<div>
-				<h3>2021.07.04 등록</h3>
-				<div class="rounded border p-2 m-2">
-					<h4>
-						<span>1241234 </span><span>판매완료</span>
-					</h4>
-					<hr>
-					<div class="row">
-						<div class="col-md-4 text-center">
-							<img class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 200px; height: 200px;">
-						</div>
-						<div class="col-md my-auto">
-							<h4 class="mb-3">맛있고 좋은 비싼 단감</h4>
-							<div class="mb-3">
-								<span>Hwisaek</span> <span class="border mx-2"></span><span>39800원</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="rounded border p-2 m-2">
-					<h4>
-						<span>2141145 </span><span>판매중</span>
-					</h4>
-					<hr>
-					<div class="row">
-						<div class="col-md-4 text-center">
-							<img class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 200px; height: 200px;">
-						</div>
-						<div class="col-md my-auto">
-							<h4 class="mb-3">가성비 원탑 ACER 노트북 거의 새거</h4>
-							<div class="mb-3">
-								<span>abc123</span> <span class="border mx-2"></span><span>500000원</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div>
-				<h3>2021.07.01 등록</h3>
-				<div class="rounded border p-2 m-2">
-					<h4>
-						<span>9394834 </span><span>예약중</span>
-					</h4>
-					<hr>
-					<div class="row">
-						<div class="col-md-4 text-center">
-							<img class="rounded-circle mb-3" src="/yomul/image/이미지준비중.jpg" style="width: 200px; height: 200px;">
-						</div>
-						<div class="col-md my-auto">
-							<h4 class="mb-3">무겁고 비싸지만 계산기는 잘 되는 맥북 중고</h4>
-							<div class="mb-3">
-								<span>애플수집가</span> <span class="border mx-2"></span><span>999000원</span>
-							</div>
-						</div>
+		<div id="sellListContent" class="container px-0">
+			<div class="rounded border p-2 my-4">
+				<h4>
+					<span>2021년 07월 04일 </span>
+					<span>1241234 </span>
+					<span>판매완료</span>
+				</h4>
+				<hr>
+				<div class="row">
+					<div class="col-md-4 text-center">
+						<img class="rounded-circle mb-3" src="/yomul/upload/default.jpg" style="width: 200px; height: 200px;">
 					</div>
 				</div>
 			</div>

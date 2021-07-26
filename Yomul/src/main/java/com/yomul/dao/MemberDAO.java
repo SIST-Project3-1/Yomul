@@ -18,6 +18,41 @@ public class MemberDAO extends DAO {
 	private static String namespace = "mapper.member";
 
 	/**
+	 * 판매 내역 가져오기
+	 * 
+	 * @param member
+	 * @param page
+	 * @return
+	 */
+	public ArrayList<ProductVO> getSellList(MemberVO member, String page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member", member);
+		params.put("page", page);
+		List<ProductVO> list = sqlSession.selectList(namespace + ".getSellList", params);
+		return (ArrayList<ProductVO>) list;
+	}
+
+	/**
+	 * 판매완료 수 가져오기
+	 * 
+	 * @param no
+	 * @return
+	 */
+	public int getSoldCount(String no) {
+		return sqlSession.selectOne(namespace + ".getSoldCount", no);
+	}
+
+	/**
+	 * 판매 중 수 가져오기
+	 * 
+	 * @param no
+	 * @return
+	 */
+	public int getSellingcount(String no) {
+		return sqlSession.selectOne(namespace + ".getSellingcount", no);
+	}
+
+	/**
 	 * 찜 목록 가져오기
 	 * 
 	 * @param member
