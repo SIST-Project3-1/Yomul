@@ -5,13 +5,14 @@ import java.util.List;
 
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
+import com.yomul.vo.VendorVO;
 
 public interface NearService {
 	// 내근처 글쓰기
 	int getNearWrite(NearVO vo, String url);
 	
 	// 업체 소식 추가
-	String insertVendorNews(NearVO vo);
+	int insertVendorNews(VendorVO vendor, NearVO vo, String url );
 	
 	// 해당 유저의 최근 게시글 번호 불러오기
 	String getStoredArticleNo(String no);
