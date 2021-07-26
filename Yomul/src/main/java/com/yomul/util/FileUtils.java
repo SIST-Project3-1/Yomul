@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import java.io.FileOutputStream;
@@ -25,7 +26,7 @@ public class FileUtils {
 
 	@Autowired
 	private FileService fileService;
-	
+
 	@Autowired
 	private NearDAO dao;
 
@@ -46,6 +47,10 @@ public class FileUtils {
 	// 파일 저장 경로를 구하는 함수
 	public static String getUploadPath(HttpServletRequest request) {
 		return request.getSession().getServletContext().getRealPath("/resources/upload");
+	}
+
+	public static String getUploadPath(HttpSession session) {
+		return session.getServletContext().getRealPath("/resources/upload");
 	}
 
 	// 파일을 DB와 서버에 업로드
@@ -75,7 +80,7 @@ public class FileUtils {
 		return count;
 	}
 
-	public String restore(String articleNo ,List<MultipartFile> multipartFile, HttpServletRequest request) {
+	public String restore(String articleNo, List<MultipartFile> multipartFile, HttpServletRequest request) {
 		String url = null;
 		try {
 			// 파일 정보
@@ -129,7 +134,7 @@ public class FileUtils {
 		final String SAVE_PATH = request.getSession().getServletContext().getRealPath("/resources/upload");
 		boolean result = false;
 		byte[] data = mf.getBytes();
-		
+
 		FileOutputStream fos = new FileOutputStream(SAVE_PATH + "/" + originFilename);
 		fos.write(data);
 		fos.close();

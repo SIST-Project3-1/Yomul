@@ -1,5 +1,6 @@
 package com.yomul.yomul;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ import com.yomul.vo.VendorVO;
 
 @Controller
 public class VendorController {
-	
+
 	@Autowired
 	private VendorService vendorService;
 	@Autowired
@@ -194,7 +195,7 @@ public class VendorController {
 
 		// 업체 정보 조회
 		VendorVO vo = vendorService.getVendorInfo(no);
-		
+
 		// 조회된 업체가 없을 경우 에러 페이지 이동
 		if (vo == null) {
 			mv.setViewName("redirect:/error");
@@ -395,11 +396,63 @@ public class VendorController {
 	}
 
 	// 업체 소식 수정
-	@RequestMapping(value = "/vendor_news_update", method = RequestMethod.GET)
-	public ModelAndView vendor_news_update() {
+	@RequestMapping(value = "/vendor_news_update/{no}", method = RequestMethod.GET)
+	public ModelAndView vendor_news_update(@PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView("user/near/vendor_news_update");
+
+		NearVO news = nearService.getNearInfo(no);
+
 		mv.addObject("headerType", "news");
+		mv.addObject("news", news);
+		mv.addObject("imgList", nearService.getFileList(no));
 		return mv;
+	}
+
+	/**
+	 * 업체 소식 수정 처리
+	 * 
+	 * @param near
+	 * @param fileList
+	 * @param request
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/vendor_news_update_proc", method = RequestMethod.POST)
+	public String vendor_news_update_proc(NearVO near, @RequestParam("profile_img") List<MultipartFile> fileList, HttpServletRequest request,
+			HttpSession session) {
+		int result = 0;
+
+		// 게시글 내용 업데이트
+		result = nearService.getUpdate(near, near.getNo());
+
+		if (result == 1) { // 게시글 내용이 업데이트 되면 첨부된 파일들도 수정함
+			// 파일 갯수 구하기
+			int fileCount = fileUtils.getUploadedCount(fileList);
+
+			// 입력된 파일이 있을 경우 기존 파일 삭제 후 새 파일 저장 및 업로드
+			if (fileCount != 0) {
+				// 기존 파일 삭제
+				ArrayList<FileVO> oldFileList = nearService.getFileList(near.getNo());
+				for (FileVO vo : oldFileList) {
+					File file = new File(FileUtils.getUploadPath(session) + vo.getSavedFilename());
+					if (file.exists()) {
+						file.delete();
+					}
+				}
+
+				// 새로운 파일 업로드
+				for (int i = 0; result == 1 && i < fileList.size(); i++) {
+					FileVO file = new FileVO();
+					file.setArticle_no(near.getNo());
+					file.setNo(i);
+					file.setFilename(fileList.get(i).getOriginalFilename());
+
+					result = fileUtils.uploadFile(file, fileList.get(i), request);
+				}
+			}
+		}
+		return String.valueOf(result);
 	}
 
 	// 업체 후기
