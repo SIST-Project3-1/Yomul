@@ -89,10 +89,11 @@ public class ProductDAO extends DAO {
 	 * @param page
 	 * @return
 	 */
-	public ArrayList<ProductVO> getProductList(ProductVO product, String page) {
+	public ArrayList<ProductVO> getProductList(ProductVO product, String page, String search) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("no", product.getNo());
 		params.put("page", page);
+		params.put("search", search);
 		List<ProductVO> list = sqlSession.selectList(namespace + ".getProductList", params);
 		return (ArrayList<ProductVO>) list;
 	}

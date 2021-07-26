@@ -98,21 +98,7 @@
 		</div>
 
 		<!--  상세 내역 -->
-		<div id="sellListContent" class="container px-0">
-			<div class="rounded border p-2 my-4">
-				<h4>
-					<span>2021년 07월 04일 </span>
-					<span>1241234 </span>
-					<span>판매완료</span>
-				</h4>
-				<hr>
-				<div class="row">
-					<div class="col-md-4 text-center">
-						<img class="rounded-circle mb-3" src="/yomul/upload/default.jpg" style="width: 200px; height: 200px;">
-					</div>
-				</div>
-			</div>
-		</div>
+		<div id="sellListContent" class="container px-0"></div>
 	</section>
 
 	<!-- FOOTER -->

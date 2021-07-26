@@ -243,8 +243,9 @@ public class HomeController {
 	 * @return
 	 */
 	@RequestMapping(value = "/product_list", method = RequestMethod.GET)
-	public ModelAndView product_list() {
+	public ModelAndView product_list(String search) {
 		ModelAndView mv = new ModelAndView("user/home/product_list");
+		mv.addObject("search", search);
 		return mv;
 	}
 
@@ -256,8 +257,8 @@ public class HomeController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/product_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public String product_list_ajax(ProductVO product, String page) {
-		return Commons.parseJson(productService.getProductList(product, page));
+	public String product_list_ajax(ProductVO product, String page, String search) {
+		return Commons.parseJson(productService.getProductList(product, page, search));
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)

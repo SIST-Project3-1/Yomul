@@ -141,53 +141,54 @@
 	<select id="getProductList" parameterType="map" resultType="com.yomul.vo.ProductVO">
 		SELECT
 			*
-		FROM
+		FROM 
 		(
-			SELECT
+			SELECT 
 				  ROWNUM AS RNO
 				, P.*
-			FROM
+			FROM 
 			(
-				SELECT
-					P.NO
+				SELECT 
+					  P.NO
 					, P.TITLE
 					, P.CONTENT
 					, NVL(L.LIKES, 0) LIKES
 					, NVL(C.COMMENTS, 0) COMMENTS
 					, IMG
-				FROM
-					YOMUL_PRODUCTS P
-					LEFT OUTER JOIN
+				FROM 
+						 YOMUL_PRODUCTS P  
+					LEFT OUTER JOIN 
 					(
 						SELECT
 							  ARTICLE_NO
-							, COUNT(*) LIKES
+							, COUNT(*) LIKES 
 						FROM
-							YOMUL_LIKES
+							YOMUL_LIKES 
 						GROUP BY
 							ARTICLE_NO
-					) L 
-					ON P.NO = L.ARTICLE_NO
-					LEFT OUTER JOIN
+					) L ON P.NO = L.ARTICLE_NO
+					LEFT OUTER JOIN 
 					(
-					SELECT
-						  ARTICLE_NO
-						, COUNT(*) COMMENTS
-					FROM
-						YOMUL_COMMENTS
-					GROUP BY
-						ARTICLE_NO
-					) C
-					ON P.NO = C.ARTICLE_NO
-					LEFT OUTER JOIN
+						SELECT 
+							  ARTICLE_NO
+							, COUNT(*) COMMENTS 
+						FROM 
+							YOMUL_COMMENTS 
+						GROUP BY 
+							ARTICLE_NO
+					) C ON P.NO = C.ARTICLE_NO
+					LEFT OUTER JOIN 
 					(
-						SELECT
+						SELECT 
 							  ARTICLE_NO || '_' || NO || '_' || FILENAME IMG
-							, ARTICLE_NO
-						FROM YOMUL_FILES
-					) F
-					ON P.NO = F.ARTICLE_NO
-				ORDER BY
+							, ARTICLE_NO 
+						FROM 
+							YOMUL_FILES
+					) F ON P.NO = F.ARTICLE_NO
+				WHERE
+						LOWER(P.TITLE) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+					OR  LOWER(P.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				ORDER BY 
 					TO_NUMBER(SUBSTR(P.NO, 2)) DESC
 			) P
 		)

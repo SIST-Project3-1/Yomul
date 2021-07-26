@@ -2,17 +2,17 @@ package com.yomul.vo;
 
 public class NoticeVO extends VO {
 	private int hits; // 조회수
-	private int no; // 글 번호
+	private String no; // 글 번호
 	private String writer; // 작성자
 	private String title; // 제목
 	private String content; // 내용
 	private String ndate; // 작성일시
 
-	public int getNo() {
+	public String getNo() {
 		return no;
 	}
 
-	public void setNo(int no) {
+	public void setNo(String no) {
 		this.no = no;
 	}
 

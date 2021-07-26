@@ -16,7 +16,7 @@ public interface ProductService {
 
 	String getProductSequence();
 
-	ArrayList<ProductVO> getProductList(ProductVO product, String page);
+	ArrayList<ProductVO> getProductList(ProductVO product, String page, String search);
 
 	ProductVO getProductInfo(String no);
 

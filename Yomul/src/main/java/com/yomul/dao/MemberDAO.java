@@ -16,6 +16,21 @@ import com.yomul.vo.ProductVO;
 public class MemberDAO extends DAO {
 
 	private static String namespace = "mapper.member";
+	
+	/**
+	 * 구매 내역 가져오기
+	 * 
+	 * @param member
+	 * @param page
+	 * @return
+	 */
+	public ArrayList<ProductVO> getBuyList(MemberVO member, String page) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("member", member);
+		params.put("page", page);
+		List<ProductVO> list = sqlSession.selectList(namespace + ".getBuyList", params);
+		return (ArrayList<ProductVO>) list;
+	}
 
 	/**
 	 * 판매 내역 가져오기
