@@ -1,5 +1,7 @@
 package com.yomul.yomul;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,7 +62,8 @@ public class ChatController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/chat_list_ajax", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public String chat_list_ajax(MemberVO member) {
+	public String chat_list_ajax(MemberVO member, HttpSession session) {
+		member = (MemberVO) session.getAttribute("member");
 		return Commons.parseJson(chatService.getChatList(member));
 	}
 }

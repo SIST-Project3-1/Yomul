@@ -5,6 +5,16 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="mapper.product">
+
+	<!-- 물건 상태를 SOLD로 변경 -->
+	<update id="sellProduct" parameterType="com.yomul.vo.TradeHistoryVO">
+		UPDATE
+			YOMUL_PRODUCTS 
+		SET
+			STATE = 'SOLD'
+		WHERE
+			NO = #{product_no}
+	</update>
 	
 	<!-- 관리자 회원 목록 가져오기 -->
 	<select id="getProductList2" parameterType="map" resultType="com.yomul.vo.ProductVO">
@@ -83,8 +93,22 @@
 			  YOMUL_PRODUCT_CATEGORIES
 		ORDER BY
 			  NO
-					
 	</select>
+	
+	<!-- 물건 이미지 가져오기 -->
+	<select id="getProductImg" parameterType="com.yomul.vo.ProductVO" resultType="com.yomul.vo.FileVO">
+		SELECT
+			  ARTICLE_NO
+			, NO
+			, FILENAME 
+		FROM
+			YOMUL_FILES 
+		WHERE 
+			ARTICLE_NO = #{no}
+		ORDER BY 
+			NO
+	</select>
+	
 	<!-- 물건 내용 상세보기 -->
 	<select id="getProductInfo" parameterType="string" resultType="com.yomul.vo.ProductVO">
 		SELECT

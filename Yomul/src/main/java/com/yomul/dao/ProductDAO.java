@@ -5,21 +5,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.yomul.vo.CategoryVO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
+import com.yomul.vo.TradeHistoryVO;
 
 @Repository
 public class ProductDAO extends DAO {
 
-	@Autowired
-	private SqlSessionTemplate sqlSession;
-
 	private static String namespace = "mapper.product";
+
+	/**
+	 * 물건 판매 상태로 변경
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int sellProduct(TradeHistoryVO vo) {
+		return sqlSession.update(namespace + ".sellProduct", vo);
+	}
 
 	/**
 	 * 물건 목록 가져오기
@@ -75,6 +82,13 @@ public class ProductDAO extends DAO {
 		return sqlSession.insert(namespace + ".getProductWrite", pvo);
 	}
 
+	/**
+	 * 물품 목록 불러오기
+	 * 
+	 * @param product
+	 * @param page
+	 * @return
+	 */
 	public ArrayList<ProductVO> getProductList(ProductVO product, String page) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("no", product.getNo());
@@ -83,6 +97,23 @@ public class ProductDAO extends DAO {
 		return (ArrayList<ProductVO>) list;
 	}
 
+	/**
+	 * 물품 이미지 불러오기
+	 * 
+	 * @param article_no
+	 * @return
+	 */
+	public ArrayList<FileVO> getProductImg(ProductVO product) {
+		List<FileVO> list = sqlSession.selectList(namespace + ".getProductImg", product);
+		return (ArrayList<FileVO>) list;
+	}
+
+	/**
+	 * 물품 상세 정보 불러오기
+	 * 
+	 * @param no
+	 * @return
+	 */
 	public ProductVO getProductInfo(String no) {
 		return sqlSession.selectOne(namespace + ".getProductInfo", no);
 	}

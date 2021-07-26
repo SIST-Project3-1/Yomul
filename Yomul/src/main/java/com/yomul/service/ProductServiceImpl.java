@@ -6,15 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yomul.dao.ProductDAO;
+import com.yomul.dao.TradeHistoryDAO;
 import com.yomul.vo.CategoryVO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
+import com.yomul.vo.TradeHistoryVO;
 
 @Service("productService")
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private ProductDAO productDAO;
+	@Autowired
+	private TradeHistoryDAO tradeHistoryDAO;
 
 	@Override
 	public int getDelete(MemberVO member, ProductVO pvo) {
@@ -54,6 +59,21 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ArrayList<ProductVO> getProductList(int page, String search) {
 		return productDAO.getProductList(page, search);
+	}
+
+	@Override
+	public int sellProduct(TradeHistoryVO vo) {
+		int result = 0;
+		result = productDAO.sellProduct(vo);
+		if (result == 1) {
+			result = tradeHistoryDAO.sellProduct(vo);
+		}
+		return result;
+	}
+
+	@Override
+	public ArrayList<FileVO> getProductImg(ProductVO product) {
+		return productDAO.getProductImg(product);
 	}
 
 }

@@ -3,8 +3,10 @@ package com.yomul.service;
 import java.util.ArrayList;
 
 import com.yomul.vo.CategoryVO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
+import com.yomul.vo.TradeHistoryVO;
 
 public interface ProductService {
 
@@ -23,4 +25,8 @@ public interface ProductService {
 	int getTotalPageCount(String search);
 
 	ArrayList<ProductVO> getProductList(int page, String search);
+	
+	int sellProduct(TradeHistoryVO vo);
+	
+	ArrayList<FileVO> getProductImg(ProductVO product);
 }

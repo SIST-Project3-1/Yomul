@@ -361,7 +361,6 @@ public class AdminController {
 	public String admin_delete_product(ProductVO vo, HttpSession session) {
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		int result = productService.getDelete(member, vo);
-		System.out.println(result);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("result", result);
 
