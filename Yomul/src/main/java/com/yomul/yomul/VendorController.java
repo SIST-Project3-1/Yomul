@@ -326,47 +326,43 @@ public class VendorController {
 	//업체 소식 작성
 	@ResponseBody
 	@RequestMapping(value="/vendor_news_write_proc", method=RequestMethod.POST)
-	public String vendor_news_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> filelist, HttpServletRequest request) {
+	public ModelAndView vendor_news_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> filelist, HttpServletRequest request, HttpSession session) {
 		String result = "";
+		String url = "";
+		ModelAndView mv = new ModelAndView();
+		
 		
 		// 로그인한 회원 정보 구하기
 		MemberVO member = (MemberVO) request.getSession().getAttribute("member");
+		//파일 갯수 구하기
+		int fileCount = fileUtils.getUploadedCount(filelist);
+		//게시글 번호 
+		String articleNo = nearService.getArticeNo();
 		
-		System.out.println("member 값 " + member );
+		// 입력된 파일이 있을 경우 파일 저장 및 업로드
+		if(fileCount!=0) {
+				url = fileUtils.restore(articleNo, filelist, request);
+		 }else {
+				url = "default.jpg";
+		 }
 		
-		// 로그인되어 있지 않을 경우 등록 실패
-		if(member == null) {
-			return "0";
-		}
 		String uno = member.getNo();
 		
 		// 업체 정보
 		VendorVO vendor = vendorService.getVendorInfo(uno);
 		
-		// 업체 정보 입력
-		vo.setWriter(uno);
-		vo.setVno(vendor.getNo());
+		//input에 없는 데이터도 넣기 위해서 vo 값 받아오기
+		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
 		vo.setCategory(vendor.getCategory());
 		vo.setHp(vendor.getTel());
+		// DB에 업체 정보 저장!! 
+		nearService.insertVendorNews(vendor,vo,url);
 		
-		// DB에 업체 정보 저장
-		result = nearService.insertVendorNews(vo);
+		mv.setViewName("/yomul/near_home");
+	
+
+		return mv;
 		
-		// db 저장에 실패한 경우 0 반환
-		if(result.equals("0")) {
-			return result;
-		}
-		
-		// 입력된 파일이 있을 경우 파일 저장 및 업로드
-		System.out.println("fileList ==> " + filelist);
-		
-		
-		if(!filelist.isEmpty()) {
-			fileUtils.restore(result, filelist, request);
-		}
-		
-		// 성공할 경우 게시글 번호 반환
-		return result;
 	}
 	
 	//업체 소식 수정
