@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yomul.dao.ProductDAO;
 import com.yomul.vo.CategoryVO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
 
@@ -54,6 +55,11 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ArrayList<ProductVO> getProductList(int page, String search) {
 		return productDAO.getProductList(page, search);
+	}
+
+	@Override
+	public ArrayList<FileVO> getProductImg(ProductVO product) {
+		return productDAO.getProductImg(product);
 	}
 
 }

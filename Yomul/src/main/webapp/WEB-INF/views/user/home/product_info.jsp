@@ -90,7 +90,7 @@
 					<div class="pi_hbottom">
 						<a class="pi_user" href="#">
 							<div class="pi_userimg">
-								<img src="/yomul/upload/${profileImg.getSavedFilename()}" style="max-width: 100%;">
+								<img src="/yomul/upload/${profileImg.savedFilename != null ? profileImg.savedFilename : 'default.jpg'}" style="max-width: 100%;">
 							</div>
 							<div class="pi_username">${product.seller_nickname}</div>
 							<div class="pi_userhometwon">${product.location}</div>
@@ -124,9 +124,11 @@
 
 				<div class="contentW">
 					<div class="pi_imgbolck">
-						<div class="pi_imgbolck2">
-							<img src="" alt="">
-						</div>
+						<c:forEach var="img" items="${productImgList}">
+							<div class="pi_imgbolck2">
+								<img src="/yomul/upload/${img.savedFilename}" alt="">
+							</div>
+						</c:forEach>
 					</div>
 					<p>${product.content}</p>
 				</div>
@@ -246,7 +248,6 @@
 									</script>
 								</c:if>
 							</div>
-							<span class="content-detail-sidebar-counter">45</span>
 						</div>
 					</div>
 				</div>
