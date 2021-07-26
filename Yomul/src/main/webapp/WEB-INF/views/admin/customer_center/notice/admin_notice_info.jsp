@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,13 +44,13 @@
 	$(document).ready(function() {
 		// 목록 버튼 클릭
 		$("#btn_list").click(function() {
-			location.href = "admin_notice_list";
+			location.href = "../admin_notice_list";
 		});
 		$("#btn_update").click(function() {
-			location.href = "admin_notice_update";
+			location.href = "../admin_notice_update/${vo.no }";
 		});
 		$("#btn_delete").click(function() {
-			location.href = "admin_notice_delete";
+			location.href = "../admin_notice_delete/${vo.no }";
 		});
 	});
 </script>
@@ -64,7 +65,7 @@
 		</div>
 		<hr>
 		<div class="my-5 mx-0">
-		<c:forEach var="fname" items="${files }">
+			<c:forEach var="fname" items="${files }">
 				<img src="/yomul/image/${fname }" class="img-fluid">
 			</c:forEach>
 				${vo.getContent() }

@@ -47,12 +47,31 @@ div.list #btn-yomul {
 </style>
 <%@ include file="../../../head.jsp"%>
 <script>
+		var page = ${page};
 	$(document).ready(function() {
-		// 문의하기 버튼 클릭
+		loadPagination(page);
+		//버튼 클릭
 		$("#btn-yomul").click(function() {
 			location.href = "admin_notice_write";
 		});
 	});
+	
+	function loadPagination(page) {
+		var total = ${total};
+		var start = (page % 10 == 0) ? (Math.floor(page / 10) - 1) * 10 + 1 : Math.floor(page / 10) * 10 + 1;
+		var end = (start + 9 > total) ? total : page + 9;
+		var html = "";
+		for (var i = start; i <= end && i <= total; i++) {
+			html += '<li id="' + i + '" class="page-item">';
+			html += '<a class="page-link" href="/yomul/admin_notice_list?page=' + i + '">' + i + '</a>';
+			html += '</li>';
+		}
+		$("#page-prev").after(html);
+
+		$("li#" + page + ".page-item").addClass("active");
+		$("#page-prev a").attr("href", "?page=" + ((start - 10 <= 0) ? 1 : start - 10));
+		$("#page-next a").attr("href", "?page=" + ((start + 10 > total) ? total : (start + 10)));
+	};
 </script>
 </head>
 <body>
@@ -79,24 +98,16 @@ div.list #btn-yomul {
 										<th>등록일</th>
 									</tr>
 								</thead>
-								<tr>
-									<c:forEach var="vo" items="${list }">
-										<li class="p-0 m-0">
+								<tbody>
+								<c:forEach var="vo" items="${list }">
+									<tr>
 										<td>${vo.getNo() }</td>
 										<td class="p-0 m-0 text-body"><a
 											href="admin_notice/${vo.getNo() }">${vo.getTitle() }</a></td>
 										<td class="text-secondary">${vo.getNdate() }</td>
-										<hr>
-										</li>
-									</c:forEach>
-								</tr>
-								<!-- 원본							
-<tr>
-									<td>1</td>
-									<td><a href="admin_notice_info">정글러</td>
-									<td>1972.11.21</td>
-								</tr>
-								 -->
+										
+									</tr>
+								</c:forEach>
 								</tbody>
 							</table>
 						</div>
@@ -104,6 +115,21 @@ div.list #btn-yomul {
 				</div>
 			</div>
 		</div>
+			<!-- 페이지네이션 -->
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center">
+			<li id="page-prev" class="page-item">
+				<a class="page-link" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				</a>
+			</li>
+			<li id="page-next" class="page-item">
+				<a class="page-link" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
 	</section>
 </body>
 </body>
