@@ -61,7 +61,7 @@
 									</a>
 									<div class="near-home-news-writer">
 										<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
-										<label>${vo.writer }</label>
+										<label>${vo.writer_nickname }</label>
 									</div>
 								</div>
 							</td>

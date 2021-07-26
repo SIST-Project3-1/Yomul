@@ -107,6 +107,10 @@ public class NearController {
 		
 		mv.addObject("fileCount", fileCount);
 		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
+		vo.setWriter_nickname(((MemberVO) session.getAttribute("member")).getNickname());
+	
+	
+		
 		nearDAO.getNearWrite(vo,url);
 
 		mv.setViewName("redirect:/near_home");

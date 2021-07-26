@@ -60,6 +60,7 @@ DROP SEQUENCE YOMUL_COMMENTS_NO_SEQ;
 DROP SEQUENCE YOMUL_TRADE_HISTORY_SEQ;
 -- 테이블 생성----------------------------------------------------------------------------------------------------------------------------------
 
+
 -- 회원
 CREATE TABLE YOMUL_MEMBERS(
     NO VARCHAR2(10), -- 회원번호
@@ -166,6 +167,7 @@ CREATE TABLE YOMUL_VENDORS(
 CREATE TABLE YOMUL_NEAR_ARTICLES(
     NO VARCHAR2(10), --상품 게시글 번호
     WRITER VARCHAR2(10) CONSTRAINT NN_Y_NA_WRITER NOT NULL, -- 작성자
+    WRITER_NICKNAME VARCHAR2(50) NOT NULL,
     VENDOR VARCHAR2(10), -- 작성 업체
     TITLE VARCHAR2(50) CONSTRAINT NN_Y_NA_TITLE NOT NULL, -- 상품 제목
     CATEGORY VARCHAR2(20) CONSTRAINT NN_Y_NA_CATEGORY NOT NULL, -- 카테고리
