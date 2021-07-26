@@ -9,6 +9,19 @@
 <%@ include file="../../head.jsp"%>
 </head>
 <script>
+
+//이미지 미리보기 
+function fileUpload(fis) {
+	var str = fis.value;
+	// 이미지를 변경한다.
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		$('#profile_img_img').attr('src', e.target.result);
+	}
+	reader.readAsDataURL(fis.files[0]);
+}
+
+
 //이미지 선택 시 버튼을 선택된 이미지 추가
 function changeFile(fis) {
 	var reader = new FileReader();
@@ -64,13 +77,14 @@ function news_write_submit() {
 			
 			<!-- 사진 -->
 			<div class="near-write-img">
-				<button type="button" id="btn_img" onclick="document.getElementById('file').click();">
-					<svg  class="" width="48" height="48" viewBox="0 0 48 48" fill="currentColor" preserveAspectRatio="xMidYMid meet">
-					<path d="M11.952 9.778l2.397-5.994A1.778 1.778 0 0 1 16 2.667h16c.727 0 1.38.442 1.65 1.117l2.398 5.994h10.174c.982 0 1.778.796 1.778 1.778v32c0 .981-.796 1.777-1.778 1.777H1.778A1.778 1.778 0 0 1 0 43.556v-32c0-.982.796-1.778 1.778-1.778h10.174zM24 38c6.075 0 11-4.925 11-11s-4.925-11-11-11-11 4.925-11 11 4.925 11 11 11z"></path>
-					</svg>
-					<span class="">사진 올리기</span>
-					<span class="">(*최대 10장까지)</span>
-				</button>
+				<img id="profile_img_img" class="rounded-circle mb-3"
+						src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }'
+						style="width: 400px; height: 400px;"> <input type="file"
+						class="custom-file-input" id="profile_img" name="profile_img"
+						aria-describedby="profile_img" onchange="fileUpload(this)"
+						multiple> <label class="btn-yomul" for="profile_img"
+						data-browse="업로드"
+						style="padding: 10px; border: 2px solid white; border-radius: 20px;">이미지업로드</label>
 			</div>
 			
 			<!-- 글 작성 -->

@@ -127,5 +127,13 @@ public class NearDAO extends DAO {
 		params.put("vo", vo);
 		return sqlSession.update(nameSpace + ".getUpdate", params);
 	}
+	
+	public List<NearVO> viewInfo(NearVO vo, String no ) {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("vo", vo);
+		params.put("no", no);
+		
+		return sqlSession.selectList(nameSpace + ".viewInfo" , params);
+	}
 
 }
