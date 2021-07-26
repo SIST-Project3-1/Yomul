@@ -80,6 +80,7 @@ public class LoginController {
 		if (member != null) {
 			session.setAttribute("member", member);
 			session.setAttribute("no", member.getNo());
+			
 			// 아이디 저장
 			if (idStore != null) { // 아이디 저장을 체크 했으면 쿠키에 아이디 저장
 				response.addCookie(Cookies.createCookie("idStore", vo.getEmail(), 60 * 60 * 24 * 30)); // 만든 쿠키를 브라우저에 전달함
