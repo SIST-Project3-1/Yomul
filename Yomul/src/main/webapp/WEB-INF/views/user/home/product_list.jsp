@@ -7,9 +7,9 @@
 <title>요물 물건 목록</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
-
 <script type="text/javascript">
 	var page = 1;
+	var search = '${search!=null?search:""}';
 	var ajaxFlag = true;
 
 	$(document).ready(function() {
@@ -33,6 +33,9 @@
 			method : "get",
 			data : {
 				"page" : page
+				<c:if test="${search != null}">
+					, "search" : search
+				</c:if>
 			},
 			success : function(json) {
 				if (json.length == 0) {
@@ -45,7 +48,7 @@
 					html += '<div class="card" style="width: 18rem;">';
 					html += ' 	<img src="/yomul/upload/' + product.img +'" class="card-img-top">';
 					html += ' 	<div class="card-body">';
-					html += '	 	<a href="/yomul/product_info?no='+ product.no +'">';
+					html += '	 	<a href="/yomul/product_info?no=' + product.no + '">';
 					html += '		    <h5 class="card-title">' + product.title + '</h5>';
 					html += '		    <p class="card-text">' + product.content + '</p>';
 					html += '	 	</a>';
@@ -63,15 +66,26 @@
 		});
 	}
 </script>
-
-
 </head>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
-	<div id="near_card_form" class="near-card-form-content"></div>
+	<section id="product_list">
+		<!-- 검색창 -->
+		<form action="/yomul/product_list" method="get">
+			<div class="input-group mt-3 container">
+				<div class="input-group-prepend">
+					<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 20; left: 23px; top: 8px;"></label>
+				</div>
+				<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search" value="${search}">
+			</div>
+		</form>
+
+		<div id="near_card_form" class="near-card-form-content"></div>
+	</section>
+
 
 	<!-- FOOTER -->
 	<%@ include file="../footer.jsp"%>
