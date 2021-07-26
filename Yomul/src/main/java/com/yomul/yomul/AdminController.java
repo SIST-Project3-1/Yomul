@@ -232,7 +232,6 @@ public class AdminController {
 		int k = Integer.parseInt(no);
 		vo.setWriter("M1");
 		ModelAndView mv = new ModelAndView();
-		noticeService.updateNotice(vo,k);
 		int result = noticeService.updateNotice(vo, k);
 		if (result == 1) {
 			mv.setViewName("redirect:/admin_notice_list");
