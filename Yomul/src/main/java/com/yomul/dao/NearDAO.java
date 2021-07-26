@@ -64,6 +64,22 @@ public class NearDAO extends DAO {
 		params.put("url", url);
 		return sqlSession.insert(nameSpace + ".getNearWrite", params);
 	}
+	
+	// 업체 소식 추가
+	public String insertVendorNews(NearVO vo) {
+		int result = sqlSession.insert(nameSpace + ".insertVendorNews", vo);
+		if(result == 0) { // 저장에 실패한 경우 0 반환
+			return "0";
+		}
+		return getStoredArticleNo(vo.getVno());
+	}
+	
+	// 작성 완료 시 저장된 게시글 번호 불러오기
+	public String getStoredArticleNo(String no) {
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("no", no);
+		return sqlSession.selectOne(nameSpace + ".selectStoredArticleNo", params);
+	}
 
 	public int getNearFile(String saveFileName, String originFilename) {
 		Map<String, Object> params = new HashMap<String, Object>();

@@ -22,6 +22,17 @@ public class NearServiceImplement implements NearService {
 	}
 
 	@Override
+	public String insertVendorNews(NearVO vo) {
+		return nearDAO.insertVendorNews(vo);
+	}
+	
+	// 해당 유저의 최근 게시글 번호 불러오기
+	@Override
+	public String getStoredArticleNo(String no) {
+		return nearDAO.getStoredArticleNo(no);
+	}
+	
+	@Override
 	public NearVO getNearInfo(String no) {
 		return nearDAO.getNearInfo(no);
 	}

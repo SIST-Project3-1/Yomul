@@ -125,6 +125,31 @@
 		)
 	</insert>
 	
+	<!-- 내 근처 글쓰기(업체) -->
+	<insert id="insertVendorNews" parameterType="com.yomul.vo.NearVO">
+		insert into yomul_near_articles(no, writer, vendor, title, category, price, hp, content, chatcheck)
+		values('n'||yomul_near_articles_no_seq.nextval, #{writer}, #{vno}, #{title}, #{category}, #{price}, #{hp}, #{content}, #{chatCheck})
+	</insert>
+	
+	<!-- 저장된 게시글 번호 불러오기 -->
+	<select id="selectStoredArticleNo" resultType="java.lang.String" parameterType="java.util.HashMap">
+		select no
+		from (select no
+			from yomul_near_articles
+			where 
+			<choose>
+				<when test='no.startsWith("M")'>
+					writer
+				</when>
+				<otherwise>
+					vendor
+				</otherwise>
+			</choose>
+				= #{no}
+			order by no desc)
+		where rownum = 1
+	</select>
+	
 	<!-- 내 근처 글 번호 가져오기 -->
 	<select id="getArticeNo" resultType="string">
 		SELECT 'n'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL FROM DUAL
