@@ -207,11 +207,10 @@ public class AdminController {
 	}
 
 	// 공지사항 삭제
-	@RequestMapping(value = "admin_notice_delete/{no}", method = RequestMethod.POST)
+	@RequestMapping(value = "admin_notice_delete/{no}", method = RequestMethod.GET)
 	public ModelAndView adminNoticeDelete(NoticeVO vo, @PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView();
 		int k = Integer.parseInt(no);
-		noticeService.deleteNotice(vo, k);
 		mv.addObject("vo", vo);
 		int result = noticeService.deleteNotice(vo, k);
 		if (result == 1) {
