@@ -8,9 +8,6 @@
 				<a class="nav-link" href="/yomul/product_list">홈</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="/yomul/town_list">동네생활</a>
-			</li>
-			<li class="nav-item">
 				<a class="nav-link" href="/yomul/near_home">내 근처</a>
 			</li>
 		</ul>

@@ -8,7 +8,6 @@
 			<li class="nav-item"><a class="nav-link" href="/yomul/admin_member_list">회원관리</a></li>
 			<li class="nav-item"><a class="nav-link" href="/yomul/admin_product_list">물건관리</a></li>
 			<li class="nav-item"><a class="nav-link" href="/yomul/admin_vendor_list">업체관리</a></li>
-			<li class="nav-item"><a class="nav-link" href="/yomul/admin_town_list">동네생활관리</a></li>
 			<li class="nav-item"><a class="nav-link" href="/yomul/admin_near_home">내근처관리</a></li>
 			<li class="nav-item"><a class="nav-link" href="/yomul/admin_notice_list">공지사항관리</a></li>
 			<li class="nav-item"><a class="nav-link" href="/yomul/admin_faq_list">FAQ관리</a></li>
