@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 notice 글쓰기</title>
+<title>관리자-공지사항 글쓰기</title>
 <!-- HEAD -->
 <%@ include file="../../../head.jsp"%>
 <style>
