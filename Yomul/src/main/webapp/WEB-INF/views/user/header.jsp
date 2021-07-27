@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <nav class="border-bottom navbar navbar-expand-md bg-white navbar-light sticky-top">
-	<a class="navbar-brand" href="/yomul/"> <img src="/yomul/image/logo.png"> </a>
+	<a class="navbar-brand" href="/yomul/">
+		<img src="/yomul/image/logo.png">
+	</a>
 
 	<div class="collapse navbar-collapse" id="navbarText">
 		<ul class="navbar-nav">
@@ -28,6 +30,9 @@
 				<li class="nav-item">
 					<a class="nav-link" href="/yomul/login">로그인</a>
 				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/yomul/join">회원가입</a>
+				</li>
 			</c:when>
 			<c:otherwise>
 				<li class="nav-item">
@@ -35,9 +40,6 @@
 				</li>
 			</c:otherwise>
 		</c:choose>
-		<li class="nav-item">
-			<a class="nav-link" href="/yomul/join">회원가입</a>
-		</li>
 
 		<c:if test="${sessionScope.member.authority == 'ADMIN' }">
 			<li class="nav-item">
