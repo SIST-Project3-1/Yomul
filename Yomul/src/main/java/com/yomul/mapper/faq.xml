@@ -35,8 +35,8 @@
 		               CATEGORY LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
 		               OR
 		               TITLE LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
-		               OR
-		               CONTENT LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
+		               <!-- OR
+		               CONTENT LIKE ('%' || #{search, jdbcType=VARCHAR} || '%') -->
 		               ORDER BY NO_NUM DESC
 		               )
         )

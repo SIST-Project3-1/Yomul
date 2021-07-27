@@ -40,7 +40,7 @@
 		$("#page-next a").attr("href", "?page=" + ((start + 10 > total) ? total : (start + 10)));
 	}
 
-	// 회원 목록 로드
+	// 업체 목록 로드
 	function loadVendorList(page, search) {
 		$.ajax({
 			url : "/yomul/admin_vendor_list_ajax",
@@ -78,9 +78,8 @@
 		});
 	}
 
-	// 회원 삭제
+	// 업체 삭제
 	function deleteVendor() {
-
 		$.ajax({
 			url : "/yomul/admin_delete_vendor",
 			method : "POST",
@@ -90,10 +89,10 @@
 			success : function(result) {
 				var json = JSON.parse(result);
 				if (json.result == 1) {
-					alert("회원 삭제 성공");
+					alert("업체 삭제 성공");
 					location.reload();
 				} else {
-					alert("회원 삭제 실패");
+					alert("업체 삭제 실패");
 				}
 			}
 		});
@@ -138,7 +137,6 @@
 					<!-- 데이터 들어갈 자리 -->
 				</tbody>
 			</table>
-
 		</div>
 	</section>
 
@@ -164,10 +162,10 @@
 		<div class="collapse navbar-collapse" id="navbarText"></div>
 		<ul class="navbar-nav">
 			<li class="nav-item">
-				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_product_list">소식 보기</button>
+				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_near_home">소식 보기</button>
 			</li>
 			<li class="nav-item">
-				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_town_list">후기 보기</button>
+				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_reviews_list">후기 보기</button>
 			</li>
 		</ul>
 	</nav>
