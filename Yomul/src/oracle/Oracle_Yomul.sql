@@ -451,7 +451,7 @@ CREATE SEQUENCE YOMUL_NOTICES_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
 CREATE SEQUENCE YOMUL_FAQ_ARTICLES_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
 
 -- QNA 글 번호 시퀀스 생성, 1부터 시작, 1씩 증가 
-CREATE SEQUENCE YOMUL_QNA_ARTICLES_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
+CREATE SEQUENCE YOMUL_QNA_ARTICLES_NO_SEQ START WITH 31 INCREMENT BY 1 CACHE 2;
 
 -- 댓글 번호 시퀀스 생성, 1부터 시작, 1씩 증가 
 CREATE SEQUENCE YOMUL_COMMENTS_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
@@ -1883,6 +1883,21 @@ INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT, HITS) VALUES
 INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT, HITS) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V15', 'M17', '쌤 너무 잘 가르쳐주세요!<br>강남 근처면 출장도 오시구요 ㅎㅎㅎ',22);
 INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT, HITS) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V15', 'M5', '바디 프로필이 유행이라서 6개월 신청했는데 너무 만족해요 ㅎㅎ<br>건강한 내몸을 보면서 자존감도 많이 올랐고<br>특히 야근해도 체력이 좋아져서 끄떡없네요!<br>지금은 유지중인데 바프 끝나고 1달동안은 케어해줍니당!',55);
 INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT, HITS) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V15', 'M10', '헬창은 말 안해도 알거다.<br>강남에서 운동기구가 다양하다. 천국 그자체.',2);
+
+-- 문의 내역 테스트 데이터
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q2','테스트','test@test.test','w+bI0UUjSZQQeIfqE82wwfjJWa5QOan8+qxoPh3CBb4=','x99YCQ59Q9bIeblbuuyE01WB/tQQF+ljaMi6t7Zq4nM=',to_date('2021-07-28 08:37:35','YYYY-MM-DD HH24:MI:SS'),1,'사기 당했는데 환불이 안됩니다','물건 사기꾼한테 돈을 보냈는데, 물건을 안줘서 돈을 돌려달라고 했더니 그냥 그대로 잠수 타네요 해결해주세요',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q3','hwisaek2','hwisaek@hwisaek.com','+cCZvq66ClTasjH7fVh8Vl1x2k72NRq/FFNxTfwdILw=','8kRQ1SMNxfxla8dtqLfIuYxvXxgBrkqk97hQaEbqrTE=',to_date('2021-07-28 08:38:39','YYYY-MM-DD HH24:MI:SS'),2,'비밀번호 변경 문의','비밀번호를 바꾸고 싶은데, 비밀번호를 직접 변경하는 부분이 없어서 비밀번호 초기화를 이용해서 비밀번호를 바꾸고 있습니다. 제가 직접 비밀번호를 바꿀 수 있는 기능이 있었으면 좋겠습니다. 아니면 문의로 받아주시면 감사하겠습니다.',0,0,null,null,null,null,'on');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q4','yomul','yomul@yomul.com','TA7772il2oquog8zs3edr7TwECfOAp+ypbOXrB3WNKk=','E5x0N1XaTMOW8u8fJ1KqvlxzDkN5nLwXYaGIb9jw8T8=',to_date('2021-07-28 08:39:12','YYYY-MM-DD HH24:MI:SS'),3,'판매 금지 물품 문의','여기서 물건을 판매하려고 하는데, 판매 금지 물품들이 뭐가 있는지 궁금합니다.',0,0,null,null,null,null,'on');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q5','해병','marin@yomul.com','faTNFFYxQo2doUtM63tqBN1n8uTDDkOMIPWbdtzzor0=','doLnTj+43wDVWCc7Aku5GHdf/01iqKSyQ+oN5ZW+3jk=',to_date('2021-07-28 08:40:03','YYYY-MM-DD HH24:MI:SS'),4,'거래 후기 관리 ','제 거래 후기에 작성된 후기를 관리하고 싶습니다. 별로인 후기들이 있어서 삭제하고 싶은데 어떻게 할 수 있나요?',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q6','메딕','medic@yomul.com','jkZljOWNXfuemVfrrPPd2gUslv3l3sfmV5Q+LjUYsjM=','1Cxf7lR6F06qLndF9oRsXyCDkmLLfvX2NvXiR0uBiDE=',to_date('2021-07-28 08:41:48','YYYY-MM-DD HH24:MI:SS'),6,'채팅 욕설','특정 상대가 자꾸 채팅으로 욕설하고 그러는데, 차단하는 방법도 없고 어떻게 처리할 수 없을까요?? 부탁드립니다 너무 힘들어요 ...',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q7','영감','oldman@weffwwef.gdfnregho','YhdCgcHZQ2K45s1cp4rnHx0PjXEarRavr+SXlS3yw68=','SWRRMUx2u7yJsGowaaXuPPPdkSZQmS8QPTdMrDeQX/M=',to_date('2021-07-28 08:42:24','YYYY-MM-DD HH24:MI:SS'),7,'어떻게 쓰는거여','이거 물건을 판매하려고 하는데 대체 어떻게 쓰는지 모르겠소. 어디 설명서같은거라도 없는가?',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q8','SCV','SCV@YOMUL.COM','fgZwj4mkkFLEasHImcbGdxHwAwUhLbOrTRxMPrt6eIQ=','sukj3mnZfxj1vobv31U6vkJGLCJHZwl0/7/+oLobfmE=',to_date('2021-07-28 08:43:40','YYYY-MM-DD HH24:MI:SS'),11,'검색 조건을 좀 더 세세히 보고싶어요','제가 검색 할 수 있는 조건들이 뭐가 있는지도 알고싶고, 그걸 하나씩 체크박스 형태로 조절하고 싶습니다. 방법을 알려주세요... ㅠㅠ ',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q9','기타갑','guitar@guiatr.g','p2J48OPkxs0Q6yM+5gaoq5HwMs0IkgcAtuLyFlUu2s8=','FO7pYYhYTwQf1VYvRXQwtuNwqGW1YG5e1Fb/AuFjbfo=',to_date('2021-07-28 08:44:11','YYYY-MM-DD HH24:MI:SS'),12,'기타 문의','기타를 사고 싶습니다. 싸게 제시 받습니다. 메일로 연락주세요',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q10','강남구청','gangnam@seoul.com','bu4zkYYrw2Cg/HkMzGjk7zIU/hCAac1jMeUZ6U6r7xA=','bzbWRITutz8dF8PAgGLsybX4D/LFC5hUrmTi786K+Uc=',to_date('2021-07-28 08:47:38','YYYY-MM-DD HH24:MI:SS'),9,'광고를 달고 싶습니다.','해당 사이트에 강남구청에서 광고를 달고 싶습니다. 좌, 우측에 배너형태로 광고가 나가면 좋겠다고 생각하는데 생각이 있으시면 메일로 연락바랍니다.',0,0,null,null,null,null,'on');
+
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO,NO,FILENAME) values ('Q6',1,'채팅욕설.png');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO,NO,FILENAME) values ('Q8',1,'검색조건.png');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO,NO,FILENAME) values ('Q9',1,'기타.jpg');
 
 -- 테스트 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 
