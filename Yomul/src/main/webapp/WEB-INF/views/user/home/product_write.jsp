@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
@@ -9,9 +8,20 @@
 <title>물건등록</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
-<link rel="stylesheet"
-	href="http://localhost:9000/yomul/resources/css/product_write.css">
+<link rel="stylesheet" href="http://localhost:9000/yomul/resources/css/product_write.css">
 </head>
+<script>
+function fileUpload(fis) {
+	var str = fis.value;
+	// 이미지를 변경한다.
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		$('#file_img').attr('src', e.target.result);
+		$('#img_file').css('display','none');
+	}
+	reader.readAsDataURL(fis.files[0]);
+}
+</script>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../header.jsp"%>
@@ -23,8 +33,8 @@
 				<div class="pw_toolBar">
 					<div class="pw_logo">
 						<h1>
-							<a> <svg class="icon" width="74" height="30"
-									viewBox="0 0 74 30" preserveAspectRatio="xMidYMid meet">
+							<a>
+								<svg class="icon" width="74" height="30" viewBox="0 0 74 30" preserveAspectRatio="xMidYMid meet">
 								<g fill="none" fill-rule="evenodd">
 									<path fill="#000"
 										d="M10.4,24.55H0.64c-0.53,0-0.64-0.35-0.64-1.3V22c0-0.95,0.11-1.3,0.64-1.3H2.4v-3.25c0-1,0.19-1.24,0.58-1.24h0.83
@@ -89,14 +99,11 @@
 
 						<div class="pw_sh_left">
 							<div class="pw_shicon">
-								<svg class="icon" width="26" height="26" viewBox="0 0 26 26"
-									preserveAspectRatio="xMidYMid meet">
+								<svg class="icon" width="26" height="26" viewBox="0 0 26 26" preserveAspectRatio="xMidYMid meet">
 										<rect width="26" height="26" fill="#F8C332" rx="10"></rect>
 										<g fill="none" stroke="#FFF">
-											<path stroke-linejoin="round" stroke-width="1.2"
-										d="M15.06 8.65l-6.9 6.88L7 18.98l3.45-1.15 6.9-6.9-2.3-2.28z"></path>
-											<path stroke-width="1.2"
-										d="M15.04 8.64l1.45-1.45a.65.65 0 01.93 0l1.37 1.38a.65.65 0 010 .92l-1.45 1.45"></path>
+											<path stroke-linejoin="round" stroke-width="1.2" d="M15.06 8.65l-6.9 6.88L7 18.98l3.45-1.15 6.9-6.9-2.3-2.28z"></path>
+											<path stroke-width="1.2" d="M15.04 8.64l1.45-1.45a.65.65 0 01.93 0l1.37 1.38a.65.65 0 010 .92l-1.45 1.45"></path>
 											<path d="M8.27 15.2l2.48 2.47"></path>
 										</g>
 									</svg>
@@ -105,11 +112,8 @@
 						</div>
 
 						<div class="pw_sh_right">
-							<svg class="editor-top-section-expand-icon" width="1em"
-								height="1em" viewBox="0 0 16 16"
-								preserveAspectRatio="xMidYMid meet">
-								<path fill="currentColor" fill-rule="evenodd"
-									d="M2.87 4L1.33 5.5 8 12l6.67-6.5L13.13 4 8 9z"></path>
+							<svg class="editor-top-section-expand-icon" width="1em" height="1em" viewBox="0 0 16 16" preserveAspectRatio="xMidYMid meet">
+								<path fill="currentColor" fill-rule="evenodd" d="M2.87 4L1.33 5.5 8 12l6.67-6.5L13.13 4 8 9z"></path>
 							</svg>
 						</div>
 
@@ -120,21 +124,23 @@
 							<div class="pw_owformCover">
 								<div class="pw_owformCG">
 									<div class="pw_owlabel">
-										카테고리 <span class="pw_owlabel1">*</span>
+										카테고리
+										<span class="pw_owlabel1">*</span>
 									</div>
 									<div class="pw_owCategorybox">
 										<div class="pw_owCover">
 											<div class="pw_owSelect">
-											
+
 												<select name="category_no">
 													<option selected value disabled>선택해주세요</option>
-											<c:forEach var="category" items="${categories}">
-													<option value="${category.no}">${category.content}</option><!--  카테고리라는 어레이스트를 받아와서 하나씩받아온거에대한 변수명을 카테고리라고 설정 카테고리엔오와 카테고리콘텐츠를 이용해서 데이터를 뽑아온 것		-->										
-												</c:forEach>										
-										
-												</select> <span class="pw_owIcon"> <svg class="icon"
-														width="10" height="10" style="fill: currentColor"
-														preserveAspectRatio="xMidYMid meet">
+													<c:forEach var="category" items="${categories}">
+														<option value="${category.no}">${category.content}</option>
+														<!--  카테고리라는 어레이스트를 받아와서 하나씩받아온거에대한 변수명을 카테고리라고 설정 카테고리엔오와 카테고리콘텐츠를 이용해서 데이터를 뽑아온 것		-->
+													</c:forEach>
+
+												</select>
+												<span class="pw_owIcon">
+													<svg class="icon" width="10" height="10" style="fill: currentColor" preserveAspectRatio="xMidYMid meet">
 													<path fill-rule="evenodd" d="M0 3l5 5 5-5z"></path>
 												</svg>
 												</span>
@@ -151,16 +157,17 @@
 							<div class="pw_owformCover">
 								<div class="pw_owformPAY">
 									<div class="pw_owlabel">
-										가격입력 <span class="pw_owlabel1">*</span>
+										가격입력
+										<span class="pw_owlabel1">*</span>
 									</div>
 									<div class="pw_owCategorybox">
 										<div class="pw_owCover">
 											<div class="pw_owtext">
-												<input type="text" id="price" name="price" placeholder="가격을 입력하세요"> 
+												<input type="text" id="price" name="price" placeholder="가격을 입력하세요">
 												<span class="pw_owIcon2"> ₩ </span>
 											</div>
-											
-											
+
+
 											<!--pw_owSelect-->
 										</div>
 										<!--pw_owCover-->
@@ -173,12 +180,13 @@
 							<div class="pw_owformCover">
 								<div class="pw_owformPAY">
 									<div class="pw_owlabel">
-										동네입력 <span class="pw_owlabel1">*</span>
+										동네입력
+										<span class="pw_owlabel1">*</span>
 									</div>
 									<div class="pw_owCategorybox">
 										<div class="pw_owCover">
 											<div class="pw_owtext">
-												<input type="text" id="location" name="location" placeholder="지역을 입력하세요"> 	
+												<input type="text" id="location" name="location" placeholder="지역을 입력하세요">
 											</div>
 
 											<!--pw_owSelect-->
@@ -190,7 +198,7 @@
 								</div>
 								<!--pw_owformPAY-->
 							</div>
-							
+
 
 						</div>
 						<!--pw_owContentbox-->
@@ -202,34 +210,23 @@
 
 				<!--포토박스-->
 				<div class="pw_ptBox">
-					<div class="pw_pbBtn">
-						<p class="pw_pbDragP">
-							<span class="pw_pbDrag"> "드래그 앤 드롭이나 추가하기 버튼으로" <br>
-							</span> "커버 사진을 업로드해주세요."
-						</p>
-						<input type="file" name="file" id="validatedProductFile" lang="kor">
-						
-						<p class="pw_pbSize">* 권장 사이즈: 1920 x 1080, 최소 1400 x 930(3:2비율)</p>
-					<!--<lavel class="pw_ptCover" for="validatedProductFile">커버 사진 추가하기</lavel>-->	
+					<div id="img_file" for="file">
+						<svg  class="" width="48" height="48" viewBox="0 0 48 48" fill="currentColor" preserveAspectRatio="xMidYMid meet">
+						<path d="M11.952 9.778l2.397-5.994A1.778 1.778 0 0 1 16 2.667h16c.727 0 1.38.442 1.65 1.117l2.398 5.994h10.174c.982 0 1.778.796 1.778 1.778v32c0 .981-.796 1.777-1.778 1.777H1.778A1.778 1.778 0 0 1 0 43.556v-32c0-.982.796-1.778 1.778-1.778h10.174zM24 38c6.075 0 11-4.925 11-11s-4.925-11-11-11-11 4.925-11 11 4.925 11 11 11z"></path>
+						</svg>
+						<label for="file">사진 올리기</label>
 					</div>
+					<input type="file" id="file" name="filename" style="display:none" onchange="fileUpload(this)">
+					<img src="" id="file_img">
 				</div>
-				<!-- pw_ptBox -->
-
+				
+				<!--pw_textBox -->
 				<div class="pw_textBox">
 					<input type="text" name="title" id="title" placeholder="제목을 입력하세요">
-					<div class="pw_tbLimit">
-						"0"
-						<!---->
-						"/"
-						<!---->
-						"30"
-					</div>
 					<div class="pw_editorWrap">
-						<textarea  name="content" id="content" placeholder="내용을입력하세요"></textarea>
+						<textarea name="content" id="content" placeholder="내용을입력하세요"></textarea>
 					</div>
 				</div>
-				<!--pw_textBox -->
-
 			</div>
 			<!--pw_contentBox -->
 
