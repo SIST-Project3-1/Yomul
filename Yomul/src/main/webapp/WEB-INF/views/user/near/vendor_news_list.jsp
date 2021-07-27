@@ -7,6 +7,15 @@
 <title>소식 목록</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+<style>
+.media-body a, .media-body h5, .media-body p{
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+.media-body p{
+	height: 100px;
+}
+</style>
 <script>
 	var page = 1;
 	var ajaxFlag = true;
@@ -24,30 +33,30 @@
 		}
 	});
 
-	function getData(page) {
-		$.ajax({
-			url : "/yomul/vendor_news_pagination",
-			method : "get",
-			data : {
-				"no" : $("#vendor_no").val(),
-				"page" : page
-			},
-			dataType : "json",
-			contentType : "application/json; charset=UTF-8",
-			success : function(json) {
-				if (json.length == 0) {
-					ajaxFlag = false;
+function getData(page) {
+	$.ajax({
+		url : "/yomul/vendor_news_pagination",
+		method : "get",
+		data : {
+			"no" : $("#vendor_no").val(),
+			"page" : page
+		},
+		dataType : "json",
+		contentType: "application/json; charset=UTF-8",
+		success : function(json) {
+			if (json.length == 0) {
+				ajaxFlag = false;
+			}
+			var html = "";
+			for (var i = 0; i < json.length; i++) {
+				vo = json[i];
+				console.log(vo.img);
+				html += "<div class='media' id='vendor-news-list-news'>";
+				if(vo.img == "__") {
+					html += "<img src='/yomul/upload/default.jpg' class='mr-3'>";
+				}else {
+					html += "<img src='/yomul/upload/" + vo.mainFile + "' class='mr-3'>";
 				}
-				var html = "";
-				for (var i = 0; i < json.length; i++) {
-					vo = json[i];
-					console.log(vo.img);
-					html += "<div class='media' id='vendor-news-list-news'>";
-					if (vo.img == "__") {
-						html += "<img src='/yomul/upload/default.jpg' class='mr-3'>";
-					} else {
-						html += "<img src='/yomul/upload/" + "default.jpg" + "' class='mr-3'>";
-					}
 					html += "<div class='media-body'>";
 					html += "<a href='/yomul/near_info/" + vo.no + "' class='vendor-news-list-info'>";
 					html += "    <h5 class='mt-0' style='padding-top:5px;'>" + vo.title + "</h5>";
@@ -87,7 +96,7 @@
 	<div id="vendor_news_list" class="vendor-news-list-content" style="padding-bottom: 100px;">
 		<c:forEach var="vo" items="${list }">
 			<div class="media" id="vendor-news-list-news">
-				<img src="/yomul/upload/default.jpg" class="mr-3">
+				<img src="/yomul/upload/${vo.mainFile }" class="mr-3">
 				<div class="media-body">
 					<a href="/yomul/near_info/${vo.no }" class="vendor-news-list-info">
 						<h5 class="mt-0" style="padding-top: 5px;">${vo.title }</h5>
