@@ -1,12 +1,21 @@
 package com.yomul.vo;
 
 public class NoticeVO extends VO {
-	private int hits; // 조회수
 	private String no; // 글 번호
 	private String writer; // 작성자
 	private String title; // 제목
 	private String content; // 내용
 	private String ndate; // 작성일시
+	private String files; // 이미지
+
+
+	public String getFiles() {
+		return files;
+	}
+
+	public void setFiles(String files) {
+		this.files = files;
+	}
 
 	public String getNo() {
 		return no;
@@ -14,14 +23,6 @@ public class NoticeVO extends VO {
 
 	public void setNo(String no) {
 		this.no = no;
-	}
-
-	public int getHits() {
-		return hits;
-	}
-
-	public void setHits(int hits) {
-		this.hits = hits;
 	}
 
 	public String getTitle() {

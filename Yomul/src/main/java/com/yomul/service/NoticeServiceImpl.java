@@ -38,4 +38,12 @@ public class NoticeServiceImpl implements NoticeService {
 	public NoticeVO getNoticeInfo(int no) {
 		return noticeDAO.getNoticeInfo("N" + no);
 	}
+	@Override
+	public int getNoticeFile(String saveFileName, String originFilename) {
+		return noticeDAO.getNoticeFile(saveFileName, originFilename);
+	}
+	@Override
+	public String getNoticeNo() {
+		return noticeDAO.getNoticeNo();
+	}
 }

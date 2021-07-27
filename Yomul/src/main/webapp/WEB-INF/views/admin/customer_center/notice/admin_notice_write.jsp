@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -64,7 +65,17 @@ div.admin_notice_write div.notice_write_btn .noticeWrite {
 	display: block;
 }
 </style>
-
+<script>
+	function fileUpload(fis) {
+		var str = fis.value;
+		// 이미지를 변경한다.
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$('#notice_img_img').attr('src', e.target.result);
+		}
+		reader.readAsDataURL(fis.files[0]);
+	}
+</script>
 </head>
 <body>
 	<!-- HEADER -->
@@ -72,21 +83,35 @@ div.admin_notice_write div.notice_write_btn .noticeWrite {
 
 	<!--  BODY  -->
 	<section id="admin_notice_write">
-		<form name="noticeWrite" method="post" action="admin_notice_write_proc">
+		<form name="noticeWrite" method="post"
+			action="admin_notice_write_proc" enctype="multipart/form-data">
 			<div class="admin_notice_write">
 				<div class="head">
 					<h1>공지사항 작성</h1>
 					<h4>공지사항을 작성해주세요</h4>
 					<hr>
-					<input type="text" name="title" id="title" class="title" placeholder="제목을 입력해주세요" required>
+					<input type="text" name="title" id="title" class="title"
+						placeholder="제목을 입력해주세요" required>
 					<div id="title_alert"></div>
 
 				</div>
 				<div class="body">
-					<textarea name="content" id="content" class="content" placeholder="내용을 적어주세요" required></textarea>
+					<textarea name="content" id="content" class="content"
+						placeholder="내용을 적어주세요" required></textarea>
+				</div>
+				<div class="notice-img-img">
+					<img id="notice_img_img"
+						src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }'
+						style="width: 400px; height: 400px;"> <input type="file"
+						class="custom-file-input" id="notice_img" name="notice_img"
+						aria-describedby="notice_img" onchange="fileUpload(this)" multiple>
+					<label class="btn-yomul" for="notice_img" data-browse="업로드"
+						style="padding: 10px; border: 2px solid white; border-radius: 20px;">이미지업로드</label>
+
 				</div>
 				<div class="notice_write_btn">
-					<button type="submit" name="noticeWrite" id="noticeWrite" class="noticeWrite">저장하기</button>
+					<button type="submit" name="noticeWrite" id="noticeWrite"
+						class="noticeWrite">저장하기</button>
 				</div>
 			</div>
 		</form>

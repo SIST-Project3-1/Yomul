@@ -66,8 +66,9 @@
 		<hr>
 		<div class="my-5 mx-0">
 			<c:forEach var="fname" items="${files }">
-				<img src="/yomul/image/${fname }" class="img-fluid">
+				<img src="/yomul/upload/${fname }" class="img-fluid">
 			</c:forEach>
+			<br><br>
 				${vo.getContent() }
 		</div>
 		<hr>
