@@ -17,13 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yomul.dao.NearDAO;
+import com.yomul.service.ChatService;
 import com.yomul.service.CommentService;
 import com.yomul.service.FileService;
+import com.yomul.service.MemberService;
 import com.yomul.service.NearService;
 import com.yomul.service.VendorService;
 import com.yomul.util.Commons;
 import com.yomul.util.FileUtils;
+import com.yomul.vo.ChatVO;
 import com.yomul.vo.CommentVO;
 import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
@@ -36,6 +38,9 @@ public class NearController {
 	private NearService nearService;
 
 	@Autowired
+	private MemberService memberService;
+
+	@Autowired
 	private FileService fileService;
 
 	@Autowired
@@ -45,21 +50,21 @@ public class NearController {
 	private VendorService vendorService;
 
 	@Autowired
-	private NearDAO nearDAO;
+	private ChatService chatService;
 
 	@Autowired
 	private FileUtils fileUploadService;
 
 	@RequestMapping(value = "/near_home", method = RequestMethod.GET)
 	public ModelAndView near_home(NearVO vo) {
-		
+
 		ModelAndView mv = new ModelAndView();
-		//내근처 게시글 데이터 가져오기
+		// 내근처 게시글 데이터 가져오기
 		List<NearVO> list = nearService.selectNearList(vo);
 		String keyword[] = { "부동산", "카페", "요가", "휴대폰", "마사지", "미용실", "왁싱" };
-		
+
 		mv.addObject("keyword", keyword);
-		mv.addObject("list", list);		
+		mv.addObject("list", list);
 		mv.setViewName("user/near/near_home");
 
 		return mv;
@@ -83,33 +88,33 @@ public class NearController {
 	public ModelAndView near_write() {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("user/near/near_write");
-		
+
 		return mv;
 	}
 
 	@RequestMapping(value = "/near_write_proc", method = RequestMethod.POST)
 	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request,
 			HttpSession session, FileVO fvo) {
-		
+
 		String url = null;
-		ModelAndView mv = new ModelAndView();		
+		ModelAndView mv = new ModelAndView();
 		int fileCount = fileUploadService.getUploadedCount(files);
 		String articleNo = nearService.getArticeNo();
-	
+
 		if (fileCount != 0) {
-			url = fileUploadService.restore(articleNo,files, request);
-		}else {
+			url = fileUploadService.restore(articleNo, files, request);
+		} else {
 			url = "default.jpg";
 		}
-		
+
 		mv.addObject("fileCount", fileCount);
 		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
 		vo.setWriter_nickname(((MemberVO) session.getAttribute("member")).getNickname());
-	
-		nearDAO.getNearWrite(vo,url);
+
+		nearService.getNearWrite(vo, url);
 
 		mv.setViewName("redirect:/near_home");
-	
+
 		return mv;
 	}
 
@@ -120,16 +125,16 @@ public class NearController {
 		NearVO vo = nearService.getNearInfo(no);
 		mv.addObject("vo", vo);
 		mv.setViewName("user/near/near_update");
-		
+
 		return mv;
 	}
-	
-	@RequestMapping(value = "/near_update_proc/{no}", method = {RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView near_update_proc(NearVO vo,@PathVariable("no") String no ) {
+
+	@RequestMapping(value = "/near_update_proc/{no}", method = { RequestMethod.POST, RequestMethod.GET })
+	public ModelAndView near_update_proc(NearVO vo, @PathVariable("no") String no) {
 		ModelAndView mv = new ModelAndView();
-		nearService.getUpdate(vo,no);
-		mv.setViewName("redirect:/near_home");			
-		
+		nearService.getUpdate(vo, no);
+		mv.setViewName("redirect:/near_home");
+
 		return mv;
 	}
 
@@ -137,10 +142,9 @@ public class NearController {
 	@RequestMapping(value = "/near_info/{no}", method = RequestMethod.GET)
 	public ModelAndView near_info(@PathVariable("no") String no, HttpSession session, NearVO vo) {
 		ModelAndView mv = new ModelAndView();
-		List<NearVO> list = nearService.viewInfo(vo,no);
+		List<NearVO> list = nearService.viewInfo(vo, no);
 		mv.addObject("list", list);
-		
-		
+
 		// 조회수 갱신 겸 게시글 유무 확인
 		if (nearService.updateNearHits(no) != 0) {
 			mv.setViewName("user/near/near_info");
@@ -148,13 +152,13 @@ public class NearController {
 			// 게시글 정보 불러오기
 			vo = nearService.getNearInfo(no);
 			mv.addObject("vo", vo);
-			
-			//로그인 사용자 체크 세션 값 불러오기
-			String loginNo = (String)session.getAttribute("no");
-			if(loginNo !=null) {
+
+			// 로그인 사용자 체크 세션 값 불러오기
+			String loginNo = (String) session.getAttribute("no");
+			if (loginNo != null) {
 				mv.addObject("loginNo", loginNo);
 			}
-		
+
 			// 게시글 파일이 있을 경우 불러오기 //null 값 들어가면 오류!
 			if (vo.getFiles() != 0) {
 				ArrayList<String> files = fileService.getArticleFiles(no);
@@ -171,7 +175,7 @@ public class NearController {
 			mv.addObject("commentPageInfo", commentPageInfo);
 
 			// 업체 게시글일 경우 단골 정보 불러오기
-			if(vo.getVno() != null) {
+			if (vo.getVno() != null) {
 				int vendorCustomerCount = vendorService.getVendorCustomerCount(vo.getVno());
 				mv.addObject("vendorCustomerCount", vendorCustomerCount);
 			}
@@ -181,6 +185,25 @@ public class NearController {
 		}
 
 		return mv;
+	}
+
+	/**
+	 * 채팅 처리
+	 * 
+	 * @param vo
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "near_chat", method = RequestMethod.GET)
+	public String near_chat(ChatVO vo, HttpSession session) {
+		MemberVO member = (MemberVO) session.getAttribute("member");
+
+		vo.setChat_from(member.getNo());
+		vo.setChat_to(memberService.getNo(vo.getChat_to()));
+		int result = chatService.chat(vo);
+
+		return String.valueOf(result);
 	}
 
 	// 단골 등록 ajax
@@ -206,8 +229,8 @@ public class NearController {
 	@RequestMapping(value = "/near_card_form", method = RequestMethod.GET)
 	public ModelAndView near_card_form(NearVO vo, String word) {
 		ModelAndView mv = new ModelAndView();
-		List<NearVO> list = nearService.selectNearCardList(vo,word);
-		if(word != null) {		
+		List<NearVO> list = nearService.selectNearCardList(vo, word);
+		if (word != null) {
 			mv.addObject("word", word);
 		}
 		mv.addObject("list", list);

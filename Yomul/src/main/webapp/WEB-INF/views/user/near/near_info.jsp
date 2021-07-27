@@ -23,6 +23,25 @@
 		});
 	});
 
+	// 채팅 문의
+	function chat() {
+		$.ajax({
+			url : "/yomul/near_chat",
+			method : "GET",
+			data : {
+				"chat_to" : '${vo.writer}',
+				"content" : "${vo.title} 구매합니다."
+			},
+			success : function(result) {
+				if (result == 1) {
+					location.href = "/yomul/chat";
+				} else {
+					alert("채팅 문의 실패");
+				}
+			}
+		});
+	}
+
 	// 단골 추가/취소
 	function clickCustomer() {
 		$.ajax({
@@ -80,33 +99,32 @@
 			</div>
 
 			<!--  이미지  -->
-			
-			
-				
-					<div class="near-info-left-img">
-						<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-							<ol class="carousel-indicators">
-								<c:forEach begin="1" end="${articleImages.size() }" varStatus="status">
-									<li data-target="#carouselExampleIndicators" data-slide-to="<c:choose><c:when test="${status.first }">0</c:when><c:otherwise>1</c:otherwise></c:choose>"
-										class="<c:if test="${status.first }">active</c:if>"></li>
-								</c:forEach>
-							</ol>
-							<div class="carousel-inner" style="width: 500px; height: 500px;">
-								<c:forEach var="vo" items="${list }">
-										<img src="/yomul/upload/${vo.mainFile }" class="d-block w-100" style="width: 500px; height: 500px;">
-								</c:forEach>
-							</div>
-							<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-								<span class="sr-only">Previous</span>
-							</a>
-							<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-								<span class="carousel-control-next-icon" aria-hidden="true"></span>
-								<span class="sr-only">Next</span>
-							</a>
-						</div>
+
+
+
+			<div class="near-info-left-img">
+				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+					<ol class="carousel-indicators">
+						<c:forEach begin="1" end="${articleImages.size() }" varStatus="status">
+							<li data-target="#carouselExampleIndicators" data-slide-to="<c:choose><c:when test="${status.first }">0</c:when><c:otherwise>1</c:otherwise></c:choose>" class="<c:if test="${status.first }">active</c:if>"></li>
+						</c:forEach>
+					</ol>
+					<div class="carousel-inner" style="width: 500px; height: 500px;">
+						<c:forEach var="vo" items="${list }">
+							<img src="/yomul/upload/${vo.mainFile }" class="d-block w-100" style="width: 500px; height: 500px;">
+						</c:forEach>
 					</div>
-		
+					<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						<span class="sr-only">Previous</span>
+					</a>
+					<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+						<span class="carousel-control-next-icon" aria-hidden="true"></span>
+						<span class="sr-only">Next</span>
+					</a>
+				</div>
+			</div>
+
 			<!--  내용  -->
 			<div class="near-info-left-content">
 				<p>${vo.content }</p>
@@ -130,16 +148,16 @@
 			<c:choose>
 				<c:when test="${empty vo.vno }">
 					<div class="near-info-right-writer">
-					<c:if test="${vo.vno == '관리자'}">
+						<c:if test="${vo.vno == '관리자'}">
 							<img src="http://localhost:9000/yomul/upload/${vo.mimg }">
 							<label>${vo.writer }</label>
-						<c:otherwise>	
-						<a href="/yomul/vendor_profile_info/${vo.vno }" class="vendor_info">
-							<img src="http://localhost:9000/yomul/upload/${vo.mimg }">
-							<label>${vo.writer }</label>
-						</a>
-						</c:otherwise>	
-					</c:if>
+							<c:otherwise>
+								<a href="/yomul/vendor_profile_info/${vo.vno }" class="vendor_info">
+									<img src="http://localhost:9000/yomul/upload/${vo.mimg }">
+									<label>${vo.writer }</label>
+								</a>
+							</c:otherwise>
+						</c:if>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -161,10 +179,9 @@
 				<label>가격</label>
 				<label>${vo.price }원</label>
 			</div>
-			<a href="/yomul/chat" class="btn near-info-inquiry <c:if test="${vo.chatCheck != 0 }">disabled</c:if>">채팅문의</a>
+			<button class="btn near-info-inquiry" onclick="chat();" ${vo.chatCheck != 0 ? "disabled" : ""}>채팅문의</button>
+			
 			<c:if test="${sessionScope.member.authority == 'ADMIN'|| loginNo == vo.writer}">
-			
-			
 				<button id="updateNear" type="button" class="btn btn-outline-yomul mt-3">글 수정</button>
 				<button id="deleteNear" type="button" class="btn btn-outline-yomul mt-3">글 삭제</button>
 
@@ -184,7 +201,7 @@
 						});
 					});
 					$("#updateNear").on("click", function() {
-						$(location).attr("href","/yomul/near_update/${vo.no }");
+						$(location).attr("href", "/yomul/near_update/${vo.no }");
 					});
 				</script>
 			</c:if>
