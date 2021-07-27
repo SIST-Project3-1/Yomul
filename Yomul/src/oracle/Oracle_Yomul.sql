@@ -1171,105 +1171,105 @@ UPDATE YOMUL_QNA_ARTICLES SET REPLY = 1, RDATE = SYSDATE, RWRITER = 'M1', RTITLE
 
 -- 테스트 데이터 입력 시작----------------------------------------------------------------------------------------------------------------------------------
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M8','전기자전거 지포스 400w','전기자전거 지포스 팝니다.<br>400w 이고요. 사서 1시간정도 타고 보관만 했습니다.<br>야간에 배달할려고 구매했었는데 직장에서 야근이 너무 많아서 배달은 해보지도 못했네요.<br><br>핸들 비닐은 벗기지도 않았습니다.<br>',250000,'SELLING',0,to_date('2021/07/27 12:07:21','yyyy/mm/dd hh24:mi:ss'),'관악구 신림동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P1', 1, 'dang1' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P1', 1, 'dang1.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M9','스카티카메룬 퍼터 팔아요~!','4년정도 사용한 퍼터입니다. 커버 끼고 사용해서 상태 좋구요 . 요번에 좋은 퍼터 선물 받아서 저렴하게 내놓습니당~! 필요하신분 연락 주세요.<br><br>10만원 삼성동 역삼동 직거래만 가능합니다.',100000,'SELLING',0,to_date('2021/07/27 12:21:45','yyyy/mm/dd hh24:mi:ss'),'강남구 삼성동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P2', 1, 'dang2' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P2', 1, 'dang2.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M10','자전거 팝니다','비포장 도로 이용 출토근용으로 사용하던 자전거입니다<br>장거리용 로드로 변경 하고자 판메합니다<br>천안 아산지역은 직접 가져다 드릴수 있습니다',100000,'SELLING',0,to_date('2021/07/27 12:23:16','yyyy/mm/dd hh24:mi:ss'),'아산시 배방읍');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P3', 1, 'dang3' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P3', 1, 'dang3.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M12','밥솥.전자레인지.다이','세트로 가져가실분만',0,'SELLING',0,to_date('2021/07/27 13:52:34','yyyy/mm/dd hh24:mi:ss'),'연제구 연산제3동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P4', 1, 'dang4' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P4', 1, 'dang4.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M13','프리츠한센 이케바나 꽃병 스몰','한번 사용후 보관만 했습니다.<br>스크래치 없고, 사진 찍을때 닦지않고 보관을 안해서 물방울 자국이있지만 닦으면 다 깨끗합니다.',80000,'SELLING',0,to_date('2021/07/27 13:54:09','yyyy/mm/dd hh24:mi:ss'),'강남구 도곡동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P5', 1, 'dang5' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P5', 1, 'dang5.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M21','네소프레소 커피머신','🌟에소프레소 커피머신🌟 정품 올립니당<br>작년 여름에 구입했어요<br>원가는 27만9천원이고 하자 없습니다!<br>필요하신 분들 연락 주세요:)<br><br>*다산2동에서만 직거래 합니다',50000,'SELLING',0,to_date('2021/07/27 14:57:56','yyyy/mm/dd hh24:mi:ss'),'남양주시 다산2동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P6', 1, 'dang6' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P6', 1, 'dang6.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M22','이케아 트롤리(이동식 3단선반)','검정 색상이구여<br>하자없구 깨끗합니다<br>사놓구 사용안하구 방치해뒀어요',8000,'SELLING',0,to_date('2021/07/27 15:00:47','yyyy/mm/dd hh24:mi:ss'),'중구 신당동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P7', 1, 'dang7' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P7', 1, 'dang7.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,4,'M23','스토케 트립트랩','스토케 트립트랩<br>18년도 구매 했어요.<br>작년 하반기부터는 거의 사용 안했습니다.<br><br>잠실나루역 근처 직거래 합니다.',170000,'SELLING',0,to_date('2021/07/27 15:02:25','yyyy/mm/dd hh24:mi:ss'),'송파구 잠실4동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P8', 1, 'dang8' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P8', 1, 'dang8.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P72',1,'M24','다이슨 선풍기','다이슨 정품 선풍기<br>높낮이 , 회전 조절됩니다<br>220볼트입니다.<br>황학동 이마트입니다.<br><br>',70000,'SELLING',0,to_date('2021/07/27 15:04:02','yyyy/mm/dd hh24:mi:ss'),'강남구 압구정동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P9', 1, 'dang9' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P9', 1, 'dang9.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,14,'M5','슬램덩크 신장판 1-20 전권','결혼 및 이사로 눈물의 급처<br><br>신길역 직거래<br><br>',30000,'SELLING',0,to_date('2021/07/27 11:47:22','yyyy/mm/dd hh24:mi:ss'),'영등포구 영등포본동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P10', 1, 'dang10' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P10', 1, 'dang10.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M6','위닉스 제습기','15리터입니다. 성능 좋구요.<br><br>에어컨이 제습기능이 있는거라서 7년동안 7~8회 ,거의 1년에 습도 엄청 높은 날 하루 정도만 사용했다고 보심 됩니다. 얼른 델구가세요',40000,'SELLING',0,to_date('2021/07/27 11:50:05','yyyy/mm/dd hh24:mi:ss'),'강남구 삼성동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P11', 1, 'dang11' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P11', 1, 'dang11.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M7','신일제습기입니다','가로 29<br>세로 48<br>이사관계로 내놓습니다<br>비대면거래윈합니다',20000,'SELLING',0,to_date('2021/07/27 11:55:14','yyyy/mm/dd hh24:mi:ss'),'김해시 장유3동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P12', 1, 'dang12' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P12', 1, 'dang12.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,14,'M11','마법천자문 1편~45편 45권','1~2번만 봐서 상태는 깨끗합니다.<br>꼭 하실분만 연락주세요.<br>직접 가져 가셔야 합니다.<br>상자에 담아두었습니다.<br>가격 네고 없구요. 파주 교하입니다',45000,'SELLING',0,to_date('2021/07/27 13:30:24','yyyy/mm/dd hh24:mi:ss'),'파주시 동패동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P13', 1, 'dang13' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P13', 1, 'dang13.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M11','전자렌지','이사가는 관계로 무료 나눔 해드려요<br>내일 오전 11시쯤 직접 오셔서 가져 가실수<br>있는분께 드릴게요!-',0,'SELLING',0,to_date('2021/07/27 13:32:46','yyyy/mm/dd hh24:mi:ss'),'창원시 성산구 성남동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P14', 1, 'dang14' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P14', 1, 'dang14.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M14','6단 철제 서랍장 민트색 팝니다.','10,000원<br><br>서랍장 사이즈<br>가로 28 세로 41 높이 69<br><br>사무용품 및 문구류 보관했었어요<br>내부에 색연필 자국 등 보관 흔적은 있어요<br>색상은 민트색입니다.<br><br>편하게 쓰실분 연락 주세요~<br>율하에요.',10000,'SELLING',0,to_date('2021/07/27 13:55:41','yyyy/mm/dd hh24:mi:ss'),'김해시 장유3동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P15', 1, 'dang15' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P15', 1, 'dang15.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M20','미니에어컨','아이스제로쿨러 쿠팡에서 12만원 정도에 구입해서<br>3개월썼는데 이사가는 집 옵션에 에어컨이 있어서 내놓습니당 ! 처음 배송받은 박스까지 있어서 가져가실때 편하실거에요 ㅎㅎ',10000,'SELLING',0,to_date('2021/07/27 14:55:12','yyyy/mm/dd hh24:mi:ss'),'강북구 수유동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P16', 1, 'dang16' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P16', 1, 'dang16.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M2','이케아 서랍장','오천원에 팝니다. 사용감 거의 없습니다. 엘레베이터 주차장 있으니 6층까지 오셔서 가져가실분 연락주세요.',5000,'SELLING',0,to_date('2021/07/27 15:05:33','yyyy/mm/dd hh24:mi:ss'),'송파구 송파1동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P17', 1, 'dang17' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P17', 1, 'dang17.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M2','위니아 제습기','안쓰는거여서 처분합니다<br><br>',50000,'SELLING',0,to_date('2021/07/27 15:07:21','yyyy/mm/dd hh24:mi:ss'),'강릉시 구정면');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P18', 1, 'dang18' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P18', 1, 'dang18.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M2','철제 선반4단','철제 선반 4단 판매합니다! 분해해서 드려용',5000,'SELLING',0,to_date('2021/07/27 15:11:58','yyyy/mm/dd hh24:mi:ss'),'서구 월평3동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P19', 1, 'dang19' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P19', 1, 'dang19.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','드롱기 토스트기 커피포트','드롱기 토스트기 25,000<br>커피포트 20,000<br><br>신혼때 잠깐 사용하고<br>실사용 10회 미만이에요~~<br>박스는 없고 사용감은 조금있으나 깨긋해요<br><br>아이가 있어서<br>집앞으로 찾아오시면 거래가능합니다 ~~<br><br>',25000,'SELLING',0,to_date('2021/07/27 16:28:23','yyyy/mm/dd hh24:mi:ss'),'미추홀구 도화동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P20', 1, 'dang20' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P20', 1, 'dang20.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','짐머만 서큘레이터','2020년식 짐머만 서큘레이터입니다.<br>집에 1인 1선풍기인데 부모님이 선풍기 바람이<br>차다고 하셔서 작년에 사놓고 거의 튼적이 없습니다..<br>씻지 않았는데 안에 먼지도 안보입니다..ㅎ<br>박스 없고 그래도 꺼내놓긴 해서 저렴하게 올려봅니다.<br>화곡본동 주민센터, 화곡초 정문에서<br>직거래 원합니다^^',15000,'SELLING',0,to_date('2021/07/27 16:15:00','yyyy/mm/dd hh24:mi:ss'),'강서구 화곡본동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P21', 1, 'dang21' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P21', 1, 'dang21.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','시디즈 의자 싸게 드려요','상태는 저랑은 잘 안 맞아서 다른의자 사용해서 깨끗하고 이사를 나가야해서 싸게 드려요!<br>감사합니다!',50000,'SELLING',0,to_date('2021/07/27 16:27:08','yyyy/mm/dd hh24:mi:ss'),'제주시 이도2동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P22', 1, 'dang22' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P22', 1, 'dang22.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','6인식탁','가로1800세로750 6인식탁 벤치의자2개 약간의 생활기스있구요 향남2지구 가지러오셔야합니다',30000,'SELLING',0,to_date('2021/07/27 16:30:05','yyyy/mm/dd hh24:mi:ss'),'화성시 향남읍');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P23', 1, 'dang23' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P23', 1, 'dang23.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','캐리어 일체형 이동형 에어컨(난방O)CPA-Q091PD','두분이 불발나서 다음분 파',100000,'SELLING',0,to_date('2021/07/27 16:36:18','yyyy/mm/dd hh24:mi:ss'),'관악구 신림동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P24', 1, 'dang24' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P24', 1, 'dang24.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M10','캠핑 콜맨 스퀘어 스크린340 (캠핑모기장 타프)','콜멘 스퀘어 스크린입니다<br>모기장처럼 치고 안에서 캠핑 즐기시면 됩니다.<br>모기장 스크린 생각하시면 됩니다.<br>구성품이랑 사용설명서 다있고 지금 쓰시기 딱 좋은것 같아요<br>캠핑용품 정리중인데 콜멘은 내구성은 좋은것 같아요~~<br>필요하신분 문자 주세요~~',100000,'SELLING',0,to_date('2021/07/27 17:18:29','yyyy/mm/dd hh24:mi:ss'),'서구 내동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P25', 1, 'dang25' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P25', 1, 'dang25.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,5,'M10','농사진 쌀 30키로','농사진 쌀 30키로 입니다<br><br>',40000,'SELLING',0,to_date('2021/07/27 17:29:34','yyyy/mm/dd hh24:mi:ss'),'청주시 서원구 사창동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P26', 1, 'dang26' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P26', 1, 'dang26.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','창문형에어컨 중고입니다.','2018년도에 구매한 제품입니다.<br>한해 사용하고 에어컨설치로 인해 그뒤로 사용안하고 있어서 판매합니다.',50000,'SELLING',0,to_date('2021/07/27 17:36:47','yyyy/mm/dd hh24:mi:ss'),'미추홀구 숭의 1,3동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P27', 1, 'dang27' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P27', 1, 'dang27.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M10','컴퓨터 본체만 팝니다 :)','2018년도에 본체만 110정도 주고 맞췄습니다! 주로 게임과 영상 작업용으로 많이 썼습니다:)<br>이번에 좋은 컴퓨터 새로 맞추면서 파는거라서 이 글 올리기 전까지 사용했습니다!<br>고장난 곳 없고 사양은 문의 주시면 cpu-z 찍은거 몽땅 보내드릴게요!<br>간단한 게임부터 조금 그래픽 필요한 게임까지 다 돌아갑니다! 다만 그래픽 많이 필요한 게임은 잔렉이 있으니 고려하시면 될거같습니다!<br>작업프로그램은 포토샵, 일러스트, 에펙, 시포디 주로 돌렸는데 복잡한 작업아니면 가능했었습니다!포맷은 완료했고 현재 뽁뽁이 포장해서 상자 포장 해뒀습니다 !<br>무게가 좀 나가서 서재 동화아이위시3차쪽으로 구매자 분이 오셔야합니당<br>궁금한점있으시면 제 지식 선에서 답변해드리겠습니다! ㅎㅎ',300000,'SELLING',0,to_date('2021/07/27 17:32:33','yyyy/mm/dd hh24:mi:ss'),'달성군 다사읍');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P28', 1, 'dang28' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P28', 1, 'dang28.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','삼성에어컨 판매','삼성에어컨 모델 AF15FVVQ1WKN 제조 2013년 6월 제품이에요. 이사가면서 제품 판매해요. 8월 8일 9일 정도에 직접 가져가시는 조건입니다(따로 분리 못해드려요)',150000,'SELLING',0,to_date('2021/07/27 17:33:57','yyyy/mm/dd hh24:mi:ss'),'서구 치평동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P29', 1, 'dang29' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P29', 1, 'dang29.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M19','본체 벤큐 모니터 팝니다','구매시기 2년전<br>본체  Core(TM) i7-8700 CPU @ 3.20GHz 3.19 GHz<br>그래픽:NVIDA GaForce RTX 2060 구매당시 90만원<br>모니터 벤큐 144Hz 구매당시 39만원',500000,'SELLING',0,to_date('2021/07/27 14:52:57','yyyy/mm/dd hh24:mi:ss'),'연수구 연수동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P30', 1, 'dang30' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P30', 1, 'dang30.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M15','3단 2단 선반 급처합니다','이사하게 되어서 급하게 팔아요.<br>두개 합쳐서 만원에 가져가세요<br>상태 엄청 깨끗합니다.<br>선반은 자유자재로 오른쪽으로 왼쪽으로 옮길수있어<br>원하는대로 인테리어 하실수있어요<br><br>신논현부근 주소지로 가져가실분만',10000,'SELLING',0,to_date('2021/07/27 13:57:08','yyyy/mm/dd hh24:mi:ss'),'강남구 논현3동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P31', 1, 'dang31' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P31', 1, 'dang31.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,14,'M19','신세계 상품권','30만원 한꺼번에 구매하시면 10%D.C<br>10만원씩 구매도 가능합니다.(5% D.C)<br><br>직거래만 합니다.<br>직거래 하계동 청솔아파트 7단지 정문앞<br>연락주세요.',270000,'SELLING',0,to_date('2021/07/27 14:50:47','yyyy/mm/dd hh24:mi:ss'),'노원구 공룡2동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P32', 1, 'dang32' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P32', 1, 'dang32.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M2','일월 이동식 에어컨','몇번 사용하지 않은 새제품입니다<br>빠르게 처분하려고 저렴하게<br>내놓습니다<br><br>',100000,'SELLING',0,to_date('2021/07/27 15:10:53','yyyy/mm/dd hh24:mi:ss'),'서구 치평동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P33', 1, 'dang33' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P33', 1, 'dang33.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M2','삼성 무풍 에어컨 2in 1','2019. 3월 제조 년월이고<br>2 년반정도 사용했어요. 실사용 많지않고 이사온집이 시스템에어컨이 있어서 내놓아요.<br>2in 1 삼성무풍<br>1등급<br>잔기스하나없이 깨끗해요.<br>분리해두었어요.<br>( 귀여운 고양이 커버 2개 같이드려요.<br>스탠드, 벽걸이, 실외기, 리모컨 2개, 뒷 필터하나 새거 있네요.)',550000,'SELLING',0,to_date('2021/07/27 15:13:00','yyyy/mm/dd hh24:mi:ss'),'용산구 서빙고동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P34', 1, 'dang34' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P34', 1, 'dang34.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','나무 선반','나무 선반입니다<br>1년 조금 넘게 사용하고 내 놓습니다<br>직접 조립한건데 10키로 넘는 어항 올려 놓아도 될 정도로 튼튼합니다<br>싸게 가져가세요<br><br>',5000,'SELLING',0,to_date('2021/07/27 16:21:42','yyyy/mm/dd hh24:mi:ss'),'창원시 의창구 용동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P35', 1, 'dang35' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P35', 1, 'dang35.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','삼성 냉장고 8만원','성능 상태 좋습니다.<br>자취방에서 쓰면 좋을 듯 합니다.<br>225리터고<br>높이는 사람 성인 키보다 조금 작습니다.<br>마지막 사진에서 보는 것과 같이 계란칸을 버려서 없습니다.<br>다른 곳은 깨끗하고 다 있구요.<br>1층에 있습니다. 같이 들어 드려요.',80000,'SELLING',0,to_date('2021/07/27 16:25:29','yyyy/mm/dd hh24:mi:ss'),'중구 삼덕동3가');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P36', 1, 'dang36' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P36', 1, 'dang36.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,5,'M10','타파 쌀 통','타파 쌀 통입니다<br><br>',5000,'SELLING',0,to_date('2021/07/27 17:55:39','yyyy/mm/dd hh24:mi:ss'),'포항시 남구 지곡동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P37', 1, 'dang37' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P37', 1, 'dang37.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','가스버너','캠핑이나 마당에서 쓸수있는 가스버너 입니다<br>3kg이고 충전식입니다',20000,'SELLING',0,to_date('2021/07/27 17:44:42','yyyy/mm/dd hh24:mi:ss'),'광양시 광양읍');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P38', 1, 'dang38' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P38', 1, 'dang38.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M10','창문형 에어컨','파세코 1세대<br>작동 잘되요<br>2019년에 사서 실사용 4번정도하고 계속 보관했고<br>오늘 설치해서 작동해보니 잘되네요',250000,'SELLING',0,to_date('2021/07/27 17:40:40','yyyy/mm/dd hh24:mi:ss'),'남동구 논현고잔동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P39', 1, 'dang39' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P39', 1, 'dang39.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M10','레노버 15.6인치 노트북 G50-45','AMD E2-6110 APU<br>RAdeon R2 Graphics<br>4GB RAM<br>500GB HDD<br><br>15.6인치 화면 크기에 DVD 레코더가 장착되어있어, 비디오를 보실 때 편리할 것 같습니다.<br><br>정품 Windows 8.1 이 포함되어 있으며, 전원케이블 단자 옆의 작은 버튼을 누르면 아주 쉽게 공장 초기화 또는 백업 복구가 가능합니다.',30000,'SELLING',0,to_date('2021/07/27 17:48:42','yyyy/mm/dd hh24:mi:ss'),'금천구 가산동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P40', 1, 'dang40' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P40', 1, 'dang40.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,0,'M10','보쉬미니전동드릴','대형드릴 구입으로 팝니다~<br>소가구 조립으로 알맞습니다~~<br><br>파크리오직거래',5000,'SELLING',0,to_date('2021/07/27 17:58:08','yyyy/mm/dd hh24:mi:ss'),'송파구 잠실4동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P41', 1, 'dang41' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P41', 1, 'dang41.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','급매!!! usm서랍장판매','유학가게되어 급하게 판매 합니다~<br>작년 광교 갤러리아에서 300만원대 구매<br>2단 서랍장입니다♡<br>76×74',1800000,'SELLING',0,to_date('2021/07/27 18:01:01','yyyy/mm/dd hh24:mi:ss'),'용인시 수지구 동천동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P42', 1, 'dang42' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P42', 1, 'dang42.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','선반','나무로된 3단선반입니다<br>무게는 가볍습니다<br>직접 가지러오셔야 하구 1공구내에서 거래가능합니다',5000,'SELLING',0,to_date('2021/07/27 18:07:07','yyyy/mm/dd hh24:mi:ss'),'연수구 송도1동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P43', 1, 'dang43' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P43', 1, 'dang43.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M10','자전거 판매합니다~!','한달살이용으로 자전거 구입해서 잘 사용하다가 판매합니다! 키 자물쇠 드리구요! 단점이 직접 가질러 오셔야합니다ㅜㅜ',50000,'SELLING',0,to_date('2021/07/27 18:08:55','yyyy/mm/dd hh24:mi:ss'),'서귀포시 남원읍');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P44', 1, 'dang44' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P44', 1, 'dang44.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,4,'M10','알집 벽매트','사용하지 않은 알집 벽매트 팝니다. 제품이 출시했을 당시 여유분으로 많이 사놨던거라 사용하지 않은 것들만 처분합니다. 개당 5천원으로 내놓을게요. 민트 4개, 베이지 3개 있습니다. 필요하신 만큼만 사셔도 됩니다. 환불 안됩니다.',5000,'SELLING',0,to_date('2021/07/27 18:04:34','yyyy/mm/dd hh24:mi:ss'),'남구 신정2동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P45', 1, 'dang45' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P45', 1, 'dang45.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','다이슨 선풍기 AM07','다이슨 선풍기 팝니다. 국내용 정품이고<br>리모콘 있고 작동 이상 없고 큰 스크래치나 변색 없어요. 다만 가이드 스티커 떨어질까바 위에 투명 테이프 붙여놓았어요.(4번째 사진 참고요~)',110000,'SELLING',0,to_date('2021/07/27 18:11:11','yyyy/mm/dd hh24:mi:ss'),'용인시 수지구 동천동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P46', 1, 'dang46' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P46', 1, 'dang46.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','스피드랙 조립식 무볼트 철제 선반(1200×400×1800)','상태 좋구요~<br>선반 높낮이 조절 가능 합니다.<br>화이트 1개<br><br>판이 3개있어요<br>바닥까지하면 총 4단으로 사용가능해요~<br>***-****-****<br><br>입니다.<br><br>',30000,'SELLING',0,to_date('2021/07/27 18:27:17','yyyy/mm/dd hh24:mi:ss'),'동대문구 전농동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P47', 1, 'dang47' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P47', 1, 'dang47.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,0,'M16','컨테이너','이동식 컨테이너 주택 팝니다ㆍ방1. 주방.화장실 가로9미터 세로 3미터 빠르게 가져 가실 분만 연락주세요 찔러 보기 사양 할께요',3000000,'SELLING',0,to_date('2021/07/27 14:40:06','yyyy/mm/dd hh24:mi:ss'),'제주시 이도 1동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P48', 1, 'dang48' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P48', 1, 'dang48.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M17','골프가방 팝니다.','사진에 있는 3개 품목 다 합쳐서 3만원에 팝니다. 세월의 흔적은 있으나 거의 사용하지않아서 깨끗합니다. 관심있으신 분 쪽지 주세요',30000,'SELLING',0,to_date('2021/07/27 14:42:06','yyyy/mm/dd hh24:mi:ss'),'구로구 신도림동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P49', 1, 'dang49' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P49', 1, 'dang49.jpeg' );
 Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M18','세탁기 팔아요','삼성 / 16kg/ 통돌이 세탁기/작년 여름에 통 청소함/ 먼지거름망 새거 2개 드림/ 8월9일(월) 오전에 가져가시면 지게차로 내려드려요/ 그전에 가져갈경우 엘레베이터로 가져가셔야해요/ 배송x에눌x찔러보기x',30000,'SELLING',0,to_date('2021/07/27 14:48:14','yyyy/mm/dd hh24:mi:ss'),'김해시 내외동');
-Insert into SCOTT.YOUML_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P50', 1, 'dang50' )
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P50', 1, 'dang50.jpeg' );
 
 -- 좋아요 테이블
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P1','M10');
@@ -1364,7 +1364,6 @@ Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P32','M5');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P32','M8');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P33','M16');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P33','M8');
-Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P34','M1');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P34','M11');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P34','M2');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P34','M5');
@@ -1830,8 +1829,6 @@ INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M17');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M18');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M3');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M4');
-INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M5');
-INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M6');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V14', 'M7');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V14', 'M8');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V13', 'M9');
