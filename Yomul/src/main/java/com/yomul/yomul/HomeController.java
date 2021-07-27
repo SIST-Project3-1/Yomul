@@ -46,6 +46,8 @@ public class HomeController {
 	private FavoriteService favoriteService;
 	@Autowired
 	private ChatService chatService;
+	@Autowired
+	private FileUtils fileUtils;
 
 	// 글삭제
 	@ResponseBody
@@ -92,12 +94,12 @@ public class HomeController {
 		pvo.setNo(productService.getProductSequence());
 		int result = productService.getProductWrite(pvo);
 
-		if (result == 1 && pvo.getFile().getSize() != 0) {// 글작성에 성공하면 파일 업로드
+		if (result == 1 && pvo.getFilename().getSize() != 0) {// 글작성에 성공하면 파일 업로드
 			// 파일객체 생성
 			FileVO fileVO = new FileVO();
 			fileVO.setArticle_no(pvo.getNo());
 			fileVO.setNo(1);
-			fileVO.setFilename(pvo.getFile().getOriginalFilename());
+			fileVO.setFilename(pvo.getFilename().getOriginalFilename());
 			String filename = fileVO.getSavedFilename();
 
 			// DB에 파일 생성
@@ -105,7 +107,7 @@ public class HomeController {
 			if (result == 1) {// 서버에 파일생성
 				mv.setViewName("redirect:product_list");// 작성한 게시물 몇번인지 알아야 info일 경
 				File file = new File(FileUtils.getUploadPath(request), filename);
-				pvo.getFile().transferTo(file);
+				pvo.getFilename().transferTo(file);
 			}
 
 		}
@@ -113,9 +115,59 @@ public class HomeController {
 		return mv;
 	}
 
+	/**
+	 * 물품 수정 페이지
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "product_update", method = RequestMethod.GET)
-	public String product_update() {
-		return "user/home/product_update";
+	public ModelAndView product_update(String no) {
+		ModelAndView mv = new ModelAndView("user/home/product_update");
+
+		ArrayList<CategoryVO> Pcategories = productService.getProductCategories();
+
+		ProductVO product = productService.getProductInfo(no);
+
+		mv.addObject("categories", Pcategories);
+		mv.addObject("product", product);
+		mv.addObject("productImgList", productService.getProductImg(product));
+
+		return mv;
+	}
+
+	/**
+	 * 물품 수정 처리
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "product_update_proc", method = RequestMethod.POST)
+	public ModelAndView product_update_proc(ProductVO pvo, HttpServletRequest request, HttpSession session) throws Exception {
+		ModelAndView mv = new ModelAndView("redirect:product_list");
+
+		// 물품 내용 수정
+		int result = productService.updateProduct(pvo);
+
+		if (result == 1 && pvo.getFilename().getSize() != 0) { // 파일이 입력된 경우 실행
+			// 기존 파일 삭제
+			ArrayList<FileVO> fList = fileService.getFileList(pvo.getNo());
+			FileVO oldFile = fList.get(0);
+
+			File file = new File(FileUtils.getUploadPath(session),  oldFile.getSavedFilename());
+			if (file.exists()) {
+				file.delete();
+			}
+
+			// 새로운 파일 업로드
+			FileVO newFile = new FileVO();
+			newFile.setArticle_no(pvo.getNo());
+			newFile.setNo(1);
+			newFile.setFilename(pvo.getFilename().getOriginalFilename());
+
+			result = fileUtils.uploadFile(newFile, pvo.getFilename(), request);
+		}
+
+		return mv;
 	}
 
 	/**

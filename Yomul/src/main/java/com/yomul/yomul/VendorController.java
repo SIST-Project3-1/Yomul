@@ -387,10 +387,10 @@ public class VendorController {
 		vo.setCategory(vendor.getCategory());
 		vo.setHp(vendor.getTel());
 
-		// DB에 업체 정보 저장!! 
-		nearService.insertVendorNews(vendor,vo,url);
+		// DB에 업체 정보 저장!!
+		nearService.insertVendorNews(vendor, vo, url);
 		mv.setViewName("redirect:/near_home");
-	
+
 		return mv;
 
 	}
@@ -435,7 +435,7 @@ public class VendorController {
 				// 기존 파일 삭제
 				ArrayList<FileVO> oldFileList = nearService.getFileList(near.getNo());
 				for (FileVO vo : oldFileList) {
-					File file = new File(FileUtils.getUploadPath(session) + vo.getSavedFilename());
+					File file = new File(FileUtils.getUploadPath(session), vo.getSavedFilename());
 					if (file.exists()) {
 						file.delete();
 					}
