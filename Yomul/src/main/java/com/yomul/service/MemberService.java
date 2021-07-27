@@ -54,4 +54,6 @@ public interface MemberService {
 	ArrayList<ProductVO> getBuyList(MemberVO member, String page);
 
 	String getNo(String nickname);
+
+	int resetPW(MemberVO vo);
 }

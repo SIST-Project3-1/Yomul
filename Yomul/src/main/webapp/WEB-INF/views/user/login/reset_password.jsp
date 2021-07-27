@@ -23,8 +23,8 @@
 					</label>
 					<input  name="from" class="w-100 form-control" type="email" value="아이디" style="display:none;">
 					<input  id="email" name="to" class="w-100 form-control" type="email" required>
-					<input  name="subject" class="w-100 form-control" type="hidden" value="관리자">
-					<input  name="contents" class="w-100 form-control" type="hidden" value="새비밀번호">
+					<input  name="subject" class="w-100 form-control" type="hidden" value="요물 비밀번호 재설정">
+					<input  name="contents" class="w-100 form-control" type="hidden" value="새비밀번호: ">
 				</div>
 				<button id="btn_submit" class="btn btn-block btn-yomul" type="submit">비밀번호 재설정</button>
 			</form>

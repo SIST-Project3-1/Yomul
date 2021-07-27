@@ -6,6 +6,16 @@
 
 <mapper namespace="mapper.member">
 
+	<!-- 비밀번호 초기화 -->
+	<update id="resetPW" parameterType="com.yomul.vo.MemberVO">
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			PW = #{pw}, HASHSALT = #{hashsalt}
+		WHERE
+			EMAIL = #{email} 
+	</update>
+
 	<!-- 닉네임으로 회원번호 가져오기 -->
 	<select id="getNo" parameterType="map" resultType="string">
 		SELECT
@@ -247,7 +257,7 @@
 			, M.AUTHORITY
 			, V.NO VENDOR_NO
 		FROM
-			YOMUL_MEMBERS M JOIN 
+			YOMUL_MEMBERS M LEFT OUTER JOIN 
 			YOMUL_VENDORS V ON M.NO = V.OWNER
 		WHERE
 		<choose>

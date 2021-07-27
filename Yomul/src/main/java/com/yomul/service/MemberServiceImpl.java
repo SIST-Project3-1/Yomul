@@ -143,4 +143,9 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.getNo(nickname);
 	}
 
+	@Override
+	public int resetPW(MemberVO vo) {
+		return memberDAO.resetPW(vo);
+	}
+
 }
