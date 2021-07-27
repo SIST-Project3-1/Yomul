@@ -1003,6 +1003,19 @@ SELECT ARTICLE_NO, NO, FILENAME FROM YOMUL_FILES WHERE ARTICLE_NO = 'n49' ORDER 
 
 -- 관리자 페이지 시작----------------------------------------------------------------------------------------------------------------------------------
 
+--공지사항 등록
+Insert into SCOTT.YOMUL_NOTICES (NO,WRITER,TITLE,CONTENT,NDATE,HITS) values ('N13','M1','중고거래 게시판 거래 및 환불 정책','당근마켓의 모든 거래는 기본적으로 거래 당사자들끼리 자유롭게 진행할 수 있어요. 가급적 당근마켓은 거래에 개입하지 않아요.',to_date('2021/07/27 22:24:00','yyyy/mm/dd hh24:mi:ss'),0);
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('N1', 1, 'gong1' );
+Insert into SCOTT.YOMUL_NOTICES (NO,WRITER,TITLE,CONTENT,NDATE,HITS) values ('N14','M1','당근채팅 웹 버전에서 바로 채팅방을 열 수는 없나요?','모바일 기기의 당근마켓 앱에서 먼저 시작한 대화만 당근채팅 웹 버전에서 보실 수 있어요. 상대방을 지정해 먼저 채팅을 걸 수는 없어요.',to_date('2021/07/27 22:24:58','yyyy/mm/dd hh24:mi:ss'),0);
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('N2', 1, 'gong2' );
+Insert into SCOTT.YOMUL_NOTICES (NO,WRITER,TITLE,CONTENT,NDATE,HITS) values ('N15','M1','당근채팅 웹 버전에서 상대방의 프로필을 볼 수 없어요.','당근채팅에서는 대화 상대의 닉네임만 볼 수 있어요. 상대방의 프로필을 확인하고 싶다면 모바일 기기의 당근마켓 앱에서 확인해주세요.',to_date('2021/07/27 22:25:22','yyyy/mm/dd hh24:mi:ss'),0);
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('N3', 1, 'gong3' );
+Insert into SCOTT.YOMUL_NOTICES (NO,WRITER,TITLE,CONTENT,NDATE,HITS) values ('N16','M1','중고거래 게시글이 보이지 않아요.','당근채팅 채팅방 내에서는 대화를 시작하게 된 게시글이 보이지 않아요. 상대방의 닉네임을 확인해주시고 거래 글에 대한 내용을 확인하시려면 모바일 당근마켓 앱 내의 채팅을 이용해주세요.',to_date('2021/07/27 22:25:42','yyyy/mm/dd hh24:mi:ss'),0);
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('N4', 1, 'gong4' );
+Insert into SCOTT.YOMUL_NOTICES (NO,WRITER,TITLE,CONTENT,NDATE,HITS) values ('N17','M1','전화번호를 변경하고 싶어요. 어떻게 변경하나요?','[나의 당근 > 오른쪽 상단 ''톱니바퀴'' 모양 또는 ''앱 설정'' 클릭 > 계정/정보 관리] 를 클릭하면 변경할 수 있어요.<br>변경된 전화번호로 문자 인증에 성공하면 해당 계정에 등록된 전화번호가 변경됩니다. :)',to_date('2021/07/27 22:26:42','yyyy/mm/dd hh24:mi:ss'),0);
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('N5', 1, 'gong5' );
+
+
 -- 회원 검색 페이지당 10개씩
 SELECT RNO, NO, EMAIL, NICKNAME, PHONE, MDATE, WITHDRAWAL
 FROM ( SELECT ROWNUM AS RNO, M.*
