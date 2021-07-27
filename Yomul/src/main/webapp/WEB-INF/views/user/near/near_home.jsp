@@ -35,7 +35,7 @@
 			<h3>키워드</h3>
 			<div>
 				<c:forEach var="keyword" items="${keyword}">
-					<a href="/yomul/near_card_form"><label>${keyword }</label></a>
+					<a href="/yomul/near_card_form?word=${keyword}"><label>${keyword}</label></a>
 				</c:forEach>
 
 			</div>

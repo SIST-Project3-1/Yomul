@@ -11,12 +11,33 @@ import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.ProductVO;
 
-//반환형이 int인 경우 성공하면 1, 성공 못하면 0, SQL 에러나면 -1, 자바에서 에러나면 -2
 @Repository
 public class MemberDAO extends DAO {
 
 	private static String namespace = "mapper.member";
-	
+
+	/**
+	 * 비밀번호 초기화
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int resetPW(MemberVO vo) {
+		return sqlSession.update(namespace + ".resetPW", vo);
+	}
+
+	/**
+	 * 닉네임으로 회원 번호 구하기
+	 * 
+	 * @param nickname
+	 * @return
+	 */
+	public String getNo(String nickname) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("nickname", nickname);
+		return sqlSession.selectOne(namespace + ".getNo", params);
+	}
+
 	/**
 	 * 구매 내역 가져오기
 	 * 

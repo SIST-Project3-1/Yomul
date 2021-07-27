@@ -90,9 +90,10 @@ function getFaqList(page, search) {
 				var faq = result[i];
 				html += '<tr>';
 				html += '	<td>' + faq.no + '</td>';
+				html += '	<td>' + faq.writer + '</td>';
 				html += '	<td>' + faq.category + '</td>';
 				html += '	<td><span>Q.&nbsp;</span>' + faq.title + '</td>';
-				html += '	<td><span>A.&nbsp;</span>' + faq.content + '</td>';
+				//html += '	<td><span>A.&nbsp;</span>' + faq.content + '</td>';
 				html += '	<td><a class="btn btn-yomul" href="admin_faq_update?no='+ faq.no +'" role="button">수정</a></td>';
 				html += '	<td><button type="button" class="btn btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="'+ faq.no +'">삭제</button></td>';
 				html += '</tr>';
@@ -154,9 +155,10 @@ function deleteFaq(){
 								<thead>
 									<tr>
 										<th class="col-sm-1">번호</th>
+										<th class="col-sm-1">작성자</th>
 										<th class="col-sm-2">카테고리</th>
-										<th class="col-sm-4">제목</th>
-										<th class="col-sm-4">내용</th>
+										<th class="col-sm-5">제목</th>
+										<!-- <th class="col-sm-4">내용</th>  -->
 										<th class="col-sm-1">수정</th>
 										<th class="col-sm-1">삭제</th>
 									</tr>
