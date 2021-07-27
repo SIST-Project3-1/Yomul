@@ -21,7 +21,7 @@
 					<label for="email">
 						이메일 <small class="text-yomul">임시 비밀번호를 발급하여 이메일로 전송합니다.</small>
 					</label>
-					<input  name="from" class="w-100 form-control" type="email" value="아이디" style="display:none;">
+					<input  name="from" class="w-100 form-control" type="email" value="sayskpays@gmail.com" style="display:none;">
 					<input  id="email" name="to" class="w-100 form-control" type="email" required>
 					<input  name="subject" class="w-100 form-control" type="hidden" value="관리자">
 					<input  name="contents" class="w-100 form-control" type="hidden" value="새비밀번호">

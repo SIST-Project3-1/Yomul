@@ -129,8 +129,9 @@ public class LoginController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "reset_password_proc", method = RequestMethod.GET)
-	public String reset_password_proc(final MailVO vo) {
+	public ModelAndView reset_password_proc(final MailVO vo) {
 
+		ModelAndView mv = new ModelAndView();
 		final MimeMessagePreparator preparator = new MimeMessagePreparator() {
 			@Override
 			public void prepare(MimeMessage mimeMessage) throws Exception {
@@ -147,7 +148,8 @@ public class LoginController {
 		};
 
 		mailSender.send(preparator); 
-		return "redirect:/login";
+		mv.setViewName("user/login/login");
+		return mv;
 		
 	}
 
