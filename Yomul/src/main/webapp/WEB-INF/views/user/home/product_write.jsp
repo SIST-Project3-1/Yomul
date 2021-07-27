@@ -119,7 +119,7 @@
 										<div class="pw_owCover">
 											<div class="pw_owSelect">
 
-												<select name="category_no">
+												<select name="category_no" required>
 													<option selected value disabled>선택해주세요</option>
 													<c:forEach var="category" items="${categories}">
 														<option value="${category.no}">${category.content}</option>
@@ -151,7 +151,7 @@
 									<div class="pw_owCategorybox">
 										<div class="pw_owCover">
 											<div class="pw_owtext">
-												<input type="text" id="price" name="price" placeholder="가격을 입력하세요">
+												<input type="number" id="price" name="price" placeholder="가격을 입력하세요" required>
 												<span class="pw_owIcon2"> ₩ </span>
 											</div>
 
@@ -174,7 +174,7 @@
 									<div class="pw_owCategorybox">
 										<div class="pw_owCover">
 											<div class="pw_owtext">
-												<input type="text" id="location" name="location" placeholder="지역을 입력하세요">
+												<input type="text" id="location" name="location" placeholder="지역을 입력하세요" required>
 											</div>
 
 											<!--pw_owSelect-->
@@ -199,15 +199,15 @@
 				<!--포토박스-->
 				<div class="pw_ptBox">
 					<div class="pw_pbBtn">
-						<input type="file" name="file" id="validatedProductFile" lang="kor">
+						<input type="file" name="file" id="validatedProductFile" lang="kor" required>
 					</div>
 				</div>
 				<!-- pw_ptBox -->
 
 				<div class="pw_textBox">
-					<input type="text" name="title" id="title" placeholder="제목을 입력하세요">
+					<input type="text" name="title" id="title" placeholder="제목을 입력하세요" required>
 					<div class="pw_editorWrap">
-						<textarea name="content" id="content" placeholder="내용을입력하세요"></textarea>
+						<textarea name="content" id="content" placeholder="내용을입력하세요" required></textarea>
 					</div>
 				</div>
 				<!--pw_textBox -->
