@@ -190,9 +190,26 @@
 
 	<!-- 내 근처 홈 화면 글 보기 -->
 	<select id="selectNearList" resultType="com.yomul.vo.NearVO">
-		select * from (select no, title, content, writer, ndate , mainFile, writer_nickname from yomul_near_articles order by ndate desc) 
+		SELECT
+			*
+		FROM
+		(
+			SELECT 
+				  NA.NO
+				, NA.TITLE
+				, NA.WRITER
+				, NA.NDATE
+				, NA.MAINFILE
+				, M.NICKNAME WRITER_NICKNAME
+				, NA.CONTENT
+			FROM 
+				YOMUL_NEAR_ARTICLES NA JOIN 
+				YOMUL_MEMBERS M ON NA.WRITER = M.NO
+			ORDER BY 
+				TO_NUMBER(SUBSTR(NO, 2)) DESC
+		)
 		<!-- 부등호 인식 -->
-		<![CDATA[where rownum <= 3]]>
+<![CDATA[WHERE ROWNUM <= 3]]>
 	</select>
 	
 	<!-- 내 근처 near_card_form 글 보기 -->
