@@ -71,9 +71,9 @@
 	
 	<!-- 업체 소식 목록 조회 -->
 	<select id="selectVendorNewsList" resultType="com.yomul.vo.NearVO" parameterType="java.util.HashMap">
-		select no, title, content, ndate, hits, likes
-			from (select rownum as rno, no, title, content, ndate, hits, likes
-				from (select to_number(substr(no, 3)) no_num, no, title, content, ndate, hits, likes
+		select no, title, content, mainfile, ndate, hits, likes
+			from (select rownum as rno, no, title, content, mainfile, ndate, hits, likes
+				from (select to_number(substr(no, 2)) no_num, no, title, content, mainfile, ndate, hits, likes
 				from v_y_near_articles
 				where vno = #{no}
 				order by no_num desc)
@@ -166,6 +166,7 @@
 				, CATEGORY
 				, TEL
 				, ADDR
+				, CUSTOMERS
 				, WITHDRAWAL
 			FROM
 			(
@@ -177,9 +178,10 @@
 				  , CATEGORY
 				  , TEL
 				  , ADDR
+				  , CUSTOMERS
 				  , WITHDRAWAL
 				FROM
-				YOMUL_VENDORS 
+				V_Y_VENDORS 
 				WHERE
 				LOWER(NAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
 				OR LOWER(CATEGORY) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
