@@ -25,8 +25,10 @@ public interface ProductService {
 	int getTotalPageCount(String search);
 
 	ArrayList<ProductVO> getProductList(int page, String search);
-	
+
 	int sellProduct(TradeHistoryVO vo);
-	
+
 	ArrayList<FileVO> getProductImg(ProductVO product);
+
+	int updateProduct(ProductVO vo);
 }

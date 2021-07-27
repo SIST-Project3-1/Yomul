@@ -1,29 +1,41 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>요물 물건 수정</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
-<link rel="stylesheet" href="http://localhost:9000/yomul/resources/css/product_update.css">
+<link rel="stylesheet" href="/yomul/resources/css/product_write.css">
 </head>
+<script>
+	function fileUpload(fis) {
+		var str = fis.value;
+		// 이미지를 변경한다.
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			$('#file_img').attr('src', e.target.result);
+			$('#img_file').css('display', 'none');
+		}
+		reader.readAsDataURL(fis.files[0]);
+	}
+</script>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../header.jsp"%>
 
 	<!--  BODY  -->
-	<form>
-		<div class="pu_wrap">
-			<div class="pu_header">
-				<div class="pu_toolBar">
-					<div class="pu_logo">
+	<form action="product_update_proc" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="no" value="${product.no}">
+		<div class="pw_wrap">
+			<div class="pw_header">
+				<div class="pw_toolBar">
+					<div class="pw_logo">
 						<h1>
-							<a> <svg class="icon" width="74" height="30"
-									viewBox="0 0 74 30" preserveAspectRatio="xMidYMid meet">
+							<a>
+								<svg class="icon" width="74" height="30" viewBox="0 0 74 30" preserveAspectRatio="xMidYMid meet">
 								<g fill="none" fill-rule="evenodd">
 									<path fill="#000"
 										d="M10.4,24.55H0.64c-0.53,0-0.64-0.35-0.64-1.3V22c0-0.95,0.11-1.3,0.64-1.3H2.4v-3.25c0-1,0.19-1.24,0.58-1.24h0.83
@@ -68,247 +80,157 @@
 							</a>
 						</h1>
 					</div>
-					<!--pu_logo-->
-					<div class="pu_tool">
-						<button class="editor-command-list-pc-button" aria-pressed="false"
-							title="사진 추가" type="button">
-							<svg class="icon" viewBox="0 0 29 29" height="29" width="29"
-								preserveAspectRatio="xMidYMid meet">
-								<g fill-rule="evenodd" fill="none">
-									<rect rx="4" height="29" width="29"></rect>
-									<g stroke-width="1.6" stroke="#525b61"
-									transform="translate(4 4)">
-										<rect rx="4" height="19.4" width="19.4" y=".8" x=".8"></rect>
-										<path stroke-linejoin="round"
-									d="M.8 15.24L5.98 9.7l7.11 6.11 3.88-3.05 3.23 2.5"></path>
-										<circle r="2.03" cy="6.87" cx="14.13"></circle>
-									</g>
-								</g>
-							</svg>
-						</button>
+					<!--pw_logo-->
 
-						<span></span>
+					<!-- pw_tool -->
+					<div class="pw_sbtn">
 
-						<button class="editor-command-list-pc-button" disabled=""
-							aria-pressed="false" title="제목" type="button">
-							<span class="project-editor-command-list-content__icon-h2">제목</span>
-						</button>
-						<button class="editor-command-list-pc-button" disabled=""
-							aria-pressed="false" title="본문" type="button">
-							<span class="project-editor-command-list-content__icon-p">본문</span>
-						</button>
-
-						<span></span>
-
-						<button class="editor-command-list-pc-button" disabled=""
-							aria-pressed="false" title="굵게" type="button">
-							<svg class="icon" width="29" height="29" viewBox="0 0 29 29"
-								preserveAspectRatio="xMidYMid meet">
-								<g fill="none" fill-rule="evenodd">
-									<rect width="29" height="29" rx="4"></rect>
-									<path
-									d="M8 6h5.46c2.49 0 4.3.34 5.42 1.03 1.13.68 1.69 1.77 1.69 3.27.04.89-.22 1.76-.74 2.5a2.96 2.96 0 01-1.96 1.17v.12c1.11.24 1.9.69 2.39 1.35.52.77.78 1.7.73 2.62a4.27 4.27 0 01-1.73 3.64c-1.16.87-2.73 1.3-4.71 1.3H8zm3.72 6.73h2.16c1.01 0 1.74-.15 2.2-.45.47-.36.73-.92.68-1.5a1.49 1.49 0 00-.74-1.4 4.94 4.94 0 00-2.34-.43h-1.96zm0 2.86V20h2.43c1.02 0 1.78-.19 2.26-.57.52-.43.79-1.08.73-1.74 0-1.4-1.04-2.11-3.12-2.11z"
-									fill="#525b61" fill-rule="nonzero"></path>
-								</g>
-							</svg>
-						</button>
-						<button class="editor-command-list-pc-button" disabled=""
-							aria-pressed="false" title="이탤릭" type="button">
-							<svg class="icon" viewBox="0 0 29 29" height="29" width="29"
-								preserveAspectRatio="xMidYMid meet">
-								<g fill-rule="evenodd" fill="none">
-									<rect rx="4" height="29" width="29"></rect>
-									<g fill="#525b61" transform="translate(9 5)">
-										<rect rx="1" height="2" width="8" y="16"></rect>
-										<rect rx="1" height="2" width="8" y="1" x="3"></rect>
-										<rect rx="1" height="17" width="2" y="1.04" x="4.55"
-									transform="rotate(10 5.55 9.54)"></rect>
-									</g>
-								</g>
-							</svg>
-						</button>
-						<button class="editor-command-list-pc-button" disabled=""
-							aria-pressed="false" title="밑줄" type="button">
-							<svg class="icon" viewBox="0 0 29 29" height="29" width="29"
-								preserveAspectRatio="xMidYMid meet">
-								<g fill-rule="evenodd" fill="none">
-									<rect rx="4" height="29" width="29"></rect>
-									<g transform="translate(6 7)">
-										<path stroke-linejoin="round" stroke-linecap="round"
-									stroke-width="2.1" stroke="#525b61"
-									d="M3.19 0v5.35c0 3.5 2.38 6.34 5.31 6.34 2.93 0 5.31-2.84 5.31-6.34V0">
-									</path>
-									<rect rx="1" height="2.13" width="17" y="14.88" fill="#525b61"></rect>
-									</g>
-								</g>
-							</svg>
-						</button>
-						<span></span>
-						<button class="editor-command-list-pc-button">
-							<svg width="29" heigh="29" viewBox="0 0 29 29"
-								preserveAspectRatio="xMidYMid meet"
-								style="color: rgb(66, 66, 66);">
-									<circle fill="currentColor" cx="14.5" cy="14.5" r="8.5"></circle>
-								</svg>
-						</button>
-						<button class="editor-command-list-pc-button">
-							<svg width="29" heigh="29" viewBox="0 0 29 29"
-								preserveAspectRatio="xMidYMid meet"
-								style="color: rgb(255, 119, 119);">
-								<circle fill="currentColor" cx="14.5" cy="14.5" r="8.5"></circle>
-								</svg>
-						</button>
-						<button class="editor-command-list-pc-button">
-							<svg width="29" heigh="29" viewBox="0 0 29 29"
-								preserveAspectRatio="xMidYMid meet"
-								style="color: rgb(53, 197, 240);">
-								<circle fill="currentColor" cx="14.5" cy="14.5" r="8.5"></circle>
-								</svg>
-						</button>
-					</div>
-					<!-- pu_tool -->
-					<div class="pu_sbtn">
-						<div class="pu_cs_btn">
-							<button class="pu_s_btn">임시저장</button>
-						</div>
-						<button class="pu_w_btn">수정하기</button>
+						<button type="submit" class="pw_w_btn">글쓰기</button>
 					</div>
 				</div>
-				<!-- pu_toolBar -->
+				<!-- pw_toolBar -->
 			</div>
-			<!--pu_header-->
+			<!--pw_header-->
 
 
 			<!--contents 영역-->
-			<div class="pu_contentBox">
+			<div class="pw_contentBox">
 				<details>
-					<summary>
-						<div class="pu_section_header">
-							<button class="pu_SHbtn">
-								<div class="pu_sh_left">
-									<div class="pu_shicon">
-										<svg class="icon" width="26" height="26" viewBox="0 0 26 26"
-											preserveAspectRatio="xMidYMid meet">
+					<summary class="pw_section_header pw_SHbtn">
+
+						<div class="pw_sh_left">
+							<div class="pw_shicon">
+								<svg class="icon" width="26" height="26" viewBox="0 0 26 26" preserveAspectRatio="xMidYMid meet">
 										<rect width="26" height="26" fill="#F8C332" rx="10"></rect>
 										<g fill="none" stroke="#FFF">
-											<path stroke-linejoin="round" stroke-width="1.2"
-												d="M15.06 8.65l-6.9 6.88L7 18.98l3.45-1.15 6.9-6.9-2.3-2.28z"></path>
-											<path stroke-width="1.2"
-												d="M15.04 8.64l1.45-1.45a.65.65 0 01.93 0l1.37 1.38a.65.65 0 010 .92l-1.45 1.45"></path>
+											<path stroke-linejoin="round" stroke-width="1.2" d="M15.06 8.65l-6.9 6.88L7 18.98l3.45-1.15 6.9-6.9-2.3-2.28z"></path>
+											<path stroke-width="1.2" d="M15.04 8.64l1.45-1.45a.65.65 0 01.93 0l1.37 1.38a.65.65 0 010 .92l-1.45 1.45"></path>
 											<path d="M8.27 15.2l2.48 2.47"></path>
 										</g>
 									</svg>
-									</div>
-									<div class="pu_shtitle">필수 정보 입력</div>
-								</div>
-								<div class="pu_sh_right">
-									<svg class="editor-top-section-expand-icon" width="1em"
-										height="1em" viewBox="0 0 16 16"
-										preserveAspectRatio="xMidYMid meet">
-								<path fill="currentColor" fill-rule="evenodd"
-											d="M2.87 4L1.33 5.5 8 12l6.67-6.5L13.13 4 8 9z"></path>
-							</svg>
-								</div>
-							</button>
+							</div>
+							<div class="pw_shtitle">필수 정보 입력</div>
 						</div>
+
+						<div class="pw_sh_right">
+							<svg class="editor-top-section-expand-icon" width="1em" height="1em" viewBox="0 0 16 16" preserveAspectRatio="xMidYMid meet">
+								<path fill="currentColor" fill-rule="evenodd" d="M2.87 4L1.33 5.5 8 12l6.67-6.5L13.13 4 8 9z"></path>
+							</svg>
+						</div>
+
 					</summary>
 
-					<div class="pu_oftenW">
-						<div class="pu_owContentbox">
-							<div class="pu_owformCover">
-								<div class="pu_owformCG">
-									<div class="pu_owlabel">
-										카테고리 <span class="pu_owlabel1">*</span>
+					<div class="pw_oftenW">
+						<div class="pw_owContentbox">
+							<div class="pw_owformCover">
+								<div class="pw_owformCG">
+									<div class="pw_owlabel">
+										카테고리
+										<span class="pw_owlabel1">*</span>
 									</div>
-									<div class="pu_owCategorybox">
-										<div class="pu_owCover">
-											<div class="pu_owSelect">
-												<select>
+									<div class="pw_owCategorybox">
+										<div class="pw_owCover">
+											<div class="pw_owSelect">
+
+												<select name="category_no" required>
 													<option selected value disabled>선택해주세요</option>
-													<option>어레이리스트에 담긴 내용을</option>
-													<option>포문을 통해</option>
-													<option>여기에 출력 해야하눈데</option>
-													<option>구럼 내용은 어디서 입력하지</option>
-													<option>내용 추가도 넣어야겠네 ㅅㅂ</option>
-												</select> <span class="pu_owIcon"> <svg class="icon"
-														width="10" height="10" style="fill: currentColor"
-														preserveAspectRatio="xMidYMid meet">
+													<c:forEach var="category" items="${categories}">
+														<option value="${category.no}" ${product.category_no == category.no ? "selected" : ""}>${category.content}</option>
+														<!--  카테고리라는 어레이스트를 받아와서 하나씩받아온거에대한 변수명을 카테고리라고 설정 카테고리엔오와 카테고리콘텐츠를 이용해서 데이터를 뽑아온 것		-->
+													</c:forEach>
+
+												</select>
+												<span class="pw_owIcon">
+													<svg class="icon" width="10" height="10" style="fill: currentColor" preserveAspectRatio="xMidYMid meet">
 													<path fill-rule="evenodd" d="M0 3l5 5 5-5z"></path>
 												</svg>
 												</span>
 											</div>
-											<!--pu_owSelect-->
+											<!--pw_owSelect-->
 										</div>
-										<!--pu_owCover-->
+										<!--pw_owCover-->
 										<div class="info">필수 입력 항목입니다.</div>
 									</div>
-									<!--pu_owCategorybox-->
+									<!--pw_owCategorybox-->
 								</div>
-								<!--pu_owformCG-->
+								<!--pw_owformCG-->
 							</div>
-							<div class="pu_owformCover">
-								<div class="pu_owformPAY">
-									<div class="pu_owlabel">
-										가격입력 <span class="pu_owlabel1">*</span>
+							<div class="pw_owformCover">
+								<div class="pw_owformPAY">
+									<div class="pw_owlabel">
+										가격입력
+										<span class="pw_owlabel1">*</span>
 									</div>
-									<div class="pu_owCategorybox">
-										<div class="pu_owCover">
-											<div class="pu_owtext">
-												<input type="text" placeholder="가격을 입력하세요"> <span
-													class="pu_owIcon2"> ₩ </span>
+									<div class="pw_owCategorybox">
+										<div class="pw_owCover">
+											<div class="pw_owtext">
+												<input type="number" id="price" name="price" placeholder="가격을 입력하세요" required value="${product.price}">
+												<span class="pw_owIcon2"> ₩ </span>
 											</div>
-											<!--pu_owSelect-->
+
+
+											<!--pw_owSelect-->
 										</div>
-										<!--pu_owCover-->
+										<!--pw_owCover-->
 										<div class="info">필수 입력 항목입니다.</div>
 									</div>
-									<!--pu_owCategorybox-->
+									<!--pw_owCategorybox-->
 								</div>
-								<!--pu_owformPAY-->
+								<!--pw_owformPAY-->
 							</div>
+							<div class="pw_owformCover">
+								<div class="pw_owformPAY">
+									<div class="pw_owlabel">
+										동네입력
+										<span class="pw_owlabel1">*</span>
+									</div>
+									<div class="pw_owCategorybox">
+										<div class="pw_owCover">
+											<div class="pw_owtext">
+												<input type="text" id="location" name="location" placeholder="지역을 입력하세요" required value="${product.location}">
+											</div>
+
+											<!--pw_owSelect-->
+										</div>
+										<!--pw_owCover-->
+										<div class="info">필수 입력 항목입니다.</div>
+									</div>
+									<!--pw_owCategorybox-->
+								</div>
+								<!--pw_owformPAY-->
+							</div>
+
 
 						</div>
-						<!--pu_owContentbox-->
+						<!--pw_owContentbox-->
 
 					</div>
-					<!--pu_oftenW-->
+					<!--pw_oftenW-->
+
 				</details>
 
 				<!--포토박스-->
-				<div class="pu_ptBox">
-					<button class="pu_pbBtn">
-						<p class="pu_pbDragP">
-							<span class="pu_pbDrag"> "드래그 앤 드롭이나 추가하기 버튼으로" <br>
-							</span> "커버 사진을 업로드해주세요."
-						</p>
-
-						<p class="pu_pbSize">* 권장 사이즈: 1920 x 1080, 최소 1400 x 930(3:2
-							비율)</p>
-						<div class="pu_ptCover">커버 사진 추가하기</div>
-
-					</button>
+				<div class="pw_ptBox">
+					<img src="/yomul/upload/${productImgList.get(0).getSavedFilename()}" id="file_img">
 				</div>
-				<!-- pu_ptBox -->
-
-				<div class="pu_textBox">
-					<input type="text" placeholder="제목을 입력하세요">
-					<div class="pu_tbLimit">
-						"0"
-						<!---->
-						"/"
-						<!---->
-						"30"
-					</div>
-					<div class= "pu_editorWrap">
-						<textarea placeholder="내용을입력하세요"></textarea>
+				<div class="input-group mb-3">
+					<div class="custom-file">
+						<input type="file" class="custom-file-input" id="filename" name="filename" aria-describedby="profile_img" onchange="fileUpload(this)">
+						<label class="custom-file-label" for="profile_img" data-browse="업로드">${productImgList.get(0).filename}</label>
 					</div>
 				</div>
-				<!--pu_textBox -->
 
+				<!--pw_textBox -->
+				<div class="pw_textBox">
+					<input type="text" name="title" id="title" placeholder="제목을 입력하세요" required value="${product.title}">
+					<div class="pw_editorWrap">
+						<textarea name="content" id="content" placeholder="내용을입력하세요" required>${product.content}</textarea>
+					</div>
+				</div>
 			</div>
-			<!--pu_contentBox -->
+			<!--pw_contentBox -->
 
-		<!--pu_wrap -->
+			<!--pw_wrap -->
 	</form>
 	<!-- FOOTER -->
 	<%@ include file="../footer.jsp"%>

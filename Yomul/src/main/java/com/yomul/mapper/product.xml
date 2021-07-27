@@ -6,6 +6,20 @@
 
 <mapper namespace="mapper.product">
 
+	<!-- 물건 내용 수정 -->
+	<update id="updateProduct" parameterType="com.yomul.vo.ProductVO">
+		UPDATE 
+			YOMUL_PRODUCTS 
+		SET 
+			  CATEGORY_NO = #{category_no}
+			, PRICE = #{price}
+			, LOCATION = #{location}
+			, TITLE = #{title}
+			, CONTENT = #{content}
+		WHERE 
+			NO = #{no}
+	</update>
+
 	<!-- 물건 상태를 SOLD로 변경 -->
 	<update id="sellProduct" parameterType="com.yomul.vo.TradeHistoryVO">
 		UPDATE
