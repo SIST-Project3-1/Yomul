@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <nav class="border-bottom navbar navbar-expand-md bg-white navbar-light sticky-top">
-	<a class="navbar-brand" href="/yomul/"> 요물 </a>
+	<a class="navbar-brand" href="/yomul/"> <img src="/yomul/image/logo.png"> </a>
 
 	<div class="collapse navbar-collapse" id="navbarText">
 		<ul class="navbar-nav">
