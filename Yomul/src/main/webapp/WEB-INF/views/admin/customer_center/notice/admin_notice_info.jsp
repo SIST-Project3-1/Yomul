@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 상세</title>
+<title>관리자-공지사항 상세</title>
 <%@ include file="../../../head.jsp"%>
 <style>
 	#notice_info {
@@ -66,8 +66,9 @@
 		<hr>
 		<div class="my-5 mx-0">
 			<c:forEach var="fname" items="${files }">
-				<img src="/yomul/image/${fname }" class="img-fluid">
+				<img src="/yomul/upload/${fname }" class="img-fluid">
 			</c:forEach>
+			<br><br>
 				${vo.getContent() }
 		</div>
 		<hr>

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>관리자-공지사항 목록</title>
 <!-- HEAD -->
 <style>
 #admin_notice_list {
