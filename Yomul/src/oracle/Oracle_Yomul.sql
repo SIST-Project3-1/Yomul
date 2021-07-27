@@ -161,9 +161,8 @@ CREATE TABLE YOMUL_VENDORS(
 -- 내 근처 게시글
 CREATE TABLE YOMUL_NEAR_ARTICLES(
     NO VARCHAR2(10), --상품 게시글 번호
-    WRITER VARCHAR2(10) CONSTRAINT NN_Y_NA_WRITER NOT NULL, -- 작성자
-    WRITER_NICKNAME VARCHAR2(50) NOT NULL,
-    VENDOR VARCHAR2(10), -- 작성 업체
+    WRITER VARCHAR2(50) CONSTRAINT NN_Y_NA_WRITER NOT NULL, -- 작성자
+    VENDOR VARCHAR2(50), -- 작성 업체
     TITLE VARCHAR2(100) CONSTRAINT NN_Y_NA_TITLE NOT NULL, -- 상품 제목
     CATEGORY VARCHAR2(20) CONSTRAINT NN_Y_NA_CATEGORY NOT NULL, -- 카테고리
     PRICE NUMBER(30) CONSTRAINT C_Y_NA_PRICE CHECK (PRICE >= 0), --가격(선택)
@@ -739,28 +738,40 @@ ORDER BY TO_NUMBER(SUBSTR(NO, 2)) DESC)
 WHERE ROWNUM <4;
 
 -- 내 근처 게시글 생성
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME ,TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','동네일꾼' ,'웹개발자 구인합니다~', '동네구인구직', 3000000, '010-5184-1652', '20~30대 컴퓨터 프로그래머 채용합니다. 월급은 300만원이고 업무는 웹 개발 쪽입니다. 관심 있으신 분은 연락주세요~', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, WRITER_NICKNAME ,TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','사랑꾼' , '피아노 선생님 구합니다~', '동네구인구직', 2000000, '010-9132-4821', '피아노과외 선생님 구합니다 동네 아이들 가르치는 선생님이요~', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, WRITER_NICKNAME ,TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','해적선' , '용달차 기사 구인 합니다', '동네구인구직', 0, '010-4852-1621', '용달 기사님 구합니다~ 급여는 건당 계산해서 월급으로 지급합니다~', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','마지막프로젝트' , 'SI업체 프로그래머 구인', '동네구인구직', 5000000, '010-7512-1531', 'SI업체 자바 프로그래머 구합니다~', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','면접관' , '강아지 돌봄 선생님 구합니다', '동네구인구직', 0, '010-8124-8845', '강아지 두마리 돌봐줄 선생님 구합니다. 아이들 밥이랑 산책만 주시면 됩니다~', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','식당이모' , '동네식당 주방알바 열심히 하실분', '동네구인구직', 2500000, '010-4813-7315', '곱창집에서 주방일 봐주실 알바생 구합니다 나이/성별 상관 없습니다~', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','슈퍼카딜러' , '슈퍼카 중고차 대량으로 팝니다~', '중고차', 0, '010-6515-1155', '슈퍼카만 취급하는 업체입니다. 여러 종류 있으니 자세한 내용은 홈페이지를 참고해주시고 연락 주세요~', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','재배맨' , '도배를 해야할까요...', '중고차', 0, '010-2724-1652', '벽걸이 에어컨하다가 뗏은데 저렇게 다 벗겨져서요 액자같은거두면 괜찮을까요? 복층집이에요 이층이고어떤액자가 좋을까요', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','이욘' , '철제침대사이즈', '중고차', 0, '010-8123-1561', '혹시 이런침대프레임 더블사이즈 보신적 잇으실까요ㅠㅠ 오늘의 집에서는 아무리 찾아도 없네요,,', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','리모델러' , '세면대 리모델링 문의', '중고차', 0, '010-1681-8989', '지금 사용중인 세면대가 상판 아래쪽에 설치가 되어 있어서 너무 불편하고 물도 많이 튀어서 관리도 너무 어렵네요세면대만 교체하고 싶은데 견적이 많이 나올까요?', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','체어맨' , '식탁이랑 의자 컬러 좀 봐주세요', '중고차', 0, '010-7823-1855', '얼마전에 홈테이블데코페어에서 홀프레츠 식탁보고 반해서 구매하려고 하는데 색상이 너무 고민되요 ㅠㅠ 몇개월 뒤에 입주할 아파트 주방 모습인데요,아이보리와 블랙 컬러 중 어떤 색상이 더 잘 어울릴까요? 식탁 의자는 위 사진에 있는 의자로 하려는데,아이보리, 그레이, 카멜 3가지 색상이 있더라구요~위 조합', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','패브리즈' , '어떤색 패브릭이 잘 어울릴까요?', '중고차', 0, '010-1354-9854', '집 수리 끝나면 곧 입주하는데 커튼, 침구 등 어떤색이 어울릴지 잘 모르겠습니다..조언 부탁 드릴게요', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','식당이모' , '동네식당 주방알바 열심히 하실분', '동네구인구직', 2500000, '010-4813-7315', '곱창집에서 주방일 봐주실 알바생 구합니다 나이/성별 상관 없습니다~', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','슈퍼카딜러' , '슈퍼카 중고차 대량으로 팝니다~', '중고차', 0, '010-6515-1155', '슈퍼카만 취급하는 업체입니다. 여러 종류 있으니 자세한 내용은 홈페이지를 참고해주시고 연락 주세요~', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','도배맨' , '농작물 재배를 해야할까요...', '농수산물', 0, '010-2724-1652', '벽걸이 에어컨하다가 뗏은데 저렇게 다 벗겨져서요 액자같은거두면 괜찮을까요? 복층집이에요 이층이고어떤액자가 좋을까요', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','이욘' , '철제침대사이즈', '중고차', 0, '010-8123-1561', '혹시 이런침대프레임 더블사이즈 보신적 잇으실까요ㅠㅠ 오늘의 집에서는 아무리 찾아도 없네요,,', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','리모델러' , '세면대 리모델링 문의', '중고차', 0, '010-1681-8989', ' 너무 불편하고 물도 많이 튀어서 관리도 너무 어렵네요세면대만 교체하고 싶은데 견적이 많이 나올까요?', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','체어맨' , '식탁이랑 의자 컬러 좀 봐주세요', '중고차', 0, '010-7823-1855', '식탁 의자는 위 사진에 있는 의자로 하려는데,아이보리, 그레이, 카멜 3가지 색상이 있더라구요~위 조합', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','패브릭맨' , '어떤색 패브릭이 잘 어울릴까요?', '중고차', 0, '010-1354-9854', '집 수리 끝나면 곧 입주하는데 커튼, 침구 등 어떤색이 어울릴지 잘 모르겠습니다..조언 부탁 드릴게요', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, WRITER_NICKNAME ,TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','해적선' , '용달차 기사 구인 합니다', '동네구인구직', 0, '010-4852-1621', '용달 기사님 구합니다~ 급여는 건당 계산해서 월급으로 지급합니다~', 1);
-INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER,WRITER_NICKNAME , TITLE, CATEGORY, PRICE, HP, CONTENT, CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1','불꽃프로젝트' , 'SM업체 프로그래머 구인', '동네구인구직', 5000000, '010-7512-1531', 'SM업체 파이썬 프로그래머 구합니다~', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER ,TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M1' ,'웹개발자 구인합니다~', '동네구인구직', 3000000, '010-5184-1652', '20~30대 컴퓨터 프로그래머 채용합니다. 월급은 300만원이고 업무는 웹 개발 쪽입니다. 관심 있으신 분은 연락주세요~','개발자1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER ,TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M2' , '피아노 선생님 구합니다~', '동네구인구직', 2000000, '010-9132-4821', '피아노과외 선생님 구합니다 동네 아이들 가르치는 선생님이요~','피아노1.jpg' ,1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER ,TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M3' , '용달차 기사 구인 합니다', '동네구인구직', 0, '010-4852-1621', '용달 기사님 구합니다~ 급여는 건당 계산해서 월급으로 지급합니다~','용달차1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M4' , 'SI업체 프로그래머 구인', '동네구인구직', 5000000, '010-7512-1531', 'SI업체 자바 프로그래머 구합니다~','개발자1.jpg' ,1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M5' , '강아지 돌봄 선생님 구합니다', '동네구인구직', 0, '010-8124-8845', '강아지 두마리 돌봐줄 선생님 구합니다. 아이들 밥이랑 산책만 주시면 됩니다~','강아지사진3.jpg',1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M6' , '동네식당 주방알바 열심히 하실분', '동네구인구직', 2500000, '010-4813-7315', '곱창집에서 주방일 봐주실 알바생 구합니다 나이/성별 상관 없습니다~','식당사진1.jpg' ,1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M7' , '슈퍼카 중고차 대량으로 팝니다~', '중고차', 0, '010-6515-1155', '슈퍼카만 취급하는 업체입니다. 여러 종류 있으니 자세한 내용은 홈페이지를 참고해주시고 연락 주세요~','슈퍼카1.jpg' ,1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M8' , '도배를 해야할까요...', '중고차', 0, '010-2724-1652', '벽걸이 에어컨하다가 뗏은데 저렇게 다 벗겨져서요 액자같은거두면 괜찮을까요? 복층집이에요 이층이고어떤액자가 좋을까요', '에어컨1.jpg',1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M9' , '철제침대사이즈', '중고차', 0, '010-8123-1561', '혹시 이런침대프레임 더블사이즈 보신적 잇으실까요ㅠㅠ 오늘의 집에서는 아무리 찾아도 없네요,,','침대사진1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M10' , '세면대 리모델링 문의', '중고차', 0, '010-1681-8989', '지금 사용중인 세면대가 상판 아래쪽에 설치가 되어 있어서 너무 불편하고 물도 많이 튀어서 관리도 너무 어렵네요세면대만 교체하고 싶은데 견적이 많이 나올까요?','에어컨1.jpg' ,1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M11' , '식탁이랑 의자 컬러 좀 봐주세요', '중고차', 0, '010-7823-1855', '얼마전에 홈테이블데코페어에서 홀프레츠 식탁보고 반해서 구매하려고 하는데 색상이 너무 고민되요 ㅠㅠ  ','거실1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M12' , '어떤색 패브릭이 잘 어울릴까요?', '중고차', 0, '010-1354-9854', '집 수리 끝나면 곧 입주하는데 커튼, 침구 등 어떤색이 어울릴지 잘 모르겠습니다..조언 부탁 드릴게요','거실1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M13' , '동네식당 주방알바 열심히 하실분', '동네구인구직', 2500000, '010-4813-7315', '곱창집에서 주방일 봐주실 알바생 구합니다 나이/성별 상관 없습니다~','식당사진1.jpg' ,1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M14' , '슈퍼카 중고차 대량으로 팝니다~', '중고차', 0, '010-6515-1155', '슈퍼카만 취급하는 업체입니다. 여러 종류 있으니 자세한 내용은 홈페이지를 참고해주시고 연락 주세요~','슈퍼카1.jpg' , 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M15' , '농작물 재배를 해야할까요...', '농수산물', 0, '010-2724-1652', '벽걸이 에어컨하다가 뗏은데 저렇게 다 벗겨져서요 액자같은거두면 괜찮을까요? 복층집이에요 이층이고어떤액자가 좋을까요','에어컨1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M16' , '철제침대사이즈', '중고차', 0, '010-8123-1561', '혹시 이런침대프레임 더블사이즈 보신적 잇으실까요ㅠㅠ 오늘의 집에서는 아무리 찾아도 없네요,,','침대사진1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER, TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M17' , '세면대 리모델링 문의', '중고차', 0, '010-1681-8989', ' 너무 불편하고 물도 많이 튀어서 관리도 너무 어렵네요세면대만 교체하고 싶은데 견적이 많이 나올까요?','거실1.jpg' , 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M18' , '식탁이랑 의자 컬러 좀 봐주세요', '중고차', 0, '010-7823-1855', '식탁 의자는 위 사진에 있는 의자로 하려는데,아이보리, 그레이, 카멜 3가지 색상이 있더라구요~','의자사진1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M19' , '어떤색 패브릭이 잘 어울릴까요?', '중고차', 0, '010-1354-9854', '집 수리 끝나면 곧 입주하는데 커튼, 침구 등 어떤색이 어울릴지 잘 모르겠습니다..조언 부탁 드릴게요','거실1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER ,TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M20' , '용달차 기사 구인 합니다', '동네구인구직', 0, '010-4852-1621', '용달 기사님 구합니다~ 급여는 건당 계산해서 월급으로 지급합니다~','용달차1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL ,'M21' , 'SM업체 프로그래머 구인', '동네구인구직', 5000000, '010-7512-1531', 'SM업체 파이썬 프로그래머 구합니다~','개발자1.jpg', 1);
 
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1' , '동네사무직 아르바이트 구합니다', '동네구인구직', 2500000, '010-9052-4455', '사무알바 구합니다 일 잘하시면 정직원으로 변경 될 수 있어요','파일1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1' , '당근 팝니다. 싱싱한 당근 도소매로 판매 합니다.', '농수산물', 0, '010-1681-8989', '당근 재배지에서 갓따온 싱싱한 당근 판매합니다.','당근1.jpg' , 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1' , '배추 판매합니다. 많이들 사가세요', '농수산물', 0, '010-7823-1855', '배추 팝니다 소매로만 팔아요 채팅 주세요~','배추1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1', '가지 구매합니다.식당에서 쓸거에요', '농수산물', 0, '010-1354-9854', '가지 ','가지1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER ,TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1' , '용달차 기사 구인 합니다', '동네구인구직', 0, '010-4852-1621', '용달 기사님 구합니다~ 급여는 건당 계산해서 월급으로 지급합니다~','용달차1.jpg', 1);
+INSERT INTO YOMUL_NEAR_ARTICLES(NO, WRITER , TITLE, CATEGORY, PRICE, HP, CONTENT, MAINFILE ,CHATCHECK) VALUES('n' || YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL, 'M1' , 'SM업체 프로그래머 구인', '동네구인구직', 5000000, '010-7512-1531', 'SM업체 파이썬 프로그래머 구합니다~','개발자1.jpg', 1);
+
+
+COMMIT;
+select*from YOMUL_NEAR_ARTICLES;
+select*from yomul_members;
+select*from yomul_files;
 
 -- 내 근처 게시글 상세보기
 SELECT N.NO, V.NO AS VNO, V.NAME AS WRITER, N.TITLE, N.CATEGORY, N.PRICE, N.HP, N.CONTENT, N.NDATE, N.CHATCHECK, N.HITS
