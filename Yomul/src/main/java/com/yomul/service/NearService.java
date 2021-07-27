@@ -39,7 +39,7 @@ public interface NearService {
 	// 내 근처 게시글 조회수 업데이트
 	int updateNearHits(String no);
 
-	ArrayList<NearVO> getNearList(NearVO near, String page);
+	ArrayList<NearVO> getNearList(String search, String page);
 
 	int deleteNear(MemberVO member, NearVO near);
 

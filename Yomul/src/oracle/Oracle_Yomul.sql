@@ -421,7 +421,7 @@ WHERE N.NO = F.NO(+);
 CREATE SEQUENCE YOMUL_MEMBERS_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2; 
 
 -- 물건 번호 시퀀스 생성
-CREATE SEQUENCE YOMUL_PRODUCTS_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
+CREATE SEQUENCE YOMUL_PRODUCTS_NO_SEQ START WITH 61 INCREMENT BY 1 CACHE 2;
 
 -- 거래 번호 시퀀스 생성
 CREATE SEQUENCE YOMUL_TRADE_HISTORY_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
@@ -1019,35 +1019,59 @@ SELECT CEIL(COUNT(*)/10) TOTAL_PAGE FROM YOMUL_MEMBERS WHERE NICKNAME LIKE('%' |
 DELETE FROM YOMUL_MEMBERS WHERE NO = 'M24' AND WITHDRAWAL = 1;
 
 -- 물건 검색 페이지당 10개씩
-		SELECT
-			  RNO
-					, NO
-					, TITLE
-					, SELLER
-					, PDATE
-          , SELLER_NICKNAME
-		FROM
+SELECT
+			*
+		FROM 
 		(
-			SELECT
-				ROWNUM AS RNO
+			SELECT 
+				  ROWNUM AS RNO
 				, P.*
-			FROM
+			FROM 
 			(
-				SELECT
-					  TO_NUMBER(SUBSTR(P.NO, 2)) AS NO_NUM
-					, P.NO
-					, TITLE
-					, SELLER
-					, PDATE
-          , M.NICKNAME SELLER_NICKNAME
-				FROM
-					YOMUL_PRODUCTS P JOIN YOMUL_PRODUCT_CATEGORIES PC ON P.CATEGORY_NO = PC.NO JOIN YOMUL_MEMBERS M ON P.SELLER = M.NO
+				SELECT 
+					  P.NO
+					, P.TITLE
+					, P.CONTENT
+					, NVL(L.LIKES, 0) LIKES
+					, NVL(C.COMMENTS, 0) COMMENTS
+					, IMG
+				FROM 
+						 YOMUL_PRODUCTS P  
+					LEFT OUTER JOIN 
+					(
+						SELECT
+							  ARTICLE_NO
+							, COUNT(*) LIKES 
+						FROM
+							YOMUL_LIKES 
+						GROUP BY
+							ARTICLE_NO
+					) L ON P.NO = L.ARTICLE_NO
+					LEFT OUTER JOIN 
+					(
+						SELECT 
+							  ARTICLE_NO
+							, COUNT(*) COMMENTS 
+						FROM 
+							YOMUL_COMMENTS 
+						GROUP BY 
+							ARTICLE_NO
+					) C ON P.NO = C.ARTICLE_NO
+					LEFT OUTER JOIN 
+					(
+						SELECT 
+							  ARTICLE_NO || '_' || NO || '_' || FILENAME IMG
+							, ARTICLE_NO 
+						FROM 
+							YOMUL_FILES
+					) F ON P.NO = F.ARTICLE_NO
+          LEFT JOIN YOMUL_MEMBERS M ON P.SELLER = M.NO
 				WHERE
-              LOWER(P.TITLE) LIKE ('%' || LOWER('물') || '%')
-            OR  LOWER(P.CONTENT) LIKE ('%' || LOWER('물') || '%')
-            OR  LOWER(PC.CONTENT) LIKE ('%' || LOWER('물') || '%')
-				ORDER BY
-					NO_NUM DESC
+						LOWER(P.TITLE) LIKE ('%' || LOWER('ㅇ') || '%')
+					OR  LOWER(P.CONTENT) LIKE ('%' || LOWER('ㅇ') || '%')
+					OR  LOWER(M.NICKNAME) LIKE ('%' || LOWER('ㅇ') || '%')
+				ORDER BY 
+					TO_NUMBER(SUBSTR(P.NO, 2)) DESC
 			) P
 		)
 		WHERE
@@ -1098,12 +1122,43 @@ DELETE FROM YOMUL_VENDORS
 WHERE NO = 'V3' AND WITHDRAWAL = 1;
 
 -- 내 근처 글 목록 불러오기
-SELECT *
-FROM ( SELECT ROWNUM AS RNO, NA.*
-            FROM ( SELECT NA.NO, TITLE, NA.CATEGORY, PRICE, NDATE, V.NO AS VNO, V.NAME AS WRITER
-                        FROM YOMUL_NEAR_ARTICLES NA LEFT JOIN YOMUL_VENDORS V ON NA.WRITER = V.OWNER
-                        ORDER BY TO_NUMBER(SUBSTR(NA.NO, 2, 10)) DESC) NA
-            )
+SELECT
+			*
+		FROM
+		(
+			SELECT 
+				  ROWNUM AS RNO
+				, NA.*
+			FROM
+			(
+				SELECT
+					    NA.NO
+					  , NA.TITLE
+					  , NA.CATEGORY
+					  , NA.PRICE
+					  , NA.NDATE
+            , NA.WRITER
+            , M.NICKNAME WRITER_NICKNAME
+					  , V.NO AS VNO
+					  , V.NAME AS VNAME
+				FROM
+					YOMUL_NEAR_ARTICLES NA 
+						LEFT JOIN
+							YOMUL_VENDORS V
+						ON
+							NA.WRITER = V.OWNER
+            JOIN
+              YOMUL_MEMBERS M
+            ON
+              NA.WRITER = M.NO
+        WHERE
+                M.NICKNAME LIKE('%' || '' || '%')
+          OR  V.NAME LIKE('%' || '' || '%')
+          OR NA.TITLE LIKE('%' || '' || '%')
+				ORDER BY
+					TO_NUMBER(SUBSTR(NO, 2, 10)) DESC
+			) NA
+		)
 WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
 
 -- 내 근처 글 상세보기

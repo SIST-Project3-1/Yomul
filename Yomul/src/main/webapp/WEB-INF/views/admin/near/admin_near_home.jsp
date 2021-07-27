@@ -9,11 +9,12 @@
 <%@ include file="../../head.jsp"%>
 <script type="text/javascript">
 	var page = 1;
+	var search = '${search!=null?search:""}';
 	var ajaxFlag = true;
 
 	$(document).ready(function() {
-		getData(page++);
-		getData(page++);
+		getData(page);
+		getData(++page);
 	});
 
 	// 스크롤 페이징
@@ -22,7 +23,7 @@
 		var dHeight = $(document).height();
 		var wHeight = $(window).height();
 		if (ajaxFlag && (scroll + 200 >= dHeight - wHeight)) {
-			getData(page++);
+			getData(++page);
 		}
 	});
 
@@ -32,7 +33,10 @@
 			url : "/yomul/near_home_ajax",
 			method : "get",
 			data : {
-				"page" : page,
+				"page" : page
+				<c:if test="${search != null}">
+					, "search" : search
+				</c:if>
 			},
 			async : false,
 			success : function(json) {
@@ -53,7 +57,7 @@
 					html += '		<a href="/yomul/near_info/' + near.no + '">' + near.title + '</a>';
 					html += '	</td>';
 					html += '	<td>';
-					html += '		<a href="admin_member_list?search=' + near.writer + '">' + near.writer + '</a>';
+					html += '		<a href="admin_member_list?search=' + near.writer_nickname + '">' + (near.vno == null ? near.writer_nickname : near.vname) + '</a>';
 					html += '	</td>';
 					html += '	<td>' + near.ndate + '</td>';
 					html += '</tr>';
@@ -74,12 +78,12 @@
 			<h2 class="my-3 mx-0">내 근처 관리</h2>
 
 			<!-- 검색창 -->
-			<form action="/yomul/admin_member_list" method="get">
+			<form action="/yomul/admin_near_home" method="get">
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 						<label for="search_bar" class="bi bi-search" style="position: relative; z-index: 20; left: 23px; top: 8px;"></label>
 					</div>
-					<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search">
+					<input type="text" class="form-control pl-4 rounded" placeholder="검색" id="search" name="search" value="${search}">
 				</div>
 			</form>
 

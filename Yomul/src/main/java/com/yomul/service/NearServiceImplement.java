@@ -50,8 +50,8 @@ public class NearServiceImplement implements NearService {
 	}
 
 	@Override
-	public ArrayList<NearVO> getNearList(NearVO near, String page) {
-		return nearDAO.getNearList(near, page);
+	public ArrayList<NearVO> getNearList(String search, String page) {
+		return nearDAO.getNearList(search, page);
 	}
 
 	@Override

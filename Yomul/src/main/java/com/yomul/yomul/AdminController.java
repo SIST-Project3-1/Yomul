@@ -492,8 +492,9 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value = "admin_near_home", method = RequestMethod.GET)
-	public ModelAndView admin_near_home() {
+	public ModelAndView admin_near_home(String search) {
 		ModelAndView mv = new ModelAndView("admin/near/admin_near_home");
+		mv.addObject("search", search);
 		return mv;
 	}
 
