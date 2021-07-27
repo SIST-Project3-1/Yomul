@@ -138,4 +138,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDAO.getBuyList(member, page);
 	}
 
+	@Override
+	public String getNo(String nickname) {
+		return memberDAO.getNo(nickname);
+	}
+
+	@Override
+	public int resetPW(MemberVO vo) {
+		return memberDAO.resetPW(vo);
+	}
+
 }

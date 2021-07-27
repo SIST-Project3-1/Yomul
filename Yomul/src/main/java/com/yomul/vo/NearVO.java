@@ -98,11 +98,11 @@ public class NearVO extends VO {
 		return chatCheck;
 	}
 
-	public void setChatCheck(int chatCheck) {
-		if ((Integer) chatCheck == null) {
-			chatCheck = 0;
+	public void setChatCheck(String chatCheck) {
+		if (chatCheck.equals("on")) {
+			this.chatCheck = 1;
 		} else {
-			this.chatCheck = chatCheck;
+			this.chatCheck = 0;
 		}
 	}
 

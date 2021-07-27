@@ -55,8 +55,6 @@
 					html += ' 	</div>';
 					html += ' 	<div class="near-card-form-bottom">';
 					html += '	    <label>좋아요 ' + product.likes + '</label>';
-					html += '		<label>·</label>';
-					html += '		<label>댓글 ' + product.comments + '</label>';
 					html += ' 	</div>';
 					html += '</div>';
 					html += '</div>';

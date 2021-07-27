@@ -73,10 +73,10 @@
 	<select id="selectVendorNewsList" resultType="com.yomul.vo.NearVO" parameterType="java.util.HashMap">
 		select no, title, content, ndate, hits, likes
 			from (select rownum as rno, no, title, content, ndate, hits, likes
-				from (select no, title, content, ndate, hits, likes
+				from (select to_number(substr(no, 3)) no_num, no, title, content, ndate, hits, likes
 				from v_y_near_articles
 				where vno = #{no}
-				order by to_number(substr(no, 2)) desc)
+				order by no_num desc)
 			where <![CDATA[rownum <= 10 * #{page}]]>)
 		where <![CDATA[rno > 10 * (#{page} - 1)]]>
 	</select>

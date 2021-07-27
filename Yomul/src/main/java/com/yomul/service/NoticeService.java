@@ -8,7 +8,7 @@ public interface NoticeService {
 
 	int writeNotice(NoticeVO vo);
 	int updateNotice(NoticeVO vo, int no);
-	int deleteNotice(NoticeVO vo);
+	int deleteNotice(NoticeVO vo, int no);
 	ArrayList<NoticeVO> getNoticeList(String page);
 	int getTotalPageCount();
 	NoticeVO getNoticeInfo(int no);

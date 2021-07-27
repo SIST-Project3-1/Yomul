@@ -2,11 +2,15 @@ package com.yomul.yomul;
 
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +22,8 @@ import com.yomul.api.APIKey;
 import com.yomul.api.kakao.KakaoLoginAPI;
 import com.yomul.service.MemberService;
 import com.yomul.util.Cookies;
+import com.yomul.util.Security;
+import com.yomul.vo.MailVO;
 import com.yomul.vo.MemberVO;
 
 @Controller
@@ -25,6 +31,9 @@ public class LoginController {
 
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private JavaMailSenderImpl mailSender;
 
 	/**
 	 * 카카오 로그인 페이지
@@ -75,14 +84,16 @@ public class LoginController {
 		String pw = vo.getPw();
 		// 로그인 처리
 		MemberVO member = memberService.getLoginResult(vo);
-	
+
 		// 로그인 성공 시
 		if (member != null) {
 			session.setAttribute("member", member);
 			session.setAttribute("no", member.getNo());
+
 			// 아이디 저장
 			if (idStore != null) { // 아이디 저장을 체크 했으면 쿠키에 아이디 저장
-				response.addCookie(Cookies.createCookie("idStore", vo.getEmail(), 60 * 60 * 24 * 30)); // 만든 쿠키를 브라우저에 전달함
+				response.addCookie(Cookies.createCookie("idStore", vo.getEmail(), 60 * 60 * 24 * 30)); // 만든 쿠키를 브라우저에
+																										// 전달함
 			} else { // 아이디 저장을 체크하지 않았으면 쿠키에 저장된 아이디 삭제
 				response.addCookie(Cookies.createCookie("idStore", vo.getEmail(), 0)); // 만든 쿠키를 브라우저에 전달함
 			}
@@ -96,7 +107,6 @@ public class LoginController {
 
 		}
 		return member != null ? "1" : "0";
-
 	}
 
 	/**
@@ -115,10 +125,40 @@ public class LoginController {
 	 * 
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping(value = "reset_password_proc", method = RequestMethod.GET)
-	public String reset_password_proc() {
-		return "0";
+	public String reset_password_proc(final MailVO vo) {
+
+		// 비밀번호 초기화
+		final String pw = Security.getRandomString();
+		String hashsalt = Security.getSalt();
+		String hashedPW = Security.pwHashing(pw, hashsalt);
+
+		MemberVO member = new MemberVO();
+		member.setEmail(vo.getTo());
+		member.setPw(hashedPW);
+		member.setHashsalt(hashsalt);
+		memberService.resetPW(member);
+
+		// 메일 전송
+		final MimeMessagePreparator preparator = new MimeMessagePreparator() {
+
+			@Override
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+				// root-contetx에 적힌 gmail 주소 보안 허용 해야함
+				helper.setFrom(vo.getFrom());
+				// 보낼 이메일 주소
+				helper.setTo(vo.getTo());
+				// 보낼 제목
+				helper.setSubject(vo.getSubject());
+				// 보내는 내용 -> 임시비밀번호
+				helper.setText(vo.getContents() + ": " + pw, true);
+			}
+		};
+
+		mailSender.send(preparator);
+		return "redirect:/login";
+
 	}
 
 	/**

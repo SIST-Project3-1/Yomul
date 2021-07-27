@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yomul.dao.NearDAO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
+import com.yomul.vo.VendorVO;
 
 @Service("nearService")
 public class NearServiceImplement implements NearService {
@@ -22,8 +24,8 @@ public class NearServiceImplement implements NearService {
 	}
 
 	@Override
-	public String insertVendorNews(NearVO vo) {
-		return nearDAO.insertVendorNews(vo);
+	public int insertVendorNews(VendorVO vendor, NearVO vo , String url) {
+		return nearDAO.insertVendorNews(vendor ,vo, url);
 	}
 	
 	// 해당 유저의 최근 게시글 번호 불러오기
@@ -85,6 +87,16 @@ public class NearServiceImplement implements NearService {
 	@Override
 	public ArrayList<NearVO> getMyArticleList(MemberVO member, String page) {
 		return nearDAO.getMyArticleList(member, page);
+	}
+
+	@Override
+	public List<NearVO> viewInfo(NearVO vo, String no) {
+		return nearDAO.viewInfo(vo,no);
+	}
+
+	@Override
+	public ArrayList<FileVO> getFileList(String no) {
+		return nearDAO.getFileList(no);
 	}
 
 }

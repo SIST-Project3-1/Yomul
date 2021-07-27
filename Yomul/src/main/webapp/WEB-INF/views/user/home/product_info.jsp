@@ -91,7 +91,7 @@
 					if (result == 1) {
 						location.href = "/yomul/chat";
 					} else {
-						alert("찜 처리 실패");
+						alert("채팅 문의 실패");
 					}
 				}
 			});
@@ -123,7 +123,6 @@
 							<div class="pi_userhometwon">${product.location}</div>
 						</a>
 						<div class="mo_a_bo_gi">
-							<button class="mo_a_bo_gibtn">모아보기</button>
 							<c:if test="${sessionScope.member.no == product.seller}">
 								<button type="button" class="mo_a_bo_gibtn" data-toggle="modal" data-target="#sellProductModal">판매처리</button>
 							</c:if>

@@ -7,14 +7,26 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
+import com.yomul.vo.VendorVO;
 
 @Repository
 public class NearDAO extends DAO {
 
 	private static String nameSpace = "mapper.near";
 
+	/**
+	 * 해당 내 근처 글의 파일들 불러오기
+	 * @param no
+	 * @return
+	 */
+	public ArrayList<FileVO> getFileList(String no){
+		List<FileVO> list = sqlSession.selectList(nameSpace+".getFileList", no);
+		return (ArrayList<FileVO>) list;
+	}
+	
 	/**
 	 * 내가 쓴 글 불러오기
 	 * 
@@ -64,16 +76,16 @@ public class NearDAO extends DAO {
 		params.put("url", url);
 		return sqlSession.insert(nameSpace + ".getNearWrite", params);
 	}
-	
+
 	// 업체 소식 추가
-	public String insertVendorNews(NearVO vo) {
-		int result = sqlSession.insert(nameSpace + ".insertVendorNews", vo);
-		if(result == 0) { // 저장에 실패한 경우 0 반환
-			return "0";
-		}
-		return getStoredArticleNo(vo.getVno());
+	public int insertVendorNews(VendorVO vendor, NearVO vo, String url) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("vendor", vendor.getNo());
+		params.put("vo", vo);
+		params.put("url", url);
+		return sqlSession.insert(nameSpace + ".insertVendorNews", params);
 	}
-	
+
 	// 작성 완료 시 저장된 게시글 번호 불러오기
 	public String getStoredArticleNo(String no) {
 		HashMap<String, String> params = new HashMap<String, String>();
@@ -121,11 +133,26 @@ public class NearDAO extends DAO {
 		return sqlSession.update(nameSpace + ".updateNearHits", no);
 	}
 
+	/**
+	 * 내 근처 게시글 수정
+	 * 
+	 * @param vo
+	 * @param no
+	 * @return
+	 */
 	public int getUpdate(NearVO vo, String no) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("no", no);
 		params.put("vo", vo);
 		return sqlSession.update(nameSpace + ".getUpdate", params);
+	}
+
+	public List<NearVO> viewInfo(NearVO vo, String no) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("vo", vo);
+		params.put("no", no);
+
+		return sqlSession.selectList(nameSpace + ".viewInfo", params);
 	}
 
 }

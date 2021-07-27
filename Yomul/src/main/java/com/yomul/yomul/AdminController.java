@@ -202,8 +202,23 @@ public class AdminController {
 		NoticeVO vo = noticeService.getNoticeInfo(no);
 		mv.addObject("vo", vo);
 		mv.setViewName("admin/customer_center/notice/admin_notice_update");
-		System.out.println(vo.toStringJson());
 		return mv;
+	}
+
+	// 공지사항 삭제
+	@RequestMapping(value = "admin_notice_delete/{no}", method = RequestMethod.GET)
+	public ModelAndView adminNoticeDelete(NoticeVO vo, @PathVariable("no") String no) {
+		ModelAndView mv = new ModelAndView();
+		int k = Integer.parseInt(no);
+		mv.addObject("vo", vo);
+		int result = noticeService.deleteNotice(vo, k);
+		if (result == 1) {
+			mv.setViewName("redirect:/admin_notice_list");
+			return mv;
+		} else {
+			mv.setViewName("redirect:/admin_notice/{no}");
+			return mv;
+		}
 	}
 
 	/**
@@ -216,7 +231,6 @@ public class AdminController {
 		int k = Integer.parseInt(no);
 		vo.setWriter("M1");
 		ModelAndView mv = new ModelAndView();
-		noticeService.updateNotice(vo,k);
 		int result = noticeService.updateNotice(vo, k);
 		if (result == 1) {
 			mv.setViewName("redirect:/admin_notice_list");

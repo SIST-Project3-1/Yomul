@@ -6,6 +6,26 @@
 
 <mapper namespace="mapper.member">
 
+	<!-- 비밀번호 초기화 -->
+	<update id="resetPW" parameterType="com.yomul.vo.MemberVO">
+		UPDATE
+			YOMUL_MEMBERS
+		SET
+			PW = #{pw}, HASHSALT = #{hashsalt}
+		WHERE
+			EMAIL = #{email} 
+	</update>
+
+	<!-- 닉네임으로 회원번호 가져오기 -->
+	<select id="getNo" parameterType="map" resultType="string">
+		SELECT
+			NO
+		FROM
+			YOMUL_MEMBERS
+		WHERE
+			NICKNAME = #{nickname}
+	</select>
+
 	<!-- 구매 내역 가져오기 -->
 	<select id="getBuyList" parameterType="map" resultType="com.yomul.vo.ProductVO">
 		SELECT 
@@ -230,22 +250,23 @@
 	
 	<!-- 로그인 -->
 	<select id="getLoginResult" parameterType="com.yomul.vo.MemberVO" resultType="com.yomul.vo.MemberVO">
-		SELECT
-			  NO
-			, NICKNAME
-			, EMAIL
-			, PROFILEIMG
-			, AUTHORITY
+		SELECT 
+			  M.NO
+			, M.EMAIL
+			, M.NICKNAME
+			, M.AUTHORITY
+			, V.NO VENDOR_NO
 		FROM
-			V_Y_MEMBERS
+			YOMUL_MEMBERS M LEFT OUTER JOIN 
+			YOMUL_VENDORS V ON M.NO = V.OWNER
 		WHERE
 		<choose>
 		<when test="kakao_id != null">
-			KAKAO_ID = #{kakao_id}
+			M.KAKAO_ID = #{kakao_id}
 		</when>
 		<when test="kakao_id == null">
-				EMAIL= #{email}
-			AND PW = #{pw}
+				M.EMAIL= #{email}
+			AND M.PW = #{pw}
 		</when>
 		</choose>
 	</select>

@@ -44,12 +44,16 @@ public interface MemberService {
 	int checkPW(MemberVO vo);
 
 	ArrayList<ProductVO> getMyFavoriteList(MemberVO member, String page);
-	
+
 	int getSellingcount(String no);
-	
+
 	int getSoldCount(String no);
-	
+
 	ArrayList<ProductVO> getSellList(MemberVO member, String page);
-	
+
 	ArrayList<ProductVO> getBuyList(MemberVO member, String page);
+
+	String getNo(String nickname);
+
+	int resetPW(MemberVO vo);
 }

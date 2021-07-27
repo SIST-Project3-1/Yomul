@@ -56,27 +56,17 @@
 		<!-- 마이페이지 로그인 필요 -->
 		<interceptor>
 			<mapping path="/mypage/*" />
+			<mapping path="/*chat*" />
+			<mapping path="/*_write*" />
+			<mapping path="/*_update*" />
+			<mapping path="/*_write*/**" />
+			<mapping path="/*_update*/**" />
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 		<!-- 관리자페이지 관리자 계정 필요 -->
 		<interceptor>
 			<mapping path="/admin*" />
-			<beans:ref bean="authInterceptor" />
-		</interceptor>
-		<!-- 채팅페이지 로그인 필요 -->
-		<interceptor>
-			<mapping path="/*chat*" />
-			<beans:ref bean="authInterceptor" />
-		</interceptor>
-		<!-- 글쓰기 로그인 필요 -->
-		<interceptor>
-			<mapping path="/*_write*" />
-			<beans:ref bean="authInterceptor" />
-		</interceptor>
-		<!-- 글 수정 로그인 필요 -->
-		<interceptor>
-			<mapping path="/*_update*" />
-			<beans:ref bean="authInterceptor" />
+			<beans:ref bean="adminInterceptor" />
 		</interceptor>
 		<!-- 로그인 시 로그인 페이지 입장 불가 -->
 		<interceptor>
@@ -89,6 +79,10 @@
 			<beans:ref bean="autoLoginInterceptor" />
 		</interceptor>
 	</interceptors>
+
+
+
+
 
 	<context:component-scan base-package="com.yomul.yomul" />
 	<context:component-scan base-package="com.yomul.dao" />

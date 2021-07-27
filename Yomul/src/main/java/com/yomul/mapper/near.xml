@@ -6,6 +6,21 @@
 
 <mapper namespace="mapper.near">
 
+	<!-- 내 근처 글의 파일 목록 가져오기 -->
+	<select id="getFileList" parameterType="string" resultType="com.yomul.vo.FileVO">
+		SELECT 
+			  ARTICLE_NO
+			, NO
+			, FILENAME
+		FROM
+			YOMUL_FILES
+		WHERE
+			ARTICLE_NO = #{no}
+		ORDER BY
+			NO
+	</select>
+	
+
 	<!-- 내가 쓴 글 목록 가져오기 -->
 	<select id="getMyArticleList" parameterType="map" resultType="com.yomul.vo.NearVO">
 		SELECT
@@ -102,6 +117,7 @@
 		(
 			  NO
 			, WRITER
+			, WRITER_NICKNAME
 			, TITLE
 			, CATEGORY
 			, PRICE
@@ -115,6 +131,7 @@
 		(
 			  'n'||YOMUL_NEAR_ARTICLES_NO_SEQ.NEXTVAL
 			, #{vo.writer}
+			, #{vo.writer_nickname}
 			, #{vo.title}
 			, #{vo.category}
 			, #{vo.price}
@@ -126,9 +143,9 @@
 	</insert>
 	
 	<!-- 내 근처 글쓰기(업체) -->
-	<insert id="insertVendorNews" parameterType="com.yomul.vo.NearVO">
-		insert into yomul_near_articles(no, writer, vendor, title, category, price, hp, content, chatcheck)
-		values('n'||yomul_near_articles_no_seq.nextval, #{writer}, #{vno}, #{title}, #{category}, #{price}, #{hp}, #{content}, #{chatCheck})
+	<insert id="insertVendorNews" parameterType="map">
+		insert into yomul_near_articles(no, writer, vendor , title, category, price, hp, content, chatcheck, mainFile , WRITER_NICKNAME)
+		values('n'||yomul_near_articles_no_seq.nextval, #{vo.writer}, #{vendor}, #{vo.title}, #{vo.category}, #{vo.price}, #{vo.hp}, #{vo.content}, #{vo.chatCheck}, #{url}, #{vo.writer_nickname})
 	</insert>
 	
 	<!-- 저장된 게시글 번호 불러오기 -->
@@ -173,9 +190,26 @@
 
 	<!-- 내 근처 홈 화면 글 보기 -->
 	<select id="selectNearList" resultType="com.yomul.vo.NearVO">
-		select * from (select no, title, content, writer, ndate , mainFile from yomul_near_articles order by ndate desc) 
+		SELECT
+			*
+		FROM
+		(
+			SELECT 
+				  NA.NO
+				, NA.TITLE
+				, NA.WRITER
+				, NA.NDATE
+				, NA.MAINFILE
+				, M.NICKNAME WRITER_NICKNAME
+				, NA.CONTENT
+			FROM 
+				YOMUL_NEAR_ARTICLES NA JOIN 
+				YOMUL_MEMBERS M ON NA.WRITER = M.NO
+			ORDER BY 
+				TO_NUMBER(SUBSTR(NO, 2)) DESC
+		)
 		<!-- 부등호 인식 -->
-		<![CDATA[where rownum <= 3]]>
+<![CDATA[WHERE ROWNUM <= 3]]>
 	</select>
 	
 	<!-- 내 근처 near_card_form 글 보기 -->
@@ -198,8 +232,16 @@
 
 	<!-- 내 근처 글 수정 -->
 	<update id="getUpdate" parameterType="map">
-		update yomul_near_articles set title= #{vo.title},price= #{vo.price},hp= #{vo.hp},content= #{vo.content},chatCheck= #{vo.chatCheck} 
-		where no = #{no}
+		update
+			yomul_near_articles 
+		set
+			  title = #{vo.title}
+			, price = #{vo.price}
+			, hp = #{vo.hp}
+			, content = #{vo.content}
+			, chatCheck = #{vo.chatCheck} 
+		where
+			no = #{no}
 	</update>
 	
 	<!-- 내 근처 게시글 상세보기 -->
@@ -215,4 +257,10 @@
 		set hits = hits + 1
 		where no = #{no}
 	</update>
+	
+	<select id="viewInfo" parameterType="map" resultType="com.yomul.vo.NearVO">
+		select * from yomul_near_articles where no = #{no}
+	</select>
+	
+	
 </mapper>

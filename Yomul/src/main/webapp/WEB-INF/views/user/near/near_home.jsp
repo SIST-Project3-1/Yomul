@@ -35,7 +35,7 @@
 			<h3>키워드</h3>
 			<div>
 				<c:forEach var="keyword" items="${keyword}">
-					<a href="/yomul/near_card_form"><label>${keyword }</label></a>
+					<a href="/yomul/near_card_form?word=${keyword}"><label>${keyword}</label></a>
 				</c:forEach>
 
 			</div>
@@ -61,7 +61,7 @@
 									</a>
 									<div class="near-home-news-writer">
 										<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">
-										<label>${vo.writer }</label>
+										<label>${vo.writer_nickname }</label>
 									</div>
 								</div>
 							</td>
