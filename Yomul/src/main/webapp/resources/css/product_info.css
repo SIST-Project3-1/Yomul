@@ -164,7 +164,8 @@ h1{
 }
 
 .mo_a_bo_gibtn:hover{
-    background-color: rgb(255 120 120);;
+	color: white;
+    background-color: rgb(255 120 120);
 }
 
 .contentW{
