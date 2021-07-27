@@ -10,6 +10,18 @@
 <%@ include file="../../head.jsp"%>
 <link rel="stylesheet" href="http://localhost:9000/yomul/resources/css/product_write.css">
 </head>
+<script>
+function fileUpload(fis) {
+	var str = fis.value;
+	// 이미지를 변경한다.
+	var reader = new FileReader();
+	reader.onload = function(e) {
+		$('#file_img').attr('src', e.target.result);
+		$('#img_file').css('display','none');
+	}
+	reader.readAsDataURL(fis.files[0]);
+}
+</script>
 <body>
 	<!-- HEADER -->
 	<%@ include file="../header.jsp"%>
@@ -198,20 +210,23 @@
 
 				<!--포토박스-->
 				<div class="pw_ptBox">
-					<div class="pw_pbBtn">
-						<input type="file" name="file" id="validatedProductFile" lang="kor">
+					<div id="img_file" for="file">
+						<svg  class="" width="48" height="48" viewBox="0 0 48 48" fill="currentColor" preserveAspectRatio="xMidYMid meet">
+						<path d="M11.952 9.778l2.397-5.994A1.778 1.778 0 0 1 16 2.667h16c.727 0 1.38.442 1.65 1.117l2.398 5.994h10.174c.982 0 1.778.796 1.778 1.778v32c0 .981-.796 1.777-1.778 1.777H1.778A1.778 1.778 0 0 1 0 43.556v-32c0-.982.796-1.778 1.778-1.778h10.174zM24 38c6.075 0 11-4.925 11-11s-4.925-11-11-11-11 4.925-11 11 4.925 11 11 11z"></path>
+						</svg>
+						<label for="file">사진 올리기</label>
 					</div>
+					<input type="file" id="file" name="filename" style="display:none" onchange="fileUpload(this)">
+					<img src="" id="file_img">
 				</div>
-				<!-- pw_ptBox -->
-
+				
+				<!--pw_textBox -->
 				<div class="pw_textBox">
 					<input type="text" name="title" id="title" placeholder="제목을 입력하세요">
 					<div class="pw_editorWrap">
 						<textarea name="content" id="content" placeholder="내용을입력하세요"></textarea>
 					</div>
 				</div>
-				<!--pw_textBox -->
-
 			</div>
 			<!--pw_contentBox -->
 
