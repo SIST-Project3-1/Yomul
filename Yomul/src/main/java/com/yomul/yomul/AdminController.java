@@ -2,6 +2,7 @@ package com.yomul.yomul;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yomul.service.CustomerCenterService;
@@ -24,8 +27,10 @@ import com.yomul.service.NoticeService;
 import com.yomul.service.ProductService;
 import com.yomul.service.VendorService;
 import com.yomul.util.Commons;
+import com.yomul.util.FileUtils;
 import com.yomul.vo.CategoryVO;
 import com.yomul.vo.FaqVO;
+import com.yomul.vo.FileVO;
 import com.yomul.vo.MemberVO;
 import com.yomul.vo.NearVO;
 import com.yomul.vo.NoticeVO;
@@ -52,6 +57,8 @@ public class AdminController {
 	private ProductService productService;
 	@Autowired
 	private VendorService vendorService;
+	@Autowired
+	private FileUtils fileUploadService;
 
 	/*
 	 * FAQ
@@ -200,7 +207,9 @@ public class AdminController {
 	public ModelAndView adminNoticeUpdate(@PathVariable("no") int no) {
 		ModelAndView mv = new ModelAndView();
 		NoticeVO vo = noticeService.getNoticeInfo(no);
+		ArrayList<String> files = fileService.getNoticeFiles(no);
 		mv.addObject("vo", vo);
+		mv.addObject("files", files);
 		mv.setViewName("admin/customer_center/notice/admin_notice_update");
 		return mv;
 	}
@@ -227,10 +236,24 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin_notice_update_proc", method = RequestMethod.POST)
-	public ModelAndView adminNoticeUpdate_proc(NoticeVO vo, String no) {
+	public ModelAndView adminNoticeUpdate_proc(NoticeVO vo, @RequestParam("notice_img") List<MultipartFile> multifile, HttpServletRequest request,
+			HttpSession session, FileVO fvo, String no) {
 		int k = Integer.parseInt(no);
-		vo.setWriter("M1");
 		ModelAndView mv = new ModelAndView();
+		String url = null;
+		int fileCount = fileUploadService.getUploadedCount(multifile);
+		String articleNo = "N"+vo.getNo();
+
+		if (fileCount != 0) {
+			FileVO file = new FileVO();
+			file.setArticle_no(articleNo);
+			file.setNo(0);
+			file.setFilename(multifile.get(0).getOriginalFilename());
+
+			fileUploadService.uploadFile(file, multifile.get(0), request);
+		}
+
+		mv.addObject("fileCount", fileCount);
 		int result = noticeService.updateNotice(vo, k);
 		if (result == 1) {
 			mv.setViewName("redirect:/admin_notice_list");
@@ -257,13 +280,32 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value = "/admin_notice_write_proc", method = RequestMethod.POST)
-	public String adminNoticeWrite_proc(NoticeVO vo) {
-		vo.setWriter("M1");
+	public ModelAndView adminNoticeWrite_proc(NoticeVO vo, @RequestParam("notice_img") List<MultipartFile> multifile, HttpServletRequest request,
+			HttpSession session, FileVO fvo) {
+		ModelAndView mv = new ModelAndView();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		int fileCount = fileUploadService.getUploadedCount(multifile);
+		String articleNo = noticeService.getNoticeNo();
+
+		if (fileCount != 0) {
+			FileVO file = new FileVO();
+			file.setArticle_no(articleNo);
+			file.setNo(0);
+			file.setFilename(multifile.get(0).getOriginalFilename());
+
+			fileUploadService.uploadFile(file, multifile.get(0), request);
+		}
+
+		mv.addObject("fileCount", fileCount);
+		vo.setNo(articleNo);
+		vo.setWriter(member.getNo());
 		int result = noticeService.writeNotice(vo);
 		if (result == 1) {
-			return "redirect:/admin_notice_list";
+			mv.setViewName("redirect:/admin_notice_list");
+			return mv;
 		} else {
-			return "redirect:/admin_notice_write";
+			mv.setViewName("redirect:/admin_notice_write");
+			return mv;
 		}
 	}
 
