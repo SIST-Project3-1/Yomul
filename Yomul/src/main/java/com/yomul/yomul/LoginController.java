@@ -125,28 +125,40 @@ public class LoginController {
 	 * 
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping(value = "reset_password_proc", method = RequestMethod.GET)
 	public String reset_password_proc(final MailVO vo) {
 
+		// 비밀번호 초기화
+		final String pw = Security.getRandomString();
+		String hashsalt = Security.getSalt();
+		String hashedPW = Security.pwHashing(pw, hashsalt);
+
+		MemberVO member = new MemberVO();
+		member.setEmail(vo.getTo());
+		member.setPw(hashedPW);
+		member.setHashsalt(hashsalt);
+		memberService.resetPW(member);
+
+		// 메일 전송
 		final MimeMessagePreparator preparator = new MimeMessagePreparator() {
+
 			@Override
 			public void prepare(MimeMessage mimeMessage) throws Exception {
 				final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
-				//root-contetx에 적힌 gmail 주소 보안 허용 해야함
+				// root-contetx에 적힌 gmail 주소 보안 허용 해야함
 				helper.setFrom(vo.getFrom());
-				//보낼 이메일 주소
+				// 보낼 이메일 주소
 				helper.setTo(vo.getTo());
-				//보낼 제목
+				// 보낼 제목
 				helper.setSubject(vo.getSubject());
-				//보내는 내용 -> 임시비밀번호
-				helper.setText(vo.getContents(), true);
+				// 보내는 내용 -> 임시비밀번호
+				helper.setText(vo.getContents() + ": " + pw, true);
 			}
 		};
 
-		mailSender.send(preparator); 
+		mailSender.send(preparator);
 		return "redirect:/login";
-		
+
 	}
 
 	/**

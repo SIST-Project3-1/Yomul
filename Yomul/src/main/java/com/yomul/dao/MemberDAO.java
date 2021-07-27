@@ -17,6 +17,16 @@ public class MemberDAO extends DAO {
 	private static String namespace = "mapper.member";
 
 	/**
+	 * 비밀번호 초기화
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int resetPW(MemberVO vo) {
+		return sqlSession.update(namespace + ".resetPW", vo);
+	}
+
+	/**
 	 * 닉네임으로 회원 번호 구하기
 	 * 
 	 * @param nickname
