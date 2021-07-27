@@ -66,7 +66,6 @@
 		<button type="button" class="btn btn-yomul dropdown-toggle" data-toggle="dropdown">글쓰기</button>
 		<div class="dropdown-menu dropdown-menu-right">
 			<a class="dropdown-item" href="/yomul/product_write">물건 등록</a>
-			<a class="dropdown-item" href="/yomul/town_write">동네생활</a>
 			<a class="dropdown-item" href="/yomul/near_write">내 근처</a>
 		</div>
 	</div>
