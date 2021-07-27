@@ -95,9 +95,11 @@ public class NearController {
 	@RequestMapping(value = "/near_write_proc", method = RequestMethod.POST)
 	public ModelAndView near_write_proc(NearVO vo, @RequestParam("profile_img") List<MultipartFile> files, HttpServletRequest request,
 			HttpSession session, FileVO fvo) {
+		ModelAndView mv = new ModelAndView();
+
+		MemberVO member = (MemberVO) session.getAttribute("member");
 
 		String url = null;
-		ModelAndView mv = new ModelAndView();
 		int fileCount = fileUploadService.getUploadedCount(files);
 		String articleNo = nearService.getArticeNo();
 
@@ -108,8 +110,8 @@ public class NearController {
 		}
 
 		mv.addObject("fileCount", fileCount);
-		vo.setWriter(((MemberVO) session.getAttribute("member")).getNo());
-		vo.setWriter_nickname(((MemberVO) session.getAttribute("member")).getNickname());
+		vo.setWriter(member.getNo());
+		vo.setWriter_nickname(member.getNickname());
 
 		nearService.getNearWrite(vo, url);
 
