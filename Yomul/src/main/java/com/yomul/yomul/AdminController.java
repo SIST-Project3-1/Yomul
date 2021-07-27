@@ -202,7 +202,6 @@ public class AdminController {
 		NoticeVO vo = noticeService.getNoticeInfo(no);
 		mv.addObject("vo", vo);
 		mv.setViewName("admin/customer_center/notice/admin_notice_update");
-		System.out.println(vo.toStringJson());
 		return mv;
 	}
 

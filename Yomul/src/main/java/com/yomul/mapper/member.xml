@@ -6,6 +6,16 @@
 
 <mapper namespace="mapper.member">
 
+	<!-- 닉네임으로 회원번호 가져오기 -->
+	<select id="getNo" parameterType="map" resultType="string">
+		SELECT
+			NO
+		FROM
+			YOMUL_MEMBERS
+		WHERE
+			NICKNAME = #{nickname}
+	</select>
+
 	<!-- 구매 내역 가져오기 -->
 	<select id="getBuyList" parameterType="map" resultType="com.yomul.vo.ProductVO">
 		SELECT 

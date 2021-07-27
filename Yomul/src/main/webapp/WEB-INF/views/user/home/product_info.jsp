@@ -91,7 +91,7 @@
 					if (result == 1) {
 						location.href = "/yomul/chat";
 					} else {
-						alert("찜 처리 실패");
+						alert("채팅 문의 실패");
 					}
 				}
 			});
