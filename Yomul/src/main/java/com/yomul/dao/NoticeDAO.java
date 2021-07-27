@@ -79,4 +79,14 @@ public class NoticeDAO extends DAO {
 	public int getTotalPageCount() {
 		return sqlSession.selectOne(namespace + ".gettotalpagecount");
 	}
+	// 공지사항 글 번호 가져오기
+	public String getNoticeNo() {
+		return sqlSession.selectOne(namespace + ".getNoticeNo");
+	}
+	public int getNoticeFile(String saveFileName, String originFilename) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("saveFileName", saveFileName);
+		params.put("originFilename", originFilename);
+		return sqlSession.insert(namespace + ".getNoticeFile", params);
+	}
 }
