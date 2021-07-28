@@ -97,7 +97,7 @@
 	<select id="selectVendorReviewInfo" resultType="com.yomul.vo.ReviewVO" parameterType="java.lang.String">
 		select r.no, r.member_no, m.nickname, m.profileImg, r.content, r.hits, r.vdate
 		from yomul_vendor_reviews r, v_y_members m
-		where r.no = #{no} and r.member_no = m.no
+		where r.no = #{no} and r.member_no = m.no 
 	</select>
 	
 	<!-- 업체 후기 조회수 업데이트 -->
@@ -184,6 +184,8 @@
 				V_Y_VENDORS 
 				WHERE
 				LOWER(NAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				OR LOWER(NO) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				OR LOWER(OWNER) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
 				OR LOWER(CATEGORY) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
 				OR ADDR LIKE ('%' || #{search, jdbcType=VARCHAR} || '%')
 				ORDER BY
@@ -201,5 +203,53 @@
 		FROM YOMUL_VENDORS 
 		WHERE
 		NO = #{no} AND WITHDRAWAL = 1
+	</delete>
+	
+	<!-- 후기 목록 가져오기 -->
+	<select id="getReviewsList" parameterType="map" resultType="com.yomul.vo.ReviewVO">
+		SELECT *
+		FROM
+		(
+			SELECT ROWNUM AS RNO
+				, NO
+			    , VENDOR_NO
+			    , VENDORNAME
+			    , MEMBER_NO
+			    , NICKNAME
+			    , CONTENT
+			FROM
+			(
+				SELECT
+				  TO_NUMBER(SUBSTR(NO, 2)) NO_NUM
+				  , NO
+				  , VENDOR_NO
+				  , VENDORNAME
+				  , MEMBER_NO
+				  , NICKNAME
+				  , CONTENT
+				FROM
+				V_Y_REVIEWS_ARTICLES 
+				WHERE
+				LOWER(NO) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				OR LOWER(VENDOR_NO) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				OR LOWER(VENDORNAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				OR LOWER(MEMBER_NO) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				OR LOWER(NICKNAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				OR LOWER(CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+				ORDER BY
+				NO_NUM DESC
+			)
+		)
+		WHERE
+			RNO > 10 * (#{page} - 1) 
+<![CDATA[	AND RNO <= 10 * #{page}			]]>
+	</select>
+	
+	<!-- 후 삭제 -->
+	<delete id="deleteReviews" parameterType="com.yomul.vo.ReviewVO">
+		DELETE
+		FROM YOMUL_VENDOR_REVIEWS
+		WHERE
+		NO = #{no}
 	</delete>
 </mapper>

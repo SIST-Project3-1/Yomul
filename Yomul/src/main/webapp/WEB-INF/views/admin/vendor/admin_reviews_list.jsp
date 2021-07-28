@@ -4,23 +4,37 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>요물 업체 관리</title>
+<title>요물 업체 관리 - 후기</title>
 <!-- HEAD -->
 <%@ include file="../../head.jsp"%>
+<style>
+.container th, .container td{
+	overflow:hidden;
+	white-space : nowrap;
+	text-overflow: ellipsis;
+	line-height: 40px;
+}
+#td_content{
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+#td_content a{
+    text-decoration:none;
+    color:black;
+}
+#td_content a:hover{
+    color:rgb(255, 99, 95);
+}
+</style>
 <script>
 	$(document).ready(function() {
 		var page = ${page};
 		var search = '${search!=null?search:""}';
 		
-		loadVendorList(page, search);
+		loadReviewsList(page, search);
 		loadPagination(page, search);
 
-		// 하단 버튼 클릭
-		$("button.btn-outline-yomul").on("click", function() {
-			var nickname = $("input[name='no']:checked").val();
-			var link = $(this).attr("data-link");
-			location.href = link + "?search=" + nickname;
-		});
 	});
 
 	function loadPagination(page, search) {
@@ -30,7 +44,7 @@
 		var html = "";
 		for (var i = start; i <= end && i <= total; i++) {
 			html += '<li id="' + i + '" class="page-item">';
-			html += '<a class="page-link" href="/yomul/admin_vendor_list?page=' + i + '&search=' + search + '">' + i + '</a>';
+			html += '<a class="page-link" href="/yomul/admin_reviews_list?page=' + i + '&search=' + search + '">' + i + '</a>';
 			html += '</li>';
 		}
 		$("#page-prev").after(html);
@@ -40,10 +54,10 @@
 		$("#page-next a").attr("href", "?page=" + ((start + 10 > total) ? total : (start + 10)));
 	}
 
-	// 업체 목록 로드
-	function loadVendorList(page, search) {
+	// 후기 목록 로드
+	function loadReviewsList(page, search) {
 		$.ajax({
-			url : "/yomul/admin_vendor_list_ajax",
+			url : "/yomul/admin_reviews_list_ajax",
 			method : "GET",
 			data : {
 				"page" : page
@@ -56,20 +70,16 @@
 			success : function(result) {
 				var html = "";
 				for (var i = 0; i < result.length; i++) {
-					var vendor = result[i];
+					var reviews = result[i];
 					html += '<tr>';
-					html += '	<td class="align-middle">';
-					html += '		<input type="radio" name="no" value="'+vendor.name+'"></input>';
-					html += '	</td>';
-					html += '	<td class="align-middle">' + vendor.no + '</td>';
-					html += '	<td class="align-middle">' + vendor.owner + '</td>';
-					html += '	<td class="align-middle">' + vendor.name + '</td>';
-					html += '	<td class="align-middle">' + vendor.category + '</td>';
-					html += '	<td class="align-middle">' + vendor.tel + '</td>';
-					html += '	<td class="align-middle">' + vendor.addr + '</td>';
-					html += '	<td class="align-middle">' + vendor.customers + '</td>';
-					html += '	<td class="align-middle">';
-					html += '		<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="' + vendor.no + '" '+ (vendor.withdrawal == 0 ? 'disabled' : '') +'>탈퇴</button>';
+					html += '	<td>' + reviews.no + '</td>';
+					html += '	<td>' + reviews.vendor_no + '</td>';
+					html += '	<td>' + reviews.vendorname + '</td>';
+					html += '	<td>' + reviews.member_no + '</td>';
+					html += '	<td>' + reviews.nickname + '</td>';
+					html += '	<td id="td_content"><a href="reviews_info/'+ reviews.no +'">' + reviews.content + '</a></td>';
+					html += '	<td>';
+					html += '		<button type="button" class="btn btn-sm btn-yomul" data-toggle="modal" data-target="#deleteModal" data-no="'+ reviews.no +'">삭제</button>';
 					html += '	</td>';
 					html += '</tr>';
 				}
@@ -78,10 +88,11 @@
 		});
 	}
 
-	// 업체 삭제
+	// 후기 삭제
 	function deleteVendor() {
+
 		$.ajax({
-			url : "/yomul/admin_delete_vendor",
+			url : "/yomul/admin_delete_reviews",
 			method : "POST",
 			data : {
 				no : $("#modal-no").text()
@@ -89,10 +100,10 @@
 			success : function(result) {
 				var json = JSON.parse(result);
 				if (json.result == 1) {
-					alert("업체 삭제 성공");
+					alert("후기 삭제 성공");
 					location.reload();
 				} else {
-					alert("업체 삭제 실패");
+					alert("후기 삭제 실패");
 				}
 			}
 		});
@@ -106,7 +117,7 @@
 	<!--  BODY  -->
 	<section id="admin_member_list">
 		<div class="container">
-			<h2 class="my-3 mx-0">업체 관리</h2>
+			<h2 class="my-3 mx-0">후기 관리</h2>
 
 			<!-- 검색창 -->
 			<form action="/yomul/admin_vendor_list" method="get">
@@ -118,19 +129,16 @@
 				</div>
 			</form>
 
-
 			<table class="table table-hover text-center">
 				<thead>
 					<tr>
-						<th scope="col" class="align-middle"></th>
-						<th scope="col" class="align-middle">업체번호</th>
-						<th scope="col" class="align-middle">회원번호</th>
-						<th scope="col" class="align-middle">업체명</th>
-						<th scope="col" class="align-middle">카테고리</th>
-						<th scope="col" class="align-middle">전화번호</th>
-						<th scope="col" class="align-middle">주소</th>
-						<th scope="col" class="align-middle">단골</th>
-						<th scope="col" class="align-middle">탈퇴</th>
+						<th class="col-sm-1">글번호</th>
+						<th class="col-sm-1">업체번호</th>
+						<th class="col-sm-2">업체명</th>
+						<th class="col-sm-1">회원번호</th>
+						<th class="col-sm-2">작성자</th>
+						<th class="col-sm-3">내용</th>
+						<th class="col-sm-1">삭제</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -156,27 +164,13 @@
 		</ul>
 	</nav>
 
-	<br>
-	<br>
-	<nav class="navbar navbar-expand-sm bg-white fixed-bottom bg-white border-top">
-		<div class="collapse navbar-collapse" id="navbarText"></div>
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_near_home">소식 보기</button>
-			</li>
-			<li class="nav-item">
-				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_reviews_list">후기 보기</button>
-			</li>
-		</ul>
-	</nav>
-
 	<!-- Modal -->
 	<div class="modal fade" id="deleteModal" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">
-						<span id="modal-no" class="modal-no"></span>번 업체를 삭제하시겠습니까?
+						<span id="modal-no" class="modal-no"></span>번 후기를 삭제하시겠습니까?
 					</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>

@@ -166,5 +166,17 @@ public class VendorServiceImpl implements VendorService {
 		return vendorDAO.deleteVendor(vo) == 1 ? 1 : 0;
 	}
 	
+	// 업체 목록 가져오기
+	@Override
+	public ArrayList<ReviewVO> getReviewsList(int page, String search) {
+		return vendorDAO.getReviewsList(page, search);
+	}
+	
+	// 업체 삭제
+	@Override
+	public int deleteReviews(ReviewVO vo) {
+		return vendorDAO.deleteReviews(vo) == 1 ? 1 : 0;
+	}
+	
 	
 }
