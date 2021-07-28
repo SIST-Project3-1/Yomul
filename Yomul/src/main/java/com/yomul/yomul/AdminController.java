@@ -36,6 +36,7 @@ import com.yomul.vo.NearVO;
 import com.yomul.vo.NoticeVO;
 import com.yomul.vo.ProductVO;
 import com.yomul.vo.QnaVO;
+import com.yomul.vo.ReviewVO;
 import com.yomul.vo.VendorVO;
 
 @Controller
@@ -385,6 +386,42 @@ public class AdminController {
 	@RequestMapping(value = "/admin_delete_vendor", method = RequestMethod.POST)
 	public String admin_delete_vendor(VendorVO vo) {
 		int result = vendorService.deleteVendor(vo);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("result", result);
+
+		return Commons.parseJson(map);
+	}
+	
+	/*
+	 * 업체-후기 관리 페이지
+	 */
+	@RequestMapping(value = "/admin_reviews_list", method = RequestMethod.GET)
+	public ModelAndView adminReviewsList(String page, String search) {
+		ModelAndView mv = new ModelAndView("admin/vendor/admin_reviews_list");
+		page = page == null ? "1" : page;
+		mv.addObject("page", page);
+		mv.addObject("search", search);
+		mv.addObject("totalPage", vendorService.getTotalPageCount(search));
+		return mv;
+	}
+	
+	/*
+	 * 업체-후기 목록 JSON 형태
+	 */
+	@ResponseBody
+	@RequestMapping(value = "admin_reviews_list_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String admin_reviews_list_ajax(int page, String search, HttpServletRequest request) {
+		return Commons.parseJson(vendorService.getReviewsList(page, search));
+	}
+	
+	/*
+	 * 업체-후기 삭제 처리 결과 AJAX
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/admin_delete_reviews", method = RequestMethod.POST)
+	public String admin_delete_reviews(ReviewVO vo) {
+		int result = vendorService.deleteReviews(vo);
 
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("result", result);
