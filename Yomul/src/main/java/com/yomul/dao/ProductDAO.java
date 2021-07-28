@@ -19,6 +19,16 @@ public class ProductDAO extends DAO {
 	private static String namespace = "mapper.product";
 
 	/**
+	 * 물건 내용 수정
+	 * 
+	 * @param vo
+	 * @return
+	 */
+	public int updateProduct(ProductVO vo) {
+		return sqlSession.update(namespace + ".updateProduct", vo);
+	}
+
+	/**
 	 * 물건 판매 상태로 변경
 	 * 
 	 * @param vo

@@ -87,7 +87,7 @@ CREATE TABLE YOMUL_PRODUCTS(
     CATEGORY_NO NUMBER(5) CONSTRAINT NN_Y_P_CATEGORY_NO NOT NULL, -- 물건 카테고리
     SELLER VARCHAR2(10) CONSTRAINT NN_Y_P_SELLER NOT NULL, -- 등록자
     TITLE VARCHAR2(100) CONSTRAINT NN_Y_P_TITLE NOT NULL, -- 글 제목
-    CONTENT VARCHAR2(500) CONSTRAINT NN_Y_P_CONTENT NOT NULL, -- 글 내용
+    CONTENT VARCHAR2(2000) CONSTRAINT NN_Y_P_CONTENT NOT NULL, -- 글 내용
     PRICE NUMBER(20) CONSTRAINT NN_Y_P_PRICE NOT NULL CONSTRAINT C_Y_P_PRICE CHECK (PRICE >= 0), -- 가격
     STATE VARCHAR2(20) DEFAULT 'SELLING' CONSTRAINT NN_Y_P_STATE NOT NULL CONSTRAINT C_Y_P_STATE CHECK (STATE IN('SELLING', 'SOLD')), -- 물건 상태
     HITS NUMBER(10) DEFAULT 0 CONSTRAINT NN_Y_P_HITS NOT NULL CONSTRAINT C_Y_P_HITS CHECK (HITS >= 0), -- 조회수
@@ -162,7 +162,7 @@ CREATE TABLE YOMUL_VENDORS(
 CREATE TABLE YOMUL_NEAR_ARTICLES(
     NO VARCHAR2(10), --상품 게시글 번호
     WRITER VARCHAR2(10) CONSTRAINT NN_Y_NA_WRITER NOT NULL, -- 작성자
-    WRITER_NICKNAME VARCHAR2(50) NOT NULL,
+    WRITER_NICKNAME VARCHAR2(50),
     VENDOR VARCHAR2(10), -- 작성 업체
     TITLE VARCHAR2(100) CONSTRAINT NN_Y_NA_TITLE NOT NULL, -- 상품 제목
     CATEGORY VARCHAR2(20) CONSTRAINT NN_Y_NA_CATEGORY NOT NULL, -- 카테고리
@@ -453,7 +453,7 @@ CREATE SEQUENCE YOMUL_NOTICES_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
 CREATE SEQUENCE YOMUL_FAQ_ARTICLES_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
 
 -- QNA 글 번호 시퀀스 생성, 1부터 시작, 1씩 증가 
-CREATE SEQUENCE YOMUL_QNA_ARTICLES_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
+CREATE SEQUENCE YOMUL_QNA_ARTICLES_NO_SEQ START WITH 31 INCREMENT BY 1 CACHE 2;
 
 -- 댓글 번호 시퀀스 생성, 1부터 시작, 1씩 증가 
 CREATE SEQUENCE YOMUL_COMMENTS_NO_SEQ START WITH 1 INCREMENT BY 1 CACHE 2;
@@ -634,7 +634,7 @@ INSERT INTO YOMUL_QNA_CATEGORIES(NO, CONTENT) VALUES(4, '매너평가, 매너온
 INSERT INTO YOMUL_QNA_CATEGORIES(NO, CONTENT) VALUES(5, '게시글 노출, 미노출 문의');
 INSERT INTO YOMUL_QNA_CATEGORIES(NO, CONTENT) VALUES(6, '채팅, 알림 문의');
 INSERT INTO YOMUL_QNA_CATEGORIES(NO, CONTENT) VALUES(7, '앱 사용/거래 방법 문의');
-INSERT INTO YOMUL_QNA_CATEGORIES(NO, CONTENT) VALUES(8, '동네 생활(커뮤니티) 문의');
+INSERT INTO YOMUL_QNA_CATEGORIES(NO, CONTENT) VALUES(8, '커뮤니티 문의');
 INSERT INTO YOMUL_QNA_CATEGORIES(NO, CONTENT) VALUES(9, '지역 광고 문의');
 INSERT INTO YOMUL_QNA_CATEGORIES(NO, CONTENT) VALUES(10, '비즈프로필(등록, 이용) 문의');
 INSERT INTO YOMUL_QNA_CATEGORIES(NO, CONTENT) VALUES(11, '검색 문의');
@@ -672,38 +672,6 @@ SELECT NO, CONTENT FROM YOMUL_QNA_CATEGORIES ORDER BY NO;
 
 -- 다음에 작성할 문의하기 번호 가져오기
 SELECT 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL AS NO FROM DUAL;
-
--- QNA 문의하기 작성
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, SECRET) VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '홍길동', 'test@youml.com',  'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', 1, '문의할게 있습니다', '이게 대체 뭐여!', 'off');
-INSERT INTO YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES('Q2', 1, '신발사진1.jpg');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-INSERT INTO YOMUL_QNA_ARTICLES(NO, NAME, EMAIL, PW, HASHSALT, CATEGORY, TITLE, CONTENT, REPLY, RDATE, RWRITER, RCONTENT, SECRET)  VALUES( 'Q'||YOMUL_QNA_ARTICLES_NO_SEQ.NEXTVAL, '지나가던 사용자', 'test@test.com', 'LVQl5RjTdqE2oRywog3zjhXWnZfrI4La7JlTn7orAE4=', 'dsRPWSbFjBtmiscPw4mbph/RX9dvyI15OLs8Pq+JTKU=', '2', '문의제목', '문의내용', 1, SYSDATE, 'M3', '답변내용입니다', 'off');
-
-SELECT * FROM YOMUL_FAQ_ARTICLES;
 
 -- 공지사항 데이터 생성
 INSERT INTO YOMUL_NOTICES(NO, WRITER, TITLE, CONTENT, NDATE) VALUES(CONCAT('N', YOMUL_NOTICES_NO_SEQ.NEXTVAL), 'M1', '제목1', '내용1', SYSDATE);
@@ -939,55 +907,6 @@ INSERT INTO YOMUL_PRODUCT_CATEGORIES(NO, CONTENT) VALUES(14, '도서/티켓/음�
 INSERT INTO YOMUL_PRODUCT_CATEGORIES(NO, CONTENT) VALUES(15, '식물');
 
 -- 물건 등록
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
-INSERT INTO YOMUL_PRODUCTS(NO, CATEGORY_NO, SELLER, TITLE, CONTENT, PRICE, LOCATION) VALUES('P'||YOMUL_PRODUCTS_NO_SEQ.NEXTVAL, 1, 'M3', '물건입니다', '이 물건은 영국으로부터 시작한 행운의 편지로 아주 좋은 물건입니다.', 39800, '하남시 풍산동');
 
 -- 물건 목록 가져오기
 SELECT *
@@ -1064,35 +983,59 @@ SELECT CEIL(COUNT(*)/10) TOTAL_PAGE FROM YOMUL_MEMBERS WHERE NICKNAME LIKE('%' |
 DELETE FROM YOMUL_MEMBERS WHERE NO = 'M24' AND WITHDRAWAL = 1;
 
 -- 물건 검색 페이지당 10개씩
-		SELECT
-			  RNO
-					, NO
-					, TITLE
-					, SELLER
-					, PDATE
-          , SELLER_NICKNAME
-		FROM
+SELECT
+			*
+		FROM 
 		(
-			SELECT
-				ROWNUM AS RNO
+			SELECT 
+				  ROWNUM AS RNO
 				, P.*
-			FROM
+			FROM 
 			(
-				SELECT
-					  TO_NUMBER(SUBSTR(P.NO, 2)) AS NO_NUM
-					, P.NO
-					, TITLE
-					, SELLER
-					, PDATE
-          , M.NICKNAME SELLER_NICKNAME
-				FROM
-					YOMUL_PRODUCTS P JOIN YOMUL_PRODUCT_CATEGORIES PC ON P.CATEGORY_NO = PC.NO JOIN YOMUL_MEMBERS M ON P.SELLER = M.NO
+				SELECT 
+					  P.NO
+					, P.TITLE
+					, P.CONTENT
+					, NVL(L.LIKES, 0) LIKES
+					, NVL(C.COMMENTS, 0) COMMENTS
+					, IMG
+				FROM 
+						 YOMUL_PRODUCTS P  
+					LEFT OUTER JOIN 
+					(
+						SELECT
+							  ARTICLE_NO
+							, COUNT(*) LIKES 
+						FROM
+							YOMUL_LIKES 
+						GROUP BY
+							ARTICLE_NO
+					) L ON P.NO = L.ARTICLE_NO
+					LEFT OUTER JOIN 
+					(
+						SELECT 
+							  ARTICLE_NO
+							, COUNT(*) COMMENTS 
+						FROM 
+							YOMUL_COMMENTS 
+						GROUP BY 
+							ARTICLE_NO
+					) C ON P.NO = C.ARTICLE_NO
+					LEFT OUTER JOIN 
+					(
+						SELECT 
+							  ARTICLE_NO || '_' || NO || '_' || FILENAME IMG
+							, ARTICLE_NO 
+						FROM 
+							YOMUL_FILES
+					) F ON P.NO = F.ARTICLE_NO
+          LEFT JOIN YOMUL_MEMBERS M ON P.SELLER = M.NO
 				WHERE
-              LOWER(P.TITLE) LIKE ('%' || LOWER('물') || '%')
-            OR  LOWER(P.CONTENT) LIKE ('%' || LOWER('물') || '%')
-            OR  LOWER(PC.CONTENT) LIKE ('%' || LOWER('물') || '%')
-				ORDER BY
-					NO_NUM DESC
+						LOWER(P.TITLE) LIKE ('%' || LOWER('ㅇ') || '%')
+					OR  LOWER(P.CONTENT) LIKE ('%' || LOWER('ㅇ') || '%')
+					OR  LOWER(M.NICKNAME) LIKE ('%' || LOWER('ㅇ') || '%')
+				ORDER BY 
+					TO_NUMBER(SUBSTR(P.NO, 2)) DESC
 			) P
 		)
 		WHERE
@@ -1143,12 +1086,43 @@ DELETE FROM YOMUL_VENDORS
 WHERE NO = 'V3' AND WITHDRAWAL = 1;
 
 -- 내 근처 글 목록 불러오기
-SELECT *
-FROM ( SELECT ROWNUM AS RNO, NA.*
-            FROM ( SELECT NA.NO, TITLE, NA.CATEGORY, PRICE, NDATE, V.NO AS VNO, V.NAME AS WRITER
-                        FROM YOMUL_NEAR_ARTICLES NA LEFT JOIN YOMUL_VENDORS V ON NA.WRITER = V.OWNER
-                        ORDER BY TO_NUMBER(SUBSTR(NA.NO, 2, 10)) DESC) NA
-            )
+SELECT
+			*
+		FROM
+		(
+			SELECT 
+				  ROWNUM AS RNO
+				, NA.*
+			FROM
+			(
+				SELECT
+					    NA.NO
+					  , NA.TITLE
+					  , NA.CATEGORY
+					  , NA.PRICE
+					  , NA.NDATE
+            , NA.WRITER
+            , M.NICKNAME WRITER_NICKNAME
+					  , V.NO AS VNO
+					  , V.NAME AS VNAME
+				FROM
+					YOMUL_NEAR_ARTICLES NA 
+						LEFT JOIN
+							YOMUL_VENDORS V
+						ON
+							NA.WRITER = V.OWNER
+            JOIN
+              YOMUL_MEMBERS M
+            ON
+              NA.WRITER = M.NO
+        WHERE
+                M.NICKNAME LIKE('%' || '' || '%')
+          OR  V.NAME LIKE('%' || '' || '%')
+          OR NA.TITLE LIKE('%' || '' || '%')
+				ORDER BY
+					TO_NUMBER(SUBSTR(NO, 2, 10)) DESC
+			) NA
+		)
 WHERE RNO > 10 * (1 - 1) AND RNO <= 10 * 1;
 
 -- 내 근처 글 상세보기
@@ -1215,6 +1189,106 @@ UPDATE YOMUL_QNA_ARTICLES SET REPLY = 1, RDATE = SYSDATE, RWRITER = 'M1', RTITLE
 
 
 -- 테스트 데이터 입력 시작----------------------------------------------------------------------------------------------------------------------------------
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M8','전기자전거 지포스 400w','전기자전거 지포스 팝니다.<br>400w 이고요. 사서 1시간정도 타고 보관만 했습니다.<br>야간에 배달할려고 구매했었는데 직장에서 야근이 너무 많아서 배달은 해보지도 못했네요.<br><br>핸들 비닐은 벗기지도 않았습니다.<br>',250000,'SELLING',0,to_date('2021/07/27 12:07:21','yyyy/mm/dd hh24:mi:ss'),'관악구 신림동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P1', 1, 'dang1.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M9','스카티카메룬 퍼터 팔아요~!','4년정도 사용한 퍼터입니다. 커버 끼고 사용해서 상태 좋구요 . 요번에 좋은 퍼터 선물 받아서 저렴하게 내놓습니당~! 필요하신분 연락 주세요.<br><br>10만원 삼성동 역삼동 직거래만 가능합니다.',100000,'SELLING',0,to_date('2021/07/27 12:21:45','yyyy/mm/dd hh24:mi:ss'),'강남구 삼성동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P2', 1, 'dang2.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M10','자전거 팝니다','비포장 도로 이용 출토근용으로 사용하던 자전거입니다<br>장거리용 로드로 변경 하고자 판메합니다<br>천안 아산지역은 직접 가져다 드릴수 있습니다',100000,'SELLING',0,to_date('2021/07/27 12:23:16','yyyy/mm/dd hh24:mi:ss'),'아산시 배방읍');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P3', 1, 'dang3.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M12','밥솥.전자레인지.다이','세트로 가져가실분만',0,'SELLING',0,to_date('2021/07/27 13:52:34','yyyy/mm/dd hh24:mi:ss'),'연제구 연산제3동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P4', 1, 'dang4.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M13','프리츠한센 이케바나 꽃병 스몰','한번 사용후 보관만 했습니다.<br>스크래치 없고, 사진 찍을때 닦지않고 보관을 안해서 물방울 자국이있지만 닦으면 다 깨끗합니다.',80000,'SELLING',0,to_date('2021/07/27 13:54:09','yyyy/mm/dd hh24:mi:ss'),'강남구 도곡동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P5', 1, 'dang5.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M21','네소프레소 커피머신','🌟에소프레소 커피머신🌟 정품 올립니당<br>작년 여름에 구입했어요<br>원가는 27만9천원이고 하자 없습니다!<br>필요하신 분들 연락 주세요:)<br><br>*다산2동에서만 직거래 합니다',50000,'SELLING',0,to_date('2021/07/27 14:57:56','yyyy/mm/dd hh24:mi:ss'),'남양주시 다산2동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P6', 1, 'dang6.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M22','이케아 트롤리(이동식 3단선반)','검정 색상이구여<br>하자없구 깨끗합니다<br>사놓구 사용안하구 방치해뒀어요',8000,'SELLING',0,to_date('2021/07/27 15:00:47','yyyy/mm/dd hh24:mi:ss'),'중구 신당동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P7', 1, 'dang7.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,4,'M23','스토케 트립트랩','스토케 트립트랩<br>18년도 구매 했어요.<br>작년 하반기부터는 거의 사용 안했습니다.<br><br>잠실나루역 근처 직거래 합니다.',170000,'SELLING',0,to_date('2021/07/27 15:02:25','yyyy/mm/dd hh24:mi:ss'),'송파구 잠실4동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P8', 1, 'dang8.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M24','다이슨 선풍기','다이슨 정품 선풍기<br>높낮이 , 회전 조절됩니다<br>220볼트입니다.<br>황학동 이마트입니다.<br><br>',70000,'SELLING',0,to_date('2021/07/27 15:04:02','yyyy/mm/dd hh24:mi:ss'),'강남구 압구정동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P9', 1, 'dang9.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,14,'M5','슬램덩크 신장판 1-20 전권','결혼 및 이사로 눈물의 급처<br><br>신길역 직거래<br><br>',30000,'SELLING',0,to_date('2021/07/27 11:47:22','yyyy/mm/dd hh24:mi:ss'),'영등포구 영등포본동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P10', 1, 'dang10.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M6','위닉스 제습기','15리터입니다. 성능 좋구요.<br><br>에어컨이 제습기능이 있는거라서 7년동안 7~8회 ,거의 1년에 습도 엄청 높은 날 하루 정도만 사용했다고 보심 됩니다. 얼른 델구가세요',40000,'SELLING',0,to_date('2021/07/27 11:50:05','yyyy/mm/dd hh24:mi:ss'),'강남구 삼성동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P11', 1, 'dang11.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M7','신일제습기입니다','가로 29<br>세로 48<br>이사관계로 내놓습니다<br>비대면거래윈합니다',20000,'SELLING',0,to_date('2021/07/27 11:55:14','yyyy/mm/dd hh24:mi:ss'),'김해시 장유3동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P12', 1, 'dang12.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,14,'M11','마법천자문 1편~45편 45권','1~2번만 봐서 상태는 깨끗합니다.<br>꼭 하실분만 연락주세요.<br>직접 가져 가셔야 합니다.<br>상자에 담아두었습니다.<br>가격 네고 없구요. 파주 교하입니다',45000,'SELLING',0,to_date('2021/07/27 13:30:24','yyyy/mm/dd hh24:mi:ss'),'파주시 동패동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P13', 1, 'dang13.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M11','전자렌지','이사가는 관계로 무료 나눔 해드려요<br>내일 오전 11시쯤 직접 오셔서 가져 가실수<br>있는분께 드릴게요!-',0,'SELLING',0,to_date('2021/07/27 13:32:46','yyyy/mm/dd hh24:mi:ss'),'창원시 성산구 성남동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P14', 1, 'dang14.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M14','6단 철제 서랍장 민트색 팝니다.','10,000원<br><br>서랍장 사이즈<br>가로 28 세로 41 높이 69<br><br>사무용품 및 문구류 보관했었어요<br>내부에 색연필 자국 등 보관 흔적은 있어요<br>색상은 민트색입니다.<br><br>편하게 쓰실분 연락 주세요~<br>율하에요.',10000,'SELLING',0,to_date('2021/07/27 13:55:41','yyyy/mm/dd hh24:mi:ss'),'김해시 장유3동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P15', 1, 'dang15.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M20','미니에어컨','아이스제로쿨러 쿠팡에서 12만원 정도에 구입해서<br>3개월썼는데 이사가는 집 옵션에 에어컨이 있어서 내놓습니당 ! 처음 배송받은 박스까지 있어서 가져가실때 편하실거에요 ㅎㅎ',10000,'SELLING',0,to_date('2021/07/27 14:55:12','yyyy/mm/dd hh24:mi:ss'),'강북구 수유동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P16', 1, 'dang16.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M2','이케아 서랍장','오천원에 팝니다. 사용감 거의 없습니다. 엘레베이터 주차장 있으니 6층까지 오셔서 가져가실분 연락주세요.',5000,'SELLING',0,to_date('2021/07/27 15:05:33','yyyy/mm/dd hh24:mi:ss'),'송파구 송파1동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P17', 1, 'dang17.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M2','위니아 제습기','안쓰는거여서 처분합니다<br><br>',50000,'SELLING',0,to_date('2021/07/27 15:07:21','yyyy/mm/dd hh24:mi:ss'),'강릉시 구정면');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P18', 1, 'dang18.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M2','철제 선반4단','철제 선반 4단 판매합니다! 분해해서 드려용',5000,'SELLING',0,to_date('2021/07/27 15:11:58','yyyy/mm/dd hh24:mi:ss'),'서구 월평3동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P19', 1, 'dang19.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','드롱기 토스트기 커피포트','드롱기 토스트기 25,000<br>커피포트 20,000<br><br>신혼때 잠깐 사용하고<br>실사용 10회 미만이에요~~<br>박스는 없고 사용감은 조금있으나 깨긋해요<br><br>아이가 있어서<br>집앞으로 찾아오시면 거래가능합니다 ~~<br><br>',25000,'SELLING',0,to_date('2021/07/27 16:28:23','yyyy/mm/dd hh24:mi:ss'),'미추홀구 도화동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P20', 1, 'dang20.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','짐머만 서큘레이터','2020년식 짐머만 서큘레이터입니다.<br>집에 1인 1선풍기인데 부모님이 선풍기 바람이<br>차다고 하셔서 작년에 사놓고 거의 튼적이 없습니다..<br>씻지 않았는데 안에 먼지도 안보입니다..ㅎ<br>박스 없고 그래도 꺼내놓긴 해서 저렴하게 올려봅니다.<br>화곡본동 주민센터, 화곡초 정문에서<br>직거래 원합니다^^',15000,'SELLING',0,to_date('2021/07/27 16:15:00','yyyy/mm/dd hh24:mi:ss'),'강서구 화곡본동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P21', 1, 'dang21.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','시디즈 의자 싸게 드려요','상태는 저랑은 잘 안 맞아서 다른의자 사용해서 깨끗하고 이사를 나가야해서 싸게 드려요!<br>감사합니다!',50000,'SELLING',0,to_date('2021/07/27 16:27:08','yyyy/mm/dd hh24:mi:ss'),'제주시 이도2동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P22', 1, 'dang22.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','6인식탁','가로1800세로750 6인식탁 벤치의자2개 약간의 생활기스있구요 향남2지구 가지러오셔야합니다',30000,'SELLING',0,to_date('2021/07/27 16:30:05','yyyy/mm/dd hh24:mi:ss'),'화성시 향남읍');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P23', 1, 'dang23.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','캐리어 일체형 이동형 에어컨(난방O)CPA-Q091PD','두분이 불발나서 다음분 파',100000,'SELLING',0,to_date('2021/07/27 16:36:18','yyyy/mm/dd hh24:mi:ss'),'관악구 신림동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P24', 1, 'dang24.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M10','캠핑 콜맨 스퀘어 스크린340 (캠핑모기장 타프)','콜멘 스퀘어 스크린입니다<br>모기장처럼 치고 안에서 캠핑 즐기시면 됩니다.<br>모기장 스크린 생각하시면 됩니다.<br>구성품이랑 사용설명서 다있고 지금 쓰시기 딱 좋은것 같아요<br>캠핑용품 정리중인데 콜멘은 내구성은 좋은것 같아요~~<br>필요하신분 문자 주세요~~',100000,'SELLING',0,to_date('2021/07/27 17:18:29','yyyy/mm/dd hh24:mi:ss'),'서구 내동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P25', 1, 'dang25.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,5,'M10','농사진 쌀 30키로','농사진 쌀 30키로 입니다<br><br>',40000,'SELLING',0,to_date('2021/07/27 17:29:34','yyyy/mm/dd hh24:mi:ss'),'청주시 서원구 사창동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P26', 1, 'dang26.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','창문형에어컨 중고입니다.','2018년도에 구매한 제품입니다.<br>한해 사용하고 에어컨설치로 인해 그뒤로 사용안하고 있어서 판매합니다.',50000,'SELLING',0,to_date('2021/07/27 17:36:47','yyyy/mm/dd hh24:mi:ss'),'미추홀구 숭의 1,3동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P27', 1, 'dang27.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M10','컴퓨터 본체만 팝니다 :)','2018년도에 본체만 110정도 주고 맞췄습니다! 주로 게임과 영상 작업용으로 많이 썼습니다:)<br>이번에 좋은 컴퓨터 새로 맞추면서 파는거라서 이 글 올리기 전까지 사용했습니다!<br>고장난 곳 없고 사양은 문의 주시면 cpu-z 찍은거 몽땅 보내드릴게요!<br>간단한 게임부터 조금 그래픽 필요한 게임까지 다 돌아갑니다! 다만 그래픽 많이 필요한 게임은 잔렉이 있으니 고려하시면 될거같습니다!<br>작업프로그램은 포토샵, 일러스트, 에펙, 시포디 주로 돌렸는데 복잡한 작업아니면 가능했었습니다!포맷은 완료했고 현재 뽁뽁이 포장해서 상자 포장 해뒀습니다 !<br>무게가 좀 나가서 서재 동화아이위시3차쪽으로 구매자 분이 오셔야합니당<br>궁금한점있으시면 제 지식 선에서 답변해드리겠습니다! ㅎㅎ',300000,'SELLING',0,to_date('2021/07/27 17:32:33','yyyy/mm/dd hh24:mi:ss'),'달성군 다사읍');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P28', 1, 'dang28.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','삼성에어컨 판매','삼성에어컨 모델 AF15FVVQ1WKN 제조 2013년 6월 제품이에요. 이사가면서 제품 판매해요. 8월 8일 9일 정도에 직접 가져가시는 조건입니다(따로 분리 못해드려요)',150000,'SELLING',0,to_date('2021/07/27 17:33:57','yyyy/mm/dd hh24:mi:ss'),'서구 치평동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P29', 1, 'dang29.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M19','본체 벤큐 모니터 팝니다','구매시기 2년전<br>본체  Core(TM) i7-8700 CPU @ 3.20GHz 3.19 GHz<br>그래픽:NVIDA GaForce RTX 2060 구매당시 90만원<br>모니터 벤큐 144Hz 구매당시 39만원',500000,'SELLING',0,to_date('2021/07/27 14:52:57','yyyy/mm/dd hh24:mi:ss'),'연수구 연수동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P30', 1, 'dang30.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M15','3단 2단 선반 급처합니다','이사하게 되어서 급하게 팔아요.<br>두개 합쳐서 만원에 가져가세요<br>상태 엄청 깨끗합니다.<br>선반은 자유자재로 오른쪽으로 왼쪽으로 옮길수있어<br>원하는대로 인테리어 하실수있어요<br><br>신논현부근 주소지로 가져가실분만',10000,'SELLING',0,to_date('2021/07/27 13:57:08','yyyy/mm/dd hh24:mi:ss'),'강남구 논현3동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P31', 1, 'dang31.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,14,'M19','신세계 상품권','30만원 한꺼번에 구매하시면 10%D.C<br>10만원씩 구매도 가능합니다.(5% D.C)<br><br>직거래만 합니다.<br>직거래 하계동 청솔아파트 7단지 정문앞<br>연락주세요.',270000,'SELLING',0,to_date('2021/07/27 14:50:47','yyyy/mm/dd hh24:mi:ss'),'노원구 공룡2동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P32', 1, 'dang32.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M2','일월 이동식 에어컨','몇번 사용하지 않은 새제품입니다<br>빠르게 처분하려고 저렴하게<br>내놓습니다<br><br>',100000,'SELLING',0,to_date('2021/07/27 15:10:53','yyyy/mm/dd hh24:mi:ss'),'서구 치평동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P33', 1, 'dang33.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M2','삼성 무풍 에어컨 2in 1','2019. 3월 제조 년월이고<br>2 년반정도 사용했어요. 실사용 많지않고 이사온집이 시스템에어컨이 있어서 내놓아요.<br>2in 1 삼성무풍<br>1등급<br>잔기스하나없이 깨끗해요.<br>분리해두었어요.<br>( 귀여운 고양이 커버 2개 같이드려요.<br>스탠드, 벽걸이, 실외기, 리모컨 2개, 뒷 필터하나 새거 있네요.)',550000,'SELLING',0,to_date('2021/07/27 15:13:00','yyyy/mm/dd hh24:mi:ss'),'용산구 서빙고동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P34', 1, 'dang34.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','나무 선반','나무 선반입니다<br>1년 조금 넘게 사용하고 내 놓습니다<br>직접 조립한건데 10키로 넘는 어항 올려 놓아도 될 정도로 튼튼합니다<br>싸게 가져가세요<br><br>',5000,'SELLING',0,to_date('2021/07/27 16:21:42','yyyy/mm/dd hh24:mi:ss'),'창원시 의창구 용동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P35', 1, 'dang35.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','삼성 냉장고 8만원','성능 상태 좋습니다.<br>자취방에서 쓰면 좋을 듯 합니다.<br>225리터고<br>높이는 사람 성인 키보다 조금 작습니다.<br>마지막 사진에서 보는 것과 같이 계란칸을 버려서 없습니다.<br>다른 곳은 깨끗하고 다 있구요.<br>1층에 있습니다. 같이 들어 드려요.',80000,'SELLING',0,to_date('2021/07/27 16:25:29','yyyy/mm/dd hh24:mi:ss'),'중구 삼덕동3가');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P36', 1, 'dang36.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,5,'M10','타파 쌀 통','타파 쌀 통입니다<br><br>',5000,'SELLING',0,to_date('2021/07/27 17:55:39','yyyy/mm/dd hh24:mi:ss'),'포항시 남구 지곡동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P37', 1, 'dang37.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','가스버너','캠핑이나 마당에서 쓸수있는 가스버너 입니다<br>3kg이고 충전식입니다',20000,'SELLING',0,to_date('2021/07/27 17:44:42','yyyy/mm/dd hh24:mi:ss'),'광양시 광양읍');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P38', 1, 'dang38.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M10','창문형 에어컨','파세코 1세대<br>작동 잘되요<br>2019년에 사서 실사용 4번정도하고 계속 보관했고<br>오늘 설치해서 작동해보니 잘되네요',250000,'SELLING',0,to_date('2021/07/27 17:40:40','yyyy/mm/dd hh24:mi:ss'),'남동구 논현고잔동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P39', 1, 'dang39.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,1,'M10','레노버 15.6인치 노트북 G50-45','AMD E2-6110 APU<br>RAdeon R2 Graphics<br>4GB RAM<br>500GB HDD<br><br>15.6인치 화면 크기에 DVD 레코더가 장착되어있어, 비디오를 보실 때 편리할 것 같습니다.<br><br>정품 Windows 8.1 이 포함되어 있으며, 전원케이블 단자 옆의 작은 버튼을 누르면 아주 쉽게 공장 초기화 또는 백업 복구가 가능합니다.',30000,'SELLING',0,to_date('2021/07/27 17:48:42','yyyy/mm/dd hh24:mi:ss'),'금천구 가산동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P40', 1, 'dang40.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,0,'M10','보쉬미니전동드릴','대형드릴 구입으로 팝니다~<br>소가구 조립으로 알맞습니다~~<br><br>파크리오직거래',5000,'SELLING',0,to_date('2021/07/27 17:58:08','yyyy/mm/dd hh24:mi:ss'),'송파구 잠실4동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P41', 1, 'dang41.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','급매!!! usm서랍장판매','유학가게되어 급하게 판매 합니다~<br>작년 광교 갤러리아에서 300만원대 구매<br>2단 서랍장입니다♡<br>76×74',1800000,'SELLING',0,to_date('2021/07/27 18:01:01','yyyy/mm/dd hh24:mi:ss'),'용인시 수지구 동천동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P42', 1, 'dang42.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','선반','나무로된 3단선반입니다<br>무게는 가볍습니다<br>직접 가지러오셔야 하구 1공구내에서 거래가능합니다',5000,'SELLING',0,to_date('2021/07/27 18:07:07','yyyy/mm/dd hh24:mi:ss'),'연수구 송도1동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P43', 1, 'dang43.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M10','자전거 판매합니다~!','한달살이용으로 자전거 구입해서 잘 사용하다가 판매합니다! 키 자물쇠 드리구요! 단점이 직접 가질러 오셔야합니다ㅜㅜ',50000,'SELLING',0,to_date('2021/07/27 18:08:55','yyyy/mm/dd hh24:mi:ss'),'서귀포시 남원읍');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P44', 1, 'dang44.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,4,'M10','알집 벽매트','사용하지 않은 알집 벽매트 팝니다. 제품이 출시했을 당시 여유분으로 많이 사놨던거라 사용하지 않은 것들만 처분합니다. 개당 5천원으로 내놓을게요. 민트 4개, 베이지 3개 있습니다. 필요하신 만큼만 사셔도 됩니다. 환불 안됩니다.',5000,'SELLING',0,to_date('2021/07/27 18:04:34','yyyy/mm/dd hh24:mi:ss'),'남구 신정2동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P45', 1, 'dang45.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M10','다이슨 선풍기 AM07','다이슨 선풍기 팝니다. 국내용 정품이고<br>리모콘 있고 작동 이상 없고 큰 스크래치나 변색 없어요. 다만 가이드 스티커 떨어질까바 위에 투명 테이프 붙여놓았어요.(4번째 사진 참고요~)',110000,'SELLING',0,to_date('2021/07/27 18:11:11','yyyy/mm/dd hh24:mi:ss'),'용인시 수지구 동천동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P46', 1, 'dang46.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,3,'M10','스피드랙 조립식 무볼트 철제 선반(1200×400×1800)','상태 좋구요~<br>선반 높낮이 조절 가능 합니다.<br>화이트 1개<br><br>판이 3개있어요<br>바닥까지하면 총 4단으로 사용가능해요~<br>***-****-****<br><br>입니다.<br><br>',30000,'SELLING',0,to_date('2021/07/27 18:27:17','yyyy/mm/dd hh24:mi:ss'),'동대문구 전농동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P47', 1, 'dang47.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,0,'M16','컨테이너','이동식 컨테이너 주택 팝니다ㆍ방1. 주방.화장실 가로9미터 세로 3미터 빠르게 가져 가실 분만 연락주세요 찔러 보기 사양 할께요',3000000,'SELLING',0,to_date('2021/07/27 14:40:06','yyyy/mm/dd hh24:mi:ss'),'제주시 이도 1동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P48', 1, 'dang48.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,7,'M17','골프가방 팝니다.','사진에 있는 3개 품목 다 합쳐서 3만원에 팝니다. 세월의 흔적은 있으나 거의 사용하지않아서 깨끗합니다. 관심있으신 분 쪽지 주세요',30000,'SELLING',0,to_date('2021/07/27 14:42:06','yyyy/mm/dd hh24:mi:ss'),'구로구 신도림동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P49', 1, 'dang49.jpeg' );
+Insert into SCOTT.YOMUL_PRODUCTS (NO,CATEGORY_NO,SELLER,TITLE,CONTENT,PRICE,STATE,HITS,PDATE,LOCATION) values ('P'||YOMUL_PRODUCTS_NO_SEQ.nextval,2,'M18','세탁기 팔아요','삼성 / 16kg/ 통돌이 세탁기/작년 여름에 통 청소함/ 먼지거름망 새거 2개 드림/ 8월9일(월) 오전에 가져가시면 지게차로 내려드려요/ 그전에 가져갈경우 엘레베이터로 가져가셔야해요/ 배송x에눌x찔러보기x',30000,'SELLING',0,to_date('2021/07/27 14:48:14','yyyy/mm/dd hh24:mi:ss'),'김해시 내외동');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO, NO, FILENAME) VALUES ('P50', 1, 'dang50.jpeg' );
 
 -- 좋아요 테이블
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P1','M10');
@@ -1309,7 +1383,6 @@ Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P32','M5');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P32','M8');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P33','M16');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P33','M8');
-Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P34','M1');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P34','M11');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P34','M2');
 Insert into SCOTT.YOMUL_LIKES (ARTICLE_NO,MEMBER_NO) values ('P34','M5');
@@ -1652,71 +1725,87 @@ INSERT INTO YOMUL_FAQ_ARTICLES(NO, CATEGORY, WRITER, TITLE, CONTENT) VALUES('FA'
 위 운영정책은 당근 이웃과의 즐겁고 따뜻한 공간을 만들기 위한 최소한의 장치예요.<br><br>앞으로도 계속 찾게 되고, 오래 사용하고 싶은 당근마켓이 되도록 더욱 노력하겠습니다.');
 
 -- 업체 테스트 데이터
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M2', '다트입시미술학원', '동네구인구직', '잠실역 입시전문 미술학원<br>수강안내<br>예비반 - 주2일반.주3일반<br>입시반 - 주4일반.주5일반<br>1타임 일 4시간 수업', '02-419-7762', '서울시 송파구 잠실동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M3', 'GS더프레시 역삼점', '농수산물', '신선, 맛! 대한민국 넘버원 신선한 행복을 주는 브랜드<br>GS THE FRESH 역삼점 입니다.', '02-522-1668', '서울시 강남구 역삼동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M4', '전국중고차', '중고차', '중고차의 모든것<br>견적문의 환영합니다', '010-9669-4582', '서울시 강남구 역삼1동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M5', '개인영어과외', '과외/클래스', '**대학 영문과 졸업<br>전) 대치동 재수종합반 수능영어 강사<br>과외 경력 8년차 ', '010-2156-1585', '서울시 강남구 대치동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M6', '틈메이러', '농수산물', '토마토 스펠링은 TOMATO 원어민 발음은 틈메이러~<br>너 토마토가 을매나 맛있는지 아늬? 요새는 그냥 토마토가 아니란다^^', '010-5588-5915', '서울시 강남구 도곡동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M7', '독어과외', '과외/클래스', '대치동 독일어 과외하는 원어민<br>독일 Bonn에서 태어나 경력 10년 있습니다.<br>시간당 기본4.5만원 또는 협의 가능', '010-8778-4906', '서울시 강남구 대치동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M8', '헤어jung', '동네구인구직', '대치동 헤어숍 jung 입니다. 카카오톡 문의는 hair_jung', '02-959-7997', '서울시 강남구 대치동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M9', '엑셀과외', '과외/클래스', '카페에서 진행하며 수업시간 2시간입니다.<br>자세한 장소 및 시간은 협의 가능합니다.', '010-5230-6767', '서울시 송파구 잠실본동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M10', '아삭아삭가락도매', '농수산물', '10년 이상 가락 농수산물 시장에서 장사해왔읍니다.<br>과일을 경매받아 유통시켜서 신선합니다.', '010-8034-6115', '서울시 송파구 가락동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M11', '수리논술과외', '과외/클래스', '지난 10여년간 수학/과학 2등급만 맞춰오면 90% 이상 합격시킨 것으로 유명한 수리논술 전문 과외', '010-3478-7996', '서울시 강남구 대치동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M12', '(주)젓갈상회', '농수산물', '각종 젓갈 밑반찬 저렴하게 도.소매합니다.<br>네이버 검색창에 젓갈이네로 검색하시면 상세하게 나옵니다.', '010-5234-9234', '서울시 송파구 가락동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M13', '캐스팅by쏘카', '중고차', '요물에서 쉽고 편하게 중고차 구매하세요!<br>캐스팅은 국내 1등 카세어링 서비스입니다.<br>쏘카가 직접 운영하는 중고차 플랫폼입니다.<br>이제 마음에 드는 차를 미리 타보고 직접 검증한 후, 믿을 수 있는 차를 캐스팅 하세요!', '02-5767-9339', '서울시 강남구 삼성동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M14', 'SAT과외', '과외/클래스', '중,고등학생 대상 영어/수학 과외합니다.<br>SAT,SSAT(영어, 수학, writing 모두 가능)<br>수업 전에 학력 인증 해드립니다.', '010-6788-6691', '서울시 강남구 도곡동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M15', '중고차사고팔고', '중고차', '허위없는 중고차<br>현대캐피탈 안심매매상사(저금리운영)<br>365일 당일 야간 출고 가능 주말상담 가능<br>차량 폐차 수출 대행 해드립니다.', '070-1344-8290', '서울시 강남구 역삼동');
-INSERT INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
-    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M16', '근손실제로PT', '동네구인구직', '우리 피트니스 센터는 강남에서 근손실이 적은 운동 커리큘럼으로 운영되고 있습니다.<br>바디프로필 대유행! 3개월,6개월 프로모션 중', '02-969-9696', '서울시 강남구 역삼동');
-    
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M2', '다트입시미술학원', '동네구인구직', '잠실역 입시전문 미술학원<br>수강안내<br>예비반 - 주2일반.주3일반<br>입시반 - 주4일반.주5일반<br>1타임 일 4시간 수업', '02-419-7762', '서울시 송파구 잠실동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '다트입시미술.jpeg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M3', 'GS더프레시 역삼점', '농수산물', '신선, 맛! 대한민국 넘버원 신선한 행복을 주는 브랜드<br>GS THE FRESH 역삼점 입니다.', '02-522-1668', '서울시 강남구 역삼동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, 'GS더프레시비보행사.jpeg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M4', '전국중고차', '중고차', '중고차의 모든것<br>견적문의 환영합니다', '010-9669-4582', '서울시 강남구 역삼1동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '전국중고차2.jpeg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M5', '개인영어과외', '과외/클래스', '**대학 영문과 졸업<br>전) 대치동 재수종합반 수능영어 강사<br>과외 경력 8년차 ', '010-2156-1585', '서울시 강남구 대치동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '영어과외2.jpeg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M6', '틈메이러', '농수산물', '토마토 스펠링은 TOMATO 원어민 발음은 틈메이러~<br>너 토마토가 을매나 맛있는지 아늬? 요새는 그냥 토마토가 아니란다^^', '010-5588-5915', '서울시 강남구 도곡동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '토마토.jpg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M7', '독어과외', '과외/클래스', '대치동 독일어 과외하는 원어민<br>독일 Bonn에서 태어나 경력 10년 있습니다.<br>시간당 기본4.5만원 또는 협의 가능', '010-8778-4906', '서울시 강남구 대치동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '독어과외.jpeg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M8', '헤어jung', '동네구인구직', '대치동 헤어숍 jung 입니다. 카카오톡 문의는 hair_jung', '02-959-7997', '서울시 강남구 대치동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '헤어모델.png') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M9', '엑셀과외', '과외/클래스', '카페에서 진행하며 수업시간 2시간입니다.<br>자세한 장소 및 시간은 협의 가능합니다.', '010-5230-6767', '서울시 송파구 잠실본동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '엑셀과외.jpg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M10', '아삭아삭가락도매', '농수산물', '10년 이상 가락 농수산물 시장에서 장사해왔읍니다.<br>과일을 경매받아 유통시켜서 신선합니다.', '010-8034-6115', '서울시 송파구 가락동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '아삭아삭샤인머스캣.jpeg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M11', '수리논술과외', '과외/클래스', '지난 10여년간 수학/과학 2등급만 맞춰오면 90% 이상 합격시킨 것으로 유명한 수리논술 전문 과외', '010-3478-7996', '서울시 강남구 대치동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '수리논술과외.jpeg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M12', '(주)젓갈상회', '농수산물', '각종 젓갈 밑반찬 저렴하게 도.소매합니다.<br>네이버 검색창에 젓갈이네로 검색하시면 상세하게 나옵니다.', '010-5234-9234', '서울시 송파구 가락동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '젓갈2.jpeg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M13', '캐스팅by쏘카', '중고차', '요물에서 쉽고 편하게 중고차 구매하세요!<br>캐스팅은 국내 1등 카세어링 서비스입니다.<br>쏘카가 직접 운영하는 중고차 플랫폼입니다.<br>이제 마음에 드는 차를 미리 타보고 직접 검증한 후, 믿을 수 있는 차를 캐스팅 하세요!', '02-5767-9339', '서울시 강남구 삼성동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '쏘카.png') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M14', 'SAT과외', '과외/클래스', '중,고등학생 대상 영어/수학 과외합니다.<br>SAT,SSAT(영어, 수학, writing 모두 가능)<br>수업 전에 학력 인증 해드립니다.', '010-6788-6691', '서울시 강남구 도곡동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, 'sat과외2.jpeg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M15', '중고차사고팔고', '중고차', '허위없는 중고차<br>현대캐피탈 안심매매상사(저금리운영)<br>365일 당일 야간 출고 가능 주말상담 가능<br>차량 폐차 수출 대행 해드립니다.', '070-1344-8290', '서울시 강남구 역삼동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '중고차사고팔고.jpeg') SELECT * FROM DUAL;
+INSERT ALL INTO yomul_vendors(NO, OWNER, NAME, CATEGORY, info, tel, addr)
+    VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 'M16', '근손실제로PT', '동네구인구직', '우리 피트니스 센터는 강남에서 근손실이 적은 운동 커리큘럼으로 운영되고 있습니다.<br>바디프로필 대유행! 3개월,6개월 프로모션 중', '02-969-9696', '서울시 강남구 역삼동')
+    INTO YOMUL_FILES(ARTICLE_NO , NO , FILENAME) VALUES('V'||YOMUL_VENDORS_NO_SEQ.NEXTVAL, 1, '헬스1.jpeg') SELECT * FROM DUAL;
+
 -- 업체 소식 테스트 데이터
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M2', 'V1', '다트입시미술학원-예중*예고*대입', '동네구인구직', 10000, '02-419-7762', '■잠실역 다트입시전문 미술학원■<br>●"신뢰가 있습니다"●<br>since1995~<br>많은학부모님/학생들이 선택했습니다<br>●"사랑이 있습니다"●<br>책임감있게 성실하게 지도하겠습니다<br>●"기쁨이 있습니다"●<br>수많은 학생들이 꿈을 이루었습니다.<br>■ 수강대상 ■<br>예중반 ㅡ 초4,5,6<br>예고반 ㅡ 중1,2,3<br>대입반 ㅡ 고 1,2,3~<br>■ CLASS 안내■<br>※무료 적성 TEST 검사 (예약후 가능)<br>• 수준별/실기별/단계별 1:1수업<br>• 효과적인 수업을 위해 실기교재 완비<br>
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M2', 'V1', '다트입시미술학원-예중*예고*대입', '동네구인구직', 10000, '02-419-7762', '■잠실역 다트입시전문 미술학원■<br>●"신뢰가 있습니다"●<br>since1995~<br>많은학부모님/학생들이 선택했습니다<br>●"사랑이 있습니다"●<br>책임감있게 성실하게 지도하겠습니다<br>●"기쁨이 있습니다"●<br>수많은 학생들이 꿈을 이루었습니다.<br>■ 수강대상 ■<br>예중반 ㅡ 초4,5,6<br>예고반 ㅡ 중1,2,3<br>대입반 ㅡ 고 1,2,3~<br>■ CLASS 안내■<br>※무료 적성 TEST 검사 (예약후 가능)<br>• 수준별/실기별/단계별 1:1수업<br>• 효과적인 수업을 위해 실기교재 완비<br>
 ■수강 안내■<br>•수시모집중<br>• 개인별 학과수업에 따른<br>수강요일 및 수강시간 선택가능<br>예비반 ㅡ 주 2일반 . 주 3일반<br>입시반 ㅡ 주 4일반 . 주 5일반<br>•수강시간ㅡ 1TIME 일 4시간수업<br>주말반 AM 10시 ~ PM 14시<br>PM 15시 ~ PM 19시<br>평일반 PM 17시 ~ PM21시(월~금)<br>■수강료 안내<br>1일 1시간 10,000원<br>예)희망수강일 (주 1일) × 40,000원 (1일4시간 수강)×월 4회=160,000원<br>■ 학원위치 및 상담문의<br>• 송파구 올림픽로 203 3F<br>(송파YMCA 옆주공5아파트 중앙상가)<br>• 잠실역 5번출구 200미터<br>상담문의 02 + 419 + 7762<br>주차가능 2시간 무료','다트입시미술.jpeg',20);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M3', 'V2', 'GS더프레시 역삼점 하겐다즈 최저가 무료 배송', '농수산물', 0, '02-522-1668', 'GS더프레시 역삼점 하겐다즈 최저가 무료배송<br><br>우동마트로 GS더프레시에서 하겐다즈 + 짜파게티 주문시 (※첫 구매시 해당)<br>★ 하겐다즈 전국 최저가★ + 핫딜 상품 득템<br>1.하겐다즈 파인트"2+1" 3개 25,200원 , 첫구매 5천원 할인 +무료배송 쿠폰3천원<br>2.짜파게티 5+1 3,850원→100원<br>하겐다즈 파인트 3개 + 짜파게티5+1 1팩 = 20,300원','GS더프레시하겐다즈.jpeg',110);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M3', 'V2', 'GS더프레시 역삼점 티본스테이크 최저가 사전예약!', '농수산물', 0, '02-522-1668', '안녕하세요.GS더프레시 역삼점 입니다.<br>금번 품질좋은 티본스테이크 최저가로 사전예약 진행중이오니 많은 이용부탁드립니다.<br>예약방법은 아래와 같습니다.한정수량이니 꼭 이용해보세요!<br><br>️ 앱 사전예약! 앱으로 선 결제하고 점포에서 간편하게 수령!<br>️ 5월 2차 사전예약행사!<br>4.28(수) ~ 5.4(화), 앱 결제 / 5.7(금)~5.8(토) 방문수령!<br>아래 링크를 클릭하고 사전예약 이용해보세요!!<br>⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️<br>
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M3', 'V2', 'GS더프레시 역삼점 하겐다즈 최저가 무료 배송', '농수산물', 0, '02-522-1668', 'GS더프레시 역삼점 하겐다즈 최저가 무료배송<br><br>우동마트로 GS더프레시에서 하겐다즈 + 짜파게티 주문시 (※첫 구매시 해당)<br>★ 하겐다즈 전국 최저가★ + 핫딜 상품 득템<br>1.하겐다즈 파인트"2+1" 3개 25,200원 , 첫구매 5천원 할인 +무료배송 쿠폰3천원<br>2.짜파게티 5+1 3,850원→100원<br>하겐다즈 파인트 3개 + 짜파게티5+1 1팩 = 20,300원','GS더프레시하겐다즈.jpeg',110);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M3', 'V2', 'GS더프레시 역삼점 티본스테이크 최저가 사전예약!', '농수산물', 0, '02-522-1668', '안녕하세요.GS더프레시 역삼점 입니다.<br>금번 품질좋은 티본스테이크 최저가로 사전예약 진행중이오니 많은 이용부탁드립니다.<br>예약방법은 아래와 같습니다.한정수량이니 꼭 이용해보세요!<br><br>️ 앱 사전예약! 앱으로 선 결제하고 점포에서 간편하게 수령!<br>️ 5월 2차 사전예약행사!<br>4.28(수) ~ 5.4(화), 앱 결제 / 5.7(금)~5.8(토) 방문수령!<br>아래 링크를 클릭하고 사전예약 이용해보세요!!<br>⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️<br>
 https://gsthefresh.page.link/6PkqvSNjbNPxzYpKA<br>사전예약을 위한 GS THE FRESH (THE POP) 어플 설치<br>⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️<br>[안드로이드] : https://play.google.com/store/apps/details?id=com.gsretail.android.thepop<br>[IOS(아이폰)] : https://apps.apple.com/kr/app/the-pop/id1503120820<br><br><br>감사합니다!','GS더프레시티본스테이크.jpeg',208);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M3', 'V2', 'GS더프레시 역삼점 8월 2주차 행사안내', '농수산물', 0, '02-522-1668', 'GS THE FRESH 강남대치점 행사 안내 🌟<br><br>️ 수요일! GS THE FRESH  새로운 전단 행사가 시작합니다!<br>행사기간 : 8.2(월) ~ 8.7(화), 5일간<br>정성 가득한 차례상 준비! GS THE FRESH에서 준비하세요! <br><br>GS THE FRESH 이번주 전단 확인하기!<br>⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️<br>(각 점포별로 진행하는 전단 선택하여 작성)<br>중대형 : https://asp2.ezebn.com/Viewer/gsp1<br
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M3', 'V2', 'GS더프레시 역삼점 8월 2주차 행사안내', '농수산물', 0, '02-522-1668', 'GS THE FRESH 강남대치점 행사 안내 🌟<br><br>️ 수요일! GS THE FRESH  새로운 전단 행사가 시작합니다!<br>행사기간 : 8.2(월) ~ 8.7(화), 5일간<br>정성 가득한 차례상 준비! GS THE FRESH에서 준비하세요! <br><br>GS THE FRESH 이번주 전단 확인하기!<br>⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️<br>(각 점포별로 진행하는 전단 선택하여 작성)<br>중대형 : https://asp2.ezebn.com/Viewer/gsp1<br
 >소형점 : https://asp2.ezebn.com/Viewer/gs','GS더프레8월2주차.jpeg',154);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M3', 'V2', 'GS더프레시 역삼점 비보행사', '농수산물', 0, '02-522-1668', '🌟 GS THE FRESH강남대치점 행사 안내 🌟<br>️ 수요일! GS THE FRESH  새로운 전단 행사가 시작합니다!<br><br>행사기간 : 4.21(수) ~ 4.27(화), 7일간<br>매달 마지막주! GS프라임위크!<br>GS THE FRESH에서 알뜰쇼핑하세요!<br><br>️ GS THE FRESH에서 결제하고 앱 스탬프 모아서 VIVO 주방용품 저렴하게 구매하세요!<br>⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️<br>https://gsthefresh.page.link/KS9oywJXLSXpXxTR9<br><b
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M3', 'V2', 'GS더프레시 역삼점 비보행사', '농수산물', 0, '02-522-1668', '🌟 GS THE FRESH강남대치점 행사 안내 🌟<br>️ 수요일! GS THE FRESH  새로운 전단 행사가 시작합니다!<br><br>행사기간 : 4.21(수) ~ 4.27(화), 7일간<br>매달 마지막주! GS프라임위크!<br>GS THE FRESH에서 알뜰쇼핑하세요!<br><br>️ GS THE FRESH에서 결제하고 앱 스탬프 모아서 VIVO 주방용품 저렴하게 구매하세요!<br>⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️<br>https://gsthefresh.page.link/KS9oywJXLSXpXxTR9<br><b
 r>️ GS THE FRESH 앱에서 빠른 주문배송이 된다고? 원하는 상품 주문하고 1시간 안에 빠르게 배송 받자!<br>아래 링크를 클릭하고 앱 빠른 주문배송 이용해보세요!!<br>⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️⬇️<br>https://gsthefresh.page.link/mGAannJ1UxyCCw5H8<br><br>감사합니다!','GS더프레시비보행사.jpeg',185);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M3', 'V2', 'GS더프레시 역삼점 행사안내', '농수산물', 0, '02-522-1668', '🌟 GS THE FRESH 강남대치점 행사 안내 🌟<br><br>️ 수요일! GS THE FRESH  새로운 전단 행사가 시작합니다!<br>행사기간 : 12.9(수) ~12.15(화), 일주일간<br>GS THE FRESH 인기상품 대축제! 2탄!<br>다양한 상품 할인 받으시고 알뜰쇼핑하세요!','GS더프레시행사안내.jpeg',98);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M4', 'V3', '중고차 판매 구매 할부 대차 폐차 문의', '중고차', 0, '010-9669-4582', '중고차의 모든것<br>견적문의 환영합니다','전국중고차1.jpeg');
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M4', 'V3', '중고차의 모든것', '중고차', 0, '010-9669-4582', '중고차 판매 매입 할부 폐차<br>중고차의 모든것 상담 드립니다<br>최고가 매입 최저가 판매 약속드립니다','전국중고차2.jpeg',55);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M5', 'V4', '수능정시집중반 그룹 과외원 모집', '과외/클래스', 45000, '010-2156-1585', '요일 : 월, 금 오전 11시 ~ 오후 1시<br>수업대상 : 수능 정시 집중하는 고1~고3 학생<br>교재 : 최근년도 모의고사 + 수능특강, 수능완성<br><br>*소규모 그룹과외원을 모집합니다. 최대 인원은 5명까지 받고있습니다. <br><br>자세한 상담은 채팅주세요:) ','영어과외2.jpeg',16);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M6', 'V5', '[재고소진 돕기 캠페인] 토마토 (배송) 20% 할인', '농수산물', 20000, '010-5588-5915', '농부1417에서, 강구 영덕 키토산 토마토<br>20% 할인 판매합니다.<br><br>(전품목 20%할인가격)<br><br>🍅완숙 토마토<br>- 5kg : 24,000원 (택배비 포함)<br>- 10kg : 40,000원 (택배비 포함)<br><br>🍅방울 토마토<br>- 3kg : 22,000원 (택배비 포함)<br>- 5kg : 34,000원 (택배비 포함)','토마토.jpg',67);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M7', 'V6', '독일어과외', '과외/클래스', 50000, '010-8778-4906', '독일어 고등 내신<br>독일어 유학대비<br>취미로 배우실분도<br>성심성의껏 봐드립니다<br>독일 Bonn태생.경력 10년.DSD.ZD...<br>원어민교사로 활동중.<br>서울예고.경기여고.외대부고.서울사대부고 등','독어과외.jpeg');
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M7', 'V6', '독일어 과외', '과외/클래스', 50000, '010-8778-4906', '안녕하세요~<br>자격증, 전공수업준비, 수능, 내신, 회화, 취미!<br><br>여러분에게 필요한 독일어, 목적에 따라서 재밌고 효과적으로 지도해 드려요~!<br>무엇보다 과외만의 강점인 빠른 실력 향상에 초점을 둔 수업이니 믿고 맡기셔도 좋습니다 :)<br><br>궁금하신 점 얼마든지 쪽지 남겨주시면<br>상담해 드리겠습니다~~<br>감사합니다!','독어과외.jpeg',9);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M8', 'V7', '헤어모델 구합니다!!!', '동네구인구직', 0, '02-959-7997', '헤어모델 구해요<br>예약관련문의는<br><br>https://open.kakao.com/o/sw6UWlHc66','헤어모델.png');
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M9', 'V8', '[엑셀] 초급~중급 실무 맞춤형 1:1 과외', '과외/클래스', 15000, '010-5230-6767', '책에 나와있는 정석 커리큘럼보다는 바로 실무에 사용할 수 있는 엑셀 초급~고급 과외 합니다.<br>실무 위주로 진행하기 때문에 2-3회 진행하시면, 업무에 큰 도움 되시도록 만들어드립니다.<br><br>** 실무 중점 수업이라 핵심만 쏙쏙 알려드립니다.<br>** 또는 업무 중 해결하기 어려우셨던 데이터들 정리하고 데이터 뽑는 방법 가르쳐드리기도 합니다.<br><br>엑셀 및 구글스프레드 시트로 6-7년간 업무에 사용한 경험 있으며, 엑셀 국제 자격증도 보유하고 있습니다.<br><br>탈*과 같은 타사이트보다 비교적 저렴한 가격에 맞춤형식으로 진행하기 때문에 절대 후회없으실거에요!<br>
-<br> 과외 시간<br>-평일 : 18시 이후<br>-주말 : 협의<br><br>>과외 금액<br>-시간당 1.5 (1회 최소 2시간) / 한달 : 별도문의<br>-과외 예약금 : 5,000원 선입<br>(취소하시는 분들이 많아서 양해부탁드립니다)<br><br>*수업 방식은 챗 주시면 자세하게 설명해드립니다.<br><br>많은 문의 부탁드려요~ :D','엑셀과외.jpg');
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M10', 'V9', '[귤 공동구매]귤 좋아하는 사람 모여라~', '농수산물', 12000, '010-8034-6115', '공동구매 일정<br>-주문 접수 : 8/9 자정까지<br>-배송 시작 : 8/10 오후 1시<br>-택배 수령 : 배송시작일로 부터 1~7일 이내<br>우체국 택배로 배송하는 점 참고해주세요<br>!배송비 3,000원 별도 발생!<br><br><br>1박스에 5키로 입니다^^','아삭아삭귤.jpeg',47);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M10', 'V9', '[샤인머스캣 공동구매]언제까지 포도만 먹을거야 샤인머스캣이 쵝오', '농수산물', 27000, '010-8034-6115', '공동구매 일정<br>-주문 접수 : 9/1 자정까지<br>-배송 시작 : 9/2 오후 1시<br>-택배 수령 : 배송시작일로 부터 1~7일 이내<br>우체국 택배로 배송하는 점 참고해주세요<br>!배송비 3,000원 별도 발생!<br><br>"특"품질 샤인 머스캣이에요. 샤인머스캣 청포도는 망고향이 난다 하여 망고 포도라고도 불려요.<br>1박스에 4송이 들어가 있어요~^^','아삭아삭샤인머스캣.jpeg',51);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M11', 'V10', '최저만 맞춰오면 합격시키는 것으로 유명한 수리논술 과외', '과외/클래스', 40000, '010-3478-7996', '강남 / 목동 / 일산 / 인천에서 수리논술 그룹과외 수업이 시작되었습니다! <br>수업에 관심이 있으시면 전화 혹은 방문상담을 받아보세요 :)','수리논술과외.jpeg',33);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M11', 'V10', '인천 송도 수업 개설', '과외/클래스', 40000, '010-3478-7996', '7월 송도에서 수리논술 수업이 개설되었습니다 :)<br>수업에 관심이 있으시면 8월까지는 합류가 가능하니 상담을 받아보세요 :D','수리논술2.jpeg',28);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M12', 'V11', '오징어젓갈 1kg', '농수산물', 23000, '010-5234-9234', '#칼칼한수제오징어젓갈<br>#싱싱한활어로만든오징어젓갈<br>#당일생산후배송<br>#생물오징어(국내산)<br><br>📣📣 재구매 요청 회원님들 너무 많으셔셔 또 한번 열심히 썰어 맛나게 묻혀보냅니다.<br>🌱 무데기로 찍어 나오는 공장것도 아니고~~<br>🌱생물 오징어를 내장 제거 후 채로 식감있게 썰어서<br>🌱함초와 발효액젓.매실효소넣고 칼칼한 다데기 만들어 묻혀나갑니다<br><br>생물 오징어젓갈 1kg 23,000원<br>택배비는 별도입니다','젓갈1.jpeg',37);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M12', 'V11', '파명란젓 1kg', '농수산물', 30000, '010-5234-9234', '❌❌ 화요일 발송 상품 ❌❌<br>👍 밴님들이 꾸준~히 찾으시는 요아이!!<br>간편하지만 건강한 밥도둑!<br>짜지않고 비리지않아 맛난 파명란~❤<br>📌파지라구 넘 심한 아이들은 아닌거 아시죠~?<br>가~득 담아발송해드릴게요~<br>🚨A급 무선동 파명란!!<br>착한 가격에 한번!!<br>맛에 두번 놀라는 저희 명란~<br>요아이면 밥 두그릇은 금방 비워요~!!<br><br>★ ㅂ파명란젓 1 kg 30,000 원<br>★ ㅂ파명란젓 2 kg 48,000원<br><br>이해를 돕기위한 저희가 작업한 사진입니다.<br>실상품과 색상차이가 있을수 있습니다.','젓갈2.jpeg',42);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M13', 'V12', '쏘카 캐스팅 서비스 종료 안내', '중고차', 0, '02-5767-9339', '안녕하세요. 쏘카 캐스팅 서비스 담당자입니다. <br>쏘카 캐스팅이 2021년 8월 11일 서비스를 종료할 예정입니다.쏘카 캐스팅에 관심을 보내주시고 이용해 주신 모든 고객 여러분께 고개 숙여 감사 인사드립니다. <br>다만 아쉽게도 8개월간의 여정을 끝으로 캐스팅은 여기서 서비스 종료를 결정하게 되었습니다. <br>고객 여러분의 너른 양해 부탁드립니다.<br>고객 불편을 최소화하기 위해, 서비스 종료 이후에도 1:1 채팅 상담센터를 정상 운영합니다. <br>문의사항을 남겨주시면 순차적으로 답변드리겠습니다.','쏘카.png',12);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M14', 'V13', '영어과외/SAT/AP 과외 모집합니다!', '과외/클래스', 55000, '010-6788-6691', '컬럼비아 대학 환경생물학과 합격<br>컬럼비아 College 자유전공학부 진학 예정<br>SAT 1570 (영어 770, 수학 800)<br>High School GPA: 4.00/4.00<br><br>과목<br>SAT 전분야<br>AP (Calculus AB+BC, Bio, Chem, Physics 1+2+C Mechanics)<br>수학 과학 등 이과분야 교과목 (동산초.신사중 졸)<br>일반 영어 과외 (회화, 읽기, 쓰기 등)<br>미국 대학 학부 입시 컨설팅<br><br>일정 • 페이 모두 협의 가능합니다. 편하게 연락 주세요. 열심히 하겠습니다!','sat과외.png',29);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M14', 'V13', 'SAT 전문 과외 선생님 중요합니다', '과외/클래스', 60000, '010-6788-6691', '안녕하세요<br>SAT 만점으로 국제학교 KIS 졸업 후 미국 보스톤 대학을 졸업했고<br>현재도 국제학교와 유학 컨설팅 및 SAT 전문으로 괴외하고 있습니다<br>9년째 학원과 전문 과외로 자체 교재, 시험, 및 노하우가 많습니다.<br> 수업료는<br>SAT/ TOEFL / 입시 컨설팅은 모두 문의 환영입니다<br><br>최근에 캐나다 워털루와 토론토 대학, 미국 Upenn과 MIT 진학<br>SAT 노베이스에서 1450점<br>SAT 1200-> 1580<br>SAT Reading/Writing 590 ->780점<br>IELTS 평균 4.0-> 8.0<br>TOEFL 82 -> 112','sat과외2.jpeg',15);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M15', 'V14', '☎️중고차 사고팔고 무료상담☎️', '중고차', 0, '070-1344-8290', '●365일 당일 야간 출고 가능 주말상담 가능●<br>♦️ 차 량 문 의 ♦️<br>070-1344-8290<br>365일 24시간 연중무휴 운영<br>당일출고*야간출고<br>할부 승인률 99.9%','중고차사고팔고.jpeg',36);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M16', 'V15', '[헬린이/다이어터]그룹PT 충원 모집!!!', '동네구인구직', 0, '02-969-9696', '다이어트의 정석 바디 디자인반(월,수,금)<br><br>근력운동의 정석 머슬 컨트롤반(화,목)<br><br>오전: 09:00 / 10:00 / 11:00<br>오후: 18:30 / 19:30 / 20:30<br>충원 모집합니다.<br><br>바디디자인반은,<br>식이관리 기초 프로그램 함께 들어갔구요<br><br>머슬 컨트롤반은,<br>대근육 전신운동 들어갔으며, 회원분들 모두 개인운동으로 안전하게 힘을 쓸 수 있는 자세 익히는 중입니다.<br><br>2가지 프로그램 색깔이 완전히 다른 프로그램입니다.<br>현재의 나의 목적성을 분명하게 잡아두시고 운동하신다면 훨씬 더 효과적으로 운동하실 수 있으세요.
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M3', 'V2', 'GS더프레시 역삼점 행사안내', '농수산물', 0, '02-522-1668', '🌟 GS THE FRESH 강남대치점 행사 안내 🌟<br><br>️ 수요일! GS THE FRESH  새로운 전단 행사가 시작합니다!<br>행사기간 : 12.9(수) ~12.15(화), 일주일간<br>GS THE FRESH 인기상품 대축제! 2탄!<br>다양한 상품 할인 받으시고 알뜰쇼핑하세요!','GS더프레시행사안내.jpeg',98);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M4', 'V3', '중고차 판매 구매 할부 대차 폐차 문의', '중고차', 0, '010-9669-4582', '중고차의 모든것<br>견적문의 환영합니다','전국중고차1.jpeg',56);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M4', 'V3', '중고차의 모든것', '중고차', 0, '010-9669-4582', '중고차 판매 매입 할부 폐차<br>중고차의 모든것 상담 드립니다<br>최고가 매입 최저가 판매 약속드립니다','전국중고차2.jpeg',55);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M5', 'V4', '수능정시집중반 그룹 과외원 모집', '과외/클래스', 45000, '010-2156-1585', '요일 : 월, 금 오전 11시 ~ 오후 1시<br>수업대상 : 수능 정시 집중하는 고1~고3 학생<br>교재 : 최근년도 모의고사 + 수능특강, 수능완성<br><br>*소규모 그룹과외원을 모집합니다. 최대 인원은 5명까지 받고있습니다. <br><br>자세한 상담은 채팅주세요:) ','영어과외2.jpeg',16);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M6', 'V5', '[재고소진 돕기 캠페인] 토마토 (배송) 20% 할인', '농수산물', 20000, '010-5588-5915', '농부1417에서, 강구 영덕 키토산 토마토<br>20% 할인 판매합니다.<br><br>(전품목 20%할인가격)<br><br>🍅완숙 토마토<br>- 5kg : 24,000원 (택배비 포함)<br>- 10kg : 40,000원 (택배비 포함)<br><br>🍅방울 토마토<br>- 3kg : 22,000원 (택배비 포함)<br>- 5kg : 34,000원 (택배비 포함)','토마토.jpg',67);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M7', 'V6', '독일어과외', '과외/클래스', 50000, '010-8778-4906', '독일어 고등 내신<br>독일어 유학대비<br>취미로 배우실분도<br>성심성의껏 봐드립니다<br>독일 Bonn태생.경력 10년.DSD.ZD...<br>원어민교사로 활동중.<br>서울예고.경기여고.외대부고.서울사대부고 등','독어과외.jpeg',25);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M7', 'V6', '독일어 과외', '과외/클래스', 50000, '010-8778-4906', '안녕하세요~<br>자격증, 전공수업준비, 수능, 내신, 회화, 취미!<br><br>여러분에게 필요한 독일어, 목적에 따라서 재밌고 효과적으로 지도해 드려요~!<br>무엇보다 과외만의 강점인 빠른 실력 향상에 초점을 둔 수업이니 믿고 맡기셔도 좋습니다 :)<br><br>궁금하신 점 얼마든지 쪽지 남겨주시면<br>상담해 드리겠습니다~~<br>감사합니다!','독어과외.jpeg',9);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M8', 'V7', '헤어모델 구합니다!!!', '동네구인구직', 0, '02-959-7997', '헤어모델 구해요<br>예약관련문의는<br><br>https://open.kakao.com/o/sw6UWlHc66','헤어모델.png',13);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M9', 'V8', '[엑셀] 초급~중급 실무 맞춤형 1:1 과외', '과외/클래스', 15000, '010-5230-6767', '책에 나와있는 정석 커리큘럼보다는 바로 실무에 사용할 수 있는 엑셀 초급~고급 과외 합니다.<br>실무 위주로 진행하기 때문에 2-3회 진행하시면, 업무에 큰 도움 되시도록 만들어드립니다.<br><br>** 실무 중점 수업이라 핵심만 쏙쏙 알려드립니다.<br>** 또는 업무 중 해결하기 어려우셨던 데이터들 정리하고 데이터 뽑는 방법 가르쳐드리기도 합니다.<br><br>엑셀 및 구글스프레드 시트로 6-7년간 업무에 사용한 경험 있으며, 엑셀 국제 자격증도 보유하고 있습니다.<br><br>탈*과 같은 타사이트보다 비교적 저렴한 가격에 맞춤형식으로 진행하기 때문에 절대 후회없으실거에요!<br>
+<br> 과외 시간<br>-평일 : 18시 이후<br>-주말 : 협의<br><br>>과외 금액<br>-시간당 1.5 (1회 최소 2시간) / 한달 : 별도문의<br>-과외 예약금 : 5,000원 선입<br>(취소하시는 분들이 많아서 양해부탁드립니다)<br><br>*수업 방식은 챗 주시면 자세하게 설명해드립니다.<br><br>많은 문의 부탁드려요~ :D','엑셀과외.jpg',19);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M10', 'V9', '[귤 공동구매]귤 좋아하는 사람 모여라~', '농수산물', 12000, '010-8034-6115', '공동구매 일정<br>-주문 접수 : 8/9 자정까지<br>-배송 시작 : 8/10 오후 1시<br>-택배 수령 : 배송시작일로 부터 1~7일 이내<br>우체국 택배로 배송하는 점 참고해주세요<br>!배송비 3,000원 별도 발생!<br><br><br>1박스에 5키로 입니다^^','아삭아삭귤.jpeg',47);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M10', 'V9', '[샤인머스캣 공동구매]언제까지 포도만 먹을거야 샤인머스캣이 쵝오', '농수산물', 27000, '010-8034-6115', '공동구매 일정<br>-주문 접수 : 9/1 자정까지<br>-배송 시작 : 9/2 오후 1시<br>-택배 수령 : 배송시작일로 부터 1~7일 이내<br>우체국 택배로 배송하는 점 참고해주세요<br>!배송비 3,000원 별도 발생!<br><br>"특"품질 샤인 머스캣이에요. 샤인머스캣 청포도는 망고향이 난다 하여 망고 포도라고도 불려요.<br>1박스에 4송이 들어가 있어요~^^','아삭아삭샤인머스캣.jpeg',51);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M11', 'V10', '최저만 맞춰오면 합격시키는 것으로 유명한 수리논술 과외', '과외/클래스', 40000, '010-3478-7996', '강남 / 목동 / 일산 / 인천에서 수리논술 그룹과외 수업이 시작되었습니다! <br>수업에 관심이 있으시면 전화 혹은 방문상담을 받아보세요 :)','수리논술과외.jpeg',33);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M11', 'V10', '인천 송도 수업 개설', '과외/클래스', 40000, '010-3478-7996', '7월 송도에서 수리논술 수업이 개설되었습니다 :)<br>수업에 관심이 있으시면 8월까지는 합류가 가능하니 상담을 받아보세요 :D','수리논술2.jpeg',28);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M12', 'V11', '오징어젓갈 1kg', '농수산물', 23000, '010-5234-9234', '#칼칼한수제오징어젓갈<br>#싱싱한활어로만든오징어젓갈<br>#당일생산후배송<br>#생물오징어(국내산)<br><br>📣📣 재구매 요청 회원님들 너무 많으셔셔 또 한번 열심히 썰어 맛나게 묻혀보냅니다.<br>🌱 무데기로 찍어 나오는 공장것도 아니고~~<br>🌱생물 오징어를 내장 제거 후 채로 식감있게 썰어서<br>🌱함초와 발효액젓.매실효소넣고 칼칼한 다데기 만들어 묻혀나갑니다<br><br>생물 오징어젓갈 1kg 23,000원<br>택배비는 별도입니다','젓갈1.jpeg',37);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M12', 'V11', '파명란젓 1kg', '농수산물', 30000, '010-5234-9234', '❌❌ 화요일 발송 상품 ❌❌<br>👍 밴님들이 꾸준~히 찾으시는 요아이!!<br>간편하지만 건강한 밥도둑!<br>짜지않고 비리지않아 맛난 파명란~❤<br>📌파지라구 넘 심한 아이들은 아닌거 아시죠~?<br>가~득 담아발송해드릴게요~<br>🚨A급 무선동 파명란!!<br>착한 가격에 한번!!<br>맛에 두번 놀라는 저희 명란~<br>요아이면 밥 두그릇은 금방 비워요~!!<br><br>★ ㅂ파명란젓 1 kg 30,000 원<br>★ ㅂ파명란젓 2 kg 48,000원<br><br>이해를 돕기위한 저희가 작업한 사진입니다.<br>실상품과 색상차이가 있을수 있습니다.','젓갈2.jpeg',42);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M13', 'V12', '쏘카 캐스팅 서비스 종료 안내', '중고차', 0, '02-5767-9339', '안녕하세요. 쏘카 캐스팅 서비스 담당자입니다. <br>쏘카 캐스팅이 2021년 8월 11일 서비스를 종료할 예정입니다.쏘카 캐스팅에 관심을 보내주시고 이용해 주신 모든 고객 여러분께 고개 숙여 감사 인사드립니다. <br>다만 아쉽게도 8개월간의 여정을 끝으로 캐스팅은 여기서 서비스 종료를 결정하게 되었습니다. <br>고객 여러분의 너른 양해 부탁드립니다.<br>고객 불편을 최소화하기 위해, 서비스 종료 이후에도 1:1 채팅 상담센터를 정상 운영합니다. <br>문의사항을 남겨주시면 순차적으로 답변드리겠습니다.','쏘카.png',12);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M14', 'V13', '영어과외/SAT/AP 과외 모집합니다!', '과외/클래스', 55000, '010-6788-6691', '컬럼비아 대학 환경생물학과 합격<br>컬럼비아 College 자유전공학부 진학 예정<br>SAT 1570 (영어 770, 수학 800)<br>High School GPA: 4.00/4.00<br><br>과목<br>SAT 전분야<br>AP (Calculus AB+BC, Bio, Chem, Physics 1+2+C Mechanics)<br>수학 과학 등 이과분야 교과목 (동산초.신사중 졸)<br>일반 영어 과외 (회화, 읽기, 쓰기 등)<br>미국 대학 학부 입시 컨설팅<br><br>일정 • 페이 모두 협의 가능합니다. 편하게 연락 주세요. 열심히 하겠습니다!','sat과외.png',29);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M14', 'V13', 'SAT 전문 과외 선생님 중요합니다', '과외/클래스', 60000, '010-6788-6691', '안녕하세요<br>SAT 만점으로 국제학교 KIS 졸업 후 미국 보스톤 대학을 졸업했고<br>현재도 국제학교와 유학 컨설팅 및 SAT 전문으로 괴외하고 있습니다<br>9년째 학원과 전문 과외로 자체 교재, 시험, 및 노하우가 많습니다.<br> 수업료는<br>SAT/ TOEFL / 입시 컨설팅은 모두 문의 환영입니다<br><br>최근에 캐나다 워털루와 토론토 대학, 미국 Upenn과 MIT 진학<br>SAT 노베이스에서 1450점<br>SAT 1200-> 1580<br>SAT Reading/Writing 590 ->780점<br>IELTS 평균 4.0-> 8.0<br>TOEFL 82 -> 112','sat과외2.jpeg',15);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M15', 'V14', '☎️중고차 사고팔고 무료상담☎️', '중고차', 0, '070-1344-8290', '●365일 당일 야간 출고 가능 주말상담 가능●<br>♦️ 차 량 문 의 ♦️<br>070-1344-8290<br>365일 24시간 연중무휴 운영<br>당일출고*야간출고<br>할부 승인률 99.9%','중고차사고팔고.jpeg',36);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M16', 'V15', '[헬린이/다이어터]그룹PT 충원 모집!!!', '동네구인구직', 0, '02-969-9696', '다이어트의 정석 바디 디자인반(월,수,금)<br><br>근력운동의 정석 머슬 컨트롤반(화,목)<br><br>오전: 09:00 / 10:00 / 11:00<br>오후: 18:30 / 19:30 / 20:30<br>충원 모집합니다.<br><br>바디디자인반은,<br>식이관리 기초 프로그램 함께 들어갔구요<br><br>머슬 컨트롤반은,<br>대근육 전신운동 들어갔으며, 회원분들 모두 개인운동으로 안전하게 힘을 쓸 수 있는 자세 익히는 중입니다.<br><br>2가지 프로그램 색깔이 완전히 다른 프로그램입니다.<br>현재의 나의 목적성을 분명하게 잡아두시고 운동하신다면 훨씬 더 효과적으로 운동하실 수 있으세요.
 <br><br>후회없는 시간 보장합니다.<br>안전하고 정확한 자세로 몸의 변화를 보장합니다','헬스1.jpeg',53);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M16', 'V15', '역삼역 피티 레슨모집', '동네구인구직', 0, '02-969-9696', '안녕하세요 역삼역에서 <br>피티 레슨을 진행중인 김근육 트레이너 입니다.<br> 혹은 인스타그램을 한번 방문해보시는것도 좋을 것 같습니다.<br><br>회원님의 목표에 대하여 가치 있는 시간과 후회없는 결과로 보답드리겠습니다. <br><br>감사합니다','헬스2.jpeg',44);
-INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('NA'||yomul_near_articles_no_seq.nextval, 'M16', 'V15', '헬스 PT(출장 PT가능합니다)', '동네구인구직', 30000, '02-969-9696', '*거주하시는 아파트에 헬스장이있을 시, 출장 PT 해드립니다.<br><br>*헬스장 비용을 내주실 시에 강남구 근처에 한해 출장P.T. 가능합니다<br>(예약금 만원)<br><br>1시간 당 3만원이며, PT 받고 싶으신 시간대 알려주시면 감사하겠습니다.<br><br>대부분 헬스장 PT비용은 5~8만원하며, 처음 헬스장을 이용하시는 분들에게는 데드리프트 자세 또는 스쿼트 자세나 가벼운 유산소 운동을 알려주고 끝냅니다.<br><br>차라리 저에게 데드리프트나 스쿼드 자세를 배우신 후 일반 헬스장 PT등록을 하시면 훨씬 효율적으로 운동하실 수 있으실겁니다.','헬스3.jpeg',3);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M16', 'V15', '역삼역 피티 레슨모집', '동네구인구직', 0, '02-969-9696', '안녕하세요 역삼역에서 <br>피티 레슨을 진행중인 김근육 트레이너 입니다.<br> 혹은 인스타그램을 한번 방문해보시는것도 좋을 것 같습니다.<br><br>회원님의 목표에 대하여 가치 있는 시간과 후회없는 결과로 보답드리겠습니다. <br><br>감사합니다','헬스2.jpeg',44);
+INSERT INTO yomul_near_articles(NO, writer, vendor, title, CATEGORY, price, hp, CONTENT, MAINFILE, HITS) VALUES('n'||yomul_near_articles_no_seq.nextval, 'M16', 'V15', '헬스 PT(출장 PT가능합니다)', '동네구인구직', 30000, '02-969-9696', '*거주하시는 아파트에 헬스장이있을 시, 출장 PT 해드립니다.<br><br>*헬스장 비용을 내주실 시에 강남구 근처에 한해 출장P.T. 가능합니다<br>(예약금 만원)<br><br>1시간 당 3만원이며, PT 받고 싶으신 시간대 알려주시면 감사하겠습니다.<br><br>대부분 헬스장 PT비용은 5~8만원하며, 처음 헬스장을 이용하시는 분들에게는 데드리프트 자세 또는 스쿼트 자세나 가벼운 유산소 운동을 알려주고 끝냅니다.<br><br>차라리 저에게 데드리프트나 스쿼드 자세를 배우신 후 일반 헬스장 PT등록을 하시면 훨씬 효율적으로 운동하실 수 있으실겁니다.','헬스3.jpeg',3);
+select * from yomul_near_articles;
 
 -- 업체 단골 테스트 데이터 
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V1', 'M2');
@@ -1759,8 +1848,6 @@ INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M17');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M18');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M3');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M4');
-INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M5');
-INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V15', 'M6');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V14', 'M7');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V14', 'M8');
 INSERT INTO yomul_vendor_customers(vendor_no, customer_no) VALUES('V13', 'M9');
@@ -1792,6 +1879,21 @@ INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT, HITS) VALUES
 INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT, HITS) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V15', 'M17', '쌤 너무 잘 가르쳐주세요!<br>강남 근처면 출장도 오시구요 ㅎㅎㅎ',22);
 INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT, HITS) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V15', 'M5', '바디 프로필이 유행이라서 6개월 신청했는데 너무 만족해요 ㅎㅎ<br>건강한 내몸을 보면서 자존감도 많이 올랐고<br>특히 야근해도 체력이 좋아져서 끄떡없네요!<br>지금은 유지중인데 바프 끝나고 1달동안은 케어해줍니당!',55);
 INSERT INTO yomul_vendor_reviews(NO, vendor_no, member_no, CONTENT, HITS) VALUES('R'||yomul_vendor_reviews_no_seq.nextval, 'V15', 'M10', '헬창은 말 안해도 알거다.<br>강남에서 운동기구가 다양하다. 천국 그자체.',2);
+
+-- 문의 내역 테스트 데이터
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q2','테스트','test@test.test','bu4zkYYrw2Cg/HkMzGjk7zIU/hCAac1jMeUZ6U6r7xA=','bzbWRITutz8dF8PAgGLsybX4D/LFC5hUrmTi786K+Uc=',to_date('2021-07-28 08:37:35','YYYY-MM-DD HH24:MI:SS'),1,'사기 당했는데 환불이 안됩니다','물건 사기꾼한테 돈을 보냈는데, 물건을 안줘서 돈을 돌려달라고 했더니 그냥 그대로 잠수 타네요 해결해주세요',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q3','hwisaek2','hwisaek@hwisaek.com','bu4zkYYrw2Cg/HkMzGjk7zIU/hCAac1jMeUZ6U6r7xA=','bzbWRITutz8dF8PAgGLsybX4D/LFC5hUrmTi786K+Uc=',to_date('2021-07-28 08:38:39','YYYY-MM-DD HH24:MI:SS'),2,'비밀번호 변경 문의','비밀번호를 바꾸고 싶은데, 비밀번호를 직접 변경하는 부분이 없어서 비밀번호 초기화를 이용해서 비밀번호를 바꾸고 있습니다. 제가 직접 비밀번호를 바꿀 수 있는 기능이 있었으면 좋겠습니다. 아니면 문의로 받아주시면 감사하겠습니다.',0,0,null,null,null,null,'on');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q4','yomul','yomul@yomul.com','bu4zkYYrw2Cg/HkMzGjk7zIU/hCAac1jMeUZ6U6r7xA=','bzbWRITutz8dF8PAgGLsybX4D/LFC5hUrmTi786K+Uc=',to_date('2021-07-28 08:39:12','YYYY-MM-DD HH24:MI:SS'),3,'판매 금지 물품 문의','여기서 물건을 판매하려고 하는데, 판매 금지 물품들이 뭐가 있는지 궁금합니다.',0,0,null,null,null,null,'on');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q5','해병','marin@yomul.com','bu4zkYYrw2Cg/HkMzGjk7zIU/hCAac1jMeUZ6U6r7xA=','bzbWRITutz8dF8PAgGLsybX4D/LFC5hUrmTi786K+Uc=',to_date('2021-07-28 08:40:03','YYYY-MM-DD HH24:MI:SS'),4,'거래 후기 관리 ','제 거래 후기에 작성된 후기를 관리하고 싶습니다. 별로인 후기들이 있어서 삭제하고 싶은데 어떻게 할 수 있나요?',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q6','메딕','medic@yomul.com','bu4zkYYrw2Cg/HkMzGjk7zIU/hCAac1jMeUZ6U6r7xA=','bzbWRITutz8dF8PAgGLsybX4D/LFC5hUrmTi786K+Uc=',to_date('2021-07-28 08:41:48','YYYY-MM-DD HH24:MI:SS'),6,'채팅 욕설','특정 상대가 자꾸 채팅으로 욕설하고 그러는데, 차단하는 방법도 없고 어떻게 처리할 수 없을까요?? 부탁드립니다 너무 힘들어요 ...',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q7','영감','oldman@weffwwef.gdfnregho','bu4zkYYrw2Cg/HkMzGjk7zIU/hCAac1jMeUZ6U6r7xA=','bzbWRITutz8dF8PAgGLsybX4D/LFC5hUrmTi786K+Uc=',to_date('2021-07-28 08:42:24','YYYY-MM-DD HH24:MI:SS'),7,'어떻게 쓰는거여','이거 물건을 판매하려고 하는데 대체 어떻게 쓰는지 모르겠소. 어디 설명서같은거라도 없는가?',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q8','SCV','SCV@YOMUL.COM','bu4zkYYrw2Cg/HkMzGjk7zIU/hCAac1jMeUZ6U6r7xA=','bzbWRITutz8dF8PAgGLsybX4D/LFC5hUrmTi786K+Uc=',to_date('2021-07-28 08:43:40','YYYY-MM-DD HH24:MI:SS'),11,'검색 조건을 좀 더 세세히 보고싶어요','제가 검색 할 수 있는 조건들이 뭐가 있는지도 알고싶고, 그걸 하나씩 체크박스 형태로 조절하고 싶습니다. 방법을 알려주세요... ㅠㅠ ',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q9','기타갑','guitar@guiatr.g','bu4zkYYrw2Cg/HkMzGjk7zIU/hCAac1jMeUZ6U6r7xA=','bzbWRITutz8dF8PAgGLsybX4D/LFC5hUrmTi786K+Uc=',to_date('2021-07-28 08:44:11','YYYY-MM-DD HH24:MI:SS'),12,'기타 문의','기타를 사고 싶습니다. 싸게 제시 받습니다. 메일로 연락주세요',0,0,null,null,null,null,'off');
+Insert into SCOTT.YOMUL_QNA_ARTICLES (NO,NAME,EMAIL,PW,HASHSALT,WDATE,CATEGORY,TITLE,CONTENT,HITS,REPLY,RDATE,RWRITER,RTITLE,RCONTENT,SECRET) values ('Q10','강남구청','gangnam@seoul.com','bu4zkYYrw2Cg/HkMzGjk7zIU/hCAac1jMeUZ6U6r7xA=','bzbWRITutz8dF8PAgGLsybX4D/LFC5hUrmTi786K+Uc=',to_date('2021-07-28 08:47:38','YYYY-MM-DD HH24:MI:SS'),9,'광고를 달고 싶습니다.','해당 사이트에 강남구청에서 광고를 달고 싶습니다. 좌, 우측에 배너형태로 광고가 나가면 좋겠다고 생각하는데 생각이 있으시면 메일로 연락바랍니다.',0,0,null,null,null,null,'on');
+
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO,NO,FILENAME) values ('Q6',1,'채팅욕설.png');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO,NO,FILENAME) values ('Q8',1,'검색조건.png');
+Insert into SCOTT.YOMUL_FILES (ARTICLE_NO,NO,FILENAME) values ('Q9',1,'기타.jpg');
 
 -- 테스트 데이터 입력 끝----------------------------------------------------------------------------------------------------------------------------------
 

@@ -18,16 +18,8 @@ public class ProductVO extends VO {
 	private int likes = -1; // 좋아요 수
 	private int comments = -1; // 댓글 수
 	private String img = "default.jpg"; // 대표 이미지
-	private CommonsMultipartFile file; // 첨부파일
+	private CommonsMultipartFile filename; // 첨부파일
 	private String th_no; // 구매내역용 거래 번호
-
-	public CommonsMultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(CommonsMultipartFile file) {
-		this.file = file;
-	}
 
 	public String getNo() {
 		return no;
@@ -155,5 +147,13 @@ public class ProductVO extends VO {
 
 	public void setTh_no(String th_no) {
 		this.th_no = th_no;
+	}
+
+	public CommonsMultipartFile getFilename() {
+		return filename;
+	}
+
+	public void setFilename(CommonsMultipartFile filename) {
+		this.filename = filename;
 	}
 }

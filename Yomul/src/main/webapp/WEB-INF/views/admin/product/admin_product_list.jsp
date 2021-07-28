@@ -121,6 +121,7 @@
 						<th scope="col" class="align-middle">제품</th>
 						<th scope="col" class="align-middle">작성자</th>
 						<th scope="col" class="align-middle">등록일</th>
+						<th scope="col" class="align-middle">삭제</th>
 					</tr>
 				</thead>
 				<tbody>

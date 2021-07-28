@@ -79,8 +79,8 @@ public class NearController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/near_home_ajax", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public String near_home_ajax(NearVO near, String page) {
-		return Commons.parseJson(nearService.getNearList(near, page));
+	public String near_home_ajax(String search, String page) {
+		return Commons.parseJson(nearService.getNearList(search, page));
 	}
 
 	// 내 근처 글 쓰기 (동네구인구직, 과외/클래스, 농수산물, 중고차)

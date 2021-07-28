@@ -57,7 +57,7 @@
 								<div class="near-home-news-title">
 									<a href="near_info/${vo.no }">
 										<h5>${vo.title }</h5>
-										<p>${vo.content }</p>
+										<p style="overflow: hidden;">${vo.content }</p>
 									</a>
 									<div class="near-home-news-writer">
 										<img src="http://localhost:9000/yomul/image/이미지준비중.jpg">

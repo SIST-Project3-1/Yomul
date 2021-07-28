@@ -19,7 +19,7 @@
 		$("button.btn-outline-yomul").on("click", function() {
 			var no = $("input[name='no']:checked").val();
 			var link = $(this).attr("data-link");
-			location.href = link + "?no=" + no;
+			location.href = link + "?search=" + no;
 		});
 	});
 
@@ -59,7 +59,7 @@
 					var member = result[i];
 					html += '<tr>';
 					html += '	<td class="align-middle">';
-					html += '		<input type="radio" name="no" value="'+member.no+'"></input>';
+					html += '		<input type="radio" name="no" value="'+member.nickname+'"></input>';
 					html += '	</td>';
 					html += '	<td class="align-middle">' + member.no + '</td>';
 					html += '	<td class="align-middle">' + member.email + '</td>';
@@ -161,9 +161,6 @@
 		<ul class="navbar-nav">
 			<li class="nav-item">
 				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_product_list">물건보기</button>
-			</li>
-			<li class="nav-item">
-				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_town_list">동네생활 글 보기</button>
 			</li>
 			<li class="nav-item">
 				<button type="button" class="btn btn-outline-yomul ml-2" data-link="/yomul/admin_near_home">내근처 글 보기</button>

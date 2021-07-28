@@ -12,4 +12,7 @@ public interface NoticeService {
 	ArrayList<NoticeVO> getNoticeList(String page);
 	int getTotalPageCount();
 	NoticeVO getNoticeInfo(int no);
+	// 공지사항 파일 등록
+	int getNoticeFile(String saveFileName, String originFilename);
+	String getNoticeNo();
 }
