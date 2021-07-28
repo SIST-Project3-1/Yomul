@@ -175,7 +175,7 @@ public class NearController {
 			// 댓글 페이지 정보 불러오기
 			HashMap<String, Integer> commentPageInfo = Commons.getPageInfo(commentCount, 10);
 			mv.addObject("commentPageInfo", commentPageInfo);
-
+			
 			// 업체 게시글일 경우 단골 정보 불러오기
 			if (vo.getVno() != null) {
 				int vendorCustomerCount = vendorService.getVendorCustomerCount(vo.getVno());

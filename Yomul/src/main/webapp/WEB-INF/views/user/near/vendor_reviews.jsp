@@ -70,6 +70,7 @@ function getData(page) {
 	<c:import url="vendor_header.jsp" />
 	<script type="text/javascript">
 		$("#vendor_header_reviews").addClass("active").removeClass("text-muted").css("color", "rgb(255, 99, 95)");
+		
 	</script>
 
 	<!--  BODY  -->

@@ -43,7 +43,7 @@
 						</a>
 					</div>
 					<div class="near-card-form-bottom">
-						<label>좋아요 13</label> <label>·</label> <label>댓글 44</label>
+						<label>댓글 44</label>
 					</div>
 				</div>
 			</div>
