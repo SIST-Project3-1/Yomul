@@ -76,7 +76,7 @@ public class LoginController {
 	}
 
 	/**
-	 * login_check.do : 로그인 처리 여기 이 맵핑에서 비즈니스 로직을 처하게 된
+	 * login_check : 로그인 처리 여기 이 맵핑에서 비즈니스 로직을 처하게 된
 	 */
 	@ResponseBody
 	@RequestMapping(value = "login_proc", method = RequestMethod.POST)
