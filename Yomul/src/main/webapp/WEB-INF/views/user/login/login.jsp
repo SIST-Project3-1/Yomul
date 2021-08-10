@@ -46,7 +46,7 @@
 				$("#idStore").prop("checked", false);
 				$("#idStore").attr("onclick", "return true;");
 			}
-		})
+		});
 	});
 </script>
 </head>
