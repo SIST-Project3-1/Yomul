@@ -258,7 +258,6 @@ public class MemberDAO extends DAO {
 	 */
 	public MemberVO getLoginResult(MemberVO vo) {
 		return sqlSession.selectOne(namespace + ".getLoginResult", vo);
-
 	}
 
 	/**
