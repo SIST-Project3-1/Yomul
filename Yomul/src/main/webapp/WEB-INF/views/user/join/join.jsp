@@ -52,20 +52,36 @@
 
 	// 비밀번호 체크
 	function pwCheck() {
+		var lengthFlag = false;
+		var sameFlag = false;
+
+		// 길이 체크
 		if ($("#pw").val().length < 8 || $("#pw_chk").val().length < 8) {
 			$("#pw_chk").siblings(".valid-feedback").css("display", "none");
 			$("#pw_chk").siblings(".invalid-feedback.length").css("display", "block");
-
-			if ($("#pw").val() == "" || $("#pw_chk").val() != $("#pw").val()) {
-				$("#pw_chk").siblings(".invalid-feedback.chk").css("display", "block");
-			} else {
-				$("#pw_chk").siblings(".invalid-feedback.chk").css("display", "none");
-			}
-			pwCheckFlag = false;
+			lengthFlag = false;
 		} else {
+			$("#pw_chk").siblings(".invalid-feedback.length").css("display", "none");
+			lengthFlag = true;
+		}
+
+		// 비밀번호 일치 체크
+		if ($("#pw").val() == "" || $("#pw_chk").val() != $("#pw").val()) {
+			$("#pw_chk").siblings(".valid-feedback").css("display", "none");
+			$("#pw_chk").siblings(".invalid-feedback.chk").css("display", "block");
+			sameFlag = false;
+		} else {
+			$("#pw_chk").siblings(".invalid-feedback.chk").css("display", "none");
+			sameFlag = true;
+		}
+
+		// 비밀번호 검증
+		if (lengthFlag && sameFlag) {
 			$("#pw_chk").siblings(".valid-feedback").css("display", "block");
 			$("#pw_chk").siblings(".invalid-feedback").css("display", "none");
 			pwCheckFlag = true;
+		} else {
+			pwCheckFlag = false;
 		}
 	}
 
