@@ -3,6 +3,7 @@ package com.yomul.vo;
 public class ReviewVO extends VO {
 	private String no; // 후기 번호
 	private String vendor_no; // 업체 번호
+	private String vendorname; // 업체 번호
 	private String member_no; // 작성자 회원 번호
 	private String nickname; // 작성자 닉네임
 	private String profileImg; // 작성자 프로필 사진
@@ -21,6 +22,12 @@ public class ReviewVO extends VO {
 	}
 	public void setVendor_no(String vendor_no) {
 		this.vendor_no = vendor_no;
+	}
+	public String getVendorname() {
+		return vendorname;
+	}
+	public void setVendorname(String vendorname) {
+		this.vendorname = vendorname;
 	}
 	public String getMember_no() {
 		return member_no;

@@ -76,7 +76,7 @@ public class LoginController {
 	}
 
 	/**
-	 * login_check.do : 로그인 처리 여기 이 맵핑에서 비즈니스 로직을 처하게 된
+	 * login_check : 로그인 처리
 	 */
 	@ResponseBody
 	@RequestMapping(value = "login_proc", method = RequestMethod.POST)
@@ -92,8 +92,7 @@ public class LoginController {
 
 			// 아이디 저장
 			if (idStore != null) { // 아이디 저장을 체크 했으면 쿠키에 아이디 저장
-				response.addCookie(Cookies.createCookie("idStore", vo.getEmail(), 60 * 60 * 24 * 30)); // 만든 쿠키를 브라우저에
-																										// 전달함
+				response.addCookie(Cookies.createCookie("idStore", vo.getEmail(), 60 * 60 * 24 * 30)); // 만든 쿠키를 브라우저에 전달
 			} else { // 아이디 저장을 체크하지 않았으면 쿠키에 저장된 아이디 삭제
 				response.addCookie(Cookies.createCookie("idStore", vo.getEmail(), 0)); // 만든 쿠키를 브라우저에 전달함
 			}

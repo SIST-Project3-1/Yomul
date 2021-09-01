@@ -89,19 +89,29 @@
 			FROM
 			(
 				SELECT
-					    NA.NO
-					  , TITLE
-					  , NA.CATEGORY
-					  , PRICE
-					  , NDATE
-					  , V.NO AS VNO
-					  , V.NAME AS WRITER
+					  NA.NO
+					, NA.TITLE
+					, NA.CATEGORY
+					, NA.PRICE
+					, NA.NDATE
+					, NA.WRITER
+					, M.NICKNAME WRITER_NICKNAME
+					, V.NO AS VNO
+					, V.NAME AS VNAME
 				FROM
 					YOMUL_NEAR_ARTICLES NA 
 						LEFT JOIN
 							YOMUL_VENDORS V
 						ON
 							NA.WRITER = V.OWNER
+				JOIN
+				  YOMUL_MEMBERS M
+				ON
+				  NA.WRITER = M.NO
+				WHERE
+						M.NICKNAME LIKE('%' || #{search, jdbcType=VARCHAR} || '%')
+					OR  V.NAME LIKE('%' || #{search, jdbcType=VARCHAR} || '%')
+					OR  NA.TITLE LIKE('%' || #{search, jdbcType=VARCHAR} || '%')
 				ORDER BY
 					TO_NUMBER(SUBSTR(NO, 2, 10)) DESC
 			) NA

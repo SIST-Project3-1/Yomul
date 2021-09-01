@@ -71,4 +71,10 @@ public interface VendorService {
 	
 	// 업체 삭제
 	int deleteVendor(VendorVO vo);
+	
+	// 후기 목록 가져오기
+	ArrayList<ReviewVO> getReviewsList(int page, String search);
+	
+	// 후기 삭제
+	int deleteReviews(ReviewVO vo);
 }

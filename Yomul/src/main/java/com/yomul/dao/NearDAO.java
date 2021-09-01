@@ -62,9 +62,9 @@ public class NearDAO extends DAO {
 	 * @param page - 검색 페이지
 	 * @return
 	 */
-	public ArrayList<NearVO> getNearList(NearVO near, String page) {
+	public ArrayList<NearVO> getNearList(String search, String page) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("near", near);
+		params.put("search", search);
 		params.put("page", page);
 		List<NearVO> list = sqlSession.selectList(nameSpace + ".getNearList", params);
 		return (ArrayList<NearVO>) list;

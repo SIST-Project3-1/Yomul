@@ -198,13 +198,13 @@ public class VendorController {
 
 		// 조회된 업체가 없을 경우 에러 페이지 이동
 		if (vo == null) {
-			mv.setViewName("redirect:/error");
+			mv.setViewName("redirect:/vendor_signup");
+		} else {
+			mv.addObject("headerType", "profile");
+			mv.addObject("no", vo.getNo());
+			mv.addObject("owner", vo.getOwner());
+			mv.addObject("vo", vo);
 		}
-
-		mv.addObject("headerType", "profile");
-		mv.addObject("no", vo.getNo());
-		mv.addObject("owner", vo.getOwner());
-		mv.addObject("vo", vo);
 
 		return mv;
 	}

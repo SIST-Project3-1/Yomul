@@ -59,6 +59,7 @@
 						LOWER(P.TITLE) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
 					OR  LOWER(P.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
 					OR  LOWER(PC.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+					OR  LOWER(M.NICKNAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
 				ORDER BY
 					NO_NUM DESC
 			) P
@@ -170,7 +171,7 @@
 					, NVL(C.COMMENTS, 0) COMMENTS
 					, IMG
 				FROM 
-						 YOMUL_PRODUCTS P  
+					YOMUL_PRODUCTS P  
 					LEFT OUTER JOIN 
 					(
 						SELECT
@@ -199,9 +200,11 @@
 						FROM 
 							YOMUL_FILES
 					) F ON P.NO = F.ARTICLE_NO
+          LEFT JOIN YOMUL_MEMBERS M ON P.SELLER = M.NO
 				WHERE
 						LOWER(P.TITLE) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
 					OR  LOWER(P.CONTENT) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
+					OR  LOWER(M.NICKNAME) LIKE ('%' || LOWER(#{search, jdbcType=VARCHAR}) || '%')
 				ORDER BY 
 					TO_NUMBER(SUBSTR(P.NO, 2)) DESC
 			) P

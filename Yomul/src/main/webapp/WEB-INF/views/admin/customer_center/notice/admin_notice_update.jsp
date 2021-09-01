@@ -102,7 +102,7 @@ div.admin_notice_update div.notice_update_btn #noticeUpdate {
 				<div class="notice-img-img">
 					<c:forEach var="fname" items="${files }">
 						<img id="notice_img_img"
-							src='/yomul/upload/${files !=null ? fname : (file.filename !=null ? file.getSavedFilename(): "default.jpg" )}'
+							src='/yomul/upload/${fname}'
 							style="width: 400px; height: 400px;">
 						<input type="file" class="custom-file-input" id="notice_img"
 							name="notice_img" aria-describedby="notice_img"
@@ -110,6 +110,17 @@ div.admin_notice_update div.notice_update_btn #noticeUpdate {
 						<label class="btn-yomul" for="notice_img" data-browse="업로드"
 							style="padding: 10px; border: 2px solid white; border-radius: 20px;">이미지업로드</label>
 					</c:forEach>
+					<c:if test="${files.size() == 0}">
+					<div class="notice-img-img">
+					<img id="notice_img_img"
+						src='/yomul/upload/${file.filename !=null ? file.getSavedFilename(): "default.jpg" }'
+						style="width: 400px; height: 400px;"> <input type="file"
+						class="custom-file-input" id="notice_img" name="notice_img"
+						aria-describedby="notice_img" onchange="fileUpload(this)" multiple>
+					<label class="btn-yomul" for="notice_img" data-browse="업로드"
+						style="padding: 10px; border: 2px solid white; border-radius: 20px;">이미지업로드</label>
+
+				</div></c:if>
 				</div>
 				<div class="notice_update_btn">
 					<button type="submit" name="noticeUpdate" id="noticeUpdate"

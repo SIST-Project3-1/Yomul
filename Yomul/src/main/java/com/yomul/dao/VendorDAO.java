@@ -164,4 +164,18 @@ public class VendorDAO extends DAO {
 	public int deleteVendor(VendorVO vo) {
 		return sqlSession.delete(nameSpace + ".deleteVendor", vo);
 	}
+	
+	// 후기 목록 가져오기
+	public ArrayList<ReviewVO> getReviewsList(int page, String search) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("page", page);
+		map.put("search", search);
+		List<ReviewVO> list = sqlSession.selectList(nameSpace + ".getReviewsList", map);
+		return (ArrayList<ReviewVO>) list;
+	}
+	
+	// 후기 삭제
+	public int deleteReviews(ReviewVO vo) {
+		return sqlSession.delete(nameSpace + ".deleteReviews", vo);
+	}
 }

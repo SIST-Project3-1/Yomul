@@ -17,9 +17,9 @@
 
 		// 하단 버튼 클릭
 		$("button.btn-outline-yomul").on("click", function() {
-			var no = $("input[name='no']:checked").val();
+			var nickname = $("input[name='no']:checked").val();
 			var link = $(this).attr("data-link");
-			location.href = link + "?no=" + no;
+			location.href = link + "?search=" + nickname;
 		});
 	});
 
@@ -59,7 +59,7 @@
 					var vendor = result[i];
 					html += '<tr>';
 					html += '	<td class="align-middle">';
-					html += '		<input type="radio" name="no" value="'+vendor.no+'"></input>';
+					html += '		<input type="radio" name="no" value="'+vendor.name+'"></input>';
 					html += '	</td>';
 					html += '	<td class="align-middle">' + vendor.no + '</td>';
 					html += '	<td class="align-middle">' + vendor.owner + '</td>';
